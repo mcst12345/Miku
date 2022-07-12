@@ -40,7 +40,7 @@ public class Hatsune_Miku extends EntityAnimal implements IMerchant, INpc {
 
     public Hatsune_Miku(World world) {
         super(world);
-        //setSize(0.7F, 1.8F);
+        setSize(0.7F, 1.8F);
         setHealth(Float.MAX_VALUE);
         this.setCanPickUpLoot(false);
         this.tasks.addTask(1, new EntityAIPanic(this, 1.4D));
@@ -206,7 +206,7 @@ public class Hatsune_Miku extends EntityAnimal implements IMerchant, INpc {
     @Override
     protected void outOfWorld() {
         dismountRidingEntity();
-        setLocationAndAngles(posX, 100, posZ, rotationYaw, rotationPitch);
+        setLocationAndAngles(posX, 256, posZ, rotationYaw, rotationPitch);
     }
 
     @Override

@@ -3,6 +3,7 @@ Arguments: '--in-jar, /media/root/FA10AC15CB1B98EF/code/java/miku_mod/build/libs
 Classpath:
  - /root/.gradle/caches/forge_gradle/maven_downloader/net/md-5/SpecialSource/1.11.0/SpecialSource-1.11.0-shaded.jar
  - /media/root/FA10AC15CB1B98EF/code/java/miku_mod/libs/FastAsyncWorldEdit-forge112-19.11.13-5505943-1282-22.3.5.jar
+ - /media/root/FA10AC15CB1B98EF/code/java/miku_mod/libs/SlashBlade-mc1.12-r33.jar
  - /media/root/FA10AC15CB1B98EF/code/java/miku_mod/libs/a+riot+of+colour+craft-1.3-mc1.12.2.jar
  - /media/root/FA10AC15CB1B98EF/code/java/miku_mod/libs/AbyssalCraft-1.12.2-1.10.4.jar
  - /media/root/FA10AC15CB1B98EF/code/java/miku_mod/libs/Avaritia-1.12.2-3.3.0.37-universal.jar
@@ -15,7 +16,6 @@ Classpath:
  - /media/root/FA10AC15CB1B98EF/code/java/miku_mod/libs/LoliPickaxe-1.2.12-1.12.2.jar
  - /media/root/FA10AC15CB1B98EF/code/java/miku_mod/libs/Mistraven-1.12.2-r1.jar
  - /media/root/FA10AC15CB1B98EF/code/java/miku_mod/libs/MmmMmmMmmMmm-1.12-1.14.jar
- - /media/root/FA10AC15CB1B98EF/code/java/miku_mod/libs/SlashBlade-mc1.12-r33.jar
  - /media/root/FA10AC15CB1B98EF/code/java/miku_mod/libs/VocaloidMod.0.0.2.-.1.8.jar
  - /media/root/FA10AC15CB1B98EF/code/java/miku_mod/libs/worldedit-forge-mc1.12.2-6.1.10-dist.jar
  - /media/root/FA10AC15CB1B98EF/code/java/miku_mod/libs/勇者传说3.0.jar

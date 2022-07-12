@@ -1,5 +1,6 @@
 package miku.event;
 
+import miku.Entity.Hatsune_Miku;
 import miku.items.MikuItem;
 import miku.utils.Have_Miku;
 import miku.utils.Killer;
@@ -30,10 +31,14 @@ public class EntityEvent {
     @SubscribeEvent
     public void onAttack(LivingAttackEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
+        Entity source = event.getSource().getTrueSource();
+        if (entity instanceof Hatsune_Miku) {
+            Killer.Kill(source);
+            event.setCanceled(true);
+        }
         if (!entity.world.isRemote && entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
             if (Have_Miku.invHaveMiku(player)) {
-                Entity source = event.getSource().getTrueSource();
                 if (source != null) {
                     EntityLivingBase attacker = null;
                     if (source instanceof EntityArrow) {
