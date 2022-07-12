@@ -1,0 +1,10 @@
+{
+  "compatibilityLevel": "JAVA_8",
+  "package": "miku.Mixin",
+  "mixins": [
+    "MixinLoli",
+    "MixinLoliAttackAI"
+  ],
+  "client": [],
+  "server": []
+}

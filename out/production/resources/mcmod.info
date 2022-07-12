@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "miku",
+    "name": "Miku",
+    "description": "A mod by mcst12345",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://mcst12345.top:8443/",
+    "updateUrl": "",
+    "authorList": [
+      "mcst12345"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

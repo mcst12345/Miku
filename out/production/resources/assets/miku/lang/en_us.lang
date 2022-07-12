@@ -1,0 +1,36 @@
+#PARSE_ESCAPES
+
+#items
+item.miku.miku_item.name=Miku
+item.miku.miku_loli_item.name=LoliMiku
+item.miku.miku_chaos_item.name=ChaosMiku
+item.miku.scallion.name=scallion
+item.miku.c_scallion1.name=CompressedScallionLayer1
+item.miku.c_scallion2.name=CompressedScallionLayer2
+item.miku.c_scallion3.name=CompressedScallionLayer3
+item.miku.c_scallion4.name=CompressedScallionLayer4
+item.miku.c_scallion5.name=CompressedScallionLayer5
+item.miku.c_scallion6.name=CompressedScallionLayer6
+item.miku.c_scallion7.name=CompressedScallionLayer7
+item.miku.c_scallion8.name=CompressedScallionLayer8
+item.miku.c_scallion9.name=CompressedScallionLayer9
+item.miku.miku_ore_item.name=MikuOre
+
+#CreativeTab
+itemGroup.miku=miku
+
+#Enchantment
+enchantment.miku.god_killer=God Killer
+
+#block
+tile.miku.miku_ore.name=MikuOre
+
+#advancement
+advancement.root=Miku
+advancement.root.description=Miku
+advancement.get_scallion=Get scallion
+advancement.get_scallion.description=You got scallion!
+advancement.get_compressed_scallion=Create compressed scallion
+advancement.get_compressed_scallion.description=You created compressed scallion!
+advancement.get_miku=Create Miku
+advancement.get_miku.description=You created Miku!

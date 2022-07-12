@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "miku:scallion"
+    },
+    "title": {
+      "translate": "advancement.root"
+    },
+    "frame": "goal",
+    "background": "miku:textures/advancements/scallion.png",
+    "description": {
+      "translate": "advancement.root.description"
+    },
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "entered_overworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "overworld"
+      }
+    }
+  }
+}

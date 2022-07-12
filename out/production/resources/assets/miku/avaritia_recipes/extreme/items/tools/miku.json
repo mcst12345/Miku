@@ -1,0 +1,25 @@
+{
+  "type": "avaritia:shaped",
+  "result": {
+    "item": "miku:miku",
+    "data": 0,
+    "count": 1
+  },
+  "pattern": [
+    "IIIIIIIII",
+    "IIIIIIIII",
+    "IIIIIIIII",
+    "IIIIIIIII",
+    "IIIIIIIII",
+    "IIIIIIIII",
+    "IIIIIIIII",
+    "IIIIIIIII",
+    "IIIIIIIII"
+  ],
+  "key": {
+    "I": {
+      "type": "minecraft:item",
+      "item": "miku:compressed_scallion_layer9"
+    }
+  }
+}

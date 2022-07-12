@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "miku",
+    "name": "Miku",
+    "description": "A mod by mcst12345",
+    "version": "1.0.1-pre4",
+    "mcversion": "1.0.1-pre4",
+    "url": "https://mcst12345.top:8443/",
+    "updateUrl": "",
+    "authorList": [
+      "mcst12345"
+    ],
+    "credits": "",
+    "logoFile": "assets/miku/textures/blocks/ore/miku_ore.png",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

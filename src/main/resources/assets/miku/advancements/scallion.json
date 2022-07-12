@@ -1,0 +1,29 @@
+{
+  "display": {
+    "icon": {
+      "item": "miku:scallion"
+    },
+    "title": {
+      "translate": "advancement.get_scallion"
+    },
+    "frame": "goal",
+    "description": {
+      "translate": "advancement.get_scallion.description"
+    },
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "parent": "miku:root",
+  "criteria": {
+    "obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "miku:scallion"
+          }
+        ]
+      }
+    }
+  }
+}

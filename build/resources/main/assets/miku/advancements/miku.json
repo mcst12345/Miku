@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon":
+    {
+      "item": "miku:miku"
+    },
+    "title":
+    {
+      "translate": "advancement.get_miku"
+    },
+    "frame": "challenge",
+    "description": {
+      "translate": "advancement.get_miku.description"
+    },
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "parent": "miku:compressed_scallion",
+  "criteria": {
+    "obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "miku:miku"
+          }
+        ]
+      }
+    }
+  }
+}

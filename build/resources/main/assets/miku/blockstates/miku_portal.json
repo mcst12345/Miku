@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "miku:miku_ore"
+    },
+    "axis=z": {
+      "model": "miku:miku_ore"
+    }
+  }
+}

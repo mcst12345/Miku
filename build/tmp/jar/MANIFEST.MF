@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Implementation-Title: miku
+MixinConfigs: mixins.miku.json
+Implementation-Version: 1.0-SNAPSHOT
+FMLCorePluginContainsFMLMod: true
+Specification-Vendor: mcst12345
+Specification-Title: miku
+Implementation-Timestamp: 2022-07-11T17:45:10+0800
+Specification-Version: 1.0
+FMLCorePlugin: miku.Core.MikuCore
+Implementation-Vendor: mcst12345
+

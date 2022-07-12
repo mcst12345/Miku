@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_top",
+  "textures": {
+    "top": "miku:blocks/music/jukebox_top",
+    "side": "miku:blocks/music/jukebox_side"
+  }
+}
