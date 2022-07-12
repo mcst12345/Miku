@@ -1,7 +1,9 @@
 {
   "variants": {
     "normal": [
-      { "model": "miku:miku_jukebox" }
+      {
+        "model": "miku:miku_jukebox"
+      }
     ]
   }
 }

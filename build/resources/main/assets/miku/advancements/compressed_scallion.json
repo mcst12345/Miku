@@ -1,11 +1,9 @@
 {
   "display": {
-    "icon":
-    {
+    "icon": {
       "item": "miku:scallion"
     },
-    "title":
-    {
+    "title": {
       "translate": "advancement.get_compressed_scallion"
     },
     "frame": "goal",
@@ -17,15 +15,15 @@
   },
   "parent": "miku:scallion",
   "criteria": {
-      "obsidian": {
-        "trigger": "minecraft:inventory_changed",
-        "conditions": {
-          "items": [
-            {
-              "item": "miku:compressed_scallion_layer1"
-            }
-          ]
-        }
+    "obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "miku:compressed_scallion_layer1"
+          }
+        ]
       }
     }
+  }
 }

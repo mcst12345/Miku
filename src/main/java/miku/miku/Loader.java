@@ -4,6 +4,7 @@ import miku.Enchantment.GodKiller;
 import miku.Entity.Hatsune_Miku;
 import miku.Model.MikuModel;
 import miku.Render.RenderMiku;
+import miku.World.MikuWorld.Biome.MikuBiomes;
 import miku.blocks.MikuJukebox;
 import miku.blocks.Ore.MikuOre;
 import miku.blocks.Portal.MikuPortal;
@@ -23,6 +24,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
@@ -34,6 +36,7 @@ import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Objects;
 
@@ -92,12 +95,14 @@ public class Loader {
 
     public static final Block MikuPortal = new MikuPortal();
 
-    public static ItemBlock MIKU_ORE_ITEM = new ItemBlock(MIKU_ORE);
-    public static ItemBlock EMPTY_SEKAI_BLOCK_ITEM = new ItemBlock(EMPTY_SEKAI_BLOCK);
-    public static ItemBlock Miku_Jukebox_Item = new ItemBlock(MikuJukebox);
-    public static ItemBlock ScallionBlockItem = new ItemBlock(ScallionBlock);
+    public static final ItemBlock MIKU_ORE_ITEM = new ItemBlock(MIKU_ORE);
+    public static final ItemBlock EMPTY_SEKAI_BLOCK_ITEM = new ItemBlock(EMPTY_SEKAI_BLOCK);
+    public static final ItemBlock Miku_Jukebox_Item = new ItemBlock(MikuJukebox);
+    public static final ItemBlock ScallionBlockItem = new ItemBlock(ScallionBlock);
+    public static final ItemBlock MikuPortalItem = new ItemBlock(MikuPortal);
 
-    public static ItemBlock MikuPortalItem = new ItemBlock(MikuPortal);
+
+    public static final Biome MikuBiome = new MikuBiomes();
 
     @SubscribeEvent
     public static void registerItem(RegistryEvent.Register<Item> event) {
@@ -241,5 +246,11 @@ public class Loader {
     @SideOnly(Side.CLIENT)
     public void registerModel(ModelRegistryEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(Hatsune_Miku.class, manager -> new RenderMiku(manager, new MikuModel(), 0.3f));
+    }
+
+    public static IForgeRegistry<Biome> BiomeRegister;
+
+    public static void RegisterBiomes() {
+        BiomeRegister.register(MikuBiome.setRegistryName("miku_land"));
     }
 }

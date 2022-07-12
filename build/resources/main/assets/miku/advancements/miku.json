@@ -1,11 +1,9 @@
 {
   "display": {
-    "icon":
-    {
+    "icon": {
       "item": "miku:miku"
     },
-    "title":
-    {
+    "title": {
       "translate": "advancement.get_miku"
     },
     "frame": "challenge",
