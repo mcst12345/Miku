@@ -1,7 +1,9 @@
 {
   "variants": {
     "normal": [
-      { "model": "miku:scallion_block" }
+      {
+        "model": "miku:scallion_block"
+      }
     ]
   }
 }

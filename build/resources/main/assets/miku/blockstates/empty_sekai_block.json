@@ -1,7 +1,9 @@
 {
   "variants": {
     "normal": [
-      { "model": "miku:empty_sekai_block" }
+      {
+        "model": "miku:empty_sekai_block"
+      }
     ]
   }
 }
