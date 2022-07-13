@@ -1,5 +1,7 @@
 package miku.World.MikuWorld;
 
+import miku.World.MikuWorld.Biome.MikuBiomes;
+import miku.World.MikuWorld.Gen.Structures.GenStructure;
 import miku.miku.Loader;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
@@ -20,9 +22,10 @@ import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import java.util.List;
 import java.util.Random;
 
+import static miku.World.MikuWorld.Gen.Structures.GenStructure.MIKU_TEMPLE;
+
 public class MikuChunkGenerator implements IChunkGenerator {
     private final World world;
-    private final boolean generateStructures;
     private final Random rand;
     private final WorldType worldType;
     private final double[] field_147434_q;
@@ -51,7 +54,6 @@ public class MikuChunkGenerator implements IChunkGenerator {
     //区块生成函数
     public MikuChunkGenerator(World par1World, long par2, boolean par4) {
         world = par1World;
-        generateStructures = par4;
         worldType = par1World.getWorldInfo().getTerrainType();
         rand = new Random(par2);
         //世界生成的噪声函数，模拟地形生成用的
@@ -314,6 +316,7 @@ public class MikuChunkGenerator implements IChunkGenerator {
 
         //omotholGenerator.generateStructure(world, rand, chunkcoordintpair);
 
+        GenStructure.generateStructure(MIKU_TEMPLE, world, new Random(), chunkcoordintpair.x, chunkcoordintpair.z, 10, Loader.MIKU_ORE, MikuBiomes.class);
         for (int i = 0; i < 1; i++) {
             int Xcoord2 = k + rand.nextInt(16) + 8;
             int Zcoord2 = l + rand.nextInt(2) + 28;

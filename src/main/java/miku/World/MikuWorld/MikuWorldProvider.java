@@ -1,6 +1,6 @@
 package miku.World.MikuWorld;
 
-import miku.World.MikuWorld.Biome.MikuBoimeProvider;
+import miku.World.MikuWorld.Biome.MikuBiomeProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -17,7 +17,7 @@ public final class MikuWorldProvider extends WorldProvider {
     @Override
     protected void init() {
         this.hasSkyLight = true;
-        this.biomeProvider = new MikuBoimeProvider(this.world.getSeed());
+        this.biomeProvider = new MikuBiomeProvider(this.world.getSeed());
     }
 
     @Override

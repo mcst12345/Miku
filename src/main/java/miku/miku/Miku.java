@@ -1,7 +1,6 @@
 package miku.miku;
 
 import miku.Entity.Hatsune_Miku;
-import miku.World.MikuWorld.Gen.Structures.GenStructure;
 import miku.World.MikuWorld.MikuWorld;
 import miku.World.OverWorldGen;
 import miku.event.*;
@@ -66,7 +65,6 @@ public class Miku {
             });
             return customRender;
         });
-        GameRegistry.registerWorldGenerator(new GenStructure(), 0);
     }
 
     @EventHandler
