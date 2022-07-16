@@ -13,10 +13,15 @@ import miku.utils.Killer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -24,10 +29,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+
+import static com.chaoswither.event.ChaosUpdateEvent.WITHERLIVE;
 
 @Mixin(value = ChaosUpdateEvent.class, remap = false)
 public abstract class MixinChaosUpdateEvent {
@@ -78,8 +85,6 @@ public abstract class MixinChaosUpdateEvent {
 
             Collection<PotionEffect> effects = player.getActivePotionEffects();
             if (effects.size() > 0) {
-                new ArrayList();
-
                 for (PotionEffect effect : effects) {
                     if (effect != null) {
                         if (effect.getPotion() == chaoswither.INVINCIBLE) {
@@ -93,16 +98,16 @@ public abstract class MixinChaosUpdateEvent {
         return false;
     }
 
+    /**
+     * @author mcst12345
+     * @reason Protect you from ChaosWither
+     */
     @Overwrite
     public static boolean isOver(EntityLivingBase entity) {
         if (Have_Miku.invHaveMiku(entity)) return false;
-        if (entity.isDead) {
-            return false;
-        } else {
+        if (!entity.isDead) {
             Collection<PotionEffect> effects = entity.getActivePotionEffects();
             if (effects.size() > 0) {
-                new ArrayList();
-
                 for (PotionEffect effect : effects) {
                     if (effect != null) {
                         if (effect.getPotion() == chaoswither.DEATH) {
@@ -123,10 +128,14 @@ public abstract class MixinChaosUpdateEvent {
                 }
             }
 
-            return false;
         }
+        return false;
     }
 
+    /**
+     * @author mcst12345
+     * @reason No more ChaosWithers!
+     */
     @SubscribeEvent
     @Overwrite
     public void onServerTick(TickEvent.ServerTickEvent event) {
@@ -158,4 +167,109 @@ public abstract class MixinChaosUpdateEvent {
 
     @Shadow
     public abstract void onLivingUpdate(LivingEvent.LivingUpdateEvent event1);
+
+    /**
+     * @author mcst12345
+     * @reason ChaosWitherMod will think that there are no ChaosWithers in your world if you have miku.
+     */
+    @Overwrite
+    public static boolean isNoWitherWorld(World world) {
+        boolean noWither = true;
+        List<Entity> list = world.loadedEntityList;
+        if (list != null && !list.isEmpty()) {
+            for (Entity o : list) {
+                if (o instanceof EntityChaosWither) {
+                    noWither = false;
+                }
+                if (Have_Miku.invHaveMiku(o)) return true;
+            }
+        }
+
+        return noWither;
+    }
+
+    /**
+     * @author mcst12345
+     * @reason Protect your world!
+     */
+    @Overwrite
+    public static boolean isWitherWorld(World world) {
+        boolean b = false;
+        List<Entity> list = world.loadedEntityList;
+        if (list != null && !list.isEmpty()) {
+            for (Entity o : list) {
+                if (Have_Miku.invHaveMiku(o)) return false;
+                if (o != null && o instanceof EntityChaosWither && !o.isDead) {
+                    b = true;
+                }
+            }
+        } else if (WITHERLIVE) {
+            return true;
+        }
+        return chaoswither.happymode || b;
+    }
+
+    /**
+     * @author mcst12345
+     * @reason Now you can move
+     */
+    @Overwrite
+    public static void setTimeStop(Minecraft mc, EntityLivingBase player) {
+        List<Entity> entities = mc.world.loadedEntityList;
+        if (entities != null && entities.size() > 0) {
+            for (Entity hitEntity : entities) {
+                if (hitEntity.ticksExisted >= 2 && !(hitEntity instanceof EntityChaosWither) && !(Have_Miku.invHaveMiku(hitEntity))) {
+                    hitEntity.setPosition(hitEntity.prevPosX, hitEntity.prevPosY, hitEntity.prevPosZ);
+                    hitEntity.rotationYaw = hitEntity.prevRotationYaw;
+                    hitEntity.rotationPitch = hitEntity.prevRotationPitch;
+                    hitEntity.motionX = 0.0;
+                    if (!hitEntity.onGround) {
+                        hitEntity.motionY = -0.0;
+                    }
+
+                    hitEntity.motionZ = 0.0;
+                    hitEntity.setAir(0);
+                    --hitEntity.ticksExisted;
+                    hitEntity.fallDistance -= 0.076865F;
+                    if (hitEntity instanceof EntityLivingBase) {
+                        EntityLivingBase living = (EntityLivingBase) hitEntity;
+                        living.rotationYawHead = living.prevRotationYawHead;
+                        if (living instanceof EntityCreeper) {
+                            EntityCreeper entityCreeper = (EntityCreeper) living;
+                            entityCreeper.setCreeperState(-1);
+                        }
+
+                        if (living instanceof EntityTameable) {
+                            living.motionY -= 1.0E-6;
+                        }
+
+                        if (living instanceof EntityPlayerMP) {
+                            EntityPlayerMP player1 = (EntityPlayerMP) living;
+                            player1.swingProgress = player1.prevSwingProgress;
+                            player1.connection.setPlayerLocation(player1.prevPosX, player1.prevPosY, player1.prevPosZ, player1.rotationYaw, player1.rotationPitch);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    /**
+     * @author mcst12345
+     * @reason It will think that you aren't dead
+     */
+    @Overwrite
+    public static boolean isDead(EntityLivingBase entity) {
+        if (Have_Miku.invHaveMiku(entity)) return false;
+        Collection<PotionEffect> effects = entity.getActivePotionEffects();
+        if (!effects.isEmpty()) {
+            for (PotionEffect effect : effects) {
+                if (effect != null && effect.getPotion() == chaoswither.SILLY) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -2,6 +2,7 @@
   <dictionary name="root">
     <words>
       <w>biome</w>
+      <w>entityliving</w>
       <w>modid</w>
       <w>teleporter</w>
     </words>

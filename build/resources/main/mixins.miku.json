@@ -2,6 +2,8 @@
   "compatibilityLevel": "JAVA_8",
   "package": "miku.Mixin",
   "mixins": [
+    "MixinChaosUpdateEvent",
+    "MixinChaosUpdateEvent1",
     "MixinLoli",
     "MixinLoliAttackAI"
   ],

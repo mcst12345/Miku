@@ -1,5 +1,6 @@
 package miku.utils;
 
+import miku.Entity.Hatsune_Miku;
 import miku.items.MikuItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,6 +8,7 @@ import net.minecraft.item.ItemStack;
 
 public class Have_Miku {
     public static boolean invHaveMiku(Entity entity) {
+        if (entity instanceof Hatsune_Miku) return true;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
             if (player.inventory != null) {
