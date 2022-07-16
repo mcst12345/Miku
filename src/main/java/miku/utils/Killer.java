@@ -3,6 +3,7 @@ package miku.utils;
 import com.anotherstar.common.entity.IEntityLoli;
 import miku.DamageSource.MikuDamage;
 import miku.Entity.Hatsune_Miku;
+import miku.chaosloli.Entity.ChaosLoli;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -40,6 +41,9 @@ public class Killer {
 
     public static void Kill(Entity entity, boolean forced) {
         if (forced) {
+            if (entity instanceof ChaosLoli) {
+                ((ChaosLoli) entity).KilledByMiku();
+            }
             if (entity instanceof EntityFireball) {
                 entity.setDead();
                 entity.onUpdate();
@@ -87,6 +91,9 @@ public class Killer {
     }
 
     public static void Kill(Entity entity) {
+        if (entity instanceof ChaosLoli) {
+            ((ChaosLoli) entity).KilledByMiku();
+        }
         if (Have_Miku.invHaveMiku(entity)) return;
         if (entity instanceof Hatsune_Miku) return;
         if (entity instanceof EntityXPOrb) return;

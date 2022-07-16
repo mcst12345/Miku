@@ -22,6 +22,7 @@ public abstract class MixinLoli {
      */
     @Overwrite
     public static boolean invHaveLoliPickaxe(EntityLivingBase entity) {
+        if (!(entity instanceof EntityPlayer) && !(entity instanceof IEntityLoli)) return false;
         if (entity instanceof Hatsune_Miku) return true;
         if (Have_Miku.invHaveMiku(entity)) {
             return true;
@@ -29,18 +30,16 @@ public abstract class MixinLoli {
         if (entity instanceof IEntityLoli) {
             return true;
         }
-        if (entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            if (player.inventory != null) {
-                boolean hasLoli = false;
-                for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-                    ItemStack stack = player.inventory.getStackInSlot(i);
-                    if (!stack.isEmpty() && stack.getItem() instanceof ILoli) {
-                        hasLoli = true;
-                    }
+        EntityPlayer player = (EntityPlayer) entity;
+        if (player.inventory != null) {
+            boolean hasLoli = false;
+            for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+                ItemStack stack = player.inventory.getStackInSlot(i);
+                if (!stack.isEmpty() && stack.getItem() instanceof ILoli) {
+                    hasLoli = true;
                 }
-                return hasLoli;
             }
+            return hasLoli;
         }
         return false;
     }

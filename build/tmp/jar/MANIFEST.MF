@@ -5,8 +5,8 @@ Implementation-Version: 1.0-SNAPSHOT
 FMLCorePluginContainsFMLMod: true
 Specification-Vendor: mcst12345
 Specification-Title: miku
-Implementation-Timestamp: 2022-07-13T21:02:25+0800
-Specification-Version: 1.0
+Implementation-Timestamp: 2022-07-13T22:54:40+0800
+Specification-Version: 1.0.1-pre5
 FMLCorePlugin: miku.Core.MikuCore
 Implementation-Vendor: mcst12345
 

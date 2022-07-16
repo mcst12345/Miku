@@ -151,7 +151,7 @@ jar {
         attributes([
                 "Specification-Title"     : "miku",
                 "Specification-Vendor"    : "mcst12345",
-                "Specification-Version"   : "1.0", // We are version 1 of ourselves
+                "Specification-Version"   : "1.0.1-pre5", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Vendor"   : "mcst12345",
