@@ -46,6 +46,7 @@ public class Killer {
     }
 
     public static void Kill(Entity entity, boolean forced) {
+        if (entity instanceof Hatsune_Miku) return;
         if (forced) {
             if (Loader.isModLoaded("chaoswither")) {
                 if (entity instanceof EntityChaosWither) {
@@ -60,42 +61,34 @@ public class Killer {
             if (entity instanceof EntityFireball) {
                 entity.setDead();
                 entity.onUpdate();
-                return;
             }
             if (entity instanceof EntityArrow) {
                 entity.setDead();
                 entity.onUpdate();
-                return;
             }
             if (entity instanceof EntityArmorStand) {
                 entity.setDead();
                 entity.onUpdate();
-                return;
             }
             if (entity instanceof EntityItem) {
                 entity.isDead = true;
                 entity.onKillCommand();
                 entity.onUpdate();
-                return;
             }
             if (Loader.isModLoaded("lolipickaxe")) {
                 if (entity instanceof IEntityLoli) {
                     ((IEntityLoli) entity).setDispersal(true);
-                    return;
                 }
             }
 
             if (entity instanceof EntityPlayer) {
                 killPlayer(((EntityPlayer) entity), ((EntityPlayer) entity));
-                return;
             }
             if (entity instanceof EntityLivingBase) {
                 killEntityLiving(((EntityLivingBase) entity), ((EntityLivingBase) entity));
-                return;
             }
             if (entity instanceof MultiPartEntityPart) {
                 killMultipart(entity);
-                return;
             }
             killEntity(entity);
         } else {
@@ -104,8 +97,15 @@ public class Killer {
     }
 
     public static void Kill(Entity entity) {
-        if (entity instanceof ChaosLoli) {
-            ((ChaosLoli) entity).KilledByMiku();
+        if (Loader.isModLoaded("chaoswither")) {
+            if (entity instanceof EntityChaosWither) {
+                NoMoreChaosWither = true;
+            }
+        }
+        if (Loader.isModLoaded("chaosloli")) {
+            if (entity instanceof ChaosLoli) {
+                ((ChaosLoli) entity).KilledByMiku();
+            }
         }
         if (Have_Miku.invHaveMiku(entity)) return;
         if (entity instanceof Hatsune_Miku) return;
@@ -132,7 +132,6 @@ public class Killer {
             return;
         }
         if (Loader.isModLoaded("ageofminecraft")) if (entity instanceof EntityManaOrb) return;
-        //if(entity instanceof EntityManaOrb)
         if (Loader.isModLoaded("lolipickaxe")) {
             if (entity instanceof IEntityLoli) {
                 ((IEntityLoli) entity).setDispersal(true);
@@ -212,7 +211,7 @@ public class Killer {
             entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0);
             entity.hurtResistantTime = 0;
             entity.velocityChanged = true;
-            entity.addVelocity((double) (-MathHelper.sin(entity.rotationYaw * 3.1415927f / 180.0f) * 1.0f * 0.5f), 0.1, (double) (MathHelper.cos(entity.rotationYaw * 3.1415927f / 180.0f) * 1.0f * 0.5f));
+            entity.addVelocity(-MathHelper.sin(entity.rotationYaw * 3.1415927f / 180.0f) * 1.0f * 0.5f, 0.1, MathHelper.cos(entity.rotationYaw * 3.1415927f / 180.0f) * 1.0f * 0.5f);
             //entity.recentlyHit = 60;
 
             if (!entity.getHeldItemMainhand().isEmpty()) {

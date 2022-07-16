@@ -33,7 +33,7 @@ public class EntityEvent {
         EntityLivingBase entity = event.getEntityLiving();
         Entity source = event.getSource().getTrueSource();
         if (entity instanceof Hatsune_Miku) {
-            Killer.Kill(source);
+            Killer.Kill(source, true);
             event.setCanceled(true);
         }
         if (!entity.world.isRemote && entity instanceof EntityPlayer) {

@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 
 public class Have_Miku {
     public static boolean invHaveMiku(Entity entity) {
+        if (entity == null) return false;
         if (entity instanceof Hatsune_Miku) return true;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
