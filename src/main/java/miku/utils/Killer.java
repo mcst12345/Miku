@@ -1,6 +1,7 @@
 package miku.utils;
 
 import com.anotherstar.common.entity.IEntityLoli;
+import com.chaoswither.entity.EntityChaosWither;
 import miku.DamageSource.MikuDamage;
 import miku.Entity.Hatsune_Miku;
 import miku.chaosloli.Entity.ChaosLoli;
@@ -38,11 +39,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Killer {
+    protected static boolean NoMoreChaosWither;
+
+    public static boolean NoMoreChaosWither() {
+        return NoMoreChaosWither;
+    }
 
     public static void Kill(Entity entity, boolean forced) {
         if (forced) {
-            if (entity instanceof ChaosLoli) {
-                ((ChaosLoli) entity).KilledByMiku();
+            if (Loader.isModLoaded("chaoswither")) {
+                if (entity instanceof EntityChaosWither) {
+                    NoMoreChaosWither = true;
+                }
+            }
+            if (Loader.isModLoaded("chaosloli")) {
+                if (entity instanceof ChaosLoli) {
+                    ((ChaosLoli) entity).KilledByMiku();
+                }
             }
             if (entity instanceof EntityFireball) {
                 entity.setDead();
