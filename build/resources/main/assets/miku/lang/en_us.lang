@@ -88,3 +88,6 @@ item.spawn_miku.name=Spawn Hatsune Miku
 Attack Speed=?
 info.over=?
 Attack Damage=?
+
+#DeathDamage
+death.attack.miku=%1$s was Killed By Miku

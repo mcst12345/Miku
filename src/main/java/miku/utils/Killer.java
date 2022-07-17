@@ -321,10 +321,6 @@ public class Killer {
         List<Entity> list = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(Player.posX - range, Player.posY - range, Player.posZ - range, Player.posX + range, Player.posY + range, Player.posZ + range));
         list.remove(Player);
         for (Entity en : list) {
-            if (Loader.isModLoaded("chaoswither")) {
-                if (en instanceof EntityChaosWither) GetChaosWitherDrop(Player);
-                if (en instanceof EntityWitherPlayer) GetChaosWitherPlayerDrop(Player);
-            }
             Kill(en);
         }
     }

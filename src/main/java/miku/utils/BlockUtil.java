@@ -1,5 +1,6 @@
 package miku.utils;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 
@@ -15,6 +16,9 @@ public class BlockUtil {
 
     public static void RemoveWorld(EntityPlayerMP player) {
         checkNotNull(player.world);
+        for (Entity e : player.world.loadedEntityList) {
+            Killer.Kill(e);
+        }
         for (int x = -30000000; x <= 30000000; x++) {
             for (int y = -64; y <= 256; y++) {
                 for (int z = -30000000; z <= 30000000; z++) {

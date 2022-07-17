@@ -88,3 +88,6 @@ item.spawn_miku.name=生成 初音未来
 Attack Speed=?
 info.over=?
 Attack Damage=?
+
+#死亡信息
+death.attack.miku=%1$s被Miku杀死了
