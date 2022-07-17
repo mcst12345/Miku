@@ -40,7 +40,6 @@ public class Miku {
     public void preInit(FMLPreInitializationEvent event) {
         GameRegistry.registerWorldGenerator(new OverWorldGen(), 3);
         MikuWorld.initialization();
-
         MinecraftForge.EVENT_BUS.register(new MikuEntityEvent());
         ClientRegistry.registerKeyBinding(DESTROY_WORLD);
         MinecraftForge.EVENT_BUS.register(new BreakBlock());

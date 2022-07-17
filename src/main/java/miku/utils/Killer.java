@@ -1,6 +1,7 @@
 package miku.utils;
 
 import com.anotherstar.common.entity.IEntityLoli;
+import com.chaoswither.chaoswither;
 import com.chaoswither.entity.EntityChaosWither;
 import miku.DamageSource.MikuDamage;
 import miku.Entity.Hatsune_Miku;
@@ -302,7 +303,12 @@ public class Killer {
         List<Entity> list = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(Player.posX - range, Player.posY - range, Player.posZ - range, Player.posX + range, Player.posY + range, Player.posZ + range));
         list.remove(Player);
         for (Entity en : list) {
+            if (Loader.isModLoaded("chaoswither")) GetChaosWitherDrop(Player);
             Kill(en);
         }
+    }
+
+    protected static void GetChaosWitherDrop(EntityPlayer player) {
+        player.addItemStackToInventory(new ItemStack(chaoswither.chaosgodsword));
     }
 }

@@ -21,6 +21,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 import static miku.miku.Miku.MIKU_TAB;
@@ -28,6 +29,7 @@ import static miku.utils.Killer.RangeKill;
 
 
 public class MikuItem extends Item {
+    protected static List<String> MikuPlayer = new ArrayList<>();
     public MikuItem() {
         this
                 .setCreativeTab(MIKU_TAB)
@@ -37,6 +39,8 @@ public class MikuItem extends Item {
 
     @Override
     public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
+        if (!MikuPlayer.contains(player.getName() + player.getUniqueID()))
+            MikuPlayer.add(player.getName() + player.getUniqueID());
         player.setAir(300);
         if (player.isBurning()) {
             player.extinguish();
@@ -56,6 +60,8 @@ public class MikuItem extends Item {
 
     @Override
     public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+        if (!MikuPlayer.contains(playerIn.getName() + playerIn.getUniqueID()))
+            MikuPlayer.add(playerIn.getName() + playerIn.getUniqueID());
         playerIn.capabilities.allowFlying = true;
         playerIn.setAir(300);
         playerIn.getFoodStats().addStats(20, 20F);
@@ -89,7 +95,7 @@ public class MikuItem extends Item {
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-        return leftClickEntity(player, entity, player);
+        return leftClickEntity(entity, player);
     }
 
     @Override
@@ -100,7 +106,7 @@ public class MikuItem extends Item {
         return true;
     }
 
-    public boolean leftClickEntity(EntityLivingBase loli, Entity entity, final EntityPlayer Player) {
+    public boolean leftClickEntity(Entity entity, final EntityPlayer Player) {
         if (entity == null) return false;
         if (Player.getMaxHealth() > 0.0f) {
             Player.setHealth(Player.getMaxHealth());
@@ -152,6 +158,8 @@ public class MikuItem extends Item {
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
         if (entity instanceof EntityPlayer) {
+            if (!MikuPlayer.contains(entity.getName() + entity.getUniqueID()))
+                MikuPlayer.add(entity.getName() + entity.getUniqueID());
             NBTTagCompound nbt;
             if (stack.hasTagCompound()) {
                 nbt = stack.getTagCompound();
@@ -233,5 +241,7 @@ public class MikuItem extends Item {
         tooltip.add("§fBy mcst12345");
     }
 
-
+    public static boolean IsMikuPlayer(EntityPlayer player) {
+        return MikuPlayer.contains(player.getName() + player.getUniqueID());
+    }
 }

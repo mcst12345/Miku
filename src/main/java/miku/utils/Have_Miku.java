@@ -40,11 +40,13 @@ public class Have_Miku {
         return false;
     }
 
-    private static boolean checkOwner(EntityPlayer player, ItemStack stack) {
+    protected static boolean checkOwner(EntityPlayer player, ItemStack stack) {
         MikuItem Miku = (MikuItem) stack.getItem();
         if (Miku.hasOwner(stack)) {
             return Miku.isOwner(stack, player);
         }
         return true;
     }
+
+
 }
