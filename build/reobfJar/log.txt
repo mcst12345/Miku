@@ -1,5 +1,5 @@
 Java Launcher: /usr/lib/jvm/java-8-openjdk-amd64/bin/java
-Arguments: '--in-jar, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/libs/miku-1.0.1-pre6.jar, --out-jar, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/reobfJar/output.jar, --srg-in, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/createMcpToSrg/output.tsrg, --srg-in, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/tmp/compileJava/compileJava-mappings.tsrg, --live'
+Arguments: '--in-jar, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/libs/miku-1.0.1-pre7.jar, --out-jar, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/reobfJar/output.jar, --srg-in, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/createMcpToSrg/output.tsrg, --srg-in, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/tmp/compileJava/compileJava-mappings.tsrg, --live'
 Classpath:
  - /root/.gradle/caches/forge_gradle/maven_downloader/net/md-5/SpecialSource/1.11.0/SpecialSource-1.11.0-shaded.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/FastAsyncWorldEdit-forge112-19.11.13-5505943-1282-22.3.5.jar

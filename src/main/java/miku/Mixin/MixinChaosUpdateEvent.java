@@ -676,26 +676,6 @@ public abstract class MixinChaosUpdateEvent {
 
     }
 
-    /**
-     * @author mcst12345
-     * @reason Reason
-     */
-    @Overwrite
-    public static boolean isOtherGod1(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return true;
-        if (entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-
-            for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
-                ItemStack itemStack = player.inventory.getStackInSlot(i);
-                if (itemStack.getItem() == chaoswither.silly) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 
     /**
      * @author mcst12345
@@ -735,9 +715,6 @@ public abstract class MixinChaosUpdateEvent {
 
     @Shadow
     public abstract void Over4(EntityPlayer player, EntityChaosWither entity);
-
-    @Shadow
-    protected Random rand;
 
     /**
      * @author mcst12345
