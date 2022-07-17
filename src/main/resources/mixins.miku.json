@@ -2,6 +2,7 @@
   "compatibilityLevel": "JAVA_8",
   "package": "miku.Mixin",
   "mixins": [
+    "MixinChaosEntityTool",
     "MixinChaosUpdateEvent",
     "MixinChaosUpdateEvent1",
     "MixinLoli",

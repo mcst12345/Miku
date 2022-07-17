@@ -3,13 +3,11 @@ package miku.Mixin;
 //For ChaosWither
 
 import com.chaoswither.chaoswither;
-import com.chaoswither.entity.EntityChaosLightningBolt;
-import com.chaoswither.entity.EntityChaosWither;
-import com.chaoswither.entity.EntityChaosWitherBase;
-import com.chaoswither.entity.EntityTool;
+import com.chaoswither.entity.*;
 import com.chaoswither.event.ChaosUpdateEvent;
 import com.chaoswither.gui.GuiDead1;
 import com.chaoswither.items.ItemChaosGodSword;
+import com.chaoswither.items.ItemSillyMode;
 import com.chaoswither.items.armor.ItemChaosArmor;
 import com.google.common.collect.Sets;
 import miku.utils.Have_Miku;
@@ -17,22 +15,32 @@ import miku.utils.Killer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiGameOver;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,7 +49,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.*;
 
-import static com.chaoswither.event.ChaosUpdateEvent.WITHERLIVE;
+import static com.chaoswither.event.ChaosUpdateEvent.*;
 
 @Mixin(value = ChaosUpdateEvent.class, remap = false)
 public abstract class MixinChaosUpdateEvent {
@@ -54,7 +62,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isGod1(EntityPlayer player) {
-        if (Have_Miku.invHaveMiku(player)) return true;
+        if (Have_Miku.invHaveMiku(player) || Killer.NoMoreChaosWither()) return true;
         Iterator<ItemStack> var1 = player.inventory.armorInventory.iterator();
 
         ItemStack itemStack;
@@ -75,7 +83,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isGod(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity)) return true;
+        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return true;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
 
@@ -111,7 +119,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isOver(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity)) return false;
+        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
         if (!entity.isDead) {
             Collection<PotionEffect> effects = entity.getActivePotionEffects();
             if (effects.size() > 0) {
@@ -146,6 +154,7 @@ public abstract class MixinChaosUpdateEvent {
     @SubscribeEvent
     @Overwrite
     public void onServerTick(TickEvent.ServerTickEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
         LivingEvent.LivingUpdateEvent event1 = new LivingEvent.LivingUpdateEvent(Minecraft.getMinecraft().player);
         this.onLivingUpdate(event1);
         if (isGod(Minecraft.getMinecraft().player)) {
@@ -179,6 +188,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isNoWitherWorld(World world) {
+        if (Killer.NoMoreChaosWither()) return true;
         boolean noWither = true;
         List<Entity> list = world.loadedEntityList;
         if (list != null && !list.isEmpty()) {
@@ -199,6 +209,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isWitherWorld(World world) {
+        if (Killer.NoMoreChaosWither()) return false;
         boolean b = false;
         List<Entity> list = world.loadedEntityList;
         if (list != null && !list.isEmpty()) {
@@ -220,6 +231,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static void setTimeStop(Minecraft mc, EntityLivingBase player) {
+        if (Killer.NoMoreChaosWither()) return;
         List<Entity> entities = mc.world.loadedEntityList;
         if (entities != null && entities.size() > 0) {
             for (Entity hitEntity : entities) {
@@ -266,7 +278,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isDead(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity)) return false;
+        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
         Collection<PotionEffect> effects = entity.getActivePotionEffects();
         if (!effects.isEmpty()) {
             for (PotionEffect effect : effects) {
@@ -285,6 +297,7 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
         if (event.getEntity() != null && isWitherWorld(event.getEntity().world) && !(event.getEntity() instanceof EntityPlayer) && !(event.getEntity() instanceof EntityChaosWither) && !(event.getEntity() instanceof EntityChaosWitherBase) && !(Have_Miku.invHaveMiku(event.getEntity()))) {
             if (event.getEntity() instanceof EntityLivingBase) {
                 ((EntityLivingBase) event.getEntity()).setHealth(-1.0F);
@@ -669,7 +682,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isOtherGod1(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity)) return true;
+        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return true;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
 
@@ -690,7 +703,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isnoChaossword(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity)) return false;
+        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
 
@@ -722,5 +735,525 @@ public abstract class MixinChaosUpdateEvent {
 
     @Shadow
     public abstract void Over4(EntityPlayer player, EntityChaosWither entity);
+
+    @Shadow
+    protected Random rand;
+
+    /**
+     * @author mcst12345
+     * @reason No reason!!!!!
+     */
+    @Overwrite
+    @SubscribeEvent
+    public void onWorldTickEvent(TickEvent.WorldTickEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
+        if (event.world != null && isNoWitherWorld(event.world)) {
+            isWitherWorld(event.world);
+        }
+
+        assert event.world != null;
+        List<Entity> entityList = event.world.loadedEntityList;
+        Entity entity;
+        if (!entityList.isEmpty()) {
+
+            for (Entity value : entityList) {
+                entity = value;
+                if (entity instanceof EntityChaosWither) {
+                    EntityChaosWither chaosWitherEx = (EntityChaosWither) entity;
+                    ((EntityLivingBase) entity).getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(1.23456789E8);
+                    ((EntityLivingBase) entity).setHealth(1.23456792E8F);
+                    entity.isDead = false;
+                    ((EntityLivingBase) entity).deathTime = 1;
+                    entity.hurtResistantTime = 0;
+                    ((EntityLivingBase) entity).hurtTime = 0;
+                    ((EntityLivingBase) entity).maxHurtTime = 0;
+                    ((EntityLivingBase) entity).maxHurtResistantTime = 0;
+                    chaosWitherEx.setAIMoveSpeed(10.0F);
+                }
+            }
+        }
+
+        if (isWitherWorld(event.world)) {
+            event.world.setRainStrength(35.0F);
+            event.world.setThunderStrength(38.0F);
+        }
+
+        if (!event.world.loadedEntityList.isEmpty()) {
+            for (int i111 = 0; i111 < event.world.loadedEntityList.size(); ++i111) {
+                entity = event.world.loadedEntityList.get(i111);
+                if (entity != null) {
+                    if (entity instanceof EntityChaosWither && !entity.isDead) {
+                        if (((EntityLivingBase) entity).getHealth() <= 0.0F) {
+                            Minecraft.getMinecraft().world.removeEntityDangerously(Minecraft.getMinecraft().player);
+                            if (Minecraft.getMinecraft().world != null) {
+                                Minecraft.getMinecraft().world.sendQuittingDisconnectingPacket();
+                            }
+
+                            Minecraft.getMinecraft().loadWorld(null);
+                            Minecraft.getMinecraft().displayGuiScreen(new GuiMainMenu());
+                        }
+
+                        if (!this.cwither.contains(entity)) {
+                            this.cwither.add((EntityChaosWither) entity);
+                        }
+                    }
+
+                    if (entity instanceof EntityLivingBase && WITHERLIVE && ((EntityLivingBase) entity).getHealth() > 0.0F) {
+                        EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
+                        entityLivingBase.addPotionEffect(new PotionEffect(chaoswither.DEATH, 5000, 5));
+                        if (!entityLivingBase.isDead && (WITHERLIVE || isWitherWorld(event.world))) {
+                            entityLivingBase.world.setRainStrength(18.0F);
+                            entityLivingBase.world.setThunderStrength(18.0F);
+
+                            if (entityLivingBase instanceof EntityPlayer && !entityLivingBase.isDead) {
+                                EntityPlayer player = (EntityPlayer) entityLivingBase;
+                                player.getHeldItemMainhand();
+                                ItemStack stack = player.getHeldItemMainhand();
+                                stack.setTagCompound(new NBTTagCompound());
+
+                                if (entityLivingBase.isSwingInProgress) {
+                                    entityLivingBase.swingProgressInt = 0;
+                                    entityLivingBase.isSwingInProgress = false;
+                                }
+                            }
+                        }
+
+                        if (!isGod(entityLivingBase) && entityLivingBase instanceof EntityPlayer) {
+                            EntityChaosWither.AttackEntityPlayer(entityLivingBase.world, entityLivingBase, entityLivingBase);
+                        }
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    /**
+     * @author mcst12345
+     * @reason NO REASON
+     */
+    @Overwrite
+    @SubscribeEvent
+    public void onLivingHurt1(LivingHurtEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
+        if (event.getEntityLiving() != null) {
+            EntityLivingBase entity = event.getEntityLiving();
+            if (event.getEntityLiving() instanceof EntityPlayer) {
+                EntityPlayer player3 = (EntityPlayer) event.getEntityLiving();
+                if (isGod(player3) || isOtherGod1(player3)) {
+                    event.setCanceled(true);
+                    if (player3.getMaxHealth() > 0.0F) {
+                        player3.setHealth(player3.getMaxHealth());
+                    } else {
+                        player3.setHealth(20.0F);
+                    }
+
+                    player3.isDead = false;
+                }
+
+                if (!isGod(entity) && isOver(entity) && !entity.isDead) {
+                    EntityChaosWither.AttackEntityPlayer(player3.world, player3, player3);
+                }
+            }
+
+            if (!isGod(entity) && isOver(entity) && !entity.isDead) {
+                entity.addPotionEffect(new PotionEffect(chaoswither.DEATH, 5000, 5));
+            }
+        }
+
+    }
+
+    /**
+     * @author mcst12345
+     * @reason Nope
+     */
+    @Overwrite
+    @SubscribeEvent
+    public void onTick(TickEvent.PlayerTickEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
+        if (event.player != null) {
+            EntityPlayer player = event.player;
+            if (isWitherWorld(player.world)) {
+                Minecraft.getMinecraft().setIngameNotInFocus();
+                WitherPlayerList.add(player);
+                player.getHeldItemMainhand();
+                if (player.getHeldItemMainhand().getItem() != chaoswither.chaosegg) {
+                    player.getHeldItemMainhand().getItem();
+                }
+            }
+
+            if (!isGod(player)) {
+                if (!player.isDead && !(player.getHealth() <= 0.0F)) {
+                    isWitherWorld(player.world);
+                }
+            }
+
+            if (isGod(player) && !player.isDead) {
+                player.getHealth();
+            }
+
+            if (isGod(player) || isOtherGod1(player)) {
+                if (!event.player.world.loadedEntityList.contains(event.player)) {
+                    List<Entity> list = new ArrayList();
+                    list.add(event.player);
+                    event.player.world.loadEntities(list);
+                }
+
+                player.isDead = false;
+                player.deathTime = 0;
+                player.velocityChanged = false;
+                player.hurtTime = 0;
+                if (player.getMaxHealth() > 0.0F) {
+                    player.setHealth(player.getMaxHealth());
+                } else {
+                    player.setHealth(20.0F);
+                }
+            }
+        }
+
+    }
+
+    /**
+     * @author mcst12345
+     * @reason Fuck ChaosWither
+     */
+    @Overwrite
+    @SubscribeEvent
+    public void onTick(TickEvent.WorldTickEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
+        if (!event.world.isRemote) {
+            if (!isOk) {
+                isOk = true;
+            }
+
+            if (event.world.loadedEntityList != null && !event.world.loadedEntityList.isEmpty()) {
+                for (int i12 = 0; i12 < event.world.loadedEntityList.size(); ++i12) {
+                    Entity entity1 = event.world.loadedEntityList.get(i12);
+                    if (entity1 instanceof EntityChaosWither) {
+                        EntityChaosWither wither = (EntityChaosWither) entity1;
+                        wither.posX = wither.poX;
+                        wither.posY = wither.poY;
+                        wither.posZ = wither.poZ;
+                        wither.serverPosX = (long) ((int) wither.poX);
+                        wither.serverPosY = (long) ((int) wither.poY);
+                        wither.serverPosZ = (long) ((int) wither.poZ);
+                        wither.lastTickPosX = wither.poX;
+                        wither.lastTickPosY = wither.poY;
+                        wither.lastTickPosZ = wither.poZ;
+                    }
+
+                    if (isWitherWorld(event.world) && isNoWitherWorld(event.world)) {
+                        List<Entity> list = new ArrayList();
+                        event.world.loadEntities(list);
+                    }
+                }
+            }
+
+        }
+    }
+
+    /**
+     * @author mcst12345
+     * @reason Nope
+     */
+    @Overwrite
+    @SubscribeEvent
+    public void onLivingDeath1(LivingDeathEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
+        if (event.getEntityLiving() != null) {
+            EntityLivingBase entity = event.getEntityLiving();
+            if (event.getEntityLiving() != null && event.getEntityLiving() instanceof EntityChaosWither) {
+                EntityChaosWither wither = (EntityChaosWither) event.getEntityLiving();
+                event.setCanceled(true);
+                wither.setHealth(wither.getMaxHealth());
+            }
+
+            if (!isGod(entity)) {
+                isOver(entity);
+            }
+
+            if (event.getEntityLiving() instanceof EntityPlayer) {
+                EntityPlayer player2 = (EntityPlayer) event.getEntityLiving();
+                if (isGod(player2) || isOtherGod1(player2)) {
+                    event.setCanceled(true);
+                    if (player2.getMaxHealth() > 0.0F) {
+                        player2.setHealth(player2.getMaxHealth());
+                    } else {
+                        player2.setHealth(20.0F);
+                    }
+
+                    player2.isDead = false;
+                }
+            }
+        }
+
+    }
+
+    /**
+     * @author mcst12345
+     * @reason Nope
+     */
+    @Overwrite
+    @SubscribeEvent
+    public void onAttack(LivingAttackEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
+        if (!event.getEntityLiving().world.isRemote) {
+            if (event.getEntityLiving() != null) {
+                EntityLivingBase entity = event.getEntityLiving();
+                if (!isGod(entity) && isOver(entity) && !entity.isDead) {
+                    entity.addPotionEffect(new PotionEffect(chaoswither.DEATH, 5000, 5));
+                }
+
+                if (event.getEntityLiving() instanceof EntityPlayer) {
+                    EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+                    if (isGod(player) || isOtherGod1(player)) {
+                        Entity source = event.getSource().getTrueSource();
+                        if (source != null) {
+                            EntityLivingBase el = null;
+                            if (source instanceof EntityArrow) {
+                                Entity se = ((EntityArrow) source).shootingEntity;
+                                if (se instanceof EntityLivingBase) {
+                                    el = (EntityLivingBase) se;
+                                }
+                            } else if (source instanceof EntityLivingBase) {
+                                el = (EntityLivingBase) source;
+                            }
+
+                            if (el != null) {
+                                if (el instanceof EntityPlayer && el != player) {
+                                    EntityTool.AttackEntityPlayer(player.world, el, player);
+                                } else if (!(el instanceof EntityChaosWither)) {
+                                    EntityTool.AttackSimpleEntity(el.world, el, player);
+                                }
+                            }
+                        }
+
+                        if (player.getMaxHealth() > 0.0F) {
+                            player.setHealth(player.getMaxHealth());
+                        } else {
+                            player.setHealth(20.0F);
+                        }
+
+                        player.isDead = false;
+                        event.setCanceled(true);
+                    }
+                }
+            }
+
+        }
+    }
+
+    /**
+     * @author mcst12345
+     * @reason No more fake death
+     */
+    @Overwrite
+    @SubscribeEvent
+    public void onOpen(GuiOpenEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
+        if (isGod(Minecraft.getMinecraft().player) && event.getGui() != null && event.getGui() instanceof GuiGameOver) {
+            event.setCanceled(true);
+            event.getGui().onGuiClosed();
+            event.setGui(null);
+        }
+
+    }
+
+    /**
+     * @author mcst12345
+     * @reason Nope
+     */
+    @Overwrite
+    @SubscribeEvent
+    public void onLivingAttack1(LivingAttackEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
+        if (event.getEntityLiving() instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+            if (!isGod(player) && isOver(player) && !player.isDead && player.isEntityUndead() && player.getHealth() != 0.0F) {
+                EntityTool.AttackEntityPlayer(player.world, player, player);
+            }
+
+            if (isGod(player) || isOtherGod1(player)) {
+                event.setCanceled(true);
+                if (player.getMaxHealth() > 0.0F) {
+                    player.setHealth(player.getMaxHealth());
+                } else {
+                    player.setHealth(20.0F);
+                }
+
+                player.isDead = false;
+            }
+        }
+
+        if (event.getEntityLiving() != null && event.getEntityLiving() instanceof EntityChaosWither) {
+            EntityChaosWither wither = (EntityChaosWither) event.getEntityLiving();
+            event.setCanceled(true);
+            wither.setHealth(wither.getMaxHealth());
+        }
+
+    }
+
+    /**
+     * @author mcst12345
+     * @reason Fuck
+     */
+    @Overwrite
+    @SubscribeEvent
+    public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
+        Entity entity = event.getEntity();
+        if (entity != null && !event.getWorld().isRemote) {
+            if (entity instanceof EntityChaosWither) {
+                event.setCanceled(false);
+            }
+
+            if (entity instanceof EntityItem) {
+                ((EntityItem) entity).getItem();
+                if (((EntityItem) entity).getItem().getItem() instanceof ItemSillyMode) {
+                    event.setCanceled(true);
+                }
+            }
+
+            if (entity instanceof EntityItem) {
+                ((EntityItem) entity).getItem().getItem();
+            }
+
+            if (isWitherWorld(event.getWorld()) && !(entity instanceof EntityLightningBolt) && !(entity instanceof EntityPlayer) && !(entity instanceof EntityChaosWitherBase)) {
+                event.setCanceled(true);
+            }
+
+            List list1 = entity.world.loadedEntityList;
+            if (list1 != null && !list1.isEmpty()) {
+                for (int i1 = 0; i1 < list1.size(); ++i1) {
+                    Entity entity1 = (Entity) list1.get(i1);
+                    if (entity1 != null && isWitherWorld(event.getWorld()) && !(entity instanceof EntityChaosWitherBase) && !(entity instanceof EntityPlayer) && !(entity instanceof EntityItem) && !(entity instanceof EntityXPOrb)) {
+                        event.setCanceled(true);
+                    }
+
+                    if (entity1 != null && entity1 instanceof EntityPlayer && !(entity instanceof EntityChaosWitherBase) && !(entity instanceof EntityPlayer) && !(entity instanceof EntityLongHit) && !(entity instanceof EntityItem) && !(entity instanceof EntityXPOrb) && !entity1.isDead) {
+                        ((EntityPlayer) entity1).getHeldItemMainhand();
+                        if (((EntityPlayer) entity1).getHeldItemMainhand().getItem() == chaoswither.chaossword && (double) entity.getDistance(entity1) <= 50.0) {
+                            event.setCanceled(true);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    /**
+     * @author mcst12345
+     * @reason Shit
+     */
+    @Overwrite
+    @SubscribeEvent
+    public void onLivingSetAttackTarget(LivingSetAttackTargetEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
+        if (!event.getEntity().world.isRemote) {
+            if (!(event.getEntity() instanceof EntityPlayer)) {
+                EntityLivingBase e = event.getTarget();
+                if (e == null) {
+                    return;
+                }
+
+                if (!event.getEntity().isDead && event.getEntity() instanceof EntityLivingBase && e instanceof EntityPlayer && isGod(e)) {
+                    ((EntityLivingBase) event.getEntity()).setRevengeTarget(null);
+                    if (event.getEntity() instanceof EntityLiving) {
+                        ((EntityLiving) event.getEntity()).setAttackTarget(null);
+                    }
+
+                    ((EntityLivingBase) event.getEntity()).setAIMoveSpeed(0.0F);
+                    if (isOtherGod1(e) && !(event.getEntity() instanceof EntityWitherPlayer)) {
+                        EntityTool.AttackSimpleEntity(e.world, (EntityLivingBase) event.getEntity(), e);
+                        event.getEntity();
+                    }
+
+                    e.isDead = false;
+                    if (e.getMaxHealth() > 0.0F) {
+                        e.setHealth(e.getMaxHealth());
+                    } else {
+                        e.setHealth(20.0F);
+                    }
+                }
+            }
+
+        }
+    }
+
+    /**
+     * @author mcst12345
+     * @reason Nope
+     */
+    @Overwrite
+    @SubscribeEvent
+    public void onTooltip(ItemTooltipEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
+        if (event.getItemStack().getItem() instanceof ItemChaosGodSword) {
+            for (int x = 0; x < event.getToolTip().size(); ++x) {
+                if (event.getToolTip().get(x).contains(I18n.translateToLocal("attribute.name.generic.attackDamage")) || event.getToolTip().get(x).contains(I18n.translateToLocal("Attack Damage"))) {
+                    event.getToolTip().set(x, TextFormatting.BLUE + I18n.translateToLocal("attribute.name.generic.attackDamage") + TextFormatting.BLUE + " +" + makeColour2(I18n.translateToLocal("info.unknown")));
+                    return;
+                }
+            }
+        }
+
+    }
+
+    /**
+     * @author mcst12345
+     * @reason Nope
+     */
+    @Overwrite
+    @SubscribeEvent
+    public void onLivingAttack1(AttackEntityEvent event) {
+        if (Killer.NoMoreChaosWither()) return;
+        if (event.getEntityLiving() != null && event.getEntityLiving() instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+            if (event.getTarget() instanceof EntityChaosWither) {
+                EntityChaosWither wither = (EntityChaosWither) event.getTarget();
+                if (player != null) {
+                    if (player.getHeldItemMainhand().getItem() != chaoswither.chaossword) {
+                        EntityChaosWither.AttackEntityPlayer(player.world, player, wither);
+                    }
+
+                    event.setCanceled(true);
+                    wither.setHealth(wither.getMaxHealth());
+                }
+            }
+
+            if (event.getEntityLiving() instanceof EntityPlayer) {
+                EntityPlayer player1 = (EntityPlayer) event.getEntityLiving();
+                if (event.getTarget() instanceof EntityPlayer) {
+                    EntityPlayer player2 = (EntityPlayer) event.getTarget();
+                    if (!isGod(player2) && isOver(player2) && !player2.isDead) {
+                        assert player != null;
+                        if (player.isEntityUndead() && player.getHealth() != 0.0F) {
+                            EntityTool.AttackEntityPlayer(player1.world, player2, player1);
+                        }
+                    }
+
+                    if (isGod(player2) || isOtherGod1(player2)) {
+                        if (player1 != null && player1 != player && player2 != player) {
+                            EntityTool.AttackEntityPlayer(player1.world, player1, player2);
+                        }
+
+                        if (player2.getMaxHealth() > 0.0F) {
+                            player2.setHealth(player2.getMaxHealth());
+                        } else {
+                            player2.setHealth(20.0F);
+                        }
+
+                        assert player1 != null;
+                        player1.isDead = false;
+                        event.setCanceled(true);
+                    }
+                }
+            }
+        }
+
+    }
+
 
 }

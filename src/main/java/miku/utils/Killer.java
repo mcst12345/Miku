@@ -31,7 +31,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
@@ -155,9 +154,7 @@ public class Killer {
     }
 
     public static void killPlayer(EntityPlayer player, EntityLivingBase source) {
-        if (player instanceof FakePlayer) {
-            return;
-        }
+        player.velocityChanged = true;
         player.inventory.clearMatchingItems(null, -1, -1, null);
         InventoryEnderChest ec = player.getInventoryEnderChest();
         for (int i = 0; i < ec.getSizeInventory(); i++) {
@@ -189,6 +186,11 @@ public class Killer {
         player.motionX = -MathHelper.cos((player.attackedAtYaw + player.rotationYaw) * 3.1415927f / 180.0f) * 0.1f;
         player.motionZ = -MathHelper.sin((player.attackedAtYaw + player.rotationYaw) * 3.1415927f / 180.0f) * 0.1f;
         player.setLastAttackedEntity(player);
+        player.world.setEntityState(player, (byte) 2);
+        player.handleStatusUpdate((byte) 3);
+        player.addStat(StatList.DEATHS, 1);
+        player.addStat(StatList.DAMAGE_TAKEN, Integer.MAX_VALUE);
+        player.closeScreen();
         if (player instanceof EntityPlayerMP) {
             EntityPlayerMP playerMP = (EntityPlayerMP) player;
             playerMP.connection.disconnect(new TextComponentString("Fuck you!"));
@@ -285,6 +287,13 @@ public class Killer {
         entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE);
 
         entity.setDead();
+        List entityList = new ArrayList();
+        entityList.add(entity);
+        entity.world.unloadEntities(entityList);
+        entity.world.onEntityRemoved(entity);
+        entity.world.loadedEntityList.remove(entity);
+        entity.world.getChunk(entity.chunkCoordX, entity.chunkCoordZ).removeEntity(entity);
+        entity.world.setEntityState(entity, (byte) 3);
         Minecraft.getMinecraft().entityRenderer.stopUseShader();
     }
 
