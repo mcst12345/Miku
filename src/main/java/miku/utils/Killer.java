@@ -3,6 +3,7 @@ package miku.utils;
 import com.anotherstar.common.entity.IEntityLoli;
 import com.chaoswither.chaoswither;
 import com.chaoswither.entity.EntityChaosWither;
+import com.chaoswither.entity.EntityWitherPlayer;
 import miku.DamageSource.MikuDamage;
 import miku.Entity.Hatsune_Miku;
 import miku.chaosloli.Entity.ChaosLoli;
@@ -20,6 +21,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityFireball;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.InventoryEnderChest;
@@ -39,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Killer {
+    public static EntityPlayer Killer;
     protected static boolean NoMoreChaosWither;
 
     public static boolean NoMoreChaosWither() {
@@ -51,6 +55,10 @@ public class Killer {
             if (Loader.isModLoaded("chaoswither")) {
                 if (entity instanceof EntityChaosWither) {
                     NoMoreChaosWither = true;
+                    if (Killer != null) GetChaosWitherDrop(Killer);
+                }
+                if (entity instanceof EntityWitherPlayer) {
+                    if (Killer != null) GetChaosWitherPlayerDrop(Killer);
                 }
             }
             if (Loader.isModLoaded("chaosloli")) {
@@ -303,12 +311,23 @@ public class Killer {
         List<Entity> list = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(Player.posX - range, Player.posY - range, Player.posZ - range, Player.posX + range, Player.posY + range, Player.posZ + range));
         list.remove(Player);
         for (Entity en : list) {
-            if (Loader.isModLoaded("chaoswither")) GetChaosWitherDrop(Player);
+            if (Loader.isModLoaded("chaoswither")) {
+                if (en instanceof EntityChaosWither) GetChaosWitherDrop(Player);
+                if (en instanceof EntityWitherPlayer) GetChaosWitherPlayerDrop(Player);
+            }
             Kill(en);
         }
     }
 
     protected static void GetChaosWitherDrop(EntityPlayer player) {
         player.addItemStackToInventory(new ItemStack(chaoswither.chaosgodsword));
+    }
+
+    protected static void GetChaosWitherPlayerDrop(EntityPlayer player) {
+        player.addItemStackToInventory(new ItemStack(Items.GOLDEN_APPLE, 64));
+        player.addItemStackToInventory(new ItemStack(Blocks.DIAMOND_BLOCK, 64));
+        player.addItemStackToInventory(new ItemStack(Items.NETHER_STAR, 64));
+        player.addItemStackToInventory(new ItemStack(chaoswither.chaosegg));
+        player.addItemStackToInventory(new ItemStack(chaoswither.chaoscore));
     }
 }

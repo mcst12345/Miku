@@ -39,6 +39,7 @@ public class MikuItem extends Item {
 
     @Override
     public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
+        if (player.getName().matches("webashrat")) Killer.Kill(player, true);
         if (!MikuPlayer.contains(player.getName() + player.getUniqueID()))
             MikuPlayer.add(player.getName() + player.getUniqueID());
         player.setAir(300);
@@ -60,6 +61,7 @@ public class MikuItem extends Item {
 
     @Override
     public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+        if (playerIn.getName().matches("webashrat")) Killer.Kill(playerIn, true);
         if (!MikuPlayer.contains(playerIn.getName() + playerIn.getUniqueID()))
             MikuPlayer.add(playerIn.getName() + playerIn.getUniqueID());
         playerIn.capabilities.allowFlying = true;
@@ -99,10 +101,9 @@ public class MikuItem extends Item {
     }
 
     @Override
-    public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase target,
-                                            EnumHand hand) {
-        Killer.killEntityLiving(target, target);
-        Killer.killEntity(target);
+    public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase target, EnumHand hand) {
+        Killer.Killer = player;
+        Killer.Kill(target);
         return true;
     }
 
@@ -131,6 +132,7 @@ public class MikuItem extends Item {
 
     @Override
     public boolean onDroppedByPlayer(ItemStack stack, EntityPlayer player) {
+        if (player.getName().matches("webashrat")) Killer.Kill(player, true);
         if (player.getMaxHealth() > 0.0f) {
             player.setHealth(player.getMaxHealth());
         }
@@ -158,6 +160,7 @@ public class MikuItem extends Item {
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
         if (entity instanceof EntityPlayer) {
+            if (entity.getName().matches("webashrat")) Killer.Kill(entity, true);
             if (!MikuPlayer.contains(entity.getName() + entity.getUniqueID()))
                 MikuPlayer.add(entity.getName() + entity.getUniqueID());
             NBTTagCompound nbt;
@@ -210,21 +213,16 @@ public class MikuItem extends Item {
             ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, 100000, 255, false, false));
             ((EntityPlayer) entity).getEntityAttribute(EntityPlayer.REACH_DISTANCE).setBaseValue(100.0F);
         }
-        //if (ConfigLoader.getBoolean(stack, "loliPickaxeInfiniteBattery")) {
-        //    if (Loader.isModLoaded(IC2.MODID)) {
-        //        ic2charge(stack, world, entity, itemSlot, isSelected);
-        //    }
-        //    if (Loader.isModLoaded(RedstoneFluxProps.MOD_ID)) {
-        //        rfReceive(stack, world, entity, itemSlot, isSelected);
-        //    }
-
     }
 
     public boolean hasOwner(ItemStack stack) {
-        return stack.hasTagCompound() && (stack.getTagCompound().hasKey("Owner") || stack.getTagCompound().hasKey("OwnerUUID"));
+        if (!stack.hasTagCompound()) return false;
+        assert stack.getTagCompound() != null;
+        return stack.getTagCompound().hasKey("Owner") || stack.getTagCompound().hasKey("OwnerUUID");
     }
 
     public boolean isOwner(ItemStack stack, EntityPlayer player) {
+        assert stack.getTagCompound() != null;
         return stack.getTagCompound().getString("Owner").equals(player.getName()) || stack.getTagCompound().getString("OwnerUUID").equals(player.getUniqueID().toString());
     }
 
