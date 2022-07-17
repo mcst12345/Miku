@@ -134,7 +134,7 @@ public class Killer {
                 ((ChaosLoli) entity).KilledByMiku();
             }
         }
-        if (Have_Miku.invHaveMiku(entity)) return;
+        if (InventoryUtil.invHaveMiku(entity)) return;
         if (entity instanceof Hatsune_Miku) return;
         if (entity instanceof EntityXPOrb) return;
         if (entity instanceof EntityFireball) {
@@ -331,7 +331,8 @@ public class Killer {
 
     @Optional.Method(modid = "chaoswither")
     protected static void GetChaosWitherDrop(EntityPlayer player) {
-        player.addItemStackToInventory(new ItemStack(chaoswither.chaosgodsword));
+        if (InventoryUtil.InvHaveChaosSword(player))
+            player.addItemStackToInventory(new ItemStack(chaoswither.chaosgodsword));
     }
 
     @Optional.Method(modid = "chaoswither")

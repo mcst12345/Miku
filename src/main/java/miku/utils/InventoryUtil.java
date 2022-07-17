@@ -1,12 +1,14 @@
 package miku.utils;
 
+import com.chaoswither.items.ItemChaosGodSword;
 import miku.Entity.Hatsune_Miku;
 import miku.items.MikuItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Optional;
 
-public class Have_Miku {
+public class InventoryUtil {
     public static boolean invHaveMiku(Entity entity) {
         if (entity instanceof Hatsune_Miku) return true;
         if (entity == null) return false;
@@ -48,5 +50,15 @@ public class Have_Miku {
         return true;
     }
 
+    @Optional.Method(modid = "chaoswither")
+    public static boolean InvHaveChaosSword(EntityPlayer player) {
+        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+            ItemStack stack = player.inventory.getStackInSlot(i);
+            if (!stack.isEmpty() && stack.getItem() instanceof ItemChaosGodSword) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

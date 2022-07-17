@@ -10,7 +10,7 @@ import com.chaoswither.items.ItemChaosGodSword;
 import com.chaoswither.items.ItemSillyMode;
 import com.chaoswither.items.armor.ItemChaosArmor;
 import com.google.common.collect.Sets;
-import miku.utils.Have_Miku;
+import miku.utils.InventoryUtil;
 import miku.utils.Killer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -62,7 +62,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isGod1(EntityPlayer player) {
-        if (Have_Miku.invHaveMiku(player) || Killer.NoMoreChaosWither()) return true;
+        if (InventoryUtil.invHaveMiku(player) || Killer.NoMoreChaosWither()) return true;
         Iterator<ItemStack> var1 = player.inventory.armorInventory.iterator();
 
         ItemStack itemStack;
@@ -83,7 +83,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isGod(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return true;
+        if (InventoryUtil.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return true;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
 
@@ -119,7 +119,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isOver(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
+        if (InventoryUtil.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
         if (!entity.isDead) {
             Collection<PotionEffect> effects = entity.getActivePotionEffects();
             if (effects.size() > 0) {
@@ -196,7 +196,7 @@ public abstract class MixinChaosUpdateEvent {
                 if (o instanceof EntityChaosWither) {
                     noWither = false;
                 }
-                if (Have_Miku.invHaveMiku(o)) return true;
+                if (InventoryUtil.invHaveMiku(o)) return true;
             }
         }
 
@@ -214,7 +214,7 @@ public abstract class MixinChaosUpdateEvent {
         List<Entity> list = world.loadedEntityList;
         if (list != null && !list.isEmpty()) {
             for (Entity o : list) {
-                if (Have_Miku.invHaveMiku(o)) return false;
+                if (InventoryUtil.invHaveMiku(o)) return false;
                 if (o != null && o instanceof EntityChaosWither && !o.isDead) {
                     b = true;
                 }
@@ -235,7 +235,7 @@ public abstract class MixinChaosUpdateEvent {
         List<Entity> entities = mc.world.loadedEntityList;
         if (entities != null && entities.size() > 0) {
             for (Entity hitEntity : entities) {
-                if (hitEntity.ticksExisted >= 2 && !(hitEntity instanceof EntityChaosWither) && !(Have_Miku.invHaveMiku(hitEntity))) {
+                if (hitEntity.ticksExisted >= 2 && !(hitEntity instanceof EntityChaosWither) && !(InventoryUtil.invHaveMiku(hitEntity))) {
                     hitEntity.setPosition(hitEntity.prevPosX, hitEntity.prevPosY, hitEntity.prevPosZ);
                     hitEntity.rotationYaw = hitEntity.prevRotationYaw;
                     hitEntity.rotationPitch = hitEntity.prevRotationPitch;
@@ -278,7 +278,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isDead(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
+        if (InventoryUtil.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
         Collection<PotionEffect> effects = entity.getActivePotionEffects();
         if (!effects.isEmpty()) {
             for (PotionEffect effect : effects) {
@@ -298,7 +298,7 @@ public abstract class MixinChaosUpdateEvent {
     @SubscribeEvent
     public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
         if (Killer.NoMoreChaosWither()) return;
-        if (event.getEntity() != null && isWitherWorld(event.getEntity().world) && !(event.getEntity() instanceof EntityPlayer) && !(event.getEntity() instanceof EntityChaosWither) && !(event.getEntity() instanceof EntityChaosWitherBase) && !(Have_Miku.invHaveMiku(event.getEntity()))) {
+        if (event.getEntity() != null && isWitherWorld(event.getEntity().world) && !(event.getEntity() instanceof EntityPlayer) && !(event.getEntity() instanceof EntityChaosWither) && !(event.getEntity() instanceof EntityChaosWitherBase) && !(InventoryUtil.invHaveMiku(event.getEntity()))) {
             if (event.getEntity() instanceof EntityLivingBase) {
                 ((EntityLivingBase) event.getEntity()).setHealth(-1.0F);
                 if (event.getEntityLiving() instanceof EntityLiving) {
@@ -325,7 +325,7 @@ public abstract class MixinChaosUpdateEvent {
         }
 
         ItemStack helmet2;
-        if (event.getEntityLiving() != null && event.getEntityLiving() != null && !(event.getEntity() instanceof EntityItem) && !(Have_Miku.invHaveMiku(event.getEntityLiving()))) {
+        if (event.getEntityLiving() != null && event.getEntityLiving() != null && !(event.getEntity() instanceof EntityItem) && !(InventoryUtil.invHaveMiku(event.getEntityLiving()))) {
             EntityLivingBase entityLivingBase = event.getEntityLiving();
             EntityPlayer player = null;
             if (event.getEntityLiving() != null && isWitherWorld(event.getEntityLiving().world) && event.getEntityLiving() instanceof EntityPlayer && event.getEntityLiving() instanceof EntityPlayer) {
@@ -564,7 +564,7 @@ public abstract class MixinChaosUpdateEvent {
                         if (entity2 instanceof EntityItem) {
                             helmet2 = new ItemStack(chaoswither.chaossword);
                             ((EntityItem) entity2).getItem();
-                            if ((!Have_Miku.invHaveMiku(player) || !Killer.NoMoreChaosWither()) && !player.inventory.hasItemStack(helmet2) && !player.isSneaking() && ((EntityItem) entity2).getItem().getItem() instanceof ItemChaosGodSword) {
+                            if ((!InventoryUtil.invHaveMiku(player) || !Killer.NoMoreChaosWither()) && !player.inventory.hasItemStack(helmet2) && !player.isSneaking() && ((EntityItem) entity2).getItem().getItem() instanceof ItemChaosGodSword) {
                                 entity2.setDead();
                             }
                         }
@@ -683,7 +683,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isnoChaossword(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
+        if (InventoryUtil.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
 

@@ -6,7 +6,7 @@ import com.anotherstar.common.entity.IEntityLoli;
 import com.anotherstar.common.item.tool.ILoli;
 import com.anotherstar.util.LoliPickaxeUtil;
 import miku.Entity.Hatsune_Miku;
-import miku.utils.Have_Miku;
+import miku.utils.InventoryUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -35,7 +35,7 @@ public abstract class MixinLoli {
     @Overwrite
     public static boolean invHaveLoliPickaxe(EntityLivingBase entity) {
         if (entity instanceof Hatsune_Miku) return true;
-        if (Have_Miku.invHaveMiku(entity)) {
+        if (InventoryUtil.invHaveMiku(entity)) {
             return true;
         }
         if (!(entity instanceof EntityPlayer) && !(entity instanceof IEntityLoli)) return false;
@@ -77,12 +77,12 @@ public abstract class MixinLoli {
         list.remove(entity);
 
         for (Entity en : list) {
-            if (en instanceof EntityPlayer && !Have_Miku.invHaveMiku(en)) {
+            if (en instanceof EntityPlayer && !InventoryUtil.invHaveMiku(en)) {
                 killPlayer((EntityPlayer) en, entity);
-            } else if (en instanceof EntityLivingBase && !Have_Miku.invHaveMiku(en)) {
+            } else if (en instanceof EntityLivingBase && !InventoryUtil.invHaveMiku(en)) {
                 killEntityLiving((EntityLivingBase) en, entity);
             } else {
-                if (!Have_Miku.invHaveMiku(en)) killEntity(en);
+                if (!InventoryUtil.invHaveMiku(en)) killEntity(en);
             }
         }
 

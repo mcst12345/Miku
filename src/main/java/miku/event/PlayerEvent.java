@@ -1,7 +1,7 @@
 package miku.event;
 
 import miku.items.MikuItem;
-import miku.utils.Have_Miku;
+import miku.utils.InventoryUtil;
 import miku.utils.Killer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -24,7 +24,7 @@ public class PlayerEvent {
             event.setCanceled(true);
         }
 
-        boolean isMiku = Have_Miku.invHaveMiku(entity);
+        boolean isMiku = InventoryUtil.invHaveMiku(entity);
         if (isMiku) {
             entity.isDead = false;
             entity.deathTime = 0;

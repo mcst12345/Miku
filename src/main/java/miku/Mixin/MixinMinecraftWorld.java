@@ -1,7 +1,7 @@
 package miku.Mixin;
 
 import com.google.common.collect.Lists;
-import miku.utils.Have_Miku;
+import miku.utils.InventoryUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.IWorldEventListener;
@@ -33,7 +33,7 @@ public abstract class MixinMinecraftWorld {
      */
     @Overwrite
     public void onEntityRemoved(Entity entityIn) {
-        if (Have_Miku.invHaveMiku(entityIn)) return;
+        if (InventoryUtil.invHaveMiku(entityIn)) return;
         for (int i = 0; i < this.eventListeners.size(); ++i) {
             this.eventListeners.get(i).onEntityRemoved(entityIn);
         }
@@ -46,7 +46,7 @@ public abstract class MixinMinecraftWorld {
      */
     @Overwrite
     public void removeEntityDangerously(Entity entityIn) {
-        if (Have_Miku.invHaveMiku(entityIn)) return;
+        if (InventoryUtil.invHaveMiku(entityIn)) return;
         entityIn.setDropItemsWhenDead(false);
         entityIn.setDead();
 

@@ -3,7 +3,7 @@ package miku.event;
 import miku.Entity.Hatsune_Miku;
 import miku.items.MikuItem;
 import miku.miku.Loader;
-import miku.utils.Have_Miku;
+import miku.utils.InventoryUtil;
 import miku.utils.Killer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -43,7 +43,7 @@ public class EntityEvent {
         }
         if (!entity.world.isRemote && entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
-            if (Have_Miku.invHaveMiku(player)) {
+            if (InventoryUtil.invHaveMiku(player)) {
                 if (source != null) {
                     EntityLivingBase attacker = null;
                     if (source instanceof EntityArrow) {
@@ -90,7 +90,7 @@ public class EntityEvent {
     public void onTick(TickEvent.PlayerTickEvent event) {
         EntityPlayer player = event.player;
         if (IsMikuPlayer(player)) {
-            if (!Have_Miku.invHaveMiku(player)) {
+            if (!InventoryUtil.invHaveMiku(player)) {
                 player.addItemStackToInventory(new ItemStack(Loader.MIKU));
             }
         }

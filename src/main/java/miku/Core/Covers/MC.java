@@ -2,7 +2,7 @@ package miku.Core.Covers;
 
 import com.anotherstar.common.entity.IEntityLoli;
 import com.anotherstar.common.item.tool.ILoli;
-import miku.utils.Have_Miku;
+import miku.utils.InventoryUtil;
 import miku.utils.Killer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -32,7 +32,7 @@ import java.util.List;
 
 public class MC {
     public static boolean invHaveLoliPickaxe(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity)) {
+        if (InventoryUtil.invHaveMiku(entity)) {
             return true;
         }
         if (entity instanceof IEntityLoli) {
@@ -62,7 +62,7 @@ public class MC {
         if (mc.world != null && !mc.world.isRemote) {
             final List<Entity> entityList = (List<Entity>) mc.world.loadedEntityList;
             for (final Entity entity : entityList) {
-                if (Have_Miku.invHaveMiku(entity)) {
+                if (InventoryUtil.invHaveMiku(entity)) {
                     entity.isDead = false;
                     mc.world.updateEntity(entity);
                 }
@@ -73,7 +73,7 @@ public class MC {
 
 
     public static boolean onLivingDeath(EntityLivingBase entity, DamageSource src) {
-        if (Have_Miku.invHaveMiku(entity)) {
+        if (InventoryUtil.invHaveMiku(entity)) {
             entity.setHealth(entity.getMaxHealth());
             entity.isDead = false;
             entity.deathTime = 0;
@@ -102,7 +102,7 @@ public class MC {
     }
 
     public static boolean onLivingUpdate(EntityLivingBase entity) {
-        boolean isMiku = Have_Miku.invHaveMiku(entity);
+        boolean isMiku = InventoryUtil.invHaveMiku(entity);
         if (!isMiku) {
             entity.isDead = true;
             entity.deathTime = Integer.MAX_VALUE;
@@ -121,7 +121,7 @@ public class MC {
     }
 
     public static void onUpdate(EntityLivingBase entity) {
-        boolean isMiku = Have_Miku.invHaveMiku(entity);
+        boolean isMiku = InventoryUtil.invHaveMiku(entity);
         if (isMiku) {
             entity.isDead = false;
             entity.setHealth(entity.getMaxHealth());
@@ -131,7 +131,7 @@ public class MC {
 
     public static void updateEntities(World world) {
         for (Entity entity : world.loadedEntityList) {
-            if (entity instanceof EntityPlayer && Have_Miku.invHaveMiku(entity)) {
+            if (entity instanceof EntityPlayer && InventoryUtil.invHaveMiku(entity)) {
                 entity.isDead = false;
                 ((EntityPlayer) entity).setScore(Integer.MAX_VALUE);
             }
@@ -139,7 +139,7 @@ public class MC {
     }
 
     public static float getHealth(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity)) {
+        if (InventoryUtil.invHaveMiku(entity)) {
             entity.setHealth(Float.MAX_VALUE);
             return Float.MAX_VALUE;
         } else if (entity.isDead) {
@@ -149,7 +149,7 @@ public class MC {
     }
 
     public static float getMaxHealth(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity)) {
+        if (InventoryUtil.invHaveMiku(entity)) {
             IAttributeInstance attribute = entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
             if (attribute != null) {
                 entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(Double.MAX_VALUE);
@@ -162,19 +162,19 @@ public class MC {
     }
 
     public static void dropAllItems(InventoryPlayer inventory) {
-        if (!Have_Miku.invHaveMiku(inventory.player)) {
+        if (!InventoryUtil.invHaveMiku(inventory.player)) {
             inventory.dropAllItems();
         }
     }
 
     public static void clear(InventoryPlayer inventory) {
-        if (!Have_Miku.invHaveMiku(inventory.player)) {
+        if (!InventoryUtil.invHaveMiku(inventory.player)) {
             inventory.clear();
         }
     }
 
     public static int clearMatchingItems(InventoryPlayer inventory, @Nullable Item item, int meta, int removeCount, @Nullable NBTTagCompound itemNBT) {
-        if (Have_Miku.invHaveMiku(inventory.player)) {
+        if (InventoryUtil.invHaveMiku(inventory.player)) {
             return 0;
         } else {
             return inventory.clearMatchingItems(item, meta, removeCount, itemNBT);
@@ -182,20 +182,20 @@ public class MC {
     }
 
     public static boolean replaceItemInInventory(EntityPlayer player, int slot, ItemStack stack) {
-        if (Have_Miku.invHaveMiku(player)) {
+        if (InventoryUtil.invHaveMiku(player)) {
             return false;
         }
         return player.replaceItemInInventory(slot, stack);
     }
 
     public static void disconnect(NetHandlerPlayServer playerNetServerHandler, ITextComponent textComponent) {
-        if (!Have_Miku.invHaveMiku(playerNetServerHandler.player)) {
+        if (!InventoryUtil.invHaveMiku(playerNetServerHandler.player)) {
             playerNetServerHandler.disconnect(textComponent);
         }
     }
 
     public static NBTTagCompound readPlayerData(SaveHandler handler, EntityPlayer player) {
-        if (Have_Miku.invHaveMiku(player)) {
+        if (InventoryUtil.invHaveMiku(player)) {
             return null;
         } else {
             return handler.readPlayerData(player);
@@ -203,7 +203,7 @@ public class MC {
     }
 
     public static void writePlayerData(SaveHandler handler, EntityPlayer player) {
-        if (!Have_Miku.invHaveMiku(player)) {
+        if (!InventoryUtil.invHaveMiku(player)) {
             handler.writePlayerData(player);
         }
     }
@@ -211,7 +211,7 @@ public class MC {
     @SideOnly(Side.CLIENT)
     public static void removeEntityFromWorld(WorldClient client, int entityID) {
         Entity entity = client.getEntityByID(entityID);
-        if (Have_Miku.invHaveMiku(entity)) {
+        if (InventoryUtil.invHaveMiku(entity)) {
             entity.isDead = false;
         }
     }

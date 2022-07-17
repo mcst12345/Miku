@@ -1,6 +1,6 @@
 package miku.event;
 
-import miku.utils.Have_Miku;
+import miku.utils.InventoryUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
@@ -43,7 +43,7 @@ public class InputEvent {
     public void onKeyPressed(KeyInputEvent event) {
         if (DESTROY_WORLD.isPressed()) {
             EntityPlayer player = Minecraft.getMinecraft().player;
-            if (!Have_Miku.invHaveMiku(player)) return;
+            if (!InventoryUtil.invHaveMiku(player)) return;
             System.out.println("WARN:" + player.getName() + "is destroying the world");
             double x = player.posX;
             double y = player.posY;

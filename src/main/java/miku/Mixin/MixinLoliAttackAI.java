@@ -4,7 +4,7 @@ import com.anotherstar.common.config.ConfigLoader;
 import com.anotherstar.common.entity.ai.EntityAILoliAttack;
 import com.anotherstar.util.LoliPickaxeUtil;
 import miku.Entity.Hatsune_Miku;
-import miku.utils.Have_Miku;
+import miku.utils.InventoryUtil;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -18,7 +18,7 @@ public class MixinLoliAttackAI extends EntityAIAttackMelee {
 
     public boolean shouldExecute() {
         EntityLivingBase target = attacker.getAttackTarget();
-        if (target instanceof Hatsune_Miku || Have_Miku.invHaveMiku(target)) return false;
+        if (target instanceof Hatsune_Miku || InventoryUtil.invHaveMiku(target)) return false;
         if (target == null) {
             return false;
         } else if (LoliPickaxeUtil.invHaveLoliPickaxe(target)) {

@@ -2,7 +2,7 @@ package miku.event;
 
 import miku.Entity.Hatsune_Miku;
 import miku.items.MikuItem;
-import miku.utils.Have_Miku;
+import miku.utils.InventoryUtil;
 import miku.utils.Killer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,7 +21,7 @@ public class MikuItemEvent {
     @SubscribeEvent
     public void LivingHurtEvent(LivingHurtEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
-        boolean isMiku = Have_Miku.invHaveMiku(entity);
+        boolean isMiku = InventoryUtil.invHaveMiku(entity);
         if (isMiku) {
             if (event.getEntityLiving().getMaxHealth() > 0)
                 event.getEntityLiving().setHealth(event.getEntityLiving().getMaxHealth());
@@ -33,7 +33,7 @@ public class MikuItemEvent {
     @SubscribeEvent
     public static void LivingDeathEvent(LivingDeathEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
-        boolean isMiku = Have_Miku.invHaveMiku(entity) || entity instanceof Hatsune_Miku;
+        boolean isMiku = InventoryUtil.invHaveMiku(entity) || entity instanceof Hatsune_Miku;
         if (isMiku) {
             if (event.getEntityLiving().getMaxHealth() > 0)
                 event.getEntityLiving().setHealth(event.getEntityLiving().getMaxHealth());
@@ -44,7 +44,7 @@ public class MikuItemEvent {
 
     @SubscribeEvent
     public void onGetHurt(LivingHurtEvent event) {
-        if (Have_Miku.invHaveMiku(event.getEntityLiving())) {
+        if (InventoryUtil.invHaveMiku(event.getEntityLiving())) {
             event.setCanceled(true);
         }
     }
@@ -53,7 +53,7 @@ public class MikuItemEvent {
     public void onAttack(LivingAttackEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         if (!entity.world.isRemote) {
-            if (Have_Miku.invHaveMiku(event.getEntityLiving()) || event.getEntityLiving() instanceof Hatsune_Miku) {
+            if (InventoryUtil.invHaveMiku(event.getEntityLiving()) || event.getEntityLiving() instanceof Hatsune_Miku) {
                 Entity source = event.getSource().getTrueSource();
                 if (source != null) {
                     EntityLivingBase el = null;
@@ -81,7 +81,7 @@ public class MikuItemEvent {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
-        boolean isMiku = Have_Miku.invHaveMiku(entity);
+        boolean isMiku = InventoryUtil.invHaveMiku(entity);
         if (isMiku) {
             entity.isDead = false;
             entity.deathTime = 0;

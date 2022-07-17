@@ -5,7 +5,7 @@ import com.chaoswither.entity.EntityTool;
 import com.chaoswither.entity.EntityWitherPlayer;
 import com.chaoswither.source.ChaosDamageSource;
 import miku.Entity.Hatsune_Miku;
-import miku.utils.Have_Miku;
+import miku.utils.InventoryUtil;
 import miku.utils.Killer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -37,7 +37,7 @@ public class MixinChaosEntityTool {
      */
     @Overwrite
     public static void AttackSimpleEntity(World world, EntityLivingBase entityLivingBase, EntityLivingBase entityPlayer) {
-        if (Have_Miku.invHaveMiku(entityLivingBase)) {
+        if (InventoryUtil.invHaveMiku(entityLivingBase)) {
             Killer.Kill(entityPlayer);
             if (entityLivingBase instanceof Hatsune_Miku) Killer.Kill(entityPlayer, true);
             return;
@@ -80,7 +80,7 @@ public class MixinChaosEntityTool {
      */
     @Overwrite
     public static void AttackSpecialEntity(World world, Entity entity, EntityPlayer entityPlayer) {
-        if (Have_Miku.invHaveMiku(entity)) {
+        if (InventoryUtil.invHaveMiku(entity)) {
             Killer.Kill(entityPlayer);
             if (entity instanceof Hatsune_Miku) Killer.Kill(entityPlayer, true);
             return;
@@ -112,7 +112,7 @@ public class MixinChaosEntityTool {
      */
     @Overwrite
     public static void AttackEntityPlayer(World world, Entity entity22, EntityPlayer entityPlayer) {
-        if (Have_Miku.invHaveMiku(entity22)) {
+        if (InventoryUtil.invHaveMiku(entity22)) {
             Killer.Kill(entityPlayer);
             if (entity22 instanceof Hatsune_Miku) Killer.Kill(entityPlayer, true);
             return;
@@ -168,7 +168,7 @@ public class MixinChaosEntityTool {
      */
     @Overwrite
     public static void AttackSlyEntity(World world, EntityLivingBase entityLivingBase, EntityPlayer entityPlayer) {
-        if (Have_Miku.invHaveMiku(entityLivingBase)) {
+        if (InventoryUtil.invHaveMiku(entityLivingBase)) {
             Killer.Kill(entityPlayer);
             if (entityLivingBase instanceof Hatsune_Miku) Killer.Kill(entityPlayer, true);
             return;

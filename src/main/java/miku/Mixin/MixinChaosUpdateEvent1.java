@@ -7,7 +7,7 @@ import com.chaoswither.items.ItemChaosEgg;
 import com.chaoswither.items.ItemChaosGodSword;
 import com.chaoswither.items.ItemSillyMode;
 import com.google.common.collect.Sets;
-import miku.utils.Have_Miku;
+import miku.utils.InventoryUtil;
 import miku.utils.Killer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -64,7 +64,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     public static boolean isDead(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return true;
+        if (InventoryUtil.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return true;
         Collection<PotionEffect> effects = entity.getActivePotionEffects();
         if (effects.size() > 0) {
             new ArrayList();
@@ -87,7 +87,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     public static boolean isGod(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return true;
+        if (InventoryUtil.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return true;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
 
@@ -125,7 +125,7 @@ public class MixinChaosUpdateEvent1 {
         List<Entity> list = entityliving.world.loadedEntityList;
         if (list != null && !list.isEmpty()) {
             for (Entity o : list) {
-                if (Have_Miku.invHaveMiku(o)) return true;
+                if (InventoryUtil.invHaveMiku(o)) return true;
                 if (o instanceof EntityChaosWither) {
                     b = false;
                 }
@@ -146,7 +146,7 @@ public class MixinChaosUpdateEvent1 {
         List<Entity> list = world.loadedEntityList;
         if (list != null && !list.isEmpty()) {
             for (Entity value : list) {
-                if (Have_Miku.invHaveMiku(value)) return true;
+                if (InventoryUtil.invHaveMiku(value)) return true;
                 if (value instanceof EntityChaosWither) {
                     b = false;
                 }
@@ -168,7 +168,7 @@ public class MixinChaosUpdateEvent1 {
 
         if (list != null && !list.isEmpty()) {
             for (Entity o : list) {
-                if (Have_Miku.invHaveMiku(o)) return false;
+                if (InventoryUtil.invHaveMiku(o)) return false;
                 if (o instanceof EntityChaosWither) {
                     b = true;
                 }
@@ -188,7 +188,7 @@ public class MixinChaosUpdateEvent1 {
         List<Entity> list = world.loadedEntityList;
         if (list != null && !list.isEmpty()) {
             for (Entity o : list) {
-                if (Have_Miku.invHaveMiku(o)) return false;
+                if (InventoryUtil.invHaveMiku(o)) return false;
                 if (o != null && o instanceof EntityChaosWither && !o.isDead) {
                     b = true;
                 }
@@ -205,7 +205,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     public static boolean isOver(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
+        if (InventoryUtil.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
         if (!entity.isDead) {
             Collection<PotionEffect> effects = entity.getActivePotionEffects();
             if (effects.size() > 0) {
@@ -239,7 +239,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     public static boolean isOtherGod1(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return true;
+        if (InventoryUtil.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return true;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
 
@@ -260,7 +260,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     public static boolean isnoChaossword(EntityLivingBase entity) {
-        if (Have_Miku.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
+        if (InventoryUtil.invHaveMiku(entity) || Killer.NoMoreChaosWither()) return false;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
 
