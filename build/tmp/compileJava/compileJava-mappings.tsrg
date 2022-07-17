@@ -1,0 +1,8 @@
+miku/Mixin/MixinMinecraftWorld eventListeners field_73021_x
+miku/Mixin/MixinMinecraftWorld playerEntities field_73010_i
+miku/Mixin/MixinMinecraftWorld loadedEntityList field_72996_f
+miku/Mixin/MixinMinecraftWorld updateAllPlayersSleepingFlag ()V func_72854_c
+miku/Mixin/MixinMinecraftWorld isChunkLoaded (IIZ)Z func_175680_a
+miku/Mixin/MixinMinecraftWorld getChunk (II)Lnet/minecraft/world/chunk/Chunk; func_72964_e
+miku/Mixin/MixinMinecraftWorld onEntityRemoved (Lnet/minecraft/entity/Entity;)V func_72847_b
+miku/Mixin/MixinMinecraftWorld removeEntityDangerously (Lnet/minecraft/entity/Entity;)V func_72973_f
