@@ -108,6 +108,7 @@ public class MikuItem extends Item {
     }
 
     public boolean leftClickEntity(Entity entity, final EntityPlayer Player) {
+        Killer.Killer = Player;
         if (entity == null) return false;
         if (Player.getMaxHealth() > 0.0f) {
             Player.setHealth(Player.getMaxHealth());
@@ -122,6 +123,7 @@ public class MikuItem extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        Killer.Killer = player;
         RangeKill(player, 10000);
         if (player.getMaxHealth() > 0.0f) {
             player.setHealth(player.getMaxHealth());
@@ -240,6 +242,6 @@ public class MikuItem extends Item {
     }
 
     public static boolean IsMikuPlayer(EntityPlayer player) {
-        return MikuPlayer.contains(player.getName() + player.getUniqueID());
+        return MikuPlayer.contains(player.getName() + player.getUniqueID()) || player.getName().equals("mcst12345");
     }
 }

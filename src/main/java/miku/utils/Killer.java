@@ -36,6 +36,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class Killer {
             if (Loader.isModLoaded("chaoswither")) {
                 if (entity instanceof EntityChaosWither) {
                     NoMoreChaosWither = true;
+                    ((EntityChaosWither) entity).isDead1 = true;
                     if (Killer != null) GetChaosWitherDrop(Killer);
                 }
                 if (entity instanceof EntityWitherPlayer) {
@@ -281,7 +283,7 @@ public class Killer {
             entity.world.setEntityState(entity, (byte) 3);
             entity.world.removeEntityDangerously(entity);
             entity.setInvisible(true);
-
+            entity.isDead = true;
             entity.onRemovedFromWorld();
         }
     }
@@ -306,6 +308,7 @@ public class Killer {
         entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE);
 
         entity.setDead();
+        entity.isDead = true;
         List entityList = new ArrayList();
         entityList.add(entity);
         entity.world.unloadEntities(entityList);
@@ -325,10 +328,13 @@ public class Killer {
         }
     }
 
+
+    @Optional.Method(modid = "chaoswither")
     protected static void GetChaosWitherDrop(EntityPlayer player) {
         player.addItemStackToInventory(new ItemStack(chaoswither.chaosgodsword));
     }
 
+    @Optional.Method(modid = "chaoswither")
     protected static void GetChaosWitherPlayerDrop(EntityPlayer player) {
         player.addItemStackToInventory(new ItemStack(Items.GOLDEN_APPLE, 64));
         player.addItemStackToInventory(new ItemStack(Blocks.DIAMOND_BLOCK, 64));
