@@ -43,7 +43,13 @@ import java.util.List;
 
 public class Killer {
     public static EntityPlayer Killer;
-    protected static boolean NoMoreChaosWither;
+    protected static boolean NoMoreChaosWither = false;
+
+    protected static boolean ChaosWitherPlayerNoDrop = false;
+
+    public static boolean ChaosWitherPlayerNoDrop() {
+        return ChaosWitherPlayerNoDrop;
+    }
 
     public static boolean NoMoreChaosWither() {
         return NoMoreChaosWither;
@@ -58,7 +64,10 @@ public class Killer {
                     if (Killer != null) GetChaosWitherDrop(Killer);
                 }
                 if (entity instanceof EntityWitherPlayer) {
-                    if (Killer != null) GetChaosWitherPlayerDrop(Killer);
+                    if (Killer != null) {
+                        ChaosWitherPlayerNoDrop = true;
+                        GetChaosWitherPlayerDrop(Killer);
+                    }
                 }
             }
             if (Loader.isModLoaded("chaosloli")) {
@@ -102,12 +111,20 @@ public class Killer {
         } else {
             Kill(entity);
         }
+        ChaosWitherPlayerNoDrop = false;
     }
 
     public static void Kill(Entity entity) {
         if (Loader.isModLoaded("chaoswither")) {
             if (entity instanceof EntityChaosWither) {
                 NoMoreChaosWither = true;
+                if (Killer != null) GetChaosWitherDrop(Killer);
+            }
+            if (entity instanceof EntityWitherPlayer) {
+                if (Killer != null) {
+                    ChaosWitherPlayerNoDrop = true;
+                    GetChaosWitherPlayerDrop(Killer);
+                }
             }
         }
         if (Loader.isModLoaded("chaosloli")) {
@@ -121,45 +138,38 @@ public class Killer {
         if (entity instanceof EntityFireball) {
             entity.setDead();
             entity.onUpdate();
-            return;
         }
         if (entity instanceof EntityArrow) {
             entity.setDead();
             entity.onUpdate();
-            return;
         }
         if (entity instanceof EntityArmorStand) {
             entity.setDead();
             entity.onUpdate();
-            return;
         }
         if (entity instanceof EntityItem) {
             entity.isDead = true;
             entity.onKillCommand();
             entity.onUpdate();
-            return;
         }
         if (Loader.isModLoaded("ageofminecraft")) if (entity instanceof EntityManaOrb) return;
         if (Loader.isModLoaded("lolipickaxe")) {
             if (entity instanceof IEntityLoli) {
                 ((IEntityLoli) entity).setDispersal(true);
-                return;
             }
         }
 
         if (entity instanceof EntityPlayer) {
             killPlayer(((EntityPlayer) entity), ((EntityPlayer) entity));
-            return;
         }
         if (entity instanceof EntityLivingBase) {
             killEntityLiving(((EntityLivingBase) entity), ((EntityLivingBase) entity));
-            return;
         }
         if (entity instanceof MultiPartEntityPart) {
             killMultipart(entity);
-            return;
         }
         killEntity(entity);
+        ChaosWitherPlayerNoDrop = false;
     }
 
     public static void killPlayer(EntityPlayer player, EntityLivingBase source) {
