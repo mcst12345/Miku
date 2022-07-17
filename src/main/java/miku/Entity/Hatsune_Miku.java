@@ -1,16 +1,21 @@
 package miku.Entity;
 
 import miku.miku.Loader;
+import miku.utils.Killer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -40,7 +45,6 @@ public class Hatsune_Miku extends EntityAnimal implements IMerchant, INpc {
 
     public Hatsune_Miku(World world) {
         super(world);
-        setSize(0.7F, 1.8F);
         setHealth(Float.MAX_VALUE);
         this.setCanPickUpLoot(false);
         this.tasks.addTask(1, new EntityAIPanic(this, 1.4D));
@@ -253,7 +257,236 @@ public class Hatsune_Miku extends EntityAnimal implements IMerchant, INpc {
     public void setHealth(float health) {
     }
 
-    public boolean canEat(boolean ignoreHunger) {
+    @Override
+    public void onKillCommand() {
+    }
+
+    @Override
+    public boolean isBurning() {
+        return false;
+    }
+
+    @Override
+    public int getAir() {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    public void onKillEntity(@Nullable EntityLivingBase entityLivingIn) {
+        Killer.Kill(entityLivingIn);
+    }
+
+    @Override
+    public void setInWeb() {
+    }
+
+    @Override
+    public boolean canBeAttackedWithItem() {
+        return false;
+    }
+
+    @Override
+    public boolean hitByEntity(@Nullable Entity entityIn) {
+        Killer.Kill(entityIn);
+        return false;
+    }
+
+    @Override
+    public float getExplosionResistance(@Nullable Explosion explosionIn, @Nullable World worldIn, @Nullable BlockPos pos, @Nullable IBlockState blockStateIn) {
+        return Float.MAX_VALUE;
+    }
+
+    @Override
+    public boolean isPushedByWater() {
+        return false;
+    }
+
+    @Override
+    public boolean canUseCommand(int permLevel, @Nullable String commandName) {
         return true;
     }
+
+    @Override
+    public boolean isImmuneToExplosions() {
+        return true;
+    }
+
+    @Override
+    public boolean isCreatureType(@Nullable EnumCreatureType type, boolean forSpawnCount) {
+        return false;
+    }
+
+    @Override
+    public boolean canRiderInteract() {
+        return false;
+    }
+
+    @Override
+    public boolean hasCapability(@Nullable net.minecraftforge.common.capabilities.Capability<?> capability, @Nullable net.minecraft.util.EnumFacing facing) {
+        return true;
+    }
+
+    @Override
+    public boolean isEntityAlive() {
+        return true;
+    }
+
+    @Override
+    public void heal(float healAmount) {
+    }
+
+    @Override
+    public boolean attackEntityFrom(@Nullable DamageSource source, float amount) {
+        return false;
+    }
+
+    @Override
+    public boolean canBreatheUnderwater() {
+        return true;
+    }
+
+    @Override
+    protected int decreaseAirSupply(int air) {
+        return 0;
+    }
+
+    @Override
+    protected boolean isPlayer() {
+        return true;
+    }
+
+    @Override
+    public void setLastAttackedEntity(@Nullable Entity entityIn) {
+    }
+
+    @Override
+    protected void resetPotionEffectMetadata() {
+    }
+
+    @Override
+    public void clearActivePotions() {
+    }
+
+    @Override
+    public boolean isPotionActive(@Nullable Potion potionIn) {
+        return false;
+    }
+
+    @Override
+    public void addPotionEffect(@Nullable PotionEffect potioneffectIn) {
+    }
+
+    @Override
+    public boolean isPotionApplicable(@Nullable PotionEffect potioneffectIn) {
+        return false;
+    }
+
+    @Override
+    public boolean isEntityUndead() {
+        return true;
+    }
+
+    @Override
+    public void removePotionEffect(@Nullable Potion potionIn) {
+    }
+
+    @Override
+    protected void onNewPotionEffect(@Nullable PotionEffect id) {
+    }
+
+    @Override
+    protected void onChangedPotionEffect(@Nullable PotionEffect id, boolean p_70695_2_) {
+    }
+
+    @Override
+    protected void onFinishedPotionEffect(@Nullable PotionEffect effect) {
+    }
+
+    @Override
+    @Nullable
+    public DamageSource getLastDamageSource() {
+        return null;
+    }
+
+    @Override
+    public int getTotalArmorValue() {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    protected void damageArmor(float damage) {
+    }
+
+    @Override
+    protected void damageShield(float damage) {
+    }
+
+    @Override
+    protected float applyArmorCalculations(@Nullable DamageSource source, float damage) {
+        return 0;
+    }
+
+    @Override
+    protected float applyPotionDamageCalculations(@Nullable DamageSource source, float damage) {
+        return 0;
+    }
+
+    @Override
+    protected void damageEntity(@Nullable DamageSource damageSrc, float damageAmount) {
+    }
+
+    @Override
+    public boolean attackEntityAsMob(@Nullable Entity entityIn) {
+        Killer.Kill(entityIn);
+        return false;
+    }
+
+    @Override
+    public boolean attemptTeleport(double x, double y, double z) {
+        return false;
+    }
+
+    @Override
+    protected void despawnEntity() {
+    }
+
+    @Override
+    public boolean getCanSpawnHere() {
+        return true;
+    }
+
+    @Override
+    public void setCanPickUpLoot(boolean canPickup) {
+    }
+
+    @Override
+    public boolean isNoDespawnRequired() {
+        return true;
+    }
+
+    @Override
+    public boolean startRiding(@Nullable Entity entityIn, boolean force) {
+        return false;
+    }
+
+    @Override
+    public boolean canPassengerSteer() {
+        return false;
+    }
+
+    @Override
+    public void setNoAI(boolean disable) {
+    }
+
+    @Override
+    public boolean isAIDisabled() {
+        return false;
+    }
+
+    @Override
+    public boolean hasHome() {
+        return false;
+    }
+
+
 }

@@ -6,7 +6,8 @@
     "MixinChaosUpdateEvent",
     "MixinChaosUpdateEvent1",
     "MixinLoli",
-    "MixinLoliAttackAI"
+    "MixinLoliAttackAI",
+    "MixinMinecraftWorld"
   ],
   "client": [],
   "server": []

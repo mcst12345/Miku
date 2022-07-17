@@ -35,6 +35,7 @@ public class EntityEvent {
         if (entity instanceof Hatsune_Miku) {
             Killer.Kill(source, true);
             event.setCanceled(true);
+            return;
         }
         if (!entity.world.isRemote && entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
