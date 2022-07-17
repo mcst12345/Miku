@@ -187,7 +187,7 @@ public class Killer {
         player.setItemStackToSlot(EntityEquipmentSlot.HEAD, ItemStack.EMPTY);
         player.setItemStackToSlot(EntityEquipmentSlot.LEGS, ItemStack.EMPTY);
         player.clearActivePotions();
-        DamageSource ds = source == null ? new DamageSource("loli") : new EntityDamageSource("loli", source);
+        DamageSource ds = source == null ? new DamageSource("miku") : new EntityDamageSource("miku", source);
         player.getCombatTracker().trackDamage(ds, Float.MAX_VALUE, Float.MAX_VALUE);
         player.setHealth(0.0F);
         player.onDeath(ds);
@@ -266,7 +266,7 @@ public class Killer {
             }
             entity.motionX *= 0.6;
             entity.motionZ *= 0.6;
-            DamageSource ds = source == null ? new DamageSource("loli") : new EntityDamageSource("loli", source);
+            DamageSource ds = source == null ? new DamageSource("miku") : new EntityDamageSource("miku", source);
             entity.getCombatTracker().trackDamage(ds, Float.MAX_VALUE, Float.MAX_VALUE);
             entity.setHealth(-1111.0f);
             entity.attackEntityFrom(DamageSource.OUT_OF_WORLD.setDamageBypassesArmor(), 300000.0f);
