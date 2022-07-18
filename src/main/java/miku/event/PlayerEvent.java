@@ -38,10 +38,10 @@ public class PlayerEvent {
             if (!player.world.isRemote) {
                 List<EntityItem> entityItems = player.world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(player.posX - 500, player.posY - 500, player.posZ - 500, player.posX + 500, player.posY + 500, player.posZ + 500));
                 for (EntityItem entityItem : entityItems) {
-                    ItemStack estack = entityItem.getItem();
-                    if (!estack.isEmpty() && estack.getItem() instanceof MikuItem) {
-                        MikuItem Miku = (MikuItem) estack.getItem();
-                        if (Miku.hasOwner(estack) && Miku.isOwner(estack, player)) {
+                    ItemStack entity_stack = entityItem.getItem();
+                    if (!entity_stack.isEmpty() && entity_stack.getItem() instanceof MikuItem) {
+                        MikuItem Miku = (MikuItem) entity_stack.getItem();
+                        if (Miku.hasOwner(entity_stack) && Miku.isOwner(entity_stack, player)) {
                             entityItem.onCollideWithPlayer(player);
                         }
                     }

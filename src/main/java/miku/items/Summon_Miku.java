@@ -2,28 +2,29 @@ package miku.items;
 
 import miku.Entity.Hatsune_Miku;
 import miku.miku.Miku;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
 import static net.minecraft.item.ItemMonsterPlacer.applyItemEntityDataToEntity;
-import static net.minecraft.item.ItemMonsterPlacer.getNamedIdFrom;
 
 public class Summon_Miku extends Item {
     public Summon_Miku() {
@@ -33,7 +34,8 @@ public class Summon_Miku extends Item {
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    @Nonnull
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, @Nonnull BlockPos pos, @Nonnull EnumHand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack itemstack = player.getHeldItem(hand);
 
         if (worldIn.isRemote) {
@@ -41,17 +43,15 @@ public class Summon_Miku extends Item {
         } else if (!player.canPlayerEdit(pos.offset(facing), facing, itemstack)) {
             return EnumActionResult.FAIL;
         } else {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
-            Block block = iblockstate.getBlock();
 
 
             BlockPos blockpos = pos.offset(facing);
             double d0 = this.getYOffset(worldIn, blockpos);
-            Entity entity = spawnCreature(worldIn, getNamedIdFrom(itemstack), (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + d0, (double) blockpos.getZ() + 0.5D);
+            Entity entity = spawnCreature(worldIn, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + d0, (double) blockpos.getZ() + 0.5D);
 
             if (entity != null) {
                 if (entity instanceof EntityLivingBase && itemstack.hasDisplayName()) {
-                    entity.setCustomNameTag(itemstack.getDisplayName());
+                    entity.setCustomNameTag("初音ミク");
                 }
 
                 applyItemEntityDataToEntity(worldIn, player, itemstack, entity);
@@ -66,7 +66,8 @@ public class Summon_Miku extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+    @Nonnull
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
 
         if (worldIn.isRemote) {
@@ -80,7 +81,7 @@ public class Summon_Miku extends Item {
                 if (!(worldIn.getBlockState(blockpos).getBlock() instanceof BlockLiquid)) {
                     return new ActionResult<>(EnumActionResult.PASS, itemstack);
                 } else if (worldIn.isBlockModifiable(playerIn, blockpos) && playerIn.canPlayerEdit(blockpos, raytraceresult.sideHit, itemstack)) {
-                    Entity entity = spawnCreature(worldIn, getNamedIdFrom(itemstack), (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D);
+                    Entity entity = spawnCreature(worldIn, (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D);
 
                     if (entity == null) {
                         return new ActionResult<>(EnumActionResult.PASS, itemstack);
@@ -108,7 +109,7 @@ public class Summon_Miku extends Item {
     }
 
     @Nullable
-    public static Entity spawnCreature(World worldIn, @Nullable ResourceLocation entityID, double x, double y, double z) {
+    public static Entity spawnCreature(World worldIn, double x, double y, double z) {
         Hatsune_Miku entity = new Hatsune_Miku(worldIn);
         entity.setLocationAndAngles(x, y, z, MathHelper.wrapDegrees(worldIn.rand.nextFloat() * 360.0F), 0.0F);
         entity.rotationYawHead = entity.rotationYaw;
@@ -123,15 +124,15 @@ public class Summon_Miku extends Item {
 
     protected double getYOffset(World p_190909_1_, BlockPos p_190909_2_) {
         AxisAlignedBB axisalignedbb = (new AxisAlignedBB(p_190909_2_)).expand(0.0D, -1.0D, 0.0D);
-        List<AxisAlignedBB> list = p_190909_1_.getCollisionBoxes((Entity) null, axisalignedbb);
+        List<AxisAlignedBB> list = p_190909_1_.getCollisionBoxes(null, axisalignedbb);
 
         if (list.isEmpty()) {
             return 0.0D;
         } else {
             double d0 = axisalignedbb.minY;
 
-            for (AxisAlignedBB axisalignedbb1 : list) {
-                d0 = Math.max(axisalignedbb1.maxY, d0);
+            for (AxisAlignedBB Axisalignedbb1 : list) {
+                d0 = Math.max(Axisalignedbb1.maxY, d0);
             }
 
             return d0 - (double) p_190909_2_.getY();

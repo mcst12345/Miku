@@ -2,9 +2,14 @@
   <dictionary name="root">
     <words>
       <w>biome</w>
+      <w>chaoswither</w>
       <w>entityliving</w>
+      <w>mcst</w>
       <w>modid</w>
+      <w>overworld</w>
+      <w>shadowsize</w>
       <w>teleporter</w>
+      <w>webashrat</w>
     </words>
   </dictionary>
 </component>

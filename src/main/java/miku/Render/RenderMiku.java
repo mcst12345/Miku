@@ -7,6 +7,9 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class RenderMiku extends RenderLiving<Hatsune_Miku> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("miku", "textures/entities/miku.png");
 
@@ -18,13 +21,13 @@ public class RenderMiku extends RenderLiving<Hatsune_Miku> {
     }
 
     @Override
-    public void doRender(Hatsune_Miku entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(@Nonnull Hatsune_Miku entity, double x, double y, double z, float entityYaw, float partialTicks) {
         mainModel = miku;
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(Hatsune_Miku entity) {
+    protected ResourceLocation getEntityTexture(@Nullable Hatsune_Miku entity) {
         return TEXTURE;
     }
 }

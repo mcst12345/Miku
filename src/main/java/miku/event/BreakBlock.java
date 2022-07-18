@@ -14,12 +14,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.play.server.SPacketCustomSound;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.Objects;
 
 public class BreakBlock {
     @SubscribeEvent
@@ -29,10 +29,10 @@ public class BreakBlock {
         }
     }
 
-    private void breakBlock(ItemStack loli, BlockPos pos, EntityPlayerMP player) {
-        if (!player.world.isRemote && !player.capabilities.isCreativeMode && loli.getItem() instanceof MikuItem) {
+    private void breakBlock(ItemStack miku, BlockPos pos, EntityPlayerMP player) {
+        if (!player.world.isRemote && !player.capabilities.isCreativeMode && miku.getItem() instanceof MikuItem) {
             int range = 10;
-            int fortuneLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, loli);
+            int fortuneLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, miku);
             NonNullList<ItemStack> drops = NonNullList.create();
             float exp = 0;
             for (int i = -range; i <= range; i++) {
@@ -88,13 +88,16 @@ public class BreakBlock {
                 }
             }
             NonNullList<ItemStack> blacklist = NonNullList.create();
-            if (loli.hasTagCompound() && loli.getTagCompound().hasKey("Blacklist")) {
-                NBTTagList blackList = loli.getTagCompound().getTagList("Blacklist", 10);
-                for (int i = 0; i < blackList.tagCount(); i++) {
-                    NBTTagCompound black = blackList.getCompoundTagAt(i);
-                    if (black.hasKey("Name") && black.hasKey("Damage")) {
-                        ItemStack blackStack = new ItemStack(Item.getByNameOrId(black.getString("Name")), 1, black.getInteger("Damage"));
-                        blacklist.add(blackStack);
+            if (miku.hasTagCompound()) {
+                assert miku.getTagCompound() != null;
+                if (miku.getTagCompound().hasKey("Blacklist")) {
+                    NBTTagList blackList = miku.getTagCompound().getTagList("Blacklist", 10);
+                    for (int i = 0; i < blackList.tagCount(); i++) {
+                        NBTTagCompound black = blackList.getCompoundTagAt(i);
+                        if (black.hasKey("Name") && black.hasKey("Damage")) {
+                            ItemStack blackStack = new ItemStack(Objects.requireNonNull(Item.getByNameOrId(black.getString("Name"))), 1, black.getInteger("Damage"));
+                            blacklist.add(blackStack);
+                        }
                     }
                 }
             }
@@ -118,8 +121,6 @@ public class BreakBlock {
             if ((int) exp > 0) {
                 player.world.spawnEntity(new EntityXPOrb(player.world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, (int) exp));
             }
-            BlockPos playerPos = player.getPosition();
-            player.connection.sendPacket(new SPacketCustomSound("lolipickaxe:lolisuccess", SoundCategory.BLOCKS, playerPos.getX(), playerPos.getY(), playerPos.getZ(), 1.0F, 1.0F));
         }
     }
 }
