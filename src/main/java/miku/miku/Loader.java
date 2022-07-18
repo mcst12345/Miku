@@ -1,5 +1,6 @@
 package miku.miku;
 
+import miku.Config.Config;
 import miku.Enchantment.GodKiller;
 import miku.Entity.Hatsune_Miku;
 import miku.Model.MikuModel;
@@ -40,6 +41,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
+import java.io.IOException;
 import java.util.Objects;
 
 @Mod.EventBusSubscriber
@@ -263,4 +265,10 @@ public class Loader {
         RegisterBiomes();
     }
 
+    public static Config Config_Debug = new Config((short) 0, "is_debug");
+
+    public static void LoadConfig() throws IOException {
+        Config_Debug.read_config();
+
+    }
 }

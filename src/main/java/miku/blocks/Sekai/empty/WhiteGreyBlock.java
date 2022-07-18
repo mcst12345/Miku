@@ -4,8 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 import static miku.miku.Miku.MIKU_TAB;
@@ -20,7 +22,8 @@ public class WhiteGreyBlock extends Block {
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return null;
+    @Nonnull
+    public Item getItemDropped(@Nonnull IBlockState state, @Nonnull Random rand, int fortune) {
+        return Items.AIR;
     }
 }

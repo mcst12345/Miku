@@ -8,6 +8,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class MikuJukebox extends Block {
@@ -20,7 +21,8 @@ public class MikuJukebox extends Block {
         this.setTranslationKey("miku_jukebox");
     }
 
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    @Nonnull
+    public Item getItemDropped(@Nonnull IBlockState state, @Nonnull Random rand, int fortune) {
         return Loader.Miku_Jukebox_Item;
     }
 }

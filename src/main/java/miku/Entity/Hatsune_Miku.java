@@ -7,41 +7,18 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.village.MerchantRecipe;
-import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
-import java.util.Iterator;
-import java.util.Random;
 
-public class Hatsune_Miku extends EntityAnimal implements IMerchant, INpc {
+public class Hatsune_Miku extends EntityAnimal implements INpc {
     public boolean isTrading = false;
-
-    private MerchantRecipeList tradeList;
-
-    private EntityPlayer buyingPlayer;
-
-    private String lastBuyingPlayer;
-
-    private int timeUntilReset;
-
-    private boolean needsInitilization;
-
-    private int wealth;
-
-    private int randomTickDivider;
-
-    public Random rand;
 
     public Hatsune_Miku(World world) {
         super(world);
@@ -61,7 +38,7 @@ public class Hatsune_Miku extends EntityAnimal implements IMerchant, INpc {
 
     @Nullable
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
+    public EntityAgeable createChild(@Nullable EntityAgeable ageable) {
         return null;
     }
 
@@ -74,24 +51,6 @@ public class Hatsune_Miku extends EntityAnimal implements IMerchant, INpc {
 
     @Override
     protected void handleJumpWater() {
-        if (--this.randomTickDivider <= 0)
-            this.randomTickDivider = 70 + this.rand.nextInt(50);
-        if (!isTrading() && this.timeUntilReset > 0) {
-            this.timeUntilReset--;
-            if (this.timeUntilReset <= 0 &&
-                    this.needsInitilization) {
-                if (this.tradeList.size() > 1) {
-                    Iterator<MerchantRecipe> var3 = this.tradeList.iterator();
-                    while (var3.hasNext()) {
-                        MerchantRecipe merchantrecipe = var3.next();
-                        if (merchantrecipe.isRecipeDisabled())
-                            merchantrecipe.increaseMaxTradeUses(this.rand.nextInt(6) + this.rand.nextInt(6) + 2);
-                    }
-                }
-                addDefaultTrades(1);
-                this.needsInitilization = false;
-            }
-        }
         super.handleJumpWater();
     }
 
@@ -108,93 +67,6 @@ public class Hatsune_Miku extends EntityAnimal implements IMerchant, INpc {
     @Override
     protected boolean canDespawn() {
         return false;
-    }
-
-    @Override
-    public void setCustomer(EntityPlayer entityPlayer) {
-        this.buyingPlayer = entityPlayer;
-    }
-
-    @Override
-    public EntityPlayer getCustomer() {
-        return this.buyingPlayer;
-    }
-
-    public boolean isTrading() {
-        return (this.buyingPlayer != null);
-    }
-
-    public void addDefaultTrades(int i) {
-        MerchantRecipeList merchantrecipelist = new MerchantRecipeList();
-        merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack(Loader.Rolling_Girl, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.LoveIsWar, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.Melt, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.OnlineGameAddictsSprechchor, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.RollingGirl, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.RomeoAndCinderella, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.SPiCa, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.TellYourWorld, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.TwoFacedLovers, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.WeekenderGirl, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.WorldIsMine, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.Yellow, 1, 0)));
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void setRecipes(MerchantRecipeList merchantRecipeList) {
-        merchantRecipeList.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack(Loader.Rolling_Girl, 1, 0)));
-        //merchantRecipeList.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.LoveIsWar, 1, 0)));
-        //merchantRecipeList.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.Melt, 1, 0)));
-        //merchantRecipeList.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.OnlineGameAddictsSprechchor, 1, 0)));
-        //merchantRecipeList.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.RollingGirl, 1, 0)));
-        //merchantRecipeList.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.RomeoAndCinderella, 1, 0)));
-        //merchantRecipeList.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.SPiCa, 1, 0)));
-        //merchantRecipeList.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.TellYourWorld, 1, 0)));
-        //merchantRecipeList.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.TwoFacedLovers, 1, 0)));
-        //merchantRecipeList.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.WeekenderGirl, 1, 0)));
-        //merchantRecipeList.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.WorldIsMine, 1, 0)));
-        //merchantRecipeList.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.Yellow, 1, 0)));
-    }
-
-    @Override
-    public MerchantRecipeList getRecipes(EntityPlayer entityPlayer) {
-        MerchantRecipeList merchantrecipelist = new MerchantRecipeList();
-        merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack(Loader.Rolling_Girl, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.WeekenderGirl, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.LoveIsWar, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.Melt, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.OnlineGameAddictsSprechchor, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.RollingGirl, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.RomeoAndCinderella, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.SPiCa, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.TellYourWorld, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.TwoFacedLovers, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.WorldIsMine, 1, 0)));
-        //merchantrecipelist.add(new MerchantRecipe(new ItemStack(Loader.SCALLION), null, new ItemStack((Item)RegisterDiscs.Yellow, 1, 0)));
-        return merchantrecipelist;
-    }
-
-    @Override
-    public void useRecipe(MerchantRecipe merchantRecipe) {
-        merchantRecipe.incrementToolUses();
-    }
-
-    @Override
-    public void verifySellingItem(ItemStack itemStack) {
-        if (!this.world.isRemote && this.livingSoundTime > -getTalkInterval() + 20) {
-            this.livingSoundTime = -getTalkInterval();
-            if (itemStack != null) ;
-        }
-    }
-
-    @Override
-    public World getWorld() {
-        return super.getEntityWorld();
-    }
-
-    @Override
-    public BlockPos getPos() {
-        return super.getPosition();
     }
 
     @Override
@@ -217,35 +89,13 @@ public class Hatsune_Miku extends EntityAnimal implements IMerchant, INpc {
     public void onRemovedFromWorld() {
     }
 
-    //@Override
-    public boolean isDispersal() {
-        return false;
-    }
-
-    //@Override
-    public void setDispersal(boolean b) {
-
+    @Override
+    public boolean processInteract(@Nullable EntityPlayer player, @Nullable EnumHand hand) {
+        return true;
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
-        ItemStack scallion = new ItemStack(Loader.SCALLION);
-        if (itemstack.equals(scallion)) {
-            if (itemstack.getCount() > 0) itemstack.setCount(itemstack.getCount() - 1);
-            //if(itemstack.getCount()==0)
-        }
-        /*boolean flag = itemstack.getItem() == Items.SPAWN_EGG;
-        if (!flag && isEntityAlive() && !isTrading() && !isChild() && !player.isSneaking()) {
-                setCustomer(player);
-                player.displayVillagerTradeGui(this);
-            return true;
-        }*/
-        return super.processInteract(player, hand);
-    }
-
-    @Override
-    public void onDeath(DamageSource cause) {
+    public void onDeath(@Nullable DamageSource cause) {
 
     }
 

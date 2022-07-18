@@ -31,7 +31,6 @@ public class MikuPortalSize {
         }
 
         for (BlockPos blockpos = position; position.getY() > blockpos.getY() - 21 && position.getY() > 0 && this.isEmptyBlock(worldIn.getBlockState(position.down()).getBlock()); position = position.down()) {
-            ;
         }
 
         int i = this.getDistanceUntilEdge(position, this.leftDir) - 1;

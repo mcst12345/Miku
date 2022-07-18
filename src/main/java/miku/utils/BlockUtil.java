@@ -1,20 +1,20 @@
 package miku.utils;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 public class BlockUtil {
-    public static void FK_world(BlockPos pos, EntityPlayerMP player) {
+    public static void FK_world(BlockPos pos, EntityPlayer player) {
         checkNotNull(player.world);
         checkNotNull(pos);
         player.world.removeTileEntity(pos);
         RemoveWorld(player);
     }
 
-    public static void RemoveWorld(EntityPlayerMP player) {
+    public static void RemoveWorld(EntityPlayer player) {
         checkNotNull(player.world);
         for (Entity e : player.world.loadedEntityList) {
             Killer.Kill(e);

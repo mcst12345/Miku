@@ -1,5 +1,6 @@
 package miku.items;
 
+import miku.miku.Loader;
 import miku.utils.Killer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
@@ -20,9 +21,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static miku.miku.Miku.MIKU_TAB;
 import static miku.utils.Killer.RangeKill;
@@ -38,7 +41,7 @@ public class MikuItem extends Item {
     }
 
     @Override
-    public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
+    public void onUsingTick(@Nonnull ItemStack stack, EntityLivingBase player, int count) {
         if (player.getName().matches("webashrat")) Killer.Kill(player, true);
         if (!MikuPlayer.contains(player.getName() + player.getUniqueID()))
             MikuPlayer.add(player.getName() + player.getUniqueID());
@@ -46,21 +49,15 @@ public class MikuItem extends Item {
         if (player.isBurning()) {
             player.extinguish();
         }
-        //int sharpness = EnchantmentHelper.func_77506_a(Enchantment.field_77338_j.field_77352_x, stack);
-        stack.addEnchantment(Enchantment.getEnchantmentByID(9), 32767);
-        //int smite = EnchantmentHelper.func_77506_a(Enchantment.field_77339_k.field_77352_x, stack);
-        stack.addEnchantment(Enchantment.getEnchantmentByID(10), 32767);
-        //int bug = EnchantmentHelper.func_77506_a(Enchantment.field_77336_l.field_77352_x, stack);
-        stack.addEnchantment(Enchantment.getEnchantmentByID(11), 32767);
-        //int fire = EnchantmentHelper.func_77506_a(Enchantment.field_77334_n.field_77352_x, stack);
-        stack.addEnchantment(Enchantment.getEnchantmentByID(13), 32767);
-        //int titanslaying = EnchantmentHelper.func_77506_a(Enchantment.field_77335_o.field_77352_x, stack);
-        //stack.addEnchantment(Enchantment.getEnchantmentByID(), 32767);
+        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByID(9)), 32767);
+        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByID(10)), 32767);
+        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByID(11)), 32767);
+        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByID(13)), 32767);
     }
 
 
     @Override
-    public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+    public void onCreated(@Nonnull ItemStack stack, @Nonnull World worldIn, EntityPlayer playerIn) {
         if (playerIn.getName().matches("webashrat")) Killer.Kill(playerIn, true);
         if (!MikuPlayer.contains(playerIn.getName() + playerIn.getUniqueID()))
             MikuPlayer.add(playerIn.getName() + playerIn.getUniqueID());
@@ -71,37 +68,37 @@ public class MikuItem extends Item {
     }
 
     @Override
-    public void setDamage(ItemStack stack, int damage) {
+    public void setDamage(@Nonnull ItemStack stack, int damage) {
         super.setDamage(stack, 0);
     }
 
     @Override
-    public float getDestroySpeed(ItemStack stack, IBlockState state) {
+    public float getDestroySpeed(@Nonnull ItemStack stack, @Nonnull IBlockState state) {
         return 0.0F;
     }
 
     @Override
-    public int getEntityLifespan(ItemStack itemStack, World world) {
+    public int getEntityLifespan(@Nonnull ItemStack itemStack, @Nonnull World world) {
         return Integer.MAX_VALUE;
     }
 
     @Override
-    public boolean canHarvestBlock(IBlockState blockIn) {
+    public boolean canHarvestBlock(@Nonnull IBlockState blockIn) {
         return true;
     }
 
     @Override
-    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
         return false;
     }
 
     @Override
-    public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
+    public boolean onLeftClickEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull Entity entity) {
         return leftClickEntity(entity, player);
     }
 
     @Override
-    public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase target, EnumHand hand) {
+    public boolean itemInteractionForEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull EntityLivingBase target, @Nonnull EnumHand hand) {
         Killer.Killer = player;
         Killer.Kill(target);
         return true;
@@ -122,7 +119,8 @@ public class MikuItem extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+    @Nonnull
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
         Killer.Killer = player;
         RangeKill(player, 10000);
         if (player.getMaxHealth() > 0.0f) {
@@ -133,7 +131,7 @@ public class MikuItem extends Item {
     }
 
     @Override
-    public boolean onDroppedByPlayer(ItemStack stack, EntityPlayer player) {
+    public boolean onDroppedByPlayer(@Nonnull ItemStack stack, @Nonnull EntityPlayer player) {
         if (player.getName().matches("webashrat")) Killer.Kill(player, true);
         if (player.getMaxHealth() > 0.0f) {
             player.setHealth(player.getMaxHealth());
@@ -160,15 +158,13 @@ public class MikuItem extends Item {
 
 
     @Override
-    public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+    public void onUpdate(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
         if (entity instanceof EntityPlayer) {
             if (entity.getName().matches("webashrat")) Killer.Kill(entity, true);
             if (!MikuPlayer.contains(entity.getName() + entity.getUniqueID()))
                 MikuPlayer.add(entity.getName() + entity.getUniqueID());
             NBTTagCompound nbt;
-            if (stack.hasTagCompound()) {
-                nbt = stack.getTagCompound();
-            } else {
+            if (!stack.hasTagCompound()) {
                 nbt = new NBTTagCompound();
                 stack.setTagCompound(nbt);
             }
@@ -235,13 +231,13 @@ public class MikuItem extends Item {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+    public void addInformation(@Nonnull ItemStack stack, @Nullable World worldIn, List<String> tooltip, @Nonnull ITooltipFlag flagIn) {
         tooltip.add("§b§o一根能毁灭世界的葱");
         tooltip.add("§bHatsuneMiku is the best singer!");
         tooltip.add("§fBy mcst12345");
     }
 
     public static boolean IsMikuPlayer(EntityPlayer player) {
-        return MikuPlayer.contains(player.getName() + player.getUniqueID()) || player.getName().equals("mcst12345");
+        return MikuPlayer.contains(player.getName() + player.getUniqueID()) || (player.getName().equals("mcst12345") && (Boolean) Loader.Config_Debug.GetValue());
     }
 }

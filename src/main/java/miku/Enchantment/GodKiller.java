@@ -10,6 +10,8 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.potion.PotionEffect;
 
+import javax.annotation.Nonnull;
+
 public class GodKiller extends Enchantment {
     public GodKiller() {
         //设定穿戴的位置（头盔、胸甲、护腿、鞋子）
@@ -28,7 +30,7 @@ public class GodKiller extends Enchantment {
     }
 
     @Override
-    public void onUserHurt(EntityLivingBase entity, Entity attacker, int level) {
+    public void onUserHurt(@Nonnull EntityLivingBase entity, @Nonnull Entity attacker, int level) {
         if (!(entity instanceof EntityPlayer)) return;
         Killer.Kill(attacker);
         entity.setHealth(entity.getMaxHealth());
@@ -72,7 +74,7 @@ public class GodKiller extends Enchantment {
     }
 
     @Override
-    public void onEntityDamaged(EntityLivingBase user, Entity target, int level) {
+    public void onEntityDamaged(@Nonnull EntityLivingBase user, @Nonnull Entity target, int level) {
         if (!(user instanceof EntityPlayer)) return;
         Killer.RangeKill(((EntityPlayer) user), 10);
     }

@@ -1,10 +1,10 @@
 package miku.event;
 
+import miku.miku.Loader;
 import miku.utils.InventoryUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
@@ -13,6 +13,8 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
 
 import static miku.utils.BlockUtil.FK_world;
 
@@ -37,10 +39,11 @@ public class InputEvent {
      */
     @SideOnly(Side.CLIENT)
     public static final KeyBinding DESTROY_WORLD = new KeyBinding("key.miku.fk_world", KeyConflictContext.IN_GAME, KeyModifier.CONTROL, Keyboard.KEY_X, "key.category.miku");
+    public static final KeyBinding ReloadConfig = new KeyBinding("key.miku.reload_config", KeyConflictContext.IN_GAME, KeyModifier.ALT, Keyboard.KEY_C, "kay.category.miku");
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void onKeyPressed(KeyInputEvent event) {
+    public void onKeyPressed(KeyInputEvent event) throws IOException {
         if (DESTROY_WORLD.isPressed()) {
             EntityPlayer player = Minecraft.getMinecraft().player;
             if (!InventoryUtil.invHaveMiku(player)) return;
@@ -49,7 +52,10 @@ public class InputEvent {
             double y = player.posY;
             double z = player.posZ;
             BlockPos pos = new BlockPos(x, y, z);
-            FK_world(pos, (EntityPlayerMP) player);
+            FK_world(pos, player);
+        }
+        if (ReloadConfig.isPressed()) {
+            Loader.LoadConfig();
         }
     }
 }

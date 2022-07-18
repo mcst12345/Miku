@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class MikuOre extends BlockOre {
@@ -21,7 +22,7 @@ public class MikuOre extends BlockOre {
     }
 
     @Override
-    public int getExpDrop(IBlockState state, net.minecraft.world.IBlockAccess world, BlockPos pos, int fortune) {
+    public int getExpDrop(@Nonnull IBlockState state, @Nonnull net.minecraft.world.IBlockAccess world, @Nonnull BlockPos pos, int fortune) {
         return MathHelper.getInt(new Random(), 6, 10);
     }
 
@@ -33,7 +34,8 @@ public class MikuOre extends BlockOre {
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    @Nonnull
+    public Item getItemDropped(@Nonnull IBlockState state, @Nonnull Random rand, int fortune) {
         return Loader.SCALLION;
     }
 }
