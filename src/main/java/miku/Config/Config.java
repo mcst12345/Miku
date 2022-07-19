@@ -17,15 +17,16 @@ public class Config {
     }
 
     public void read_config() throws IOException {
-        File ConfigFilePath = new File("miku_config//");//相对路径，如果没有前面的src，就在当前目录创建文件
-        File ConfigFile = new File("miku_config//" + name);
+        File ConfigFilePath = new File("miku_config/");
+        File ConfigFile = new File("miku_config/" + name);
         FileInputStream in = new FileInputStream(ConfigFile);
         InputStreamReader reader = new InputStreamReader(in, StandardCharsets.US_ASCII);
         BufferedReader bufferedReader = new BufferedReader(reader);
         String line;
         if (!ConfigFile.exists()) {
+            System.out.println("Creating config file...");
             try {
-                if (!ConfigFilePath.mkdirs()) {
+                if (!ConfigFilePath.mkdir()) {
                     System.out.println("Error:Failed to create config folder.");
                 }
                 if (!ConfigFile.createNewFile()) {
@@ -36,10 +37,10 @@ public class Config {
                 BufferedWriter bufferedWriter = new BufferedWriter(writer);
                 switch (type) {
                     case 0:
-                        bufferedWriter.write("0");
+                        bufferedWriter.write(GetDefaultValue(name));
                         break;
                     case 1:
-                        bufferedWriter.write("1");
+                        bufferedWriter.write(GetDefaultValue(name));
                     default:
                         System.out.println("Error:Unknown Config Type.");
                 }
@@ -75,6 +76,16 @@ public class Config {
                 return value_bool;
             case 1:
                 return value_int;
+            default:
+                return null;
+        }
+    }
+
+    public String GetDefaultValue(String name) {
+        switch (name) {
+            case "is_debug":
+                return "0";
+            case "":
             default:
                 return null;
         }
