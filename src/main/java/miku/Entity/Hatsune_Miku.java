@@ -1,7 +1,11 @@
 package miku.Entity;
 
-import miku.miku.Loader;
+import com.github.alexthe666.iceandfire.IceAndFire;
+import com.github.alexthe666.iceandfire.entity.StoneEntityProperties;
+import miku.miku.MikuLoader;
 import miku.utils.Killer;
+import net.ilexiconn.llibrary.server.capability.IEntityData;
+import net.ilexiconn.llibrary.server.capability.IEntityDataCapability;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
@@ -14,6 +18,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
 
 import javax.annotation.Nullable;
 
@@ -25,7 +30,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc {
         setHealth(Float.MAX_VALUE);
         this.setCanPickUpLoot(false);
         this.tasks.addTask(1, new EntityAIPanic(this, 1.4D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, Loader.SCALLION, false));
+        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, MikuLoader.SCALLION, false));
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAILookIdle(this));
         this.tasks.addTask(2, new EntityAIMoveIndoors(this));
@@ -105,6 +110,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc {
 
     @Override
     public void setHealth(float health) {
+        super.setHealth(Float.MAX_VALUE);
     }
 
     @Override
@@ -338,5 +344,17 @@ public class Hatsune_Miku extends EntityAnimal implements INpc {
         return false;
     }
 
-
+    @Override
+    @Nullable
+    @Optional.Method(modid = IceAndFire.MODID)
+    public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable net.minecraft.util.EnumFacing facing) {
+        T result = super.getCapability(capability, facing);
+        if (result instanceof IEntityDataCapability) {
+            IEntityData data = ((IEntityDataCapability) result).getData("Ice And Fire - Stone Property Tracker");
+            if (data instanceof StoneEntityProperties) {
+                ((StoneEntityProperties) data).isStone = false;
+            }
+        }
+        return result;
+    }
 }

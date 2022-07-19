@@ -15,6 +15,7 @@ public class WorldEvent {
 
     @SubscribeEvent
     public void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
+        if (event.getEntity().world.isRemote) return;
         if (event.getEntity() instanceof EntityLiving) {
             EntityLiving entity = (EntityLiving) event.getEntity();
             if (entity.dimension == 393939 && !entity.world.isRemote) {

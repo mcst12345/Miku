@@ -1,7 +1,7 @@
 package miku.blocks;
 
-import miku.miku.Loader;
 import miku.miku.Miku;
+import miku.miku.MikuLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -23,6 +23,6 @@ public class MikuJukebox extends Block {
 
     @Nonnull
     public Item getItemDropped(@Nonnull IBlockState state, @Nonnull Random rand, int fortune) {
-        return Loader.Miku_Jukebox_Item;
+        return MikuLoader.Miku_Jukebox_Item;
     }
 }

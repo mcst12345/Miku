@@ -26,6 +26,7 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 
 import static miku.event.InputEvent.DESTROY_WORLD;
+import static miku.event.InputEvent.ReloadConfig;
 
 @Mod(
         modid = Miku.MODID,
@@ -41,11 +42,12 @@ public class Miku {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) throws IOException {
-        Loader.LoadConfig();
+        MikuLoader.LoadConfig();
         GameRegistry.registerWorldGenerator(new OverWorldGen(), 3);
         MikuWorld.initialization();
         MinecraftForge.EVENT_BUS.register(new MikuEntityEvent());
         ClientRegistry.registerKeyBinding(DESTROY_WORLD);
+        ClientRegistry.registerKeyBinding(ReloadConfig);
         MinecraftForge.EVENT_BUS.register(new BreakBlock());
         MinecraftForge.EVENT_BUS.register(new EntityDropEvent());
         MinecraftForge.EVENT_BUS.register(new InputEvent());
@@ -72,7 +74,7 @@ public class Miku {
     @EventHandler
     public void init(FMLInitializationEvent event) {
 
-        Loader.LoadRecipes();
+        MikuLoader.LoadRecipes();
     }
 
     @EventHandler
@@ -87,14 +89,14 @@ public class Miku {
         @Override
         @Nonnull
         public ItemStack createIcon() {
-            return new ItemStack(Loader.SCALLION);
+            return new ItemStack(MikuLoader.SCALLION);
         }
     };
     public static final CreativeTabs MIKU_MUSIC_TAB = new CreativeTabs("miku_music") {
         @Override
         @Nonnull
         public ItemStack createIcon() {
-            return new ItemStack(Loader.SCALLION);
+            return new ItemStack(MikuLoader.SCALLION);
         }
     };
 }

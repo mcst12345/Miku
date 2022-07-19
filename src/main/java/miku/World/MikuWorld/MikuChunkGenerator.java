@@ -2,7 +2,7 @@ package miku.World.MikuWorld;
 
 import miku.World.MikuWorld.Biome.MikuBiomes;
 import miku.World.MikuWorld.Gen.Structures.GenStructure;
-import miku.miku.Loader;
+import miku.miku.MikuLoader;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -150,7 +150,7 @@ public class MikuChunkGenerator implements IChunkGenerator {
 
                                 //可以换成你自己的方块
                                 if (d15 > 0.0D)
-                                    iblockstate = Loader.MIKU_ORE.getDefaultState();
+                                    iblockstate = MikuLoader.MIKU_ORE.getDefaultState();
 
                                 int k2 = i2 + i1 * 8;
                                 int l2 = l1 + k1 * 4;
@@ -178,8 +178,8 @@ public class MikuChunkGenerator implements IChunkGenerator {
                 int k = 1;
                 int l = -1;
                 //可以换成你模组里的方块
-                IBlockState iblockstate = Loader.MIKU_ORE.getDefaultState();
-                IBlockState iblockstate1 = Loader.MIKU_ORE.getDefaultState();
+                IBlockState iblockstate = MikuLoader.MIKU_ORE.getDefaultState();
+                IBlockState iblockstate1 = MikuLoader.MIKU_ORE.getDefaultState();
 
                 for (int i1 = 127; i1 >= 0; --i1) {
                     IBlockState iblockstate2 = primer.getBlockState(i, i1, j);
@@ -316,7 +316,7 @@ public class MikuChunkGenerator implements IChunkGenerator {
 
         //omotholGenerator.generateStructure(world, rand, chunkcoordintpair);
 
-        GenStructure.generateStructure(MIKU_TEMPLE, world, new Random(), chunkcoordintpair.x, chunkcoordintpair.z, 10, Loader.MIKU_ORE, MikuBiomes.class);
+        GenStructure.generateStructure(MIKU_TEMPLE, world, new Random(), chunkcoordintpair.x, chunkcoordintpair.z, 10, MikuLoader.MIKU_ORE, MikuBiomes.class);
         for (int i = 0; i < 1; i++) {
             int Xcoord2 = k + rand.nextInt(16) + 8;
             int Zcoord2 = l + rand.nextInt(2) + 28;

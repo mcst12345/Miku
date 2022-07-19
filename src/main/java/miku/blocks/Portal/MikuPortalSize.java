@@ -1,6 +1,6 @@
 package miku.blocks.Portal;
 
-import miku.miku.Loader;
+import miku.miku.MikuLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -52,7 +52,7 @@ public class MikuPortalSize {
     }
 
     protected boolean isEmptyBlock(Block blockIn) {
-        return blockIn.getDefaultState().getMaterial() == Material.AIR || blockIn == Blocks.FIRE || blockIn == Loader.MikuPortal;
+        return blockIn.getDefaultState().getMaterial() == Material.AIR || blockIn == Blocks.FIRE || blockIn == MikuLoader.MikuPortal;
     }
 
     protected int getDistanceUntilEdge(BlockPos position, EnumFacing axis) {
@@ -61,13 +61,13 @@ public class MikuPortalSize {
         for (i = 0; i < 22; ++i) {
             BlockPos blockpos = position.offset(axis, i);
 
-            if (!this.isEmptyBlock(this.world.getBlockState(blockpos).getBlock()) || this.world.getBlockState(blockpos.down()).getBlock() != Loader.ScallionBlock) {
+            if (!this.isEmptyBlock(this.world.getBlockState(blockpos).getBlock()) || this.world.getBlockState(blockpos.down()).getBlock() != MikuLoader.ScallionBlock) {
                 break;
             }
         }
 
         Block block = this.world.getBlockState(position.offset(axis, i)).getBlock();
-        return block == Loader.ScallionBlock ? i : 0;
+        return block == MikuLoader.ScallionBlock ? i : 0;
     }
 
     public int getHeight() {
@@ -90,20 +90,20 @@ public class MikuPortalSize {
                     break label24;
                 }
 
-                if (block == Loader.MikuPortal) {
+                if (block == MikuLoader.MikuPortal) {
                     ++this.portalBlockCount;
                 }
 
                 if (i == 0) {
                     block = this.world.getBlockState(blockpos.offset(this.leftDir)).getBlock();
 
-                    if (block != Loader.ScallionBlock) {
+                    if (block != MikuLoader.ScallionBlock) {
                         break label24;
                     }
                 } else if (i == this.width - 1) {
                     block = this.world.getBlockState(blockpos.offset(this.rightDir)).getBlock();
 
-                    if (block != Loader.ScallionBlock) {
+                    if (block != MikuLoader.ScallionBlock) {
                         break label24;
                     }
                 }
@@ -111,7 +111,7 @@ public class MikuPortalSize {
         }
 
         for (int j = 0; j < this.width; ++j) {
-            if (this.world.getBlockState(this.bottomLeft.offset(this.rightDir, j).up(this.height)).getBlock() != Loader.ScallionBlock) {
+            if (this.world.getBlockState(this.bottomLeft.offset(this.rightDir, j).up(this.height)).getBlock() != MikuLoader.ScallionBlock) {
                 this.height = 0;
                 break;
             }
@@ -136,7 +136,7 @@ public class MikuPortalSize {
             BlockPos blockpos = this.bottomLeft.offset(this.rightDir, i);
 
             for (int j = 0; j < this.height; ++j) {
-                this.world.setBlockState(blockpos.up(j), Loader.MikuPortal.getDefaultState().withProperty(MikuPortal.AXIS, this.axis), 2);
+                this.world.setBlockState(blockpos.up(j), MikuLoader.MikuPortal.getDefaultState().withProperty(MikuPortal.AXIS, this.axis), 2);
             }
         }
     }

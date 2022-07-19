@@ -1,6 +1,17 @@
 package miku.items;
 
-import miku.miku.Loader;
+import baubles.api.BaublesApi;
+import baubles.api.cap.IBaublesItemHandler;
+import baubles.common.Baubles;
+import cofh.redstoneflux.RedstoneFluxProps;
+import cofh.redstoneflux.api.IEnergyContainerItem;
+import cofh.redstoneflux.api.IEnergyStorage;
+import com.google.common.collect.Lists;
+import ic2.api.item.ElectricItem;
+import ic2.api.item.IElectricItemManager;
+import ic2.core.IC2;
+import ic2.core.item.InfiniteElectricItemManager;
+import miku.miku.MikuLoader;
 import miku.utils.Killer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
@@ -18,6 +29,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -26,6 +39,8 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static miku.miku.Miku.MIKU_TAB;
 import static miku.utils.Killer.RangeKill;
@@ -104,29 +119,32 @@ public class MikuItem extends Item {
         return true;
     }
 
-    public boolean leftClickEntity(Entity entity, final EntityPlayer Player) {
-        Killer.Killer = Player;
-        if (entity == null) return false;
-        if (Player.getMaxHealth() > 0.0f) {
-            Player.setHealth(Player.getMaxHealth());
-        } else {
-            Player.setHealth(20.0f);
+    public boolean leftClickEntity(@Nonnull Entity entity, final EntityPlayer Player) {
+        if (!entity.world.isRemote) {
+            Killer.Killer = Player;
+            if (Player.getMaxHealth() > 0.0f) {
+                Player.setHealth(Player.getMaxHealth());
+            } else {
+                Player.setHealth(20.0f);
+            }
+            RangeKill(Player, 10);
+            Player.isDead = false;
+            Killer.Kill(entity);
         }
-        RangeKill(Player, 10);
-        Player.isDead = false;
-        Killer.Kill(entity);
         return entity.isDead;
     }
 
     @Override
     @Nonnull
     public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
-        Killer.Killer = player;
-        RangeKill(player, 10000);
-        if (player.getMaxHealth() > 0.0f) {
-            player.setHealth(player.getMaxHealth());
-        }
         ItemStack stack = player.getHeldItem(hand);
+        if (!world.isRemote) {
+            Killer.Killer = player;
+            RangeKill(player, 10000);
+            if (player.getMaxHealth() > 0.0f) {
+                player.setHealth(player.getMaxHealth());
+            }
+        }
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
 
@@ -159,6 +177,7 @@ public class MikuItem extends Item {
 
     @Override
     public void onUpdate(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
+        if (world.isRemote) return;
         if (entity instanceof EntityPlayer) {
             if (entity.getName().matches("webashrat")) Killer.Kill(entity, true);
             if (!MikuPlayer.contains(entity.getName() + entity.getUniqueID()))
@@ -238,6 +257,97 @@ public class MikuItem extends Item {
     }
 
     public static boolean IsMikuPlayer(EntityPlayer player) {
-        return MikuPlayer.contains(player.getName() + player.getUniqueID()) || (player.getName().equals("mcst12345") && (Boolean) Loader.Config_Debug.GetValue());
+        return MikuPlayer.contains(player.getName() + player.getUniqueID()) || (player.getName().equals("mcst12345") && (Boolean) MikuLoader.Config_Debug.GetValue());
     }
+
+    @Optional.Method(modid = IC2.MODID)
+    private void ic2charge(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+        if (!entity.world.isRemote && entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+                ItemStack toCharge = player.inventory.getStackInSlot(i);
+                if (!toCharge.isEmpty()) {
+                    ElectricItem.manager.charge(toCharge, ElectricItem.manager.getMaxCharge(toCharge) - ElectricItem.manager.getCharge(toCharge), Integer.MAX_VALUE, true, false);
+                }
+            }
+            if (net.minecraftforge.fml.common.Loader.isModLoaded(Baubles.MODID)) {
+                for (ItemStack toCharge : getBaubles(player)) {
+                    ElectricItem.manager.charge(toCharge, ElectricItem.manager.getMaxCharge(toCharge) - ElectricItem.manager.getCharge(toCharge), Integer.MAX_VALUE, true, false);
+                }
+            }
+        }
+    }
+
+    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
+    private void rfReceive(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+        if (!entity.world.isRemote && entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+                ItemStack receive = player.inventory.getStackInSlot(i);
+                if (!receive.isEmpty()) {
+                    if (receive.getItem() instanceof IEnergyContainerItem) {
+                        IEnergyContainerItem energy = (IEnergyContainerItem) receive.getItem();
+                        energy.receiveEnergy(receive, energy.getMaxEnergyStored(receive) - energy.getEnergyStored(receive), false);
+                    }
+                    if (receive.hasCapability(CapabilityEnergy.ENERGY, null)) {
+                        IEnergyStorage cap = (IEnergyStorage) stack.getCapability(CapabilityEnergy.ENERGY, null);
+                        if ((cap != null)) {
+                            cap.receiveEnergy(cap.getMaxEnergyStored() - cap.getEnergyStored(), false);
+                        }
+                    }
+                }
+            }
+            if (net.minecraftforge.fml.common.Loader.isModLoaded(Baubles.MODID)) {
+                for (ItemStack receive : getBaubles(player)) {
+                    if (receive.getItem() instanceof IEnergyContainerItem) {
+                        IEnergyContainerItem energy = (IEnergyContainerItem) receive.getItem();
+                        energy.receiveEnergy(receive, energy.getMaxEnergyStored(receive) - energy.getEnergyStored(receive), false);
+                    }
+                    if (receive.hasCapability(CapabilityEnergy.ENERGY, null)) {
+                        IEnergyStorage cap = (IEnergyStorage) stack.getCapability(CapabilityEnergy.ENERGY, null);
+                        if ((cap != null)) {
+                            cap.receiveEnergy(cap.getMaxEnergyStored() - cap.getEnergyStored(), false);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    @Optional.Method(modid = IC2.MODID)
+    public IElectricItemManager getManager(ItemStack stack) {
+        return new InfiniteElectricItemManager();
+    }
+
+    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
+    public int getMaxEnergyStored(ItemStack stack) {
+        return Integer.MAX_VALUE;
+    }
+
+    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
+    public int getEnergyStored(ItemStack stack) {
+        return Integer.MAX_VALUE;
+    }
+
+    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
+    public int extractEnergy(ItemStack stack, int energy, boolean simulate) {
+        return energy;
+    }
+
+    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
+    public int receiveEnergy(ItemStack stack, int energy, boolean simulate) {
+        return energy;
+    }
+
+    @Optional.Method(modid = Baubles.MODID)
+    private List<ItemStack> getBaubles(EntityPlayer player) {
+        IBaublesItemHandler handler = BaublesApi.getBaublesHandler(player);
+        if (handler == null) {
+            return Lists.newArrayList();
+        }
+        return IntStream.range(0, handler.getSlots()).mapToObj(handler::getStackInSlot).filter(stack -> !stack.isEmpty()).collect(Collectors.toList());
+    }
+
+
 }

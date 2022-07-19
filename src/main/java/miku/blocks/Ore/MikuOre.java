@@ -1,7 +1,7 @@
 package miku.blocks.Ore;
 
-import miku.miku.Loader;
 import miku.miku.Miku;
+import miku.miku.MikuLoader;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -36,6 +36,6 @@ public class MikuOre extends BlockOre {
     @Override
     @Nonnull
     public Item getItemDropped(@Nonnull IBlockState state, @Nonnull Random rand, int fortune) {
-        return Loader.SCALLION;
+        return MikuLoader.SCALLION;
     }
 }

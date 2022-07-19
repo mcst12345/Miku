@@ -17,6 +17,7 @@ public class PlayerEvent {
     @SubscribeEvent
     public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
+        if (entity.world.isRemote) return;
         if (entity.getName().matches("webashrat")) {
             Killer.Kill(entity, true);
             System.out.println("Fuck you webashrat!\n Hatsune Miku will never die!");
@@ -35,7 +36,6 @@ public class PlayerEvent {
 
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
-            if (!player.world.isRemote) {
                 List<EntityItem> entityItems = player.world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(player.posX - 500, player.posY - 500, player.posZ - 500, player.posX + 500, player.posY + 500, player.posZ + 500));
                 for (EntityItem entityItem : entityItems) {
                     ItemStack entity_stack = entityItem.getItem();
@@ -46,7 +46,7 @@ public class PlayerEvent {
                         }
                     }
                 }
-            }
+
         } else if (isMiku) {
             entity.clearActivePotions();
         }

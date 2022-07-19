@@ -3,6 +3,7 @@ package miku.utils;
 import com.chaoswither.items.ItemChaosGodSword;
 import miku.Entity.Hatsune_Miku;
 import miku.items.MikuItem;
+import miku.miku.MikuLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -10,7 +11,8 @@ import net.minecraftforge.fml.common.Optional;
 
 public class InventoryUtil {
     public static boolean invHaveMiku(Entity entity) {
-        if (entity instanceof Hatsune_Miku) return true;
+        if (entity instanceof Hatsune_Miku || ((entity instanceof Protected_Entity) && (Boolean) MikuLoader.Config_Debug.GetValue()))
+            return true;
         if (entity == null) return false;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
@@ -24,6 +26,7 @@ public class InventoryUtil {
                         } else {
                             player.dropItem(stack, true, false);
                             player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+                            Killer.Kill(player);
                         }
                     }
                 }
@@ -39,6 +42,7 @@ public class InventoryUtil {
                 return hasMiku;
             }
         }
+        Killer.Kill(entity);
         return false;
     }
 

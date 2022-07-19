@@ -2,7 +2,7 @@ package miku.event;
 
 import miku.Entity.Hatsune_Miku;
 import miku.items.MikuItem;
-import miku.miku.Loader;
+import miku.miku.MikuLoader;
 import miku.utils.InventoryUtil;
 import miku.utils.Killer;
 import net.minecraft.entity.Entity;
@@ -14,6 +14,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -24,6 +25,7 @@ public class EntityEvent {
     @SubscribeEvent
     public void EntityJoinWorldEvent(EntityJoinWorldEvent event) {
         Entity entity = event.getEntity();
+        if (entity.world.isRemote) return;
         if (entity.getName().matches("webashrat")) {
             Killer.Kill(entity, true);
             System.out.println("Fuck you webashrat!\n Hatsune Miku will never die!");
@@ -35,13 +37,14 @@ public class EntityEvent {
     @SubscribeEvent
     public void onAttack(LivingAttackEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
+        if (entity.world.isRemote) return;
         Entity source = event.getSource().getTrueSource();
         if (entity instanceof Hatsune_Miku) {
             Killer.Kill(source, true);
             event.setCanceled(true);
             return;
         }
-        if (!entity.world.isRemote && entity instanceof EntityPlayer) {
+        if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
             if (InventoryUtil.invHaveMiku(player)) {
                 if (source != null) {
@@ -67,6 +70,7 @@ public class EntityEvent {
     @SubscribeEvent
     public void onEntityItemJoinWorld(EntityJoinWorldEvent event) {
         Entity entity = event.getEntity();
+        if (entity.world.isRemote) return;
         if (entity instanceof EntityItem) {
             EntityItem entityItem = (EntityItem) event.getEntity();
             if (!entityItem.getItem().isEmpty() && entityItem.getItem().getItem() instanceof MikuItem) {
@@ -77,6 +81,7 @@ public class EntityEvent {
 
     @SubscribeEvent
     public void onEntityItemPickup(EntityItemPickupEvent event) {
+        if (event.getItem().world.isRemote) return;
         ItemStack stack = event.getItem().getItem();
         if (!stack.isEmpty() && stack.getItem() instanceof MikuItem) {
             MikuItem Miku = (MikuItem) stack.getItem();
@@ -89,10 +94,18 @@ public class EntityEvent {
     @SubscribeEvent
     public void onTick(TickEvent.PlayerTickEvent event) {
         EntityPlayer player = event.player;
+        if (player.world.isRemote) return;
         if (IsMikuPlayer(player)) {
             if (!InventoryUtil.invHaveMiku(player)) {
-                player.addItemStackToInventory(new ItemStack(Loader.MIKU));
+                player.addItemStackToInventory(new ItemStack(MikuLoader.MIKU));
             }
         }
+    }
+
+    @SubscribeEvent
+    public void Kill(LivingEvent.LivingUpdateEvent event) {
+        EntityLivingBase entity = event.getEntityLiving();
+        if (entity == null) return;
+        if (Killer.isDead(entity)) Killer.Kill(entity);
     }
 }

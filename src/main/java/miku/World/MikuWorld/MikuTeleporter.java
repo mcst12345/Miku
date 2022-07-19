@@ -1,7 +1,7 @@
 package miku.World.MikuWorld;
 
 import miku.blocks.Portal.MikuPortal;
-import miku.miku.Loader;
+import miku.miku.MikuLoader;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
@@ -145,8 +145,8 @@ public class MikuTeleporter extends Teleporter {
                     for (BlockPos blockpos1 = blockpos3.add(i1, this.worldServerInstance.getActualHeight() - 1 - blockpos3.getY(), j1); blockpos1.getY() >= 0; blockpos1 = blockpos2) {
                         blockpos2 = blockpos1.down();
 
-                        if (this.worldServerInstance.getBlockState(blockpos1).getBlock() == Loader.MikuPortal) {
-                            for (blockpos2 = blockpos1.down(); this.worldServerInstance.getBlockState(blockpos2).getBlock() == Loader.MikuPortal; blockpos2 = blockpos2.down()) {
+                        if (this.worldServerInstance.getBlockState(blockpos1).getBlock() == MikuLoader.MikuPortal) {
+                            for (blockpos2 = blockpos1.down(); this.worldServerInstance.getBlockState(blockpos2).getBlock() == MikuLoader.MikuPortal; blockpos2 = blockpos2.down()) {
                                 blockpos1 = blockpos2;
                             }
 
@@ -169,7 +169,7 @@ public class MikuTeleporter extends Teleporter {
 
             double d5 = (double) blockpos.getX() + 0.5D;
             double d7 = (double) blockpos.getZ() + 0.5D;
-            BlockPattern.PatternHelper blockpattern$patternhelper = ((MikuPortal) Loader.MikuPortal).createPatternHelper(this.worldServerInstance, blockpos);
+            BlockPattern.PatternHelper blockpattern$patternhelper = ((MikuPortal) MikuLoader.MikuPortal).createPatternHelper(this.worldServerInstance, blockpos);
             boolean flag1 = blockpattern$patternhelper.getForwards().rotateY().getAxisDirection() == EnumFacing.AxisDirection.NEGATIVE;
             double d2 = blockpattern$patternhelper.getForwards().getAxis() == EnumFacing.Axis.X ? (double) blockpattern$patternhelper.getFrontTopLeft().getZ() : (double) blockpattern$patternhelper.getFrontTopLeft().getX();
 
@@ -362,13 +362,13 @@ public class MikuTeleporter extends Teleporter {
                         int k10 = k2 + k8;
                         int k11 = k6 + (l7 - 1) * i3 - j7 * l6;
                         boolean flag = k8 < 0;
-                        this.worldServerInstance.setBlockState(new BlockPos(k9, k10, k11), flag ? Loader.ScallionBlock.getDefaultState() : Blocks.AIR.getDefaultState());
+                        this.worldServerInstance.setBlockState(new BlockPos(k9, k10, k11), flag ? MikuLoader.ScallionBlock.getDefaultState() : Blocks.AIR.getDefaultState());
                     }
                 }
             }
         }
 
-        IBlockState iblockstate = Loader.MikuPortal.getDefaultState().withProperty(BlockPortal.AXIS, l6 == 0 ? EnumFacing.Axis.Z : EnumFacing.Axis.X);
+        IBlockState iblockstate = MikuLoader.MikuPortal.getDefaultState().withProperty(BlockPortal.AXIS, l6 == 0 ? EnumFacing.Axis.Z : EnumFacing.Axis.X);
 
         for (int i8 = 0; i8 < 4; ++i8) {
             for (int l8 = 0; l8 < 4; ++l8) {
@@ -377,7 +377,7 @@ public class MikuTeleporter extends Teleporter {
                     int l11 = k2 + l9;
                     int k12 = k6 + (l8 - 1) * i3;
                     boolean flag1 = l8 == 0 || l8 == 3 || l9 == -1 || l9 == 3;
-                    this.worldServerInstance.setBlockState(new BlockPos(l10, l11, k12), flag1 ? Loader.MikuPortal.getDefaultState() : iblockstate, 2);
+                    this.worldServerInstance.setBlockState(new BlockPos(l10, l11, k12), flag1 ? MikuLoader.MikuPortal.getDefaultState() : iblockstate, 2);
                 }
             }
 

@@ -31,6 +31,7 @@ public class GodKiller extends Enchantment {
 
     @Override
     public void onUserHurt(@Nonnull EntityLivingBase entity, @Nonnull Entity attacker, int level) {
+        if (entity.world.isRemote) return;
         if (!(entity instanceof EntityPlayer)) return;
         Killer.Kill(attacker);
         entity.setHealth(entity.getMaxHealth());

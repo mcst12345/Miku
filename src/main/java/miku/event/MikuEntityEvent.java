@@ -18,6 +18,7 @@ public class MikuEntityEvent {
 
     @SubscribeEvent
     public void ItemTossEvent(ItemTossEvent event) {
+        if (event.getEntity().world.isRemote) return;
         if (event.getEntityItem().getItem().getCount() > 1) return;
         if (event.getEntityItem().getName().equals("item.item.miku.scallion")) {
             TARGET = event.getEntityItem();

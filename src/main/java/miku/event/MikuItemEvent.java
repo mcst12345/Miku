@@ -21,6 +21,7 @@ public class MikuItemEvent {
     @SubscribeEvent
     public void LivingHurtEvent(LivingHurtEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
+        if (entity.world.isRemote) return;
         boolean isMiku = InventoryUtil.invHaveMiku(entity);
         if (isMiku) {
             if (event.getEntityLiving().getMaxHealth() > 0)
@@ -33,6 +34,7 @@ public class MikuItemEvent {
     @SubscribeEvent
     public static void LivingDeathEvent(LivingDeathEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
+        if (entity.world.isRemote) return;
         boolean isMiku = InventoryUtil.invHaveMiku(entity) || entity instanceof Hatsune_Miku;
         if (isMiku) {
             if (event.getEntityLiving().getMaxHealth() > 0)
@@ -44,6 +46,7 @@ public class MikuItemEvent {
 
     @SubscribeEvent
     public void onGetHurt(LivingHurtEvent event) {
+        if (event.getEntityLiving().world.isRemote) return;
         if (InventoryUtil.invHaveMiku(event.getEntityLiving())) {
             event.setCanceled(true);
         }
@@ -81,13 +84,12 @@ public class MikuItemEvent {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
+        if (entity.world.isRemote) return;
         boolean isMiku = InventoryUtil.invHaveMiku(entity);
         if (isMiku) {
             entity.isDead = false;
             entity.deathTime = 0;
-            if (!entity.world.isRemote) {
-                entity.extinguish();
-            }
+            entity.extinguish();
             entity.setHealth(Float.MAX_VALUE);
         }
         if (entity instanceof EntityPlayer) {
@@ -97,9 +99,7 @@ public class MikuItemEvent {
                 player.capabilities.isCreativeMode = true;
                 player.capabilities.allowEdit = true;
                 player.capabilities.disableDamage = true;
-                if (!player.world.isRemote) {
-                    player.getFoodStats().addStats(20, 1);
-                }
+                player.getFoodStats().addStats(20, 1);
             }
         } else if (isMiku) {
             entity.clearActivePotions();
@@ -109,6 +109,7 @@ public class MikuItemEvent {
 
     @SubscribeEvent
     public void onEntityItemPickup(EntityItemPickupEvent event) {
+        if (event.getItem().world.isRemote) return;
         ItemStack stack = event.getItem().getItem();
         if (!stack.isEmpty() && stack.getItem() instanceof MikuItem) {
             MikuItem MIKU = (MikuItem) stack.getItem();

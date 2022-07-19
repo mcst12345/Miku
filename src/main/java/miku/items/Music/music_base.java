@@ -12,6 +12,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class music_base extends Item {
     public String File;
 
@@ -24,9 +27,12 @@ public class music_base extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-        PlayMusic pm = new PlayMusic(File);
-        pm.start();
+    @Nonnull
+    public ActionResult<ItemStack> onItemRightClick(@Nullable World world, EntityPlayer player, @Nonnull EnumHand hand) {
+        if (!player.world.isRemote) {
+            PlayMusic pm = new PlayMusic(File);
+            pm.start();
+        }
         return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));
     }
 }

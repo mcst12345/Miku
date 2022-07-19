@@ -1,6 +1,6 @@
 package miku.utils;
 
-import miku.miku.Loader;
+import miku.miku.MikuLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -87,7 +87,7 @@ public class Protected_Entity extends EntityLivingBase {
     @Override
     @Nonnull
     public ItemStack getItemStackFromSlot(@Nullable EntityEquipmentSlot slotIn) {
-        return new ItemStack(Loader.MIKU);
+        return new ItemStack(MikuLoader.MIKU);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package miku.items.scallion;
 
-import miku.miku.Loader;
+import miku.miku.MikuLoader;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 public class Pickaxe extends ItemPickaxe {
     protected Pickaxe(ToolMaterial material) {
         super(material);
-        material.setRepairItem(new ItemStack(Loader.SCALLION));
+        material.setRepairItem(new ItemStack(MikuLoader.SCALLION));
         this.attackDamage = 3.0F;
         this.maxStackSize = 1;
         this.setTranslationKey("");

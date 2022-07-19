@@ -41,8 +41,11 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Killer {
+    protected static List<UUID> DeadEntities = new ArrayList<>();
+
     public static EntityPlayer Killer;
     protected static boolean NoMoreChaosWither = false;
 
@@ -57,6 +60,13 @@ public class Killer {
     }
 
     public static void Kill(Entity entity, boolean forced) {
+        if (entity == null) return;
+        if (!DeadEntities.contains(entity.getUniqueID())) {
+            DeadEntities.add(entity.getUniqueID());
+        }
+        if (!DeadEntities.contains(entity.getPersistentID())) {
+            DeadEntities.add(entity.getPersistentID());
+        }
         if (entity instanceof Hatsune_Miku) return;
         if (forced) {
             if (Loader.isModLoaded("chaoswither")) {
@@ -334,5 +344,9 @@ public class Killer {
         player.addItemStackToInventory(new ItemStack(Items.NETHER_STAR, 64));
         player.addItemStackToInventory(new ItemStack(chaoswither.chaosegg));
         player.addItemStackToInventory(new ItemStack(chaoswither.chaoscore));
+    }
+
+    public static boolean isDead(Entity entity) {
+        return DeadEntities.contains(entity.getPersistentID()) || DeadEntities.contains(entity.getUniqueID());
     }
 }

@@ -2,7 +2,7 @@ package miku.blocks.Portal;
 
 import com.google.common.cache.LoadingCache;
 import miku.World.MikuWorld.MikuTeleporter;
-import miku.miku.Loader;
+import miku.miku.MikuLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.SoundType;
@@ -39,6 +39,8 @@ public class MikuPortal extends BlockPortal {
     }
 
     private static void causeLightning(World world, BlockPos pos) {
+        if (world.isRemote) return;
+
         EntityLightningBolt bolt = new EntityLightningBolt(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, true);
         world.addWeatherEffect(bolt);
 
@@ -106,11 +108,12 @@ public class MikuPortal extends BlockPortal {
 
     @Override
     public void onEntityCollision(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Entity entity) {
+        if (world.isRemote) return;
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 
         int transferDimension = 393939;
 
-        if (!entity.isRiding() && !world.isRemote && !entity.isBeingRidden() && !entity.isDead) {
+        if (!entity.isRiding() && !entity.isBeingRidden() && !entity.isDead) {
             if (entity.timeUntilPortal > 0) {
                 entity.timeUntilPortal = entity.getPortalCooldown();
             } else {
@@ -118,8 +121,8 @@ public class MikuPortal extends BlockPortal {
                     LastWorld = entity.dimension;
                     entity.changeDimension(transferDimension, new MikuTeleporter(server.getWorld(transferDimension)));
                     entity.posY = 256;
-                    BlockPos blockpos = new BlockPos(entity.posX, 50, entity.posZ);
-                    entity.getEntityWorld().setBlockState(blockpos, Loader.MIKU_ORE.getDefaultState());
+                    BlockPos blockpos = new BlockPos(entity.posX, 0, entity.posZ);
+                    entity.getEntityWorld().setBlockState(blockpos, MikuLoader.MIKU_ORE.getDefaultState());
                     if (entity instanceof EntityLivingBase) {
                         ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(new PotionEffect(MobEffects.RESISTANCE, 50, 255, false, false)));
                     }
@@ -139,7 +142,7 @@ public class MikuPortal extends BlockPortal {
 
     @Override
     public boolean trySpawnPortal(@Nonnull World worldIn, @Nonnull BlockPos pos) {
-
+        if (worldIn.isRemote) return false;
         MikuPortalSize miku_portal$size = new MikuPortalSize(worldIn, pos, EnumFacing.Axis.X);
 
         if (miku_portal$size.isValid() && miku_portal$size.portalBlockCount == 0) {
@@ -163,6 +166,7 @@ public class MikuPortal extends BlockPortal {
 
     @Override
     public void neighborChanged(IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Block blockIn, @Nonnull BlockPos fromPos) {
+        if (worldIn.isRemote) return;
         EnumFacing.Axis enumfacing$axis = state.getValue(AXIS);
 
         if (enumfacing$axis == EnumFacing.Axis.X) {

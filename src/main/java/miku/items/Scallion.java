@@ -1,7 +1,7 @@
 package miku.items;
 
 import miku.blocks.Portal.MikuPortal;
-import miku.miku.Loader;
+import miku.miku.MikuLoader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.util.EnumActionResult;
@@ -26,9 +26,9 @@ public class Scallion extends ItemFood {
 
     @Override
     @Nonnull
-    public EnumActionResult onItemUse(@Nullable EntityPlayer player, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nullable EnumHand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(@Nonnull EntityPlayer player, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nullable EnumHand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
         pos = pos.offset(facing);
-        ((MikuPortal) Loader.MikuPortal).trySpawnPortal(worldIn, pos);
+        if (!player.world.isRemote) ((MikuPortal) MikuLoader.MikuPortal).trySpawnPortal(worldIn, pos);
         return EnumActionResult.SUCCESS;
     }
 }
