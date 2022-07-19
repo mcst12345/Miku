@@ -4,6 +4,7 @@ import miku.utils.ConfigUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 public class Config {
     protected String name;
@@ -29,12 +30,16 @@ public class Config {
                 if (!ConfigFile.createNewFile()) {
                     System.out.println("Error:Failed to create config file.");
                 }
+                if (GetDefaultValue(name) == null) {
+                    System.out.println("Error:Can't get default value for this config");
+                    return;
+                }
+                System.out.println("Writing default value for config " + name + ":" + GetDefaultValue(name));
                 try (FileWriter writer = new FileWriter(ConfigFile)) {
-                    writer.write(GetDefaultValue(name));
+                    writer.write(Objects.requireNonNull(GetDefaultValue(name)));
                 } catch (IOException e) {
                     System.out.println("Error:Failed to write default value.");
                 }
-                System.out.println("Writing default value for config " + name + ":" + GetDefaultValue(name));
 
             } catch (Exception ignored) {
             }
@@ -76,7 +81,7 @@ public class Config {
         }
     }
 
-    public String GetDefaultValue(String name) {
+    public static String GetDefaultValue(String name) {
         switch (name) {
             case "is_debug":
                 return "0";
