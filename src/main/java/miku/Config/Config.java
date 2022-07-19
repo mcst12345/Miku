@@ -52,6 +52,7 @@ public class Config {
             case 0:
                 try {
                     this.value_bool = ConfigUtils.toBool(line);
+                    System.out.println("The value of " + this.name + " is:" + this.value_bool);
                     bufferedReader.close();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -60,6 +61,7 @@ public class Config {
             case 1:
                 try {
                     this.value_int = Integer.parseInt(line);
+                    System.out.println("The value of " + this.name + " is:" + this.value_int);
                     bufferedReader.close();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
