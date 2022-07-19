@@ -6,6 +6,7 @@ import com.chaoswither.entity.EntityChaosWither;
 import com.chaoswither.entity.EntityWitherPlayer;
 import miku.DamageSource.MikuDamage;
 import miku.Entity.Hatsune_Miku;
+import miku.Mixin.MixinChaosEntityTool;
 import miku.chaosloli.Entity.ChaosLoli;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -308,14 +309,7 @@ public class Killer {
         entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE);
 
         entity.setDead();
-        entity.isDead = true;
-        List entityList = new ArrayList();
-        entityList.add(entity);
-        entity.world.unloadEntities(entityList);
-        entity.world.onEntityRemoved(entity);
-        entity.world.loadedEntityList.remove(entity);
-        entity.world.getChunk(entity.chunkCoordX, entity.chunkCoordZ).removeEntity(entity);
-        entity.world.setEntityState(entity, (byte) 3);
+        MixinChaosEntityTool.K(entity);
         Minecraft.getMinecraft().entityRenderer.stopUseShader();
     }
 

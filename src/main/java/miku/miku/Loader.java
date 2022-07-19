@@ -18,6 +18,7 @@ import miku.items.Music.*;
 import miku.items.Scallion;
 import miku.items.Summon_Miku;
 import miku.items.compressed_scallion.*;
+import miku.utils.Protected_Entity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -239,6 +240,13 @@ public class Loader {
                 .build()
         );
         EntityRegistry.registerEgg(new ResourceLocation("miku", "hatsune_miku"), 0x39C5BB, 0x39C5BB);
+        event.getRegistry().register(EntityEntryBuilder.create()
+                .entity(Protected_Entity.class)
+                .id(new ResourceLocation("miku","test_entity"),0)
+                .name("test_entity")
+                .tracker(10, 3, false)
+                .build()
+        );
     }
 
     public static void LoadRecipes() {

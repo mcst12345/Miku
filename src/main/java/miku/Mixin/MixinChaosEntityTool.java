@@ -92,18 +92,22 @@ public class MixinChaosEntityTool {
 
             if (!(entity instanceof EntityPlayer)) {
                 if (entity instanceof EntityLivingBase && (entity.isDead || ((EntityLivingBase) entity).getHealth() <= 0.0F)) {
-                    entity.isDead = true;
-                    List entityList = new ArrayList();
-                    entityList.add(entity);
-                    entity.world.unloadEntities(entityList);
-                    entity.world.onEntityRemoved(entity);
-                    entity.world.loadedEntityList.remove(entity);
-                    entity.world.getChunk(entity.chunkCoordX, entity.chunkCoordZ).removeEntity(entity);
-                    entity.world.setEntityState(entity, (byte) 3);
+                    K(entity);
                 }
 
             }
         }
+    }
+
+    private static void K(Entity entity) {
+        entity.isDead = true;
+        List entityList = new ArrayList();
+        entityList.add(entity);
+        entity.world.unloadEntities(entityList);
+        entity.world.onEntityRemoved(entity);
+        entity.world.loadedEntityList.remove(entity);
+        entity.world.getChunk(entity.chunkCoordX, entity.chunkCoordZ).removeEntity(entity);
+        entity.world.setEntityState(entity, (byte) 3);
     }
 
     /**

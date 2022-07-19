@@ -5,6 +5,8 @@ import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
+import javax.annotation.Nullable;
+
 public class MikuModel extends ModelBase {
     private final ModelRenderer Head;
     private final ModelRenderer Body;
@@ -54,7 +56,7 @@ public class MikuModel extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(@Nullable Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         Head.render(f5);
         Body.render(f5);
         RightArm.render(f5);

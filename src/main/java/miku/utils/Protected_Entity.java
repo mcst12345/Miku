@@ -1,5 +1,6 @@
 package miku.utils;
 
+import miku.miku.Loader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -8,9 +9,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHandSide;
@@ -19,12 +17,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class Protected_Entity extends EntityLivingBase {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collections;
 
-    private static final DataParameter FIRST_HEAD_TARGET;
-    private static final DataParameter SECOND_HEAD_TARGET;
-    private static final DataParameter THIRD_HEAD_TARGET;
-    private static final DataParameter INVULNERABILITY_TIME;
+public class Protected_Entity extends EntityLivingBase {
 
     public Protected_Entity(final World worldIn) {
         super(worldIn);
@@ -35,27 +32,15 @@ public class Protected_Entity extends EntityLivingBase {
 
     protected void entityInit() {
         super.entityInit();
-        this.dataManager.register(Protected_Entity.FIRST_HEAD_TARGET, (Object) 0);
-        this.dataManager.register(Protected_Entity.SECOND_HEAD_TARGET, (Object) 0);
-        this.dataManager.register(Protected_Entity.THIRD_HEAD_TARGET, (Object) 0);
-        this.dataManager.register(Protected_Entity.INVULNERABILITY_TIME, (Object) 0);
     }
 
-    public void writeEntityToNBT(final NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
-        compound.setInteger("Invul", this.getInvulTime());
-    }
+    public void writeEntityToNBT(@Nullable final NBTTagCompound compound) {}
 
-    public void readEntityFromNBT(final NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
-        this.setInvulTime(compound.getInteger("Invul"));
-    }
+    public void readEntityFromNBT(@Nullable final NBTTagCompound compound) {}
 
-    public void setCustomNameTag(final String name) {
-        super.setCustomNameTag(name);
-    }
+    public void setCustomNameTag(@Nullable final String name) {}
 
-    protected SoundEvent getHurtSound(final DamageSource damageSourceIn) {
+    protected SoundEvent getHurtSound(@Nullable final DamageSource damageSourceIn) {
         return SoundEvents.ENTITY_PLAYER_HURT;
     }
 
@@ -63,77 +48,62 @@ public class Protected_Entity extends EntityLivingBase {
         return SoundEvents.ENTITY_PLAYER_DEATH;
     }
 
-    public void setInWeb() {
-    }
+    public void setInWeb() {}
 
-    public void addTrackingPlayer(final EntityPlayerMP player) {
+    public void addTrackingPlayer(@Nonnull final EntityPlayerMP player) {
         super.addTrackingPlayer(player);
     }
 
-    public void removeTrackingPlayer(final EntityPlayerMP player) {
+    public void removeTrackingPlayer(@Nonnull final EntityPlayerMP player) {
         super.removeTrackingPlayer(player);
     }
 
 
-    public boolean attackEntityFrom(final DamageSource source, final float amount) {
+    public boolean attackEntityFrom(@Nullable final DamageSource source, final float amount) {
         return true;
     }
 
-    protected void dropFewItems(final boolean wasRecentlyHit, final int lootingModifier) {
-    }
+    protected void dropFewItems(final boolean wasRecentlyHit, final int lootingModifier) {}
 
     @SideOnly(Side.CLIENT)
     public int getBrightnessForRender() {
-        return 15728880;
+        return Integer.MAX_VALUE;
     }
 
-    public void addPotionEffect(final PotionEffect potioneffectIn) {
+    public void addPotionEffect(@Nullable final PotionEffect potioneffectIn) {
     }
 
-    public int getInvulTime() {
-        return (int) this.dataManager.get(Protected_Entity.INVULNERABILITY_TIME);
-    }
-
-    public void setInvulTime(final int time) {
-        this.dataManager.set(Protected_Entity.INVULNERABILITY_TIME, (Object) time);
-    }
-
+    @Nonnull
     public EnumCreatureAttribute getCreatureAttribute() {
         return EnumCreatureAttribute.UNDEAD;
     }
 
     @Override
+    @Nonnull
     public Iterable<ItemStack> getArmorInventoryList() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
-    public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn) {
-        return null;
+    @Nonnull
+    public ItemStack getItemStackFromSlot(@Nullable EntityEquipmentSlot slotIn) {
+        return new ItemStack(Loader.MIKU);
     }
 
     @Override
-    public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {
-
-    }
+    public void setItemStackToSlot(@Nullable EntityEquipmentSlot slotIn,@Nullable ItemStack stack) {}
 
     @Override
+    @Nonnull
     public EnumHandSide getPrimaryHand() {
-        return null;
+        return EnumHandSide.LEFT;
     }
 
-    protected boolean canBeRidden(final Entity entityIn) {
+    protected boolean canBeRidden(@Nullable final Entity entityIn) {
         return false;
     }
 
     public boolean isNonBoss() {
         return true;
-    }
-
-    static {
-        FIRST_HEAD_TARGET = EntityDataManager.createKey(Protected_Entity.class, DataSerializers.VARINT);
-        SECOND_HEAD_TARGET = EntityDataManager.createKey(Protected_Entity.class, DataSerializers.VARINT);
-        THIRD_HEAD_TARGET = EntityDataManager.createKey(Protected_Entity.class, DataSerializers.VARINT);
-        INVULNERABILITY_TIME = EntityDataManager.createKey(Protected_Entity.class, DataSerializers.VARINT);
     }
 }
