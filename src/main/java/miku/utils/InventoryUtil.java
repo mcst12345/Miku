@@ -42,7 +42,6 @@ public class InventoryUtil {
                 return hasMiku;
             }
         }
-        Killer.Kill(entity);
         return false;
     }
 
