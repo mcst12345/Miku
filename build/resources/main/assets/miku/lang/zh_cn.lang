@@ -46,6 +46,7 @@ advancement.get_miku.description=你合成了Miku!
 #按键
 key.category.miku=Miku
 key.miku.fk_world=毁灭世界[未实现]
+key.miku.reload_config=重载配置
 
 #实体
 entity.HatsuneMiku.name=初音未来

@@ -1,5 +1,5 @@
 package miku.Mixin.Interface;
 
-public interface IMixinEntity {
+public interface IEntity {
     void KillIt();
 }

@@ -1,7 +1,7 @@
 package miku.Mixin;
 
 
-import miku.Mixin.Interface.IMixinEntity;
+import miku.Mixin.Interface.IEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(value = Entity.class)
-public abstract class MixinEntity implements IMixinEntity {
+public abstract class MixinEntity implements IEntity {
     @Final
     @Shadow
     protected static final DataParameter<Byte> FLAGS = EntityDataManager.<Byte>createKey(Entity.class, DataSerializers.BYTE);
@@ -21,7 +21,7 @@ public abstract class MixinEntity implements IMixinEntity {
 
     @Override
     public void KillIt() {
-        byte b0 = ((Byte)this.dataManager.get(FLAGS)).byteValue();
+        byte b0 = ((Byte) this.dataManager.get(FLAGS)).byteValue();
         this.dataManager.set(FLAGS, Byte.valueOf((byte)(b0 & ~(1 << 0))));
     }
 }

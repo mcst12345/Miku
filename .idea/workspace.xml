@@ -8,70 +8,72 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee445276-b487-450a-82d5-af3ab733f797" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/libs/Baubles-1.12-1.5.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/CoFHCore-1.12.2-4.6.3.27-universal.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/Cthulhu-0.0.1-beta.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/KamenRiderCraft4th+-+1.12.2+-+1.4.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/MobGrindingUtils-0.3.13.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/ProjectE-1.12.2-PE1.4.1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/RedstoneFlux-1.12-2.1.0.6-universal.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/Thaumcraft-1.12.2-6.1.BETA26.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/appliedenergistics2-rv6-stable-7-api.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/industrialcraft-2-2.8.170-ex112.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/llibrary-1.7.19-1.12.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/touhoulittlemaid-1.12.2-1.1.8-beta-hotfix.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Network/NetworkHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Network/Packet/MikuDestroyWorldPacket.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Thread/WorldDestroyThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/Interface/IEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/Interface/IEntityLivingBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinEntityLivingBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/miku_mod.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/miku_mod.main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/miku_mod.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/miku_mod.test.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Enchantment/GodKiller.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/Enchantment/GodKiller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Entity/Hatsune_Miku.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/Entity/Hatsune_Miku.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Thread/MikuTradeThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/Thread/MikuTradeThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/MikuChunkGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/MikuChunkGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/MikuTeleporter.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/MikuTeleporter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/World/OverWorldGen.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/World/OverWorldGen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/blocks/MikuJukebox.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/blocks/MikuJukebox.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/blocks/Ore/MikuOre.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/blocks/Ore/MikuOre.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/blocks/Portal/MikuPortal.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/blocks/Portal/MikuPortal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/blocks/Portal/MikuPortalSize.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/blocks/Portal/MikuPortalSize.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/event/EntityDropEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/event/EntityDropEvent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/event/EntityEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/event/EntityEvent.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/event/InputEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/event/InputEvent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/miku/Miku$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/miku/Miku$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/miku/Miku$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/miku/Miku$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/event/MikuEntityEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/event/MikuEntityEvent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/event/MikuItemEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/event/MikuItemEvent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/event/PlayerEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/event/PlayerEvent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/event/WorldEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/event/WorldEvent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/items/MikuItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/items/MikuItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/items/Music/music_base.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/items/Music/music_base.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/items/Recipes/Delicious_Scallion.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/items/Recipes/Delicious_Scallion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/items/Scallion.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/items/Scallion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/items/scallion/Pickaxe.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/items/scallion/Pickaxe.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/miku/Loader.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/miku/Miku$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/miku/Miku$3.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/miku/Miku$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/miku/Miku$4.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/miku/Miku.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/miku/Miku.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/utils/BlockUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/utils/Killer.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/utils/Killer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/utils/Music_Box_Util.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/utils/Music_Box_Util.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/utils/Protected_Entity.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/utils/Protected_Entity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reobfJar/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/reobfJar/log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reobfJar/output.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/reobfJar/output.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/lang/en_us.lang" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/lang/en_us.lang" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/lang/zh_cn.lang" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/lang/zh_cn.lang" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/mcmod.info" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/mcmod.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/mixins.miku.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/mixins.miku.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileJava-mappings.tsrg" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/compileJava-mappings.tsrg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/jar/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Enchantment/GodKiller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Enchantment/GodKiller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miku/Entity/Hatsune_Miku.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Entity/Hatsune_Miku.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Thread/MikuTradeThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Thread/MikuTradeThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/World/MikuWorld/MikuChunkGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/World/MikuWorld/MikuChunkGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/World/MikuWorld/MikuTeleporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/World/MikuWorld/MikuTeleporter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/World/OverWorldGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/World/OverWorldGen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/blocks/MikuJukebox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/blocks/MikuJukebox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/blocks/Ore/MikuOre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/blocks/Ore/MikuOre.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/blocks/Portal/MikuPortal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/blocks/Portal/MikuPortal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/blocks/Portal/MikuPortalSize.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/blocks/Portal/MikuPortalSize.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/event/EntityDropEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/event/EntityDropEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/event/EntityEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/event/EntityEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/event/InputEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/event/InputEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/event/MikuEntityEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/event/MikuEntityEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/event/MikuItemEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/event/MikuItemEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/event/PlayerEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/event/PlayerEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/event/WorldEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/event/WorldEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miku/items/MikuItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/items/MikuItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/items/Music/music_base.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/items/Music/music_base.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/items/Recipes/Delicious_Scallion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/items/Recipes/Delicious_Scallion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/items/Scallion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/items/Scallion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/items/scallion/Pickaxe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/items/scallion/Pickaxe.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/miku/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/miku/MikuLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miku/miku/Miku.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/miku/Miku.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/utils/BlockUtil.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miku/utils/InventoryUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/utils/InventoryUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miku/utils/Killer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/utils/Killer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/utils/Music_Box_Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/utils/Music_Box_Util.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/utils/Protected_Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/utils/Protected_Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/miku/lang/en_us.lang" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/miku/lang/en_us.lang" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/miku/lang/zh_cn.lang" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/miku/lang/zh_cn.lang" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mcmod.info" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mcmod.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mixins.miku.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mixins.miku.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,17 +103,6 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="miku_mod" type="f1a62948:ProjectNode" />
               </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="miku_mod" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="miku_mod" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
             </expand>
             <select />
           </tree_state>
@@ -124,6 +115,7 @@
       <list>
         <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -177,13 +169,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "settings.editor.selected.configurable": "terminal"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/assets/miku/textures/items" />
@@ -380,6 +370,7 @@
       <workItem from="1657344708568" duration="1697000" />
       <workItem from="1658203506065" duration="1882000" />
       <workItem from="1658205757746" duration="1178000" />
+      <workItem from="1658286861123" duration="1879000" />
     </task>
     <task id="LOCAL-00001" summary="Changes">
       <created>1657540515455</created>
@@ -584,7 +575,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658220996115</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Changes">
+      <created>1658236643818</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1658236643818</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

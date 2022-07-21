@@ -128,11 +128,6 @@ public class Hatsune_Miku extends EntityAnimal implements INpc {
     }
 
     @Override
-    public void onKillEntity(@Nullable EntityLivingBase entityLivingIn) {
-        Killer.Kill(entityLivingIn);
-    }
-
-    @Override
     public void setInWeb() {
     }
 

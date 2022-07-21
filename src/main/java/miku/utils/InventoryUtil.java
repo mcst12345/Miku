@@ -16,6 +16,7 @@ public class InventoryUtil {
         if (entity == null) return false;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
+            if (MikuItem.IsMikuPlayer(player)) return true;
             if (player.inventory != null) {
                 boolean hasMiku = false;
                 for (int i = 0; i < player.inventory.getSizeInventory(); i++) {

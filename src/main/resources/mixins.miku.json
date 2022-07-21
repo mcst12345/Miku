@@ -5,6 +5,8 @@
     "MixinChaosEntityTool",
     "MixinChaosUpdateEvent",
     "MixinChaosUpdateEvent1",
+    "MixinEntity",
+    "MixinEntityLivingBase",
     "MixinLoli",
     "MixinLoliAttackAI",
     "MixinMinecraftWorld"

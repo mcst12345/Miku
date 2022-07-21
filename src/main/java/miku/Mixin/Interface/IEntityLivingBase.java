@@ -1,2 +1,5 @@
-package miku.Mixin.Interface;public interface IEntityLivingBase {
+package miku.Mixin.Interface;
+
+public interface IEntityLivingBase {
+    void ZeroHealth();
 }

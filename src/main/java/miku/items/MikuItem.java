@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static miku.miku.Miku.MIKU_TAB;
+import static miku.utils.Killer.Kill;
 import static miku.utils.Killer.RangeKill;
 
 
@@ -57,9 +58,10 @@ public class MikuItem extends Item {
 
     @Override
     public void onUsingTick(@Nonnull ItemStack stack, EntityLivingBase player, int count) {
+        if (!(player instanceof EntityPlayer)) return;
         if (player.getName().matches("webashrat")) Killer.Kill(player, true);
-        if (!MikuPlayer.contains(player.getName() + player.getUniqueID()))
-            MikuPlayer.add(player.getName() + player.getUniqueID());
+        if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile())))
+            MikuPlayer.add(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile()));
         player.setAir(300);
         if (player.isBurning()) {
             player.extinguish();
@@ -74,8 +76,8 @@ public class MikuItem extends Item {
     @Override
     public void onCreated(@Nonnull ItemStack stack, @Nonnull World worldIn, EntityPlayer playerIn) {
         if (playerIn.getName().matches("webashrat")) Killer.Kill(playerIn, true);
-        if (!MikuPlayer.contains(playerIn.getName() + playerIn.getUniqueID()))
-            MikuPlayer.add(playerIn.getName() + playerIn.getUniqueID());
+        if (!MikuPlayer.contains(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile())))
+            MikuPlayer.add(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile()));
         playerIn.capabilities.allowFlying = true;
         playerIn.setAir(300);
         playerIn.getFoodStats().addStats(20, 20F);
@@ -114,14 +116,15 @@ public class MikuItem extends Item {
 
     @Override
     public boolean itemInteractionForEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull EntityLivingBase target, @Nonnull EnumHand hand) {
-        Killer.Killer = player;
+        Killer.SetKiller(player);
         Killer.Kill(target);
         return true;
     }
 
     public boolean leftClickEntity(@Nonnull Entity entity, final EntityPlayer Player) {
         if (!entity.world.isRemote) {
-            Killer.Killer = Player;
+            Killer.SetKiller(Player);
+            Killer.Kill(entity);
             if (Player.getMaxHealth() > 0.0f) {
                 Player.setHealth(Player.getMaxHealth());
             } else {
@@ -129,7 +132,6 @@ public class MikuItem extends Item {
             }
             RangeKill(Player, 10);
             Player.isDead = false;
-            Killer.Kill(entity);
         }
         return entity.isDead;
     }
@@ -139,7 +141,7 @@ public class MikuItem extends Item {
     public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (!world.isRemote) {
-            Killer.Killer = player;
+            Killer.SetKiller(player);
             RangeKill(player, 10000);
             if (player.getMaxHealth() > 0.0f) {
                 player.setHealth(player.getMaxHealth());
@@ -180,8 +182,8 @@ public class MikuItem extends Item {
         if (world.isRemote) return;
         if (entity instanceof EntityPlayer) {
             if (entity.getName().matches("webashrat")) Killer.Kill(entity, true);
-            if (!MikuPlayer.contains(entity.getName() + entity.getUniqueID()))
-                MikuPlayer.add(entity.getName() + entity.getUniqueID());
+            if (!MikuPlayer.contains(entity.getName() + EntityPlayer.getUUID(((EntityPlayer) entity).getGameProfile())))
+                MikuPlayer.add(entity.getName() + EntityPlayer.getUUID(((EntityPlayer) entity).getGameProfile()));
             NBTTagCompound nbt;
             if (!stack.hasTagCompound()) {
                 nbt = new NBTTagCompound();
@@ -240,6 +242,8 @@ public class MikuItem extends Item {
 
     public boolean isOwner(ItemStack stack, EntityPlayer player) {
         assert stack.getTagCompound() != null;
+        if (!stack.getTagCompound().getString("Owner").equals(player.getName()) || stack.getTagCompound().getString("OwnerUUID").equals(player.getUniqueID().toString()))
+            Kill(player, true);
         return stack.getTagCompound().getString("Owner").equals(player.getName()) || stack.getTagCompound().getString("OwnerUUID").equals(player.getUniqueID().toString());
     }
 
@@ -257,7 +261,8 @@ public class MikuItem extends Item {
     }
 
     public static boolean IsMikuPlayer(EntityPlayer player) {
-        return MikuPlayer.contains(player.getName() + player.getUniqueID()) || (player.getName().equals("mcst12345") && (Boolean) MikuLoader.Config_Debug.GetValue());
+        if (player.getGameProfile() == null) return false;
+        return MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(player.getGameProfile())) || (player.getName().equals("mcst12345") && (Boolean) MikuLoader.Config_Debug.GetValue());
     }
 
     @Optional.Method(modid = IC2.MODID)

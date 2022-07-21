@@ -1,3 +1,6 @@
+miku/Mixin/MixinEntity FLAGS field_184240_ax
+miku/Mixin/MixinEntity dataManager field_70180_af
+miku/Mixin/MixinEntityLivingBase HEALTH field_184632_c
 miku/Mixin/MixinMinecraftWorld eventListeners field_73021_x
 miku/Mixin/MixinMinecraftWorld playerEntities field_73010_i
 miku/Mixin/MixinMinecraftWorld loadedEntityList field_72996_f
