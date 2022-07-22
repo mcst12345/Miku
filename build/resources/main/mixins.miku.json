@@ -9,8 +9,11 @@
     "MixinEntityLivingBase",
     "MixinLoli",
     "MixinLoliAttackAI",
-    "MixinMinecraftWorld"
+    "MixinMinecraftWorld",
+    "MixinWorld",
+    "MixinWorldServer"
   ],
   "client": [],
-  "server": []
+  "server": [],
+  "required": false
 }

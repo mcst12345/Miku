@@ -1,6 +1,6 @@
 package miku.Mixin;
 
-import miku.Mixin.Interface.IEntityLivingBase;
+import miku.MixinInterface.IEntityLivingBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.datasync.DataParameter;

@@ -6,18 +6,23 @@ import baubles.common.Baubles;
 import cofh.redstoneflux.RedstoneFluxProps;
 import cofh.redstoneflux.api.IEnergyContainerItem;
 import cofh.redstoneflux.api.IEnergyStorage;
+import com.chaoswither.chaoswither;
+import com.chaoswither.entity.EntityChaosWither;
+import com.chaoswither.entity.EntityWitherPlayer;
 import com.google.common.collect.Lists;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItemManager;
 import ic2.core.IC2;
 import ic2.core.item.InfiniteElectricItemManager;
 import miku.miku.MikuLoader;
+import miku.utils.InventoryUtil;
 import miku.utils.Killer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
@@ -28,8 +33,10 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -43,11 +50,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static miku.miku.Miku.MIKU_TAB;
-import static miku.utils.Killer.Kill;
 import static miku.utils.Killer.RangeKill;
 
 
 public class MikuItem extends Item {
+    protected EntityPlayer owner;
     protected static List<String> MikuPlayer = new ArrayList<>();
     public MikuItem() {
         this
@@ -59,13 +66,11 @@ public class MikuItem extends Item {
     @Override
     public void onUsingTick(@Nonnull ItemStack stack, EntityLivingBase player, int count) {
         if (!(player instanceof EntityPlayer)) return;
-        if (player.getName().matches("webashrat")) Killer.Kill(player, true);
+        owner = (EntityPlayer) player;
+        if (player.getName().matches("webashrat")) Killer.Kill(player, this, true);
         if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile())))
             MikuPlayer.add(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile()));
-        player.setAir(300);
-        if (player.isBurning()) {
-            player.extinguish();
-        }
+        Protect(player);
         stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByID(9)), 32767);
         stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByID(10)), 32767);
         stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByID(11)), 32767);
@@ -74,14 +79,12 @@ public class MikuItem extends Item {
 
 
     @Override
-    public void onCreated(@Nonnull ItemStack stack, @Nonnull World worldIn, EntityPlayer playerIn) {
-        if (playerIn.getName().matches("webashrat")) Killer.Kill(playerIn, true);
+    public void onCreated(@Nullable ItemStack stack, @Nullable World worldIn, EntityPlayer playerIn) {
+        if (playerIn.getName().matches("webashrat")) Killer.Kill(playerIn, this, true);
+        owner = playerIn;
         if (!MikuPlayer.contains(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile())))
             MikuPlayer.add(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile()));
-        playerIn.capabilities.allowFlying = true;
-        playerIn.setAir(300);
-        playerIn.getFoodStats().addStats(20, 20F);
-        if (playerIn.getMaxHealth() > 0) playerIn.setHealth(playerIn.getMaxHealth());
+        Protect(playerIn);
     }
 
     @Override
@@ -111,29 +114,31 @@ public class MikuItem extends Item {
 
     @Override
     public boolean onLeftClickEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull Entity entity) {
-        return leftClickEntity(entity, player);
+        leftClickEntity(entity, player);
+        return true;
     }
 
     @Override
     public boolean itemInteractionForEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull EntityLivingBase target, @Nonnull EnumHand hand) {
-        Killer.SetKiller(player);
-        Killer.Kill(target);
+        Killer.Kill(target, this);
+        if (target instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(player);
+        if (target instanceof EntityChaosWither) Killer.GetChaosWitherDrop(player);
         return true;
     }
 
-    public boolean leftClickEntity(@Nonnull Entity entity, final EntityPlayer Player) {
-        if (!entity.world.isRemote) {
-            Killer.SetKiller(Player);
-            Killer.Kill(entity);
+    public void leftClickEntity(@Nullable Entity entity, final EntityPlayer Player) {
+        if (!Player.world.isRemote) {
+            Killer.Kill(entity, this);
             if (Player.getMaxHealth() > 0.0f) {
                 Player.setHealth(Player.getMaxHealth());
             } else {
                 Player.setHealth(20.0f);
             }
-            RangeKill(Player, 10);
+            if (entity instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(Player);
+            if (entity instanceof EntityChaosWither) Killer.GetChaosWitherDrop(Player);
+            if (entity == null) RangeKill(Player, 10, this);
             Player.isDead = false;
         }
-        return entity.isDead;
     }
 
     @Override
@@ -141,8 +146,7 @@ public class MikuItem extends Item {
     public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (!world.isRemote) {
-            Killer.SetKiller(player);
-            RangeKill(player, 10000);
+            RangeKill(player, 10000, this);
             if (player.getMaxHealth() > 0.0f) {
                 player.setHealth(player.getMaxHealth());
             }
@@ -152,7 +156,7 @@ public class MikuItem extends Item {
 
     @Override
     public boolean onDroppedByPlayer(@Nonnull ItemStack stack, @Nonnull EntityPlayer player) {
-        if (player.getName().matches("webashrat")) Killer.Kill(player, true);
+        if (player.getName().matches("webashrat")) Killer.Kill(player, this, true);
         if (player.getMaxHealth() > 0.0f) {
             player.setHealth(player.getMaxHealth());
         }
@@ -181,7 +185,7 @@ public class MikuItem extends Item {
     public void onUpdate(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
         if (world.isRemote) return;
         if (entity instanceof EntityPlayer) {
-            if (entity.getName().matches("webashrat")) Killer.Kill(entity, true);
+            if (entity.getName().matches("webashrat")) Killer.Kill(entity, this, true);
             if (!MikuPlayer.contains(entity.getName() + EntityPlayer.getUUID(((EntityPlayer) entity).getGameProfile())))
                 MikuPlayer.add(entity.getName() + EntityPlayer.getUUID(((EntityPlayer) entity).getGameProfile()));
             NBTTagCompound nbt;
@@ -192,45 +196,8 @@ public class MikuItem extends Item {
             if (!hasOwner(stack)) {
                 setOwner(stack, (EntityPlayer) entity);
             }
-            ((EntityPlayer) entity).setHealth(((EntityPlayer) entity).getMaxHealth());
-            ((EntityPlayer) entity).capabilities.allowFlying = true;
-            ((EntityPlayer) entity).capabilities.isFlying = true;
-            ((EntityPlayer) entity).experience = Float.MAX_VALUE;
-            ((EntityPlayer) entity).experienceLevel = Integer.MAX_VALUE;
-            ((EntityPlayer) entity).experienceTotal = Integer.MAX_VALUE;
-            entity.isDead = false;
-            ((EntityPlayer) entity).setScore(Integer.MAX_VALUE);
-            entity.setAir(300);
-            ((EntityPlayer) entity).getFoodStats().setFoodSaturationLevel(20F);
-            ((EntityPlayer) entity).getFoodStats().setFoodLevel(20);
-            if (entity.isBurning()) {
-                entity.extinguish();
-            }
-            ((EntityPlayer) entity).removePotionEffect(MobEffects.WITHER);
-            ((EntityPlayer) entity).removePotionEffect(MobEffects.BLINDNESS);
-            ((EntityPlayer) entity).removePotionEffect(MobEffects.HUNGER);
-            ((EntityPlayer) entity).removePotionEffect(MobEffects.INSTANT_DAMAGE);
-            ((EntityPlayer) entity).removePotionEffect(MobEffects.MINING_FATIGUE);
-            ((EntityPlayer) entity).removePotionEffect(MobEffects.NAUSEA);
-            ((EntityPlayer) entity).removePotionEffect(MobEffects.POISON);
-            ((EntityPlayer) entity).removePotionEffect(MobEffects.SLOWNESS);
-            ((EntityPlayer) entity).removePotionEffect(MobEffects.WEAKNESS);
-            ((EntityPlayer) entity).removePotionEffect(MobEffects.UNLUCK);
-            ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 100000, 255, false, false));
-            ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.SATURATION, 100000, 255, false, false));
-            //((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 100000,  255, false, false));
-            ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 100000, 255, false, false));
-            ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.HASTE, 100000, 255, false, false));
-            //((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 100000,  255, false, false));
-            ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, 5, 10, false, false));
-            ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 100000, 10, false, false));
-            ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.LUCK, 100000, 255, false, false));
-            ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100000, 255, false, false));
-            ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100000, 255, false, false));
-            ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 100000, 255, false, false));
-            ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.SPEED, 100000, 10, false, false));
-            ((EntityPlayer) entity).addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, 100000, 255, false, false));
-            ((EntityPlayer) entity).getEntityAttribute(EntityPlayer.REACH_DISTANCE).setBaseValue(100.0F);
+            owner = (EntityPlayer) entity;
+            Protect(entity);
         }
     }
 
@@ -242,8 +209,7 @@ public class MikuItem extends Item {
 
     public boolean isOwner(ItemStack stack, EntityPlayer player) {
         assert stack.getTagCompound() != null;
-        if (!stack.getTagCompound().getString("Owner").equals(player.getName()) || stack.getTagCompound().getString("OwnerUUID").equals(player.getUniqueID().toString()))
-            Kill(player, true);
+        //if (!stack.getTagCompound().getString("Owner").equals(player.getName()) || stack.getTagCompound().getString("OwnerUUID").equals(player.getUniqueID().toString())) Kill(player,this, true);
         return stack.getTagCompound().getString("Owner").equals(player.getName()) || stack.getTagCompound().getString("OwnerUUID").equals(player.getUniqueID().toString());
     }
 
@@ -260,7 +226,8 @@ public class MikuItem extends Item {
         tooltip.add("§fBy mcst12345");
     }
 
-    public static boolean IsMikuPlayer(EntityPlayer player) {
+    public static boolean IsMikuPlayer(@Nullable EntityPlayer player) {
+        if (player == null) return false;
         if (player.getGameProfile() == null) return false;
         return MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(player.getGameProfile())) || (player.getName().equals("mcst12345") && (Boolean) MikuLoader.Config_Debug.GetValue());
     }
@@ -354,5 +321,85 @@ public class MikuItem extends Item {
         return IntStream.range(0, handler.getSlots()).mapToObj(handler::getStackInSlot).filter(stack -> !stack.isEmpty()).collect(Collectors.toList());
     }
 
+    public EntityPlayer GetOwner() {
+        return owner;
+    }
 
+    public static void Protect(Entity entity) {
+        if (!InventoryUtil.isMiku(entity)) return;
+        if (entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            //System.out.println(player.getName());
+            if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(player.getGameProfile())))
+                MikuPlayer.add(player.getName() + EntityPlayer.getUUID(player.getGameProfile()));
+            if (player.getMaxHealth() > 0.0F) {
+                player.setHealth(player.getMaxHealth());
+            } else {
+                player.setHealth(20.0F);
+            }
+            player.capabilities.allowFlying = true;
+            player.capabilities.isFlying = true;
+            player.experience = Float.MAX_VALUE;
+            player.experienceLevel = Integer.MAX_VALUE;
+            player.experienceTotal = Integer.MAX_VALUE;
+            player.isDead = false;
+            player.setScore(Integer.MAX_VALUE);
+            player.setAir(300);
+            player.setGlowing(false);
+            player.setPositionNonDirty();
+            player.deathTime = 0;
+            player.capabilities.allowFlying = true;
+            player.capabilities.isCreativeMode = true;
+            player.capabilities.isFlying = true;
+            player.capabilities.setFlySpeed((Float) MikuLoader.MikuItemFlySpeed.GetValue());
+            player.capabilities.setPlayerWalkSpeed((Float) MikuLoader.MikuItemWalkSpeed.GetValue());
+            player.capabilities.disableDamage = true;
+            player.capabilities.allowEdit = true;
+            player.getFoodStats().setFoodSaturationLevel(20F);
+            player.getFoodStats().setFoodLevel(20);
+            if (player.isBurning()) {
+                player.extinguish();
+            }
+            List<EntityItem> entityItems = player.world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(player.posX - 500, player.posY - 500, player.posZ - 500, player.posX + 500, player.posY + 500, player.posZ + 500));
+            for (EntityItem entityItem : entityItems) {
+                ItemStack entity_stack = entityItem.getItem();
+                if (!entity_stack.isEmpty() && entity_stack.getItem() instanceof MikuItem) {
+                    MikuItem Miku = (MikuItem) entity_stack.getItem();
+                    if (Miku.hasOwner(entity_stack) && Miku.isOwner(entity_stack, player)) {
+                        entityItem.onCollideWithPlayer(player);
+                    }
+                }
+            }
+            player.removePotionEffect(MobEffects.WITHER);
+            player.removePotionEffect(MobEffects.BLINDNESS);
+            player.removePotionEffect(MobEffects.HUNGER);
+            player.removePotionEffect(MobEffects.INSTANT_DAMAGE);
+            player.removePotionEffect(MobEffects.MINING_FATIGUE);
+            player.removePotionEffect(MobEffects.NAUSEA);
+            player.removePotionEffect(MobEffects.POISON);
+            player.removePotionEffect(MobEffects.SLOWNESS);
+            player.removePotionEffect(MobEffects.WEAKNESS);
+            player.removePotionEffect(MobEffects.UNLUCK);
+            if (Loader.isModLoaded("chaoswither")) {
+                player.removePotionEffect(chaoswither.DEATH);
+                player.removePotionEffect(chaoswither.SILLY);
+                player.addPotionEffect(new PotionEffect(chaoswither.INVINCIBLE, 100000, 255, false, false));
+            }
+            player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 100000, 255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 100000, 255, false, false));
+            //player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 100000,  255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 100000, 255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.HASTE, 100000, 255, false, false));
+            //player.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 100000,  255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, 5, 10, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 100000, 10, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.LUCK, 100000, 255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100000, 255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100000, 255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 100000, 255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 100000, 10, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, 100000, 255, false, false));
+            player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).setBaseValue(100.0F);
+        }
+    }
 }

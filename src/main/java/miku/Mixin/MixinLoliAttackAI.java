@@ -18,7 +18,7 @@ public class MixinLoliAttackAI extends EntityAIAttackMelee {
 
     public boolean shouldExecute() {
         EntityLivingBase target = attacker.getAttackTarget();
-        if (target instanceof Hatsune_Miku || InventoryUtil.invHaveMiku(target)) return false;
+        if (target instanceof Hatsune_Miku || InventoryUtil.isMiku(target)) return false;
         if (target == null) {
             return false;
         } else if (LoliPickaxeUtil.invHaveLoliPickaxe(target)) {

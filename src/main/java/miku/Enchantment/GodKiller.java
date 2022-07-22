@@ -33,7 +33,7 @@ public class GodKiller extends Enchantment {
     public void onUserHurt(@Nonnull EntityLivingBase entity, @Nonnull Entity attacker, int level) {
         if (entity.world.isRemote) return;
         if (!(entity instanceof EntityPlayer)) return;
-        Killer.Kill(attacker);
+        Killer.Kill(attacker, null);
         entity.setHealth(entity.getMaxHealth());
         ((EntityPlayer) entity).capabilities.allowFlying = true;
         ((EntityPlayer) entity).capabilities.isFlying = true;
@@ -77,7 +77,7 @@ public class GodKiller extends Enchantment {
     @Override
     public void onEntityDamaged(@Nonnull EntityLivingBase user, @Nonnull Entity target, int level) {
         if (!(user instanceof EntityPlayer)) return;
-        Killer.RangeKill(((EntityPlayer) user), 10);
+        Killer.RangeKill(((EntityPlayer) user), 10, null);
     }
 
     @Override

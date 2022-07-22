@@ -1,7 +1,7 @@
 package miku.Mixin;
 
 
-import miku.Mixin.Interface.IEntity;
+import miku.MixinInterface.IEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;

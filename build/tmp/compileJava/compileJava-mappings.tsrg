@@ -9,3 +9,5 @@ miku/Mixin/MixinMinecraftWorld isChunkLoaded (IIZ)Z func_175680_a
 miku/Mixin/MixinMinecraftWorld getChunk (II)Lnet/minecraft/world/chunk/Chunk; func_72964_e
 miku/Mixin/MixinMinecraftWorld onEntityRemoved (Lnet/minecraft/entity/Entity;)V func_72847_b
 miku/Mixin/MixinMinecraftWorld removeEntityDangerously (Lnet/minecraft/entity/Entity;)V func_72973_f
+miku/Mixin/MixinWorld removeEntity (Lnet/minecraft/entity/Entity;)V func_72900_e
+miku/Mixin/MixinWorldServer setEntityState (Lnet/minecraft/entity/Entity;B)V func_72960_a

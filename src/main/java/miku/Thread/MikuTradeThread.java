@@ -19,6 +19,7 @@ public class MikuTradeThread extends Thread {
 
     @Override
     public void run() {
+        if (MIKU == null || MIKU.world.isRemote) return;
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {

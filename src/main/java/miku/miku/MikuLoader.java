@@ -273,10 +273,13 @@ public class MikuLoader {
         RegisterBiomes();
     }
 
-    public static Config Config_Debug = new Config((short) 0, "is_debug");
+    public static Config Config_Debug = new Config((short) 0, "is_debug", 0);
+    public static Config MikuItemFlySpeed = new Config((short) 1, "miku_item_fly_speed", 0.25);
+    public static Config MikuItemWalkSpeed = new Config((short) 1, "miku_item_walk_speed", 0.5);
 
     public static void LoadConfig() throws IOException {
         Config_Debug.read_config();
-
+        MikuItemFlySpeed.read_config();
+        MikuItemWalkSpeed.read_config();
     }
 }

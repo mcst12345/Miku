@@ -1,6 +1,5 @@
 package miku.event;
 
-import miku.Entity.Hatsune_Miku;
 import miku.items.MikuItem;
 import miku.utils.InventoryUtil;
 import miku.utils.Killer;
@@ -22,11 +21,9 @@ public class MikuItemEvent {
     public void LivingHurtEvent(LivingHurtEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
-        boolean isMiku = InventoryUtil.invHaveMiku(entity);
+        boolean isMiku = InventoryUtil.isMiku(entity);
         if (isMiku) {
-            if (event.getEntityLiving().getMaxHealth() > 0)
-                event.getEntityLiving().setHealth(event.getEntityLiving().getMaxHealth());
-            event.getEntityLiving().isDead = false;
+            MikuItem.Protect(entity);
             event.setCanceled(true);
         }
     }
@@ -35,11 +32,8 @@ public class MikuItemEvent {
     public static void LivingDeathEvent(LivingDeathEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
-        boolean isMiku = InventoryUtil.invHaveMiku(entity) || entity instanceof Hatsune_Miku;
-        if (isMiku) {
-            if (event.getEntityLiving().getMaxHealth() > 0)
-                event.getEntityLiving().setHealth(event.getEntityLiving().getMaxHealth());
-            event.getEntityLiving().isDead = false;
+        if (InventoryUtil.isMiku(entity)) {
+            MikuItem.Protect(entity);
             event.setCanceled(true);
         }
     }
@@ -47,7 +41,8 @@ public class MikuItemEvent {
     @SubscribeEvent
     public void onGetHurt(LivingHurtEvent event) {
         if (event.getEntityLiving().world.isRemote) return;
-        if (InventoryUtil.invHaveMiku(event.getEntityLiving())) {
+        if (InventoryUtil.isMiku(event.getEntityLiving())) {
+            MikuItem.Protect(event.getEntityLiving());
             event.setCanceled(true);
         }
     }
@@ -56,7 +51,8 @@ public class MikuItemEvent {
     public void onAttack(LivingAttackEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         if (!entity.world.isRemote) {
-            if (InventoryUtil.invHaveMiku(event.getEntityLiving()) || event.getEntityLiving() instanceof Hatsune_Miku) {
+            if (InventoryUtil.isMiku(event.getEntityLiving())) {
+                MikuItem.Protect(event.getEntityLiving());
                 Entity source = event.getSource().getTrueSource();
                 if (source != null) {
                     EntityLivingBase el = null;
@@ -85,25 +81,8 @@ public class MikuItemEvent {
     public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
-        boolean isMiku = InventoryUtil.invHaveMiku(entity);
-        if (isMiku) {
-            entity.isDead = false;
-            entity.deathTime = 0;
-            entity.extinguish();
-            entity.setHealth(Float.MAX_VALUE);
-        }
-        if (entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            if (isMiku) {
-                player.capabilities.allowFlying = true;
-                player.capabilities.isCreativeMode = true;
-                player.capabilities.allowEdit = true;
-                player.capabilities.disableDamage = true;
-                player.getFoodStats().addStats(20, 1);
-            }
-        } else if (isMiku) {
-            entity.clearActivePotions();
-            Killer.Kill(entity, true);
+        if (InventoryUtil.isMiku(entity)) {
+            MikuItem.Protect(entity);
         }
     }
 
@@ -118,4 +97,5 @@ public class MikuItemEvent {
             }
         }
     }
+
 }

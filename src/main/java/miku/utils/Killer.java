@@ -6,9 +6,10 @@ import com.chaoswither.entity.EntityChaosWither;
 import com.chaoswither.entity.EntityWitherPlayer;
 import miku.DamageSource.MikuDamage;
 import miku.Entity.Hatsune_Miku;
-import miku.Mixin.Interface.IEntity;
-import miku.Mixin.Interface.IEntityLivingBase;
+import miku.MixinInterface.IEntity;
+import miku.MixinInterface.IEntityLivingBase;
 import miku.chaosloli.Entity.ChaosLoli;
+import miku.items.MikuItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -48,7 +49,6 @@ import java.util.UUID;
 public class Killer {
     protected static List<UUID> DeadEntities = new ArrayList<>();
 
-    protected static EntityPlayer Killer;
     protected static boolean NoMoreChaosWither = false;
 
     protected static boolean ChaosWitherPlayerNoDrop = false;
@@ -61,7 +61,7 @@ public class Killer {
         return NoMoreChaosWither;
     }
 
-    public static void Kill(Entity entity, boolean forced) {
+    public static void Kill(Entity entity, MikuItem item, boolean forced) {
         if (entity == null) return;
         if (!DeadEntities.contains(entity.getUniqueID())) {
             DeadEntities.add(entity.getUniqueID());
@@ -75,12 +75,10 @@ public class Killer {
                 if (entity instanceof EntityChaosWither) {
                     NoMoreChaosWither = true;
                     ((EntityChaosWither) entity).isDead1 = true;
-                    if (Killer != null && !entity.isEntityAlive()) GetChaosWitherDrop(Killer);
                 }
                 if (entity instanceof EntityWitherPlayer) {
-                    if (Killer != null) {
+                    if (item.GetOwner() != null) {
                         ChaosWitherPlayerNoDrop = true;
-                        if (Killer != null && !entity.isEntityAlive()) GetChaosWitherPlayerDrop(Killer);
                     }
                 }
             }
@@ -123,21 +121,19 @@ public class Killer {
             }
             killEntity(entity);
         } else {
-            Kill(entity);
+            Kill(entity, item);
         }
         ChaosWitherPlayerNoDrop = false;
     }
 
-    public static void Kill(Entity entity) {
+    public static void Kill(Entity entity, MikuItem item) {
         if (Loader.isModLoaded("chaoswither")) {
             if (entity instanceof EntityChaosWither) {
                 NoMoreChaosWither = true;
-                if (Killer != null && !entity.isEntityAlive()) GetChaosWitherDrop(Killer);
             }
             if (entity instanceof EntityWitherPlayer) {
-                if (Killer != null) {
+                if (item != null) {
                     ChaosWitherPlayerNoDrop = true;
-                    if (Killer != null && !entity.isEntityAlive()) GetChaosWitherPlayerDrop(Killer);
                 }
             }
         }
@@ -146,7 +142,7 @@ public class Killer {
                 ((ChaosLoli) entity).KilledByMiku();
             }
         }
-        if (InventoryUtil.invHaveMiku(entity)) return;
+        if (InventoryUtil.isMiku(entity)) return;
         if (entity instanceof Hatsune_Miku) return;
         if (entity instanceof EntityXPOrb) return;
         if (entity instanceof EntityFireball) {
@@ -327,24 +323,36 @@ public class Killer {
         Minecraft.getMinecraft().entityRenderer.stopUseShader();
     }
 
-    public static void RangeKill(final EntityPlayer Player, int range) {
+    public static void RangeKill(final EntityPlayer Player, int range, MikuItem item) {
         World world = Player.getEntityWorld();
         List<Entity> list = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(Player.posX - range, Player.posY - range, Player.posZ - range, Player.posX + range, Player.posY + range, Player.posZ + range));
         list.remove(Player);
         for (Entity en : list) {
-            Kill(en);
+            Kill(en, item);
+            if (Loader.isModLoaded("chaoswither")) {
+                if (en instanceof EntityWitherPlayer) {
+                    if (item != null) {
+                        GetChaosWitherPlayerDrop(item.GetOwner());
+                    }
+                }
+                if (en instanceof EntityChaosWither) {
+                    if (item != null) {
+                        GetChaosWitherDrop(item.GetOwner());
+                    }
+                }
+            }
         }
     }
 
 
     @Optional.Method(modid = "chaoswither")
-    protected static void GetChaosWitherDrop(EntityPlayer player) {
+    public static void GetChaosWitherDrop(EntityPlayer player) {
         if (!InventoryUtil.InvHaveChaosSword(player))
             player.addItemStackToInventory(new ItemStack(chaoswither.chaosgodsword));
     }
 
     @Optional.Method(modid = "chaoswither")
-    protected static void GetChaosWitherPlayerDrop(EntityPlayer player) {
+    public static void GetChaosWitherPlayerDrop(EntityPlayer player) {
         player.addItemStackToInventory(new ItemStack(Items.GOLDEN_APPLE, 64));
         player.addItemStackToInventory(new ItemStack(Blocks.DIAMOND_BLOCK, 64));
         player.addItemStackToInventory(new ItemStack(Items.NETHER_STAR, 64));
@@ -353,11 +361,11 @@ public class Killer {
     }
 
     public static boolean isDead(Entity entity) {
+        if (entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            if (player.getName().equals("mcst12345")) return false;
+        }
         return DeadEntities.contains(entity.getPersistentID()) || DeadEntities.contains(entity.getUniqueID());
     }
 
-    public static void SetKiller(EntityPlayer player) {
-        if (!InventoryUtil.invHaveMiku(player)) return;
-        Killer = player;
-    }
 }

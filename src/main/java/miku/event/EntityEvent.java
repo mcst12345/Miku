@@ -12,6 +12,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -20,6 +21,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import static miku.items.MikuItem.IsMikuPlayer;
+import static miku.items.MikuItem.Protect;
 
 public class EntityEvent {
     @SubscribeEvent
@@ -27,7 +29,7 @@ public class EntityEvent {
         Entity entity = event.getEntity();
         if (entity.world.isRemote) return;
         if (entity.getName().matches("webashrat")) {
-            Killer.Kill(entity, true);
+            Killer.Kill(entity, null, true);
             System.out.println("Fuck you webashrat!\n Hatsune Miku will never die!");
             System.out.println("webashrat滚出知乎!");
             event.setCanceled(true);
@@ -40,13 +42,14 @@ public class EntityEvent {
         if (entity.world.isRemote) return;
         Entity source = event.getSource().getTrueSource();
         if (entity instanceof Hatsune_Miku) {
-            Killer.Kill(source, true);
+            Killer.Kill(source, null, true);
             event.setCanceled(true);
             return;
         }
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
-            if (InventoryUtil.invHaveMiku(player)) {
+            if (InventoryUtil.isMiku(player)) {
+                Protect(player);
                 if (source != null) {
                     EntityLivingBase attacker = null;
                     if (source instanceof EntityArrow) {
@@ -96,8 +99,17 @@ public class EntityEvent {
         EntityPlayer player = event.player;
         if (player.world.isRemote) return;
         if (IsMikuPlayer(player)) {
-            if (!InventoryUtil.invHaveMiku(player)) {
-                player.addItemStackToInventory(new ItemStack(MikuLoader.MIKU));
+            Protect(player);
+            if (!InventoryUtil.InvHaveMiku(player)) {
+                ItemStack Miku = new ItemStack(MikuLoader.MIKU);
+                Miku.setTagInfo("Owner", new NBTTagString(player.getName()));
+                Miku.setTagInfo("OwnerUUID", new NBTTagString(player.getUniqueID().toString()));
+                Miku.getItem().onCreated(Miku, player.world, player);
+                player.addItemStackToInventory(Miku);
+            }
+            if (!player.world.playerEntities.contains(player)) {
+                player.world.playerEntities.add(player);
+                player.world.onEntityAdded(player);
             }
         }
     }
@@ -106,6 +118,6 @@ public class EntityEvent {
     public void Kill(LivingEvent.LivingUpdateEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity == null) return;
-        if (Killer.isDead(entity)) Killer.Kill(entity);
+        if (Killer.isDead(entity)) Killer.Kill(entity, null, true);
     }
 }

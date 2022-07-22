@@ -138,7 +138,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc {
 
     @Override
     public boolean hitByEntity(@Nullable Entity entityIn) {
-        Killer.Kill(entityIn);
+        Killer.Kill(entityIn, null);
         return false;
     }
 
@@ -288,7 +288,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc {
 
     @Override
     public boolean attackEntityAsMob(@Nullable Entity entityIn) {
-        Killer.Kill(entityIn);
+        Killer.Kill(entityIn, null);
         return false;
     }
 

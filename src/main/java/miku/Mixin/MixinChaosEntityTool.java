@@ -37,9 +37,9 @@ public class MixinChaosEntityTool {
      */
     @Overwrite
     public static void AttackSimpleEntity(World world, EntityLivingBase entityLivingBase, EntityLivingBase entityPlayer) {
-        if (InventoryUtil.invHaveMiku(entityLivingBase)) {
-            Killer.Kill(entityPlayer);
-            if (entityLivingBase instanceof Hatsune_Miku) Killer.Kill(entityPlayer, true);
+        if (InventoryUtil.isMiku(entityLivingBase)) {
+            Killer.Kill(entityPlayer, null);
+            if (entityLivingBase instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
             return;
         }
         if (!world.isRemote) {
@@ -80,9 +80,9 @@ public class MixinChaosEntityTool {
      */
     @Overwrite
     public static void AttackSpecialEntity(World world, Entity entity, EntityPlayer entityPlayer) {
-        if (InventoryUtil.invHaveMiku(entity)) {
-            Killer.Kill(entityPlayer);
-            if (entity instanceof Hatsune_Miku) Killer.Kill(entityPlayer, true);
+        if (InventoryUtil.isMiku(entity)) {
+            Killer.Kill(entityPlayer, null);
+            if (entity instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
             return;
         }
         if (!world.isRemote) {
@@ -116,9 +116,9 @@ public class MixinChaosEntityTool {
      */
     @Overwrite
     public static void AttackEntityPlayer(World world, Entity entity22, EntityPlayer entityPlayer) {
-        if (InventoryUtil.invHaveMiku(entity22)) {
-            Killer.Kill(entityPlayer);
-            if (entity22 instanceof Hatsune_Miku) Killer.Kill(entityPlayer, true);
+        if (InventoryUtil.isMiku(entity22)) {
+            Killer.Kill(entityPlayer, null);
+            if (entity22 instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
             return;
         }
         if (!world.isRemote) {
@@ -172,9 +172,9 @@ public class MixinChaosEntityTool {
      */
     @Overwrite
     public static void AttackSlyEntity(World world, EntityLivingBase entityLivingBase, EntityPlayer entityPlayer) {
-        if (InventoryUtil.invHaveMiku(entityLivingBase)) {
-            Killer.Kill(entityPlayer);
-            if (entityLivingBase instanceof Hatsune_Miku) Killer.Kill(entityPlayer, true);
+        if (InventoryUtil.isMiku(entityLivingBase)) {
+            Killer.Kill(entityPlayer, null);
+            if (entityLivingBase instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
             return;
         }
         if (!world.isRemote) {

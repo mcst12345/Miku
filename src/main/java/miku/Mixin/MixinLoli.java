@@ -35,7 +35,7 @@ public abstract class MixinLoli {
     @Overwrite
     public static boolean invHaveLoliPickaxe(EntityLivingBase entity) {
         if (entity instanceof Hatsune_Miku) return true;
-        if (InventoryUtil.invHaveMiku(entity)) {
+        if (InventoryUtil.isMiku(entity)) {
             return true;
         }
         if (!(entity instanceof EntityPlayer) && !(entity instanceof IEntityLoli)) return false;
@@ -77,12 +77,12 @@ public abstract class MixinLoli {
         list.remove(entity);
 
         for (Entity en : list) {
-            if (en instanceof EntityPlayer && !InventoryUtil.invHaveMiku(en)) {
+            if (en instanceof EntityPlayer && !InventoryUtil.isMiku(en)) {
                 killPlayer((EntityPlayer) en, entity);
-            } else if (en instanceof EntityLivingBase && !InventoryUtil.invHaveMiku(en)) {
+            } else if (en instanceof EntityLivingBase && !InventoryUtil.isMiku(en)) {
                 killEntityLiving((EntityLivingBase) en, entity);
             } else {
-                if (!InventoryUtil.invHaveMiku(en)) killEntity(en);
+                if (!InventoryUtil.isMiku(en)) killEntity(en);
             }
         }
 

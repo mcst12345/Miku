@@ -1,4 +1,22 @@
 {
-  "mappings": {},
-  "data": {}
+  "mappings": {
+    "miku/Mixin/MixinWorld": {
+      "removeEntityDangerously": "Lnet/minecraft/world/World;func_72973_f(Lnet/minecraft/entity/Entity;)V",
+      "unloadEntities": "Lnet/minecraft/world/World;func_175681_c(Ljava/util/Collection;)V",
+      "setEntityState": "Lnet/minecraft/world/World;func_72960_a(Lnet/minecraft/entity/Entity;B)V",
+      "onEntityRemoved": "Lnet/minecraft/world/World;func_72847_b(Lnet/minecraft/entity/Entity;)V",
+      "removeEntity": "Lnet/minecraft/world/World;func_72900_e(Lnet/minecraft/entity/Entity;)V"
+    }
+  },
+  "data": {
+    "searge": {
+      "miku/Mixin/MixinWorld": {
+        "removeEntityDangerously": "Lnet/minecraft/world/World;func_72973_f(Lnet/minecraft/entity/Entity;)V",
+        "unloadEntities": "Lnet/minecraft/world/World;func_175681_c(Ljava/util/Collection;)V",
+        "setEntityState": "Lnet/minecraft/world/World;func_72960_a(Lnet/minecraft/entity/Entity;B)V",
+        "onEntityRemoved": "Lnet/minecraft/world/World;func_72847_b(Lnet/minecraft/entity/Entity;)V",
+        "removeEntity": "Lnet/minecraft/world/World;func_72900_e(Lnet/minecraft/entity/Entity;)V"
+      }
+    }
+  }
 }

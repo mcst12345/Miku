@@ -10,11 +10,14 @@ public class Config {
     protected String name;
     protected short type;
     protected boolean value_bool;
-    protected int value_int;
+    protected Double value_int;
 
-    public Config(short type, String name) {
+    protected Object Default;
+
+    public Config(short type, String name, Object Default) {
         this.type = type;
         this.name = name;
+        this.Default = Default;
     }
 
     public void read_config() throws IOException {
@@ -30,13 +33,9 @@ public class Config {
                 if (!ConfigFile.createNewFile()) {
                     System.out.println("Error:Failed to create config file.");
                 }
-                if (GetDefaultValue(name) == null) {
-                    System.out.println("Error:Can't get default value for this config");
-                    return;
-                }
-                System.out.println("Writing default value for config " + name + ":" + GetDefaultValue(name));
+                System.out.println("Writing default value for config " + name + ":" + Default);
                 try (FileWriter writer = new FileWriter(ConfigFile)) {
-                    writer.write(Objects.requireNonNull(GetDefaultValue(name)));
+                    writer.write((Integer) Objects.requireNonNull(Default));
                 } catch (IOException e) {
                     System.out.println("Error:Failed to write default value.");
                 }
@@ -60,7 +59,7 @@ public class Config {
                 break;
             case 1:
                 try {
-                    this.value_int = Integer.parseInt(line);
+                    this.value_int = Double.parseDouble(line);
                     System.out.println("The value of " + this.name + " is:" + this.value_int);
                     bufferedReader.close();
                 } catch (IOException e) {
@@ -78,16 +77,6 @@ public class Config {
                 return value_bool;
             case 1:
                 return value_int;
-            default:
-                return null;
-        }
-    }
-
-    public static String GetDefaultValue(String name) {
-        switch (name) {
-            case "is_debug":
-                return "0";
-            case "":
             default:
                 return null;
         }

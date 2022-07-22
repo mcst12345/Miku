@@ -33,7 +33,7 @@ public abstract class MixinMinecraftWorld {
      */
     @Overwrite
     public void onEntityRemoved(Entity entityIn) {
-        if (InventoryUtil.invHaveMiku(entityIn)) return;
+        if (InventoryUtil.isMiku(entityIn)) return;
         for (int i = 0; i < this.eventListeners.size(); ++i) {
             this.eventListeners.get(i).onEntityRemoved(entityIn);
         }
@@ -46,7 +46,7 @@ public abstract class MixinMinecraftWorld {
      */
     @Overwrite
     public void removeEntityDangerously(Entity entityIn) {
-        if (InventoryUtil.invHaveMiku(entityIn)) return;
+        if (InventoryUtil.isMiku(entityIn)) return;
         entityIn.setDropItemsWhenDead(false);
         entityIn.setDead();
 

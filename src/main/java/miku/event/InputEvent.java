@@ -29,7 +29,7 @@ public class InputEvent {
     public void onKeyPressed(KeyInputEvent event) throws IOException {
         if (DESTROY_WORLD.isPressed()) {
             EntityPlayer player = Minecraft.getMinecraft().player;
-            if (!InventoryUtil.invHaveMiku(player)) return;
+            if (!InventoryUtil.isMiku(player)) return;
             NetworkHandler.INSTANCE.sendMessageToServer(new MikuDestroyWorldPacket(player.dimension));
         }
         if (ReloadConfig.isPressed()) {

@@ -1,32 +1,19 @@
 package miku.miku;
 
-import miku.Entity.Hatsune_Miku;
-import miku.World.MikuWorld.MikuWorld;
-import miku.World.OverWorldGen;
-import miku.event.*;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.entity.RenderBiped;
-import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+import miku.miku.Proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-
-import static miku.event.InputEvent.DESTROY_WORLD;
-import static miku.event.InputEvent.ReloadConfig;
 
 @Mod(
         modid = Miku.MODID,
@@ -40,41 +27,29 @@ public class Miku {
     public static final String NAME = "Miku";
     public static final String VERSION = "1.0.1-pre10";
 
+    public Miku() {
+    }
+
+    @SidedProxy(
+            clientSide = "miku.miku.Proxy.ClientProxy",
+            serverSide = "miku.miku.Proxy.CommonProxy"
+    )
+    public static CommonProxy proxy;
+
+    @Mod.Instance
+    public static Miku INSTANCE;
+
+    public Logger log;
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) throws IOException {
-        MikuLoader.LoadConfig();
-        GameRegistry.registerWorldGenerator(new OverWorldGen(), 3);
-        MikuWorld.initialization();
-        MinecraftForge.EVENT_BUS.register(new MikuEntityEvent());
-        ClientRegistry.registerKeyBinding(DESTROY_WORLD);
-        ClientRegistry.registerKeyBinding(ReloadConfig);
-        MinecraftForge.EVENT_BUS.register(new BreakBlock());
-        MinecraftForge.EVENT_BUS.register(new EntityDropEvent());
-        MinecraftForge.EVENT_BUS.register(new InputEvent());
-        MinecraftForge.EVENT_BUS.register(new MikuItemEvent());
-        MinecraftForge.EVENT_BUS.register(new PlayerEvent());
-        MinecraftForge.EVENT_BUS.register(new EntityEvent());
-        MinecraftForge.EVENT_BUS.register(new WorldEvent());
-        RenderingRegistry.registerEntityRenderingHandler((Class) Hatsune_Miku.class, renderManager -> {
-            final RenderBiped customRender = new RenderBiped(renderManager, new ModelBiped(), 0.5f) {
-                protected ResourceLocation getEntityTexture(@Nonnull final Entity entity) {
-                    return new ResourceLocation("miku:textures/entities/miku.png");
-                }
-            };
-            customRender.addLayer(new LayerBipedArmor(customRender) {
-                protected void initArmor() {
-                    this.modelLeggings = new ModelBiped(0.5f);
-                    this.modelArmor = new ModelBiped(1.0f);
-                }
-            });
-            return customRender;
-        });
+        proxy.preInit(event);
+        this.log = event.getModLog();
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-
-        MikuLoader.LoadRecipes();
+        proxy.init(event);
     }
 
     @EventHandler
