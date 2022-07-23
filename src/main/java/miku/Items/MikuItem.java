@@ -149,8 +149,10 @@ public class MikuItem extends Item {
     @Override
     public boolean itemInteractionForEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull EntityLivingBase target, @Nonnull EnumHand hand) {
         Killer.Kill(target, this);
-        if (target instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(player);
-        if (target instanceof EntityChaosWither) Killer.GetChaosWitherDrop(player);
+        if (Loader.isModLoaded("chaoswither")) {
+            if (target instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(player);
+            if (target instanceof EntityChaosWither) Killer.GetChaosWitherDrop(player);
+        }
         return true;
     }
 
@@ -162,8 +164,10 @@ public class MikuItem extends Item {
             } else {
                 Player.setHealth(20.0f);
             }
-            if (entity instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(Player);
-            if (entity instanceof EntityChaosWither) Killer.GetChaosWitherDrop(Player);
+            if (Loader.isModLoaded("chaoswither")) {
+                if (entity instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(Player);
+                if (entity instanceof EntityChaosWither) Killer.GetChaosWitherDrop(Player);
+            }
             if (entity == null) RangeKill(Player, 10, this);
             Player.isDead = false;
         }
