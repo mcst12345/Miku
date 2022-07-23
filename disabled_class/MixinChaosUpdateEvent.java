@@ -8,7 +8,7 @@ import com.chaoswither.items.ItemChaosEgg;
 import com.chaoswither.items.ItemChaosGodSword;
 import com.chaoswither.items.ItemSillyMode;
 import com.chaoswither.items.armor.ItemChaosArmor;
-import miku.utils.Have_Miku;
+import miku.Utils.Have_Miku;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiGameOver;

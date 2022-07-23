@@ -9,10 +9,12 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.IChunkGenerator;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public final class MikuWorldProvider extends WorldProvider {
-    private float[] colorsSunriseSunset = new float[4];
+    private final float[] colorsSunriseSunset = new float[4];
 
     @Override
     protected void init() {
@@ -40,11 +42,11 @@ public final class MikuWorldProvider extends WorldProvider {
         }
     }
 
-    public boolean canDoLightning(Chunk chunk) {
+    public boolean canDoLightning(@Nullable Chunk chunk) {
         return false;
     }
 
-    public boolean canDoRainSnowIce(Chunk chunk) {
+    public boolean canDoRainSnowIce(@Nullable Chunk chunk) {
         return false;
     }
 
@@ -79,7 +81,8 @@ public final class MikuWorldProvider extends WorldProvider {
     }
 
     @Override
-    public WorldSleepResult canSleepAt(net.minecraft.entity.player.EntityPlayer player, BlockPos pos) {
+    @Nonnull
+    public WorldSleepResult canSleepAt(@Nullable net.minecraft.entity.player.EntityPlayer player, @Nullable BlockPos pos) {
         return WorldSleepResult.ALLOW;
     }
 
@@ -94,11 +97,13 @@ public final class MikuWorldProvider extends WorldProvider {
     }
 
     @Override
-    public final DimensionType getDimensionType() {
+    @Nonnull
+    public DimensionType getDimensionType() {
         return MikuWorld.MikuDimensionType;
     }
 
     @Override
+    @Nonnull
     public IChunkGenerator createChunkGenerator() {
         return new MikuChunkGenerator(world, world.getSeed(), true);
     }
@@ -112,6 +117,7 @@ public final class MikuWorldProvider extends WorldProvider {
     }
 
     @Override
+    @Nonnull
     public Vec3d getFogColor(float f, float f1) {
         float f3 = new Random().nextFloat();
         float f4 = new Random().nextFloat();

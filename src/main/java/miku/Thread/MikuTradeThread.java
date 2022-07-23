@@ -1,7 +1,7 @@
 package miku.Thread;
 
 import miku.Entity.Hatsune_Miku;
-import miku.miku.MikuLoader;
+import miku.Miku.MikuLoader;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -10,7 +10,7 @@ import net.minecraft.util.EnumHand;
 public class MikuTradeThread extends Thread {
     protected final EntityItem TARGET;
     protected final Hatsune_Miku MIKU;
-    protected ItemStack MUSIC_BOX = new ItemStack(MikuLoader.MIKU_MUSIC_BOX);
+    protected final ItemStack MUSIC_BOX = new ItemStack(MikuLoader.MIKU_MUSIC_BOX);
 
     public MikuTradeThread(EntityItem item, Hatsune_Miku miku) {
         this.MIKU = miku;

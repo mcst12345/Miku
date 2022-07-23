@@ -14,14 +14,14 @@ import org.spongepowered.asm.mixin.Shadow;
 public abstract class MixinEntity implements IEntity {
     @Final
     @Shadow
-    protected static final DataParameter<Byte> FLAGS = EntityDataManager.<Byte>createKey(Entity.class, DataSerializers.BYTE);
+    protected static final DataParameter<Byte> FLAGS = EntityDataManager.createKey(Entity.class, DataSerializers.BYTE);
 
     @Shadow
     protected EntityDataManager dataManager;
 
     @Override
     public void KillIt() {
-        byte b0 = ((Byte) this.dataManager.get(FLAGS)).byteValue();
-        this.dataManager.set(FLAGS, Byte.valueOf((byte)(b0 & ~(1 << 0))));
+        byte b0 = this.dataManager.get(FLAGS);
+        this.dataManager.set(FLAGS, (byte) (b0 & ~(1)));
     }
 }

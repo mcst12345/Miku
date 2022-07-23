@@ -5,7 +5,7 @@ import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.*;
 
 public class ClassTransformer implements IClassTransformer {
-    protected String CoverMC = "miku/Core/Covers/MC";
+    protected final String CoverMC = "miku/Core/Covers/MC";
 
     @Override
     public byte[] transform(String name, String transformedName, byte[] basicClass) {

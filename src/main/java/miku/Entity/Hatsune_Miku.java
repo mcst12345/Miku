@@ -1,9 +1,10 @@
 package miku.Entity;
 
+import com.chaoswither.chaoswither;
 import com.github.alexthe666.iceandfire.IceAndFire;
 import com.github.alexthe666.iceandfire.entity.StoneEntityProperties;
-import miku.miku.MikuLoader;
-import miku.utils.Killer;
+import miku.Miku.MikuLoader;
+import miku.Utils.Killer;
 import net.ilexiconn.llibrary.server.capability.IEntityData;
 import net.ilexiconn.llibrary.server.capability.IEntityDataCapability;
 import net.minecraft.block.state.IBlockState;
@@ -11,6 +12,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -18,8 +20,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class Hatsune_Miku extends EntityAnimal implements INpc {
@@ -56,7 +60,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc {
 
     @Override
     protected void handleJumpWater() {
-        super.handleJumpWater();
+        this.motionY += 1;
     }
 
     @Override
@@ -342,7 +346,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc {
     @Override
     @Nullable
     @Optional.Method(modid = IceAndFire.MODID)
-    public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable net.minecraft.util.EnumFacing facing) {
+    public <T> T getCapability(@Nonnull net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable net.minecraft.util.EnumFacing facing) {
         T result = super.getCapability(capability, facing);
         if (result instanceof IEntityDataCapability) {
             IEntityData data = ((IEntityDataCapability) result).getData("Ice And Fire - Stone Property Tracker");
@@ -351,5 +355,48 @@ public class Hatsune_Miku extends EntityAnimal implements INpc {
             }
         }
         return result;
+    }
+
+    public void Protect() {
+        super.setHealth(Float.MAX_VALUE);
+        this.isDead = false;
+        if (!this.world.loadedEntityList.contains(this)) {
+            this.world.loadedEntityList.add(this);
+        }
+        this.removePotionEffect(MobEffects.WITHER);
+        this.removePotionEffect(MobEffects.BLINDNESS);
+        this.removePotionEffect(MobEffects.HUNGER);
+        this.removePotionEffect(MobEffects.INSTANT_DAMAGE);
+        this.removePotionEffect(MobEffects.MINING_FATIGUE);
+        this.removePotionEffect(MobEffects.NAUSEA);
+        this.removePotionEffect(MobEffects.POISON);
+        this.removePotionEffect(MobEffects.SLOWNESS);
+        this.removePotionEffect(MobEffects.WEAKNESS);
+        this.removePotionEffect(MobEffects.UNLUCK);
+        if (Loader.isModLoaded("chaoswither")) {
+            this.removePotionEffect(chaoswither.DEATH);
+            this.removePotionEffect(chaoswither.SILLY);
+            this.addPotionEffect(new PotionEffect(chaoswither.INVINCIBLE, 100000, 255, false, false));
+        }
+        if (this.isBurning()) {
+            this.extinguish();
+        }
+        this.deathTime = 0;
+        this.addedToChunk = true;
+        this.setNoAI(false);
+        this.arrowHitTimer = 0;
+        this.dead = false;
+        this.ticksExisted = Integer.MAX_VALUE;
+        this.glowing = true;
+        this.timeUntilPortal = Integer.MAX_VALUE;
+        this.width = 0;
+        this.height = 0;
+        this.hurtResistantTime = Integer.MAX_VALUE;
+        this.hurtTime = 0;
+        this.maxHurtResistantTime = Integer.MAX_VALUE;
+        this.maxHurtTime = 0;
+        this.inWater = false;
+        this.isInWeb = false;
+        this.setCanPickUpLoot(false);
     }
 }

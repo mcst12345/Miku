@@ -10,8 +10,8 @@ import com.chaoswither.items.ItemChaosGodSword;
 import com.chaoswither.items.ItemSillyMode;
 import com.chaoswither.items.armor.ItemChaosArmor;
 import com.google.common.collect.Sets;
-import miku.utils.InventoryUtil;
-import miku.utils.Killer;
+import miku.Utils.InventoryUtil;
+import miku.Utils.Killer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiGameOver;
@@ -554,7 +554,7 @@ public abstract class MixinChaosUpdateEvent {
             }
 
             if (isOtherGod1(player)) {
-                List list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().expand(2.0, 2.0, 2.0));
+                List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().expand(2.0, 2.0, 2.0));
                 List list1;
                 int i1;
                 Entity entity;
@@ -1100,7 +1100,7 @@ public abstract class MixinChaosUpdateEvent {
                 event.setCanceled(true);
             }
 
-            List list1 = entity.world.loadedEntityList;
+            List<Entity> list1 = entity.world.loadedEntityList;
             if (list1 != null && !list1.isEmpty()) {
                 for (int i1 = 0; i1 < list1.size(); ++i1) {
                     Entity entity1 = (Entity) list1.get(i1);

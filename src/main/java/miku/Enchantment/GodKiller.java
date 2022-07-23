@@ -1,6 +1,6 @@
 package miku.Enchantment;
 
-import miku.utils.Killer;
+import miku.Utils.Killer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;

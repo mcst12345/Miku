@@ -6,7 +6,7 @@ import com.anotherstar.common.entity.IEntityLoli;
 import com.anotherstar.common.item.tool.ILoli;
 import com.anotherstar.util.LoliPickaxeUtil;
 import miku.Entity.Hatsune_Miku;
-import miku.utils.InventoryUtil;
+import miku.Utils.InventoryUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;

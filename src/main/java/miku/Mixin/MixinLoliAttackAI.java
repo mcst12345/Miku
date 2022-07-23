@@ -4,7 +4,7 @@ import com.anotherstar.common.config.ConfigLoader;
 import com.anotherstar.common.entity.ai.EntityAILoliAttack;
 import com.anotherstar.util.LoliPickaxeUtil;
 import miku.Entity.Hatsune_Miku;
-import miku.utils.InventoryUtil;
+import miku.Utils.InventoryUtil;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackMelee;

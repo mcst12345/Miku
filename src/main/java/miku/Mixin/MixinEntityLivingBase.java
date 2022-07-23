@@ -17,7 +17,7 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
 
     @Final
     @Shadow
-    private static final DataParameter<Float> HEALTH = EntityDataManager.<Float>createKey(EntityLivingBase.class, DataSerializers.FLOAT);
+    private static final DataParameter<Float> HEALTH = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.FLOAT);
 
     public MixinEntityLivingBase(World worldIn) {
         super(worldIn);

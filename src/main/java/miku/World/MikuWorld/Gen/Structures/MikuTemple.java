@@ -9,6 +9,8 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 import static miku.World.MikuWorld.Gen.Structures.IStructure.settings;
@@ -22,8 +24,8 @@ public class MikuTemple extends WorldGenerator {
     }
 
     @Override
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
-        this.generateStructure(worldIn, position);
+    public boolean generate(@Nonnull World worldIn, @Nullable Random rand, @Nonnull BlockPos position) {
+        generateStructure(worldIn, position);
         return true;
     }
 

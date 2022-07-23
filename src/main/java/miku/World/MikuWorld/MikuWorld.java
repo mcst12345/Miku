@@ -7,8 +7,8 @@ import net.minecraftforge.common.DimensionManager;
 
 public class MikuWorld {
 
-    public static Biome miku_biome = new MikuBiomes();
-    public static int dimID = 393939;
+    public static final Biome miku_biome = new MikuBiomes();
+    public static final int dimID = 393939;
     public static DimensionType MikuDimensionType;
 
     public static void initialization() {

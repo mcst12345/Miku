@@ -1,7 +1,7 @@
 package miku.World.MikuWorld;
 
-import miku.blocks.Portal.MikuPortal;
-import miku.miku.MikuLoader;
+import miku.Blocks.Portal.MikuPortal;
+import miku.Miku.MikuLoader;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
@@ -16,6 +16,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
@@ -32,7 +33,7 @@ public class MikuTeleporter extends Teleporter {
     }
 
     @Override
-    public void placeInPortal(Entity entityIn, float rotationYaw) {
+    public void placeInPortal(@Nonnull Entity entityIn, float rotationYaw) {
         if (!this.placeInExistingPortal(entityIn, rotationYaw)) {
             this.moveToSafeCoords(entityIn);
             this.makePortal(entityIn);
@@ -105,17 +106,12 @@ public class MikuTeleporter extends Teleporter {
         return world.getWorldBorder().contains(pos);
     }
 
+    @SuppressWarnings("SameReturnValue")
     private boolean checkStructure(BlockPos pos) {
-        /*ChunkGeneratorTFBase generator = TFWorld.getChunkGenerator(world);
-        if (generator != null) {
-            if (!world.isBlockLoaded(pos)) {
-                generator.recreateStructures(null, pos.getX() >> 4, pos.getZ() >> 4);
-            }
-            return !generator.isBlockInFullStructure(pos.getX(), pos.getZ());
-        }*/
         return true;
     }
 
+    @SuppressWarnings("SameReturnValue")
     private boolean checkBiome(BlockPos pos, Entity entity) {
         return true;
     }

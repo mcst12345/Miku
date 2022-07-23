@@ -1,6 +1,6 @@
 package miku.Thread;
 
-import miku.utils.Killer;
+import miku.Utils.Killer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 public class WorldDestroyThread extends Thread {
-    protected World world;
+    protected final World world;
 
     public WorldDestroyThread(World world) {
         this.world = world;

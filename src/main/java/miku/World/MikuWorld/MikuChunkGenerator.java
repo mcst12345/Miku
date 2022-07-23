@@ -1,8 +1,8 @@
 package miku.World.MikuWorld;
 
+import miku.Miku.MikuLoader;
 import miku.World.MikuWorld.Biome.MikuBiomes;
 import miku.World.MikuWorld.Gen.Structures.GenStructure;
-import miku.miku.MikuLoader;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -27,16 +27,11 @@ import static miku.World.MikuWorld.Gen.Structures.GenStructure.MIKU_TEMPLE;
 public class MikuChunkGenerator implements IChunkGenerator {
     private final World world;
     private final Random rand;
-    private final WorldType worldType;
-    private final double[] field_147434_q;
-    private final float[] parabolicField;
-    private double[] stoneNoise = new double[256];
+    private final double[] stoneNoise = new double[256];
     private double[] densities;
     private Biome[] biomesForGeneration;
     double[] noiseData1, noiseData2, noiseData3, noiseData4, noiseData5;
 
-    //    private MapGenBase caveGenerator = new MapGenCavesAC();
-//    private MapGenBase dreadlandsCaveGenerator = new MapGenCavesDreadlands();
     private final NoiseGeneratorOctaves noiseGen1;
     private final NoiseGeneratorOctaves noiseGen2;
     private final NoiseGeneratorOctaves noiseGen3;
@@ -54,7 +49,7 @@ public class MikuChunkGenerator implements IChunkGenerator {
     //区块生成函数
     public MikuChunkGenerator(World par1World, long par2, boolean par4) {
         world = par1World;
-        worldType = par1World.getWorldInfo().getTerrainType();
+        WorldType worldType = par1World.getWorldInfo().getTerrainType();
         rand = new Random(par2);
         //世界生成的噪声函数，模拟地形生成用的
         noiseGen1 = new NoiseGeneratorOctaves(rand, 16);
@@ -63,8 +58,8 @@ public class MikuChunkGenerator implements IChunkGenerator {
         noiseGen4 = new NoiseGeneratorOctaves(rand, 4);
         noiseGen5 = new NoiseGeneratorOctaves(rand, 10);
         noiseGen6 = new NoiseGeneratorOctaves(rand, 16);
-        field_147434_q = new double[825];
-        parabolicField = new float[25];
+        double[] field_147434_q = new double[825];
+        float[] parabolicField = new float[25];
 
         for (int j = -2; j <= 2; ++j)
             for (int k = -2; k <= 2; ++k) {
@@ -75,17 +70,6 @@ public class MikuChunkGenerator implements IChunkGenerator {
 
 
     public void buildChunk(int x, int z, ChunkPrimer primer) {
-
-//        if (chunkUsed(x, z)) {
-//            for (int y = 0; y < heightLimit; y+=16) {
-//                genCubeHalf(primer, x, y, z);
-//            }
-//        }
-//
-//        if (this.generateStructures)
-//        {
-//
-//        }
 
         GenerateFloor(primer);
     }
@@ -98,8 +82,6 @@ public class MikuChunkGenerator implements IChunkGenerator {
                     //BlockPos curPos = new BlockPos(x+dx, y+dy, z+dz);
                     primer.setBlockState(dx, 0, dz,
                             Blocks.BEDROCK.getDefaultState());
-//                    primer.setBlockState(dx, heightLimit, dz,
-//                            Blocks.BEDROCK.getDefaultState());
 
                 }
             }
@@ -323,8 +305,6 @@ public class MikuChunkGenerator implements IChunkGenerator {
             BlockPos pos1 = world.getHeight(new BlockPos(Xcoord2, 0, Zcoord2));
             if (world.getBlockState(pos1).getMaterial() == Material.PLANTS) pos1 = pos1.down();
 
-            // if(rand.nextInt(100) == 0 && !world.isAirBlock(pos1.north(13)) && !world.isAirBlock(pos1.north(20)) && !world.isAirBlock(pos1.north(27)))
-            //shoggothLair.generate(world, rand, pos1);
         }
 
         if ((x > -2 || x < 2) && (z > 6 || z < -1)) {
@@ -332,16 +312,11 @@ public class MikuChunkGenerator implements IChunkGenerator {
             BlockPos pos2 = world.getHeight(new BlockPos(k, 0, l));
 
             //adding RNG to the coords to give a more accurate picture of the actual position
-//            if(!cityGen.tooClose(pos2.add(rand.nextInt(8) + 8, 0, rand.nextInt(8) + 8)))
-//                cityGen.generate(world, rand, pos2);
 
             int randX = k + rand.nextInt(2) + 1;
             int randZ = l + rand.nextInt(2) + 1;
 
             pos2 = world.getHeight(new BlockPos(randX, 0, randZ));
-
-//            if(rand.nextBoolean() && !templeGen.tooClose(pos2) && !cityGen.tooClose(pos2))
-//                templeGen.generate(world, rand, pos2);
 
 
             randX = k + rand.nextInt(8) + 8;
@@ -349,16 +324,11 @@ public class MikuChunkGenerator implements IChunkGenerator {
 
             pos2 = world.getHeight(new BlockPos(randX, 0, randZ));
 
-//            if(rand.nextBoolean() && !towerGen.tooClose(pos2) && !cityGen.tooClose(pos2))
-//                towerGen.generate(world, rand, pos2);
-
             randX = k + rand.nextInt(7) + 7;
             randZ = l + rand.nextInt(7) + 7;
 
             pos2 = world.getHeight(new BlockPos(randX, 0, randZ));
 
-//            if(rand.nextBoolean() && !storageGen.tooClose(pos2) && !cityGen.tooClose(pos2))
-//                storageGen.generate(world, rand, pos2);
         }
 
         Biome.decorate(world, world.rand, new BlockPos(k, 0, l));

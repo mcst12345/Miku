@@ -1,7 +1,7 @@
 package miku.Mixin;
 
 import com.google.common.collect.Lists;
-import miku.utils.InventoryUtil;
+import miku.Utils.InventoryUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.IWorldEventListener;

@@ -19,6 +19,10 @@ item.miku.miku_ore_item.name=MikuOre
 item.miku.empty_sekai_block.name=EmptySekaiBlock
 item.miku.miku_jukebox.name=MikuJukebox
 item.miku_music_box.name=Miku Music Box
+item.scallion_pickaxe.name=Scallion Pickaxe
+item.scallion_axe.name=Scallion Axe
+item.scallion_sword.name=Scallion Sword
+item.scallion_hoe.name=Scallion Hoe
 
 #CreativeTab
 itemGroup.miku=miku

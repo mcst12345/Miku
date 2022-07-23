@@ -7,8 +7,8 @@ import com.chaoswither.items.ItemChaosEgg;
 import com.chaoswither.items.ItemChaosGodSword;
 import com.chaoswither.items.ItemSillyMode;
 import com.google.common.collect.Sets;
-import miku.utils.InventoryUtil;
-import miku.utils.Killer;
+import miku.Utils.InventoryUtil;
+import miku.Utils.Killer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiGameOver;
@@ -602,14 +602,14 @@ public class MixinChaosUpdateEvent1 {
         if (event.getItemStack().getItem() instanceof ItemChaosGodSword) {
             int x;
             for (x = 0; x < event.getToolTip().size(); ++x) {
-                if (event.getToolTip().get(x).contains(I18n.translateToLocal("attribute.name.generic.attackDamage")) || ((String) event.getToolTip().get(x)).contains(I18n.translateToLocal("Attack Damage"))) {
+                if (event.getToolTip().get(x).contains(I18n.translateToLocal("attribute.name.generic.attackDamage")) || event.getToolTip().get(x).contains(I18n.translateToLocal("Attack Damage"))) {
                     event.getToolTip().set(x, makeColour2(I18n.translateToLocal("info.unknown")) + " " + TextFormatting.GRAY + I18n.translateToLocal("attribute.name.generic.attackDamage"));
                     return;
                 }
             }
 
             for (x = 0; x < event.getToolTip().size(); ++x) {
-                if (event.getToolTip().get(x).contains(I18n.translateToLocal("attribute.name.generic.attackSpeed")) || ((String) event.getToolTip().get(x)).contains(I18n.translateToLocal("Attack Speed"))) {
+                if (event.getToolTip().get(x).contains(I18n.translateToLocal("attribute.name.generic.attackSpeed")) || event.getToolTip().get(x).contains(I18n.translateToLocal("Attack Speed"))) {
                     event.getToolTip().set(x, makeColour2(I18n.translateToLocal("info.unknown")) + " " + TextFormatting.GRAY + I18n.translateToLocal("attribute.name.generic.attackSpeed"));
                     return;
                 }

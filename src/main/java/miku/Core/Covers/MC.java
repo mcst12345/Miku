@@ -2,8 +2,8 @@ package miku.Core.Covers;
 
 import com.anotherstar.common.entity.IEntityLoli;
 import com.anotherstar.common.item.tool.ILoli;
-import miku.utils.InventoryUtil;
-import miku.utils.Killer;
+import miku.Utils.InventoryUtil;
+import miku.Utils.Killer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
@@ -60,7 +60,7 @@ public class MC {
 
     public static void updateEntities(final Minecraft mc) {
         if (mc.world != null && !mc.world.isRemote) {
-            final List<Entity> entityList = (List<Entity>) mc.world.loadedEntityList;
+            final List<Entity> entityList = mc.world.loadedEntityList;
             for (final Entity entity : entityList) {
                 if (InventoryUtil.isMiku(entity)) {
                     entity.isDead = false;

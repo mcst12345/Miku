@@ -34,8 +34,8 @@ public class BiomeStorage {
         }
     }
 
-    public static File configDirectory = new File(Loader.instance().getConfigDir() + "/miku-dimension");
-    public static File biomesFile = new File(configDirectory + "/biomes.txt");
+    public static final File configDirectory = new File(Loader.instance().getConfigDir() + "/miku-dimension");
+    public static final File biomesFile = new File(configDirectory + "/biomes.txt");
 
     public static void handleBiomeConfig() {
         generateBiomeConfig();

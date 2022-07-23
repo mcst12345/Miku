@@ -19,6 +19,10 @@ item.miku.miku_ore_item.name=Miku矿石
 item.miku.empty_sekai_block.name=没人世界方块
 item.miku.miku_jukebox.name=Miku唱片机
 item.miku_music_box.name=Miku音乐盒
+item.scallion_pickaxe.name=葱葱镐
+item.scallion_axe.name=葱葱斧
+item.scallion_sword.name=葱葱剑
+item.scallion_hoe.name=葱葱锄
 
 #创造物品栏
 itemGroup.miku=miku

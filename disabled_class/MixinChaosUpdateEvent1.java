@@ -8,7 +8,7 @@ import com.chaoswither.entity.EntityWitherPlayer;
 import com.chaoswither.event.ChaosUpdateEvent1;
 import com.chaoswither.items.ItemChaosGodSword;
 import com.google.common.collect.Lists;
-import miku.utils.Have_Miku;
+import miku.Utils.Have_Miku;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiGameOver;

@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Implementation-Title: miku_mod
 MixinConfigs: mixins.miku.json
-Implementation-Version: 1.0.1-pre10
+Implementation-Version: 1.0.1-pre11
 FMLCorePluginContainsFMLMod: true
 Specification-Vendor: mcst12345
 Specification-Title: miku
-Implementation-Timestamp: 2022-07-22T20:23:37+0800
+Implementation-Timestamp: 2022-07-23T17:26:53+0800
 Specification-Version: 1.0.1-pre6
 FMLCorePlugin: miku.Core.MikuCore
 Implementation-Vendor: mcst12345

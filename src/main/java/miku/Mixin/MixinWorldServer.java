@@ -1,6 +1,6 @@
 package miku.Mixin;
 
-import miku.utils.InventoryUtil;
+import miku.Utils.InventoryUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.play.server.SPacketEntityStatus;
 import net.minecraft.world.WorldServer;

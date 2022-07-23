@@ -1,6 +1,6 @@
 package miku.World;
 
-import miku.miku.MikuLoader;
+import miku.Miku.MikuLoader;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

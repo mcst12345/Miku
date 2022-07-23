@@ -1,7 +1,7 @@
 package miku.Mixin;
 
 import miku.Entity.Hatsune_Miku;
-import miku.utils.InventoryUtil;
+import miku.Utils.InventoryUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
