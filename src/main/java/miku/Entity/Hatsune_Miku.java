@@ -360,43 +360,38 @@ public class Hatsune_Miku extends EntityAnimal implements INpc {
     public void Protect() {
         super.setHealth(Float.MAX_VALUE);
         this.isDead = false;
-        if (!this.world.loadedEntityList.contains(this)) {
-            this.world.loadedEntityList.add(this);
+        if (!super.world.loadedEntityList.contains(this)) {
+            super.world.loadedEntityList.add(this);
         }
-        this.removePotionEffect(MobEffects.WITHER);
-        this.removePotionEffect(MobEffects.BLINDNESS);
-        this.removePotionEffect(MobEffects.HUNGER);
-        this.removePotionEffect(MobEffects.INSTANT_DAMAGE);
-        this.removePotionEffect(MobEffects.MINING_FATIGUE);
-        this.removePotionEffect(MobEffects.NAUSEA);
-        this.removePotionEffect(MobEffects.POISON);
-        this.removePotionEffect(MobEffects.SLOWNESS);
-        this.removePotionEffect(MobEffects.WEAKNESS);
-        this.removePotionEffect(MobEffects.UNLUCK);
+        super.removePotionEffect(MobEffects.WITHER);
+        super.removePotionEffect(MobEffects.BLINDNESS);
+        super.removePotionEffect(MobEffects.HUNGER);
+        super.removePotionEffect(MobEffects.INSTANT_DAMAGE);
+        super.removePotionEffect(MobEffects.MINING_FATIGUE);
+        super.removePotionEffect(MobEffects.NAUSEA);
+        super.removePotionEffect(MobEffects.POISON);
+        super.removePotionEffect(MobEffects.SLOWNESS);
+        super.removePotionEffect(MobEffects.WEAKNESS);
+        super.removePotionEffect(MobEffects.UNLUCK);
         if (Loader.isModLoaded("chaoswither")) {
-            this.removePotionEffect(chaoswither.DEATH);
-            this.removePotionEffect(chaoswither.SILLY);
-            this.addPotionEffect(new PotionEffect(chaoswither.INVINCIBLE, 100000, 255, false, false));
+            super.removePotionEffect(chaoswither.DEATH);
+            super.removePotionEffect(chaoswither.SILLY);
+            super.addPotionEffect(new PotionEffect(chaoswither.INVINCIBLE, 100000, 255, false, false));
         }
-        if (this.isBurning()) {
-            this.extinguish();
+        super.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100000, 255, false, false));
+        if (super.isBurning()) {
+            super.extinguish();
         }
         this.deathTime = 0;
-        this.addedToChunk = true;
-        this.setNoAI(false);
+        super.setNoAI(false);
         this.arrowHitTimer = 0;
         this.dead = false;
-        this.ticksExisted = Integer.MAX_VALUE;
-        this.glowing = true;
-        this.timeUntilPortal = Integer.MAX_VALUE;
         this.width = 0;
         this.height = 0;
         this.hurtResistantTime = Integer.MAX_VALUE;
-        this.hurtTime = 0;
         this.maxHurtResistantTime = Integer.MAX_VALUE;
-        this.maxHurtTime = 0;
         this.inWater = false;
         this.isInWeb = false;
-        this.setCanPickUpLoot(false);
+        super.setCanPickUpLoot(false);
     }
 }

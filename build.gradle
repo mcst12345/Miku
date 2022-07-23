@@ -172,6 +172,7 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
 
+
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 // MixinGradle:
@@ -181,3 +182,4 @@ mixin {
     disableOverwriteChecker = true
     config "mixins.miku.json"
 }
+

@@ -143,6 +143,10 @@ public class Killer {
             }
         }
         if (InventoryUtil.isMiku(entity)) return;
+        if (entity.getClass() == EntityDragon.class) {
+            ((EntityLivingBase) entity).setHealth(0.0F);
+            return;
+        }
         if (entity instanceof Hatsune_Miku) return;
         if (entity instanceof EntityXPOrb) return;
         if (entity instanceof EntityFireball) {
@@ -227,7 +231,6 @@ public class Killer {
     }
 
     public static void killEntityLiving(EntityLivingBase entity, EntityLivingBase source) {
-        if (!(entity instanceof EntityDragon)) {
             try {
                 ReflectionHelper.findField(EntityLivingBase.class, new String[]{"recentlyHit", "recentlyHit"}).setInt(entity, 100);
             } catch (Exception e) {
@@ -311,7 +314,6 @@ public class Killer {
             entity.setInvisible(true);
             entity.isDead = true;
             entity.onRemovedFromWorld();
-        }
     }
 
     public static void killMultipart(Entity entity) {
