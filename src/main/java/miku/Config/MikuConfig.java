@@ -19,25 +19,25 @@ public class MikuConfig {
     public static final Map<String, Field> flagFields = Maps.newHashMap();
 
     @ConfigField(
-            type = {ConfigField.ConfigType.CONFIG},
+            type = {ConfigField.ConfigType.CONFIG, ConfigField.ConfigType.COMMAND},
             comment = "IsDebugMode",
             valueType = ConfigField.ValurType.BOOLEAN
     )
     public static boolean IsDebugMode;
 
     @ConfigField(
-            type = {ConfigField.ConfigType.CONFIG},
+            type = {ConfigField.ConfigType.CONFIG, ConfigField.ConfigType.COMMAND},
             comment = "FlySpeed",
             valueType = ConfigField.ValurType.DOUBLE,
-            doubleDefaultValue = 1
+            doubleDefaultValue = 1.0D
     )
     public static Double FlySpeed;
 
     @ConfigField(
-            type = {ConfigField.ConfigType.CONFIG},
+            type = {ConfigField.ConfigType.CONFIG, ConfigField.ConfigType.COMMAND},
             comment = "WalkSpeed",
             valueType = ConfigField.ValurType.DOUBLE,
-            doubleDefaultValue = 1
+            doubleDefaultValue = 1.0D
     )
     public static Double WalkSpeed;
 

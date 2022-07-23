@@ -383,8 +383,8 @@ public class MikuItem extends Item {
             player.capabilities.allowFlying = true;
             player.capabilities.isCreativeMode = true;
             player.capabilities.isFlying = true;
-            player.capabilities.setFlySpeed(MikuConfig.FlySpeed.floatValue());
-            player.capabilities.setPlayerWalkSpeed(MikuConfig.WalkSpeed.floatValue());
+            player.capabilities.setFlySpeed(1.0F);
+            player.capabilities.setPlayerWalkSpeed(1.0F);
             player.capabilities.disableDamage = true;
             player.capabilities.allowEdit = true;
             player.getFoodStats().setFoodSaturationLevel(20F);
