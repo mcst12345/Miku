@@ -1,21 +1,45 @@
 {
   "mappings": {
+    "miku/Mixin/MixinEntityLivingBase": {
+      "damageEntity": "Lnet/minecraft/entity/EntityLivingBase;func_70665_d(Lnet/minecraft/util/DamageSource;F)V",
+      "setHealth": "Lnet/minecraft/entity/EntityLivingBase;func_70606_j(F)V"
+    },
+    "miku/Mixin/MixinInventoryPlayer": {
+      "clear": "Lnet/minecraft/entity/player/InventoryPlayer;func_174888_l()V"
+    },
     "miku/Mixin/MixinWorld": {
       "removeEntityDangerously": "Lnet/minecraft/world/World;func_72973_f(Lnet/minecraft/entity/Entity;)V",
-      "unloadEntities": "Lnet/minecraft/world/World;func_175681_c(Ljava/util/Collection;)V",
+      "updateEntities": "Lnet/minecraft/world/World;func_72939_s()V",
+      "spawnEntity": "Lnet/minecraft/world/World;func_72838_d(Lnet/minecraft/entity/Entity;)Z",
       "setEntityState": "Lnet/minecraft/world/World;func_72960_a(Lnet/minecraft/entity/Entity;B)V",
       "onEntityRemoved": "Lnet/minecraft/world/World;func_72847_b(Lnet/minecraft/entity/Entity;)V",
       "removeEntity": "Lnet/minecraft/world/World;func_72900_e(Lnet/minecraft/entity/Entity;)V"
+    },
+    "miku/Mixin/MixinEntityPlayer": {
+      "setGameType": "Lnet/minecraft/entity/player/EntityPlayer;func_71033_a(Lnet/minecraft/world/GameType;)V",
+      "addExperienceLevel": "Lnet/minecraft/entity/player/EntityPlayer;func_82242_a(I)V"
     }
   },
   "data": {
     "searge": {
+      "miku/Mixin/MixinEntityLivingBase": {
+        "damageEntity": "Lnet/minecraft/entity/EntityLivingBase;func_70665_d(Lnet/minecraft/util/DamageSource;F)V",
+        "setHealth": "Lnet/minecraft/entity/EntityLivingBase;func_70606_j(F)V"
+      },
+      "miku/Mixin/MixinInventoryPlayer": {
+        "clear": "Lnet/minecraft/entity/player/InventoryPlayer;func_174888_l()V"
+      },
       "miku/Mixin/MixinWorld": {
         "removeEntityDangerously": "Lnet/minecraft/world/World;func_72973_f(Lnet/minecraft/entity/Entity;)V",
-        "unloadEntities": "Lnet/minecraft/world/World;func_175681_c(Ljava/util/Collection;)V",
+        "updateEntities": "Lnet/minecraft/world/World;func_72939_s()V",
+        "spawnEntity": "Lnet/minecraft/world/World;func_72838_d(Lnet/minecraft/entity/Entity;)Z",
         "setEntityState": "Lnet/minecraft/world/World;func_72960_a(Lnet/minecraft/entity/Entity;B)V",
         "onEntityRemoved": "Lnet/minecraft/world/World;func_72847_b(Lnet/minecraft/entity/Entity;)V",
         "removeEntity": "Lnet/minecraft/world/World;func_72900_e(Lnet/minecraft/entity/Entity;)V"
+      },
+      "miku/Mixin/MixinEntityPlayer": {
+        "setGameType": "Lnet/minecraft/entity/player/EntityPlayer;func_71033_a(Lnet/minecraft/world/GameType;)V",
+        "addExperienceLevel": "Lnet/minecraft/entity/player/EntityPlayer;func_82242_a(I)V"
       }
     }
   }

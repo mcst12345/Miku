@@ -17,13 +17,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Objects;
 
 public class BreakBlock {
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent
     public void onPlayerMine(PlayerInteractEvent.LeftClickBlock event) {
         if (!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof MikuItem && !event.getEntityPlayer().world.isRemote && event.getEntityPlayer() instanceof EntityPlayerMP) {
             breakBlock(event.getItemStack(), event.getPos(), (EntityPlayerMP) event.getEntityPlayer());

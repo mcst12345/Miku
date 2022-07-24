@@ -15,6 +15,7 @@ public class InventoryUtil {
             return true;
         if (entity == null) return false;
         if (entity instanceof EntityPlayer) {
+            if (Killer.isDead(entity)) return false;
             EntityPlayer player = (EntityPlayer) entity;
             if (MikuItem.IsMikuPlayer(player)) return true;
             if (player.inventory != null) {

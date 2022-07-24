@@ -13,6 +13,7 @@ Classpath:
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/CodeChickenLib-1.12.2-3.2.3.358-universal.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/CodeWither-mc1.12-0.2.3beta.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/CoFHCore-1.12.2-4.6.3.27-universal.jar
+ - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/CTHULHU MYTHOS 1.1.4.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/Cthulhu-0.0.1-beta.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/CustomNPCs_1.12.2-(05Jul20).jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/Engender+Mod-1.12.2-0.7-pre1.jar
@@ -112,18 +113,18 @@ Loading mappings... 20%
 Loading mappings... 30%
 Loading mappings... 40%
 Loading mappings... 50%
-Loading mappings...  4%
+Loading mappings...  3%
 Loading mappings... 12%
-Loading mappings... 23%
-Loading mappings... 31%
-Loading mappings... 42%
+Loading mappings... 21%
+Loading mappings... 32%
+Loading mappings... 41%
 Loading mappings... 50%
 Loading mappings... 62%
-Loading mappings... 73%
-Loading mappings... 81%
-Loading mappings... 92%
+Loading mappings... 71%
+Loading mappings... 82%
+Loading mappings... 91%
 Loading mappings... 100%
-0 packages, 3344 classes, 11921 fields, 20824 methods
+0 packages, 3344 classes, 11922 fields, 20827 methods
 Remapping final jar
 Remapping jar...  0%
 Remapping jar... 10%

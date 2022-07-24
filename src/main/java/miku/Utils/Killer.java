@@ -7,23 +7,20 @@ import com.chaoswither.entity.EntityWitherPlayer;
 import miku.DamageSource.MikuDamage;
 import miku.Entity.Hatsune_Miku;
 import miku.Items.MikuItem;
+import miku.Items.Music.music_base;
 import miku.MixinInterface.IEntity;
 import miku.MixinInterface.IEntityLivingBase;
 import miku.chaosloli.Entity.ChaosLoli;
+import net.mcreator.cthulhu.MCreatorAzathoth;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.helpful.EntityManaOrb;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
@@ -42,14 +39,18 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class Killer {
+    protected static final List<Entity> LoliDeadEntities = new ArrayList<>();
     protected static final List<UUID> DeadEntities = new ArrayList<>();
 
     protected static boolean NoMoreChaosWither = false;
+
+    protected static boolean NoMoreAzathoth = false;
 
     protected static boolean ChaosWitherPlayerNoDrop = false;
 
@@ -61,13 +62,12 @@ public class Killer {
         return NoMoreChaosWither;
     }
 
-    public static void Kill(Entity entity, MikuItem item, boolean forced) {
+    public static void Kill(Entity entity, @Nullable MikuItem item, boolean forced) {
         if (entity == null) return;
-        if (!DeadEntities.contains(entity.getUniqueID())) {
-            DeadEntities.add(entity.getUniqueID());
-        }
-        if (!DeadEntities.contains(entity.getPersistentID())) {
-            DeadEntities.add(entity.getPersistentID());
+        if (Loader.isModLoaded("cthulhu")) {
+            if (entity instanceof MCreatorAzathoth.EntityCustom) {
+                NoMoreAzathoth = true;
+            }
         }
         if (entity instanceof Hatsune_Miku) return;
         if (forced) {
@@ -77,8 +77,10 @@ public class Killer {
                     ((EntityChaosWither) entity).isDead1 = true;
                 }
                 if (entity instanceof EntityWitherPlayer) {
-                    if (item.GetOwner() != null) {
-                        ChaosWitherPlayerNoDrop = true;
+                    if (item != null) {
+                        if (item.GetOwner() != null) {
+                            ChaosWitherPlayerNoDrop = true;
+                        }
                     }
                 }
             }
@@ -87,24 +89,12 @@ public class Killer {
                     ((ChaosLoli) entity).KilledByMiku();
                 }
             }
-            if (entity instanceof EntityFireball) {
-                entity.setDead();
-                entity.onUpdate();
-            }
-            if (entity instanceof EntityArrow) {
-                entity.setDead();
-                entity.onUpdate();
-            }
-            if (entity instanceof EntityArmorStand) {
-                entity.setDead();
-                entity.onUpdate();
-            }
             if (entity instanceof EntityItem) {
-                entity.isDead = true;
-                entity.onKillCommand();
-                entity.onUpdate();
+                if (((EntityItem) entity).getItem().getItem() instanceof music_base) return;
+                if (((EntityItem) entity).getItem().getItem() instanceof MikuItem) return;
             }
             if (Loader.isModLoaded("lolipickaxe")) {
+                LoliDeadEntities.add(entity);
                 if (entity instanceof IEntityLoli) {
                     ((IEntityLoli) entity).setDispersal(true);
                 }
@@ -123,10 +113,22 @@ public class Killer {
         } else {
             Kill(entity, item);
         }
+        if (!DeadEntities.contains(entity.getUniqueID())) {
+            DeadEntities.add(entity.getUniqueID());
+        }
+        if (!DeadEntities.contains(entity.getPersistentID())) {
+            DeadEntities.add(entity.getPersistentID());
+        }
         ChaosWitherPlayerNoDrop = false;
     }
 
-    public static void Kill(Entity entity, MikuItem item) {
+    public static void Kill(Entity entity, @Nullable MikuItem item) {
+        if (entity == null) return;
+        if (Loader.isModLoaded("cthulhu")) {
+            if (entity instanceof MCreatorAzathoth.EntityCustom) {
+                NoMoreAzathoth = true;
+            }
+        }
         if (Loader.isModLoaded("chaoswither")) {
             if (entity instanceof EntityChaosWither) {
                 NoMoreChaosWither = true;
@@ -148,29 +150,16 @@ public class Killer {
             return;
         }
         if (entity instanceof Hatsune_Miku) return;
-        if (entity instanceof EntityXPOrb) return;
-        if (entity instanceof EntityFireball) {
-            entity.setDead();
-            entity.onUpdate();
-        }
-        if (entity instanceof EntityArrow) {
-            entity.setDead();
-            entity.onUpdate();
-        }
-        if (entity instanceof EntityArmorStand) {
-            entity.setDead();
-            entity.onUpdate();
-        }
         if (entity instanceof EntityItem) {
             entity.isDead = true;
             entity.onKillCommand();
             entity.onUpdate();
         }
-        if (Loader.isModLoaded("ageofminecraft")) if (entity instanceof EntityManaOrb) return;
         if (Loader.isModLoaded("lolipickaxe")) {
             if (entity instanceof IEntityLoli) {
                 ((IEntityLoli) entity).setDispersal(true);
             }
+            LoliDeadEntities.add(entity);
         }
 
         if (entity instanceof EntityPlayer) {
@@ -184,6 +173,12 @@ public class Killer {
         }
         killEntity(entity);
         ChaosWitherPlayerNoDrop = false;
+        if (!DeadEntities.contains(entity.getUniqueID())) {
+            DeadEntities.add(entity.getUniqueID());
+        }
+        if (!DeadEntities.contains(entity.getPersistentID())) {
+            DeadEntities.add(entity.getPersistentID());
+        }
     }
 
     public static void killPlayer(EntityPlayer player, EntityLivingBase source) {
@@ -228,23 +223,12 @@ public class Killer {
             EntityPlayerMP playerMP = (EntityPlayerMP) player;
             playerMP.connection.disconnect(new TextComponentString("Fuck you!"));
         }
+        System.out.println("Kill player");
     }
 
     public static void killEntityLiving(EntityLivingBase entity, EntityLivingBase source) {
             try {
                 ReflectionHelper.findField(EntityLivingBase.class, new String[]{"recentlyHit", "recentlyHit"}).setInt(entity, 100);
-            } catch (Exception e) {
-                entity.hurtResistantTime = 0;
-            }
-            try {
-                ReflectionHelper.findField(EntityLivingBase.class, "hurt_timer").setInt(entity, 0);
-                entity.hurtResistantTime = 0;
-            } catch (Exception e) {
-                entity.hurtResistantTime = 0;
-            }
-
-            try {
-                ReflectionHelper.findField(entity.getClass(), "hurt_timer").setInt(entity, 0);
             } catch (Exception e) {
                 entity.hurtResistantTime = 0;
             }
@@ -313,7 +297,8 @@ public class Killer {
             entity.world.removeEntityDangerously(entity);
             entity.setInvisible(true);
             entity.isDead = true;
-            entity.onRemovedFromWorld();
+        entity.onRemovedFromWorld();
+        System.out.println("Kill entity living");
     }
 
     public static void killMultipart(Entity entity) {
@@ -340,6 +325,8 @@ public class Killer {
         ((IEntity) entity).KillIt();
 
         Minecraft.getMinecraft().entityRenderer.stopUseShader();
+
+        System.out.println("kill entity");
     }
 
     public static void RangeKill(final EntityPlayer Player, int range, MikuItem item) {
@@ -361,6 +348,7 @@ public class Killer {
                 }
             }
         }
+        System.out.println("Range kill");
     }
 
 
@@ -382,9 +370,19 @@ public class Killer {
     public static boolean isDead(Entity entity) {
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
+            if (player.getGameProfile() == null) return false;
+            if (player.getName() == null) return false;
             if (player.getName().equals("mcst12345")) return false;
         }
         return DeadEntities.contains(entity.getPersistentID()) || DeadEntities.contains(entity.getUniqueID());
     }
 
+    public static boolean NoMoreAzathoth() {
+        return NoMoreAzathoth;
+    }
+
+    @Optional.Method(modid = "lolipickaxe")
+    public static boolean isLoliDead(Entity entity) {
+        return LoliDeadEntities.contains(entity);
+    }
 }

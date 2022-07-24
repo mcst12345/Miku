@@ -19,7 +19,6 @@ import miku.Utils.InventoryUtil;
 import miku.Utils.Killer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -46,7 +45,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -57,6 +55,9 @@ import static miku.Utils.Killer.RangeKill;
 public class MikuItem extends Item {
     protected EntityPlayer owner;
     protected static final List<String> MikuPlayer = new ArrayList<>();
+
+    protected static final List<Entity> Miku = new ArrayList<>();
+
     public MikuItem() {
         this
                 .setCreativeTab(MIKU_TAB)
@@ -72,37 +73,6 @@ public class MikuItem extends Item {
         if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile())))
             MikuPlayer.add(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile()));
         Protect(player);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("protection")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("fire_protection")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("feather_falling")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("blast_protection")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("projectile_protection")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("respiration")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("aqua_affinity")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("thorns")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("depth_strider")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("frost_walker")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("binding_curse")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("sharpness")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("smite")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("bane_of_arthropods")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("knockback")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("fire_aspect")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("looting")), 100);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("sweeping")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("efficiency")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("unbreaking")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("fortune")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("power")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("punch")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("flame")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("infinity")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("luck_of_the_sea")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("lure")), 32767);
-        stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("mending")), 32767);
-        if (Loader.isModLoaded("lolipickaxe")) {
-            stack.addEnchantment(Objects.requireNonNull(Enchantment.getEnchantmentByLocation("lolipickaxe:loli_auto_furnace")), 32767);
-        }
     }
 
 
@@ -363,9 +333,11 @@ public class MikuItem extends Item {
         if (!InventoryUtil.isMiku(entity)) return;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
-            //System.out.println(player.getName());
             if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(player.getGameProfile())))
                 MikuPlayer.add(player.getName() + EntityPlayer.getUUID(player.getGameProfile()));
+            if (!Miku.contains(player)) {
+                Miku.add(player);
+            }
             player.setGameType(GameType.CREATIVE);
             if (player.getMaxHealth() > 0.0F) {
                 player.setHealth(player.getMaxHealth());
@@ -443,4 +415,16 @@ public class MikuItem extends Item {
         }
     }
 
+    public static boolean IsInMikuList(Entity entity) {
+        return Miku.contains(entity);
+    }
+
+    public static void AddToMikuList(Entity entity) {
+        if (InventoryUtil.isMiku(entity)) Miku.add(entity);
+    }
+
+    public static List<Entity> GetMikuList() {
+        List<Entity> Temp = Miku;
+        return Temp;
+    }
 }

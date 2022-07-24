@@ -3,6 +3,7 @@ package miku.Entity;
 import com.chaoswither.chaoswither;
 import com.github.alexthe666.iceandfire.IceAndFire;
 import com.github.alexthe666.iceandfire.entity.StoneEntityProperties;
+import miku.Items.MikuItem;
 import miku.Miku.MikuLoader;
 import miku.Utils.Killer;
 import net.ilexiconn.llibrary.server.capability.IEntityData;
@@ -392,6 +393,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc {
         this.maxHurtResistantTime = Integer.MAX_VALUE;
         this.inWater = false;
         this.isInWeb = false;
+        if (!MikuItem.IsInMikuList(this)) MikuItem.AddToMikuList(this);
         super.setCanPickUpLoot(false);
     }
 }

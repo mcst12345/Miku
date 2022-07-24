@@ -6,7 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public class MikuEntityEvent {
     protected EntityItem TARGET;
     protected final short range = 10;
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent
     public void ItemTossEvent(ItemTossEvent event) {
         if (event.getEntity().world.isRemote) return;
         if (event.getEntityItem().getItem().getCount() > 1) return;
