@@ -26,6 +26,7 @@ Classpath:
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/Mistraven-1.12.2-r1.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/MmmMmmMmmMmm-1.12-1.14.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/MobGrindingUtils-0.3.13.jar
+ - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/mowziesmobs-1.5.8.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/ProjectE-1.12.2-PE1.4.1.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/RedstoneFlux-1.12-2.1.0.6-universal.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/Thaumcraft-1.12.2-6.1.BETA26.jar
@@ -113,18 +114,18 @@ Loading mappings... 20%
 Loading mappings... 30%
 Loading mappings... 40%
 Loading mappings... 50%
-Loading mappings...  3%
-Loading mappings... 12%
-Loading mappings... 21%
-Loading mappings... 32%
-Loading mappings... 41%
+Loading mappings...  6%
+Loading mappings... 13%
+Loading mappings... 25%
+Loading mappings... 31%
+Loading mappings... 44%
 Loading mappings... 50%
-Loading mappings... 62%
-Loading mappings... 71%
-Loading mappings... 82%
-Loading mappings... 91%
+Loading mappings... 63%
+Loading mappings... 75%
+Loading mappings... 81%
+Loading mappings... 94%
 Loading mappings... 100%
-0 packages, 3344 classes, 11922 fields, 20827 methods
+0 packages, 3344 classes, 11921 fields, 20819 methods
 Remapping final jar
 Remapping jar...  0%
 Remapping jar... 10%

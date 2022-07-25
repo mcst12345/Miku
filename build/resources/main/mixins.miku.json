@@ -1,10 +1,12 @@
 {
   "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8.4",
   "package": "miku.Mixin",
   "mixins": [
     "MixinChaosEntityTool",
     "MixinChaosUpdateEvent",
     "MixinChaosUpdateEvent1",
+    "MixinChunk",
     "MixinCommandClearInventory",
     "MixinCommandEffect",
     "MixinCommandKill",
@@ -14,8 +16,6 @@
     "MixinEntityPlayerMP",
     "MixinInventoryPlayer",
     "MixinLoli",
-    "MixinLoliAttackAI",
-    "MixinMinecraftWorld",
     "MixinWorld",
     "MixinWorldServer"
   ],

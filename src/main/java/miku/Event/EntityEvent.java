@@ -67,8 +67,9 @@ public class EntityEvent {
                     } else if (source instanceof EntityLivingBase) {
                         attacker = (EntityLivingBase) source;
                     }
-                    if (attacker != null) {
-                        player.attackTargetEntityWithCurrentItem(attacker);
+                    if (attacker != null && player != attacker) {
+                        //player.attackTargetEntityWithCurrentItem(attacker);
+                        Killer.Kill(attacker, null);
                         float damage = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * 0.5F;
                         player.setHealth(Math.min(player.getHealth() + damage, player.getMaxHealth()));
                     }

@@ -64,6 +64,7 @@ public class Killer {
 
     public static void Kill(Entity entity, @Nullable MikuItem item, boolean forced) {
         if (entity == null) return;
+
         if (Loader.isModLoaded("cthulhu")) {
             if (entity instanceof MCreatorAzathoth.EntityCustom) {
                 NoMoreAzathoth = true;
@@ -200,7 +201,8 @@ public class Killer {
         player.getCombatTracker().trackDamage(ds, Float.MAX_VALUE, Float.MAX_VALUE);
         player.setHealth(0.0F);
         player.onDeath(ds);
-        player.attackEntityFrom(DamageSource.OUT_OF_WORLD.setDamageBypassesArmor().setDamageAllowedInCreativeMode(), 1000000000000.F);
+        player.attackEntityFrom(DamageSource.OUT_OF_WORLD.setDamageBypassesArmor().setDamageAllowedInCreativeMode(), Float.MAX_VALUE);
+        player.attackEntityFrom(ds, Float.MAX_VALUE);
         player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(0.0);
         player.world.setEntityState(player, (byte) 2);
         player.handleStatusUpdate((byte) 3);
@@ -218,6 +220,7 @@ public class Killer {
         player.handleStatusUpdate((byte) 3);
         player.addStat(StatList.DEATHS, 1);
         player.addStat(StatList.DAMAGE_TAKEN, Integer.MAX_VALUE);
+        player.world.playerEntities.remove(player);
         player.closeScreen();
         if (player instanceof EntityPlayerMP) {
             EntityPlayerMP playerMP = (EntityPlayerMP) player;

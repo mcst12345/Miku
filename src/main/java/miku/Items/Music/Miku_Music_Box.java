@@ -12,7 +12,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class Miku_Music_Box extends Item {
     public Miku_Music_Box() {
@@ -23,7 +22,8 @@ public class Miku_Music_Box extends Item {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(@Nullable World world, EntityPlayer player, @Nonnull EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
+        if (world.isRemote) return new ActionResult<>(EnumActionResult.FAIL, player.getHeldItem(hand));
         Music_Box_Util.Get_Music_Box_Reward();
         player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, Music_Box_Util.item);
         return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));

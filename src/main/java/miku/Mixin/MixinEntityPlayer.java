@@ -21,15 +21,4 @@ public class MixinEntityPlayer {
             }
         }
     }
-
-
-    @Inject(at = @At("HEAD"), method = "addExperienceLevel", cancellable = true)
-    public void addExperienceLevel(CallbackInfo ci) {
-        if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) {
-            System.out.println("Successfully fucked MC");
-            ci.cancel();
-        }
-    }
-
-
 }

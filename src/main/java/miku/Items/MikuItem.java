@@ -409,8 +409,8 @@ public class MikuItem extends Item {
             player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 100000, 10, false, false));
             player.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, 100000, 255, false, false));
             player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).setBaseValue(100.0F);
-            if (!player.world.loadedEntityList.contains(player)) {
-                player.world.loadedEntityList.add(player);
+            if (!player.world.playerEntities.contains(player)) {
+                player.world.playerEntities.add(player);
             }
         }
     }

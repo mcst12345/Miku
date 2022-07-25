@@ -27,6 +27,9 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
     @Shadow
     protected int recentlyHit;
 
+    @Shadow
+    public abstract float getMaxHealth();
+
     public MixinEntityLivingBase(World worldIn) {
         super(worldIn);
     }
@@ -41,8 +44,11 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
     @Inject(at = @At("HEAD"), method = "setHealth", cancellable = true)
     public void setHealth(float health, CallbackInfo ci) {
         if (InventoryUtil.isMiku((EntityLivingBase) (Object) this)) {
-            this.dataManager.set(HEALTH, MathHelper.clamp(100, 100.0F, 100));
-            System.out.println("Successfully fucked MC");
+            if (this.getMaxHealth() > 0.0F)
+                this.dataManager.set(HEALTH, MathHelper.clamp(this.getMaxHealth(), this.getMaxHealth(), this.getMaxHealth()));
+            else {
+                this.dataManager.set(HEALTH, MathHelper.clamp(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE));
+            }
             ci.cancel();
         }
     }

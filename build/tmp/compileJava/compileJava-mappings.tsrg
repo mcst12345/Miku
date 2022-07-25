@@ -1,17 +1,8 @@
 miku/Mixin/MixinEntity FLAGS field_184240_ax
 miku/Mixin/MixinEntity dataManager field_70180_af
 miku/Mixin/MixinEntityLivingBase HEALTH field_184632_c
+miku/Mixin/MixinEntityLivingBase recentlyHit field_70718_bc
 miku/Mixin/MixinInventoryPlayer player field_70458_d
-miku/Mixin/MixinMinecraftWorld eventListeners field_73021_x
-miku/Mixin/MixinMinecraftWorld playerEntities field_73010_i
-miku/Mixin/MixinMinecraftWorld loadedEntityList field_72996_f
-miku/Mixin/MixinCommandClearInventory execute (Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/command/ICommandSender;[Ljava/lang/String;)V func_184881_a
-miku/Mixin/MixinCommandEffect execute (Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/command/ICommandSender;[Ljava/lang/String;)V func_184881_a
-miku/Mixin/MixinCommandKill execute (Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/command/ICommandSender;[Ljava/lang/String;)V func_184881_a
-miku/Mixin/MixinEntityPlayerMP setGameType (Lnet/minecraft/world/GameType;)V func_71033_a
-miku/Mixin/MixinMinecraftWorld updateAllPlayersSleepingFlag ()V func_72854_c
-miku/Mixin/MixinMinecraftWorld isChunkLoaded (IIZ)Z func_175680_a
-miku/Mixin/MixinMinecraftWorld getChunk (II)Lnet/minecraft/world/chunk/Chunk; func_72964_e
-miku/Mixin/MixinMinecraftWorld onEntityRemoved (Lnet/minecraft/entity/Entity;)V func_72847_b
-miku/Mixin/MixinMinecraftWorld removeEntityDangerously (Lnet/minecraft/entity/Entity;)V func_72973_f
-miku/Mixin/MixinWorldServer setEntityState (Lnet/minecraft/entity/Entity;B)V func_72960_a
+miku/Mixin/MixinWorld unloadedEntityList field_72997_g
+miku/Mixin/MixinEntityLivingBase getMaxHealth ()F func_110138_aP
+miku/Mixin/MixinWorld unloadEntities (Ljava/util/Collection;)V func_175681_c
