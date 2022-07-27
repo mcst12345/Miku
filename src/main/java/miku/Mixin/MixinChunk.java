@@ -15,15 +15,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinChunk {
     @Inject(at = @At("HEAD"), method = "removeEntity", cancellable = true)
     public void removeEntity(Entity entityIn, CallbackInfo ci) {
-        if (InventoryUtil.isMiku(entityIn)) {
-            if (entityIn instanceof Hatsune_Miku) {
-                ((Hatsune_Miku) entityIn).Protect();
+        if (((Chunk) (Object) this).isLoaded()) {
+            if (InventoryUtil.isMiku(entityIn)) {
+                if (entityIn instanceof Hatsune_Miku) {
+                    ((Hatsune_Miku) entityIn).Protect();
+                }
+                if (entityIn instanceof EntityPlayer) {
+                    MikuItem.Protect(entityIn);
+                }
+                System.out.println("Successfully fucked MC");
+                ci.cancel();
             }
-            if (entityIn instanceof EntityPlayer) {
-                MikuItem.Protect(entityIn);
-            }
-            System.out.println("Successfully fucked MC");
-            ci.cancel();
         }
     }
 }

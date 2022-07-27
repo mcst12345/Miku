@@ -21,7 +21,8 @@
     "MixinWorldServer"
   ],
   "client": [
-    "MixinEntityPlayerSP"
+    "MixinEntityPlayerSP",
+    "MixinMinecraft"
   ],
   "server": [],
   "required": false

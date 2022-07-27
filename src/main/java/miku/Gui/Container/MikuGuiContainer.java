@@ -1,8 +1,8 @@
 package miku.Gui.Container;
 
-import com.anotherstar.client.render.RenderLoliItem;
-import com.anotherstar.network.LoliPickaxeContainerPackte;
-import com.anotherstar.network.NetworkHandler;
+import miku.Network.NetworkHandler;
+import miku.Network.Packet.MikuInventoryPackage;
+import miku.Render.MikuRenderItem;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -29,7 +29,7 @@ public class MikuGuiContainer extends GuiContainer {
         buttonList.clear();
         pre = addButton(new GuiButton(0, (width - xSize) / 2 + 173, (height - ySize) / 2 + 22, 20, 20, "<"));
         next = addButton(new GuiButton(1, (width - xSize) / 2 + 213, (height - ySize) / 2 + 22, 20, 20, ">"));
-        itemRender = RenderLoliItem.instance;
+        itemRender = MikuRenderItem.instance;
     }
 
     @Override
@@ -38,11 +38,11 @@ public class MikuGuiContainer extends GuiContainer {
             switch (button.id) {
                 case 0:
                     container.prePage();
-                    NetworkHandler.INSTANCE.sendMessageToServer(new LoliPickaxeContainerPackte(false));
+                    NetworkHandler.INSTANCE.sendMessageToServer(new MikuInventoryPackage(false));
                     break;
                 case 1:
                     container.nextPage();
-                    NetworkHandler.INSTANCE.sendMessageToServer(new LoliPickaxeContainerPackte(true));
+                    NetworkHandler.INSTANCE.sendMessageToServer(new MikuInventoryPackage(true));
                     break;
                 default:
                     break;

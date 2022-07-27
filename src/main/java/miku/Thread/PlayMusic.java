@@ -1,13 +1,9 @@
 package miku.Thread;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
-@SideOnly(Side.CLIENT)
 public class PlayMusic extends Thread {
     public static boolean isPlaying = false;
     private final String FileName;
@@ -18,7 +14,6 @@ public class PlayMusic extends Thread {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public void run() {
         System.out.println("playing music");
         AudioInputStream as;

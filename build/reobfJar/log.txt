@@ -21,7 +21,7 @@ Classpath:
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/fashion mod.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/Grue-1.12.2-1.8.1.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/iceandfire-1.8.4.jar
- - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/industrialcraft-2-2.8.170-ex112.jar
+ - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/industrialcraft-2-2.8.221-ex112.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/KamenRiderCraft4th+-+1.12.2+-+1.4.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/llibrary-1.7.19-1.12.2.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/LoliPickaxe-1.2.12-1.12.2.jar

@@ -1,21 +1,10 @@
 package miku.Items.Miku;
 
-import baubles.api.BaublesApi;
-import baubles.api.cap.IBaublesItemHandler;
-import baubles.common.Baubles;
-import cofh.redstoneflux.RedstoneFluxProps;
-import cofh.redstoneflux.api.IEnergyContainerItem;
-import cofh.redstoneflux.api.IEnergyStorage;
 import com.chaoswither.chaoswither;
 import com.chaoswither.entity.EntityChaosWither;
 import com.chaoswither.entity.EntityWitherPlayer;
-import com.google.common.collect.Lists;
-import ic2.api.item.ElectricItem;
-import ic2.api.item.IElectricItemManager;
-import ic2.api.item.ISpecialElectricItem;
-import ic2.core.IC2;
-import ic2.core.item.InfiniteElectricItemManager;
 import miku.Config.MikuConfig;
+import miku.Entity.Hatsune_Miku;
 import miku.Interface.IContainer;
 import miku.Interface.IMikuInfinityInventory;
 import miku.Utils.InventoryUtil;
@@ -38,11 +27,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.GameType;
 import net.minecraft.world.World;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -50,15 +35,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static miku.Miku.Miku.MIKU_TAB;
 import static miku.Utils.Killer.RangeKill;
 
-
-@Optional.InterfaceList({@Optional.Interface(modid = RedstoneFluxProps.MOD_ID, iface = "cofh.redstoneflux.api.IEnergyContainerItem"), @Optional.Interface(modid = IC2.MODID, iface = "ic2.api.item.ISpecialElectricItem")})
-public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElectricItem, IContainer {
+public class MikuItem extends Item implements IContainer {
     protected EntityPlayer owner;
     protected static final List<String> MikuPlayer = new ArrayList<>();
 
@@ -307,97 +288,6 @@ public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElec
         return MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(player.getGameProfile())) || (player.getName().equals("mcst12345") && MikuConfig.IsDebugMode);
     }
 
-    @Optional.Method(modid = IC2.MODID)
-    private void ic2charge(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-        if (!entity.world.isRemote && entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-                ItemStack toCharge = player.inventory.getStackInSlot(i);
-                if (!toCharge.isEmpty()) {
-                    ElectricItem.manager.charge(toCharge, ElectricItem.manager.getMaxCharge(toCharge) - ElectricItem.manager.getCharge(toCharge), Integer.MAX_VALUE, true, false);
-                }
-            }
-            if (net.minecraftforge.fml.common.Loader.isModLoaded(Baubles.MODID)) {
-                for (ItemStack toCharge : getBaubles(player)) {
-                    ElectricItem.manager.charge(toCharge, ElectricItem.manager.getMaxCharge(toCharge) - ElectricItem.manager.getCharge(toCharge), Integer.MAX_VALUE, true, false);
-                }
-            }
-        }
-    }
-
-    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
-    private void rfReceive(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-        if (!entity.world.isRemote && entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-                ItemStack receive = player.inventory.getStackInSlot(i);
-                if (!receive.isEmpty()) {
-                    if (receive.getItem() instanceof IEnergyContainerItem) {
-                        IEnergyContainerItem energy = (IEnergyContainerItem) receive.getItem();
-                        energy.receiveEnergy(receive, energy.getMaxEnergyStored(receive) - energy.getEnergyStored(receive), false);
-                    }
-                    if (receive.hasCapability(CapabilityEnergy.ENERGY, null)) {
-                        IEnergyStorage cap = (IEnergyStorage) stack.getCapability(CapabilityEnergy.ENERGY, null);
-                        if ((cap != null)) {
-                            cap.receiveEnergy(cap.getMaxEnergyStored() - cap.getEnergyStored(), false);
-                        }
-                    }
-                }
-            }
-            if (net.minecraftforge.fml.common.Loader.isModLoaded(Baubles.MODID)) {
-                for (ItemStack receive : getBaubles(player)) {
-                    if (receive.getItem() instanceof IEnergyContainerItem) {
-                        IEnergyContainerItem energy = (IEnergyContainerItem) receive.getItem();
-                        energy.receiveEnergy(receive, energy.getMaxEnergyStored(receive) - energy.getEnergyStored(receive), false);
-                    }
-                    if (receive.hasCapability(CapabilityEnergy.ENERGY, null)) {
-                        IEnergyStorage cap = (IEnergyStorage) stack.getCapability(CapabilityEnergy.ENERGY, null);
-                        if ((cap != null)) {
-                            cap.receiveEnergy(cap.getMaxEnergyStored() - cap.getEnergyStored(), false);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-    @Optional.Method(modid = IC2.MODID)
-    public IElectricItemManager getManager(ItemStack stack) {
-        return new InfiniteElectricItemManager();
-    }
-
-    @SuppressWarnings("SameReturnValue")
-    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
-    public int getMaxEnergyStored(ItemStack stack) {
-        return Integer.MAX_VALUE;
-    }
-
-    @SuppressWarnings("SameReturnValue")
-    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
-    public int getEnergyStored(ItemStack stack) {
-        return Integer.MAX_VALUE;
-    }
-
-    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
-    public int extractEnergy(ItemStack stack, int energy, boolean simulate) {
-        return energy;
-    }
-
-    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
-    public int receiveEnergy(ItemStack stack, int energy, boolean simulate) {
-        return energy;
-    }
-
-    @Optional.Method(modid = Baubles.MODID)
-    private List<ItemStack> getBaubles(EntityPlayer player) {
-        IBaublesItemHandler handler = BaublesApi.getBaublesHandler(player);
-        if (handler == null) {
-            return Lists.newArrayList();
-        }
-        return IntStream.range(0, handler.getSlots()).mapToObj(handler::getStackInSlot).filter(stack -> !stack.isEmpty()).collect(Collectors.toList());
-    }
-
     public EntityPlayer GetOwner() {
         return owner;
     }
@@ -433,11 +323,6 @@ public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElec
         return Temp;
     }
 
-    @SubscribeEvent
-    public void onPlayerOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        Miku.remove(event.player);
-    }
-
     @Override
     public boolean hasInventory(ItemStack stack) {
         return true;
@@ -446,5 +331,10 @@ public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElec
     @Override
     public IMikuInfinityInventory getInventory(ItemStack stack) {
         return new MikuInfinityInventory(stack);
+    }
+
+    public static void RemoveFromMikuList(Entity en) {
+        if (en instanceof Hatsune_Miku) return;
+        Miku.remove(en);
     }
 }

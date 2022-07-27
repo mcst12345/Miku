@@ -45,6 +45,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import java.util.Objects;
 
 import static miku.Event.InputEvent.DESTROY_WORLD;
+import static miku.Event.InputEvent.MIKU_INVENTORY;
 
 @Mod.EventBusSubscriber
 public class MikuLoader {
@@ -275,6 +276,7 @@ public class MikuLoader {
 
     public static void RegisterKey() {
         ClientRegistry.registerKeyBinding(DESTROY_WORLD);
+        ClientRegistry.registerKeyBinding(MIKU_INVENTORY);
     }
 
 }

@@ -11,8 +11,15 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+
 
 public class MikuItemEvent {
+    @SubscribeEvent
+    public void onPlayerOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        MikuItem.RemoveFromMikuList(event.player);
+    }
+
     @SubscribeEvent
     public void LivingHurtEvent(LivingHurtEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
