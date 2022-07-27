@@ -15,7 +15,6 @@
     },
     "miku/Mixin/MixinWorld": {
       "removeEntityDangerously": "Lnet/minecraft/world/World;func_72973_f(Lnet/minecraft/entity/Entity;)V",
-      "updateEntities": "Lnet/minecraft/world/World;func_72939_s()V",
       "spawnEntity": "Lnet/minecraft/world/World;func_72838_d(Lnet/minecraft/entity/Entity;)Z",
       "setEntityState": "Lnet/minecraft/world/World;func_72960_a(Lnet/minecraft/entity/Entity;B)V",
       "onEntityRemoved": "Lnet/minecraft/world/World;func_72847_b(Lnet/minecraft/entity/Entity;)V",
@@ -25,7 +24,6 @@
       "execute": "Lnet/minecraft/command/CommandEffect;func_184881_a(Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/command/ICommandSender;[Ljava/lang/String;)V"
     },
     "miku/Mixin/MixinWorldServer": {
-      "updateEntities": "Lnet/minecraft/world/WorldServer;func_72939_s()V",
       "setEntityState": "Lnet/minecraft/world/WorldServer;func_72960_a(Lnet/minecraft/entity/Entity;B)V"
     },
     "miku/Mixin/MixinCommandClearInventory": {
@@ -65,7 +63,6 @@
       },
       "miku/Mixin/MixinWorld": {
         "removeEntityDangerously": "Lnet/minecraft/world/World;func_72973_f(Lnet/minecraft/entity/Entity;)V",
-        "updateEntities": "Lnet/minecraft/world/World;func_72939_s()V",
         "spawnEntity": "Lnet/minecraft/world/World;func_72838_d(Lnet/minecraft/entity/Entity;)Z",
         "setEntityState": "Lnet/minecraft/world/World;func_72960_a(Lnet/minecraft/entity/Entity;B)V",
         "onEntityRemoved": "Lnet/minecraft/world/World;func_72847_b(Lnet/minecraft/entity/Entity;)V",
@@ -75,7 +72,6 @@
         "execute": "Lnet/minecraft/command/CommandEffect;func_184881_a(Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/command/ICommandSender;[Ljava/lang/String;)V"
       },
       "miku/Mixin/MixinWorldServer": {
-        "updateEntities": "Lnet/minecraft/world/WorldServer;func_72939_s()V",
         "setEntityState": "Lnet/minecraft/world/WorldServer;func_72960_a(Lnet/minecraft/entity/Entity;B)V"
       },
       "miku/Mixin/MixinCommandClearInventory": {
