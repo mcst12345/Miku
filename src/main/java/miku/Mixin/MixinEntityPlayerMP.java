@@ -30,7 +30,7 @@ public abstract class MixinEntityPlayerMP extends EntityPlayer {
         if (InventoryUtil.isMiku((EntityPlayerMP) (Object) this)) {
             ((EntityPlayerMP) (Object) this).interactionManager.setGameType(GameType.CREATIVE);
             ((EntityPlayerMP) (Object) this).connection.sendPacket(new SPacketChangeGameState(3, (float) GameType.CREATIVE.getID()));
-            ((Object) this).sendPlayerAbilities();
+            ((EntityPlayerMP) (Object) this).sendPlayerAbilities();
             ci.cancel();
         }
     }
