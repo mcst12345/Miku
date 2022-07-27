@@ -1,5 +1,5 @@
 Java Launcher: /usr/lib/jvm/java-8-openjdk-amd64/bin/java
-Arguments: '--in-jar, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/libs/miku-1.0.1-pre11.jar, --out-jar, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/reobfJar/output.jar, --srg-in, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/createMcpToSrg/output.tsrg, --srg-in, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/tmp/compileJava/compileJava-mappings.tsrg, --live'
+Arguments: '--in-jar, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/libs/miku-1.0.1-pre13.jar, --out-jar, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/reobfJar/output.jar, --srg-in, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/createMcpToSrg/output.tsrg, --srg-in, /mnt/FA10AC15CB1B98EF/code/java/miku_mod/build/tmp/compileJava/compileJava-mappings.tsrg, --live'
 Classpath:
  - /root/.gradle/caches/forge_gradle/maven_downloader/net/md-5/SpecialSource/1.11.0/SpecialSource-1.11.0-shaded.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/FastAsyncWorldEdit-forge112-19.11.13-5505943-1282-22.3.5.jar
@@ -16,8 +16,10 @@ Classpath:
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/CTHULHU MYTHOS 1.1.4.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/Cthulhu-0.0.1-beta.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/CustomNPCs_1.12.2-(05Jul20).jar
+ - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/DarknessLib-1.12.2-1.1.2.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/Engender+Mod-1.12.2-0.7-pre1.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/fashion mod.jar
+ - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/Grue-1.12.2-1.8.1.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/iceandfire-1.8.4.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/industrialcraft-2-2.8.170-ex112.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/KamenRiderCraft4th+-+1.12.2+-+1.4.jar
@@ -114,18 +116,18 @@ Loading mappings... 20%
 Loading mappings... 30%
 Loading mappings... 40%
 Loading mappings... 50%
-Loading mappings...  6%
-Loading mappings... 13%
-Loading mappings... 25%
-Loading mappings... 31%
-Loading mappings... 44%
+Loading mappings...  3%
+Loading mappings... 10%
+Loading mappings... 20%
+Loading mappings... 30%
+Loading mappings... 40%
 Loading mappings... 50%
-Loading mappings... 63%
-Loading mappings... 75%
-Loading mappings... 81%
-Loading mappings... 94%
+Loading mappings... 60%
+Loading mappings... 70%
+Loading mappings... 80%
+Loading mappings... 90%
 Loading mappings... 100%
-0 packages, 3344 classes, 11921 fields, 20819 methods
+0 packages, 3344 classes, 11921 fields, 20826 methods
 Remapping final jar
 Remapping jar...  0%
 Remapping jar... 10%

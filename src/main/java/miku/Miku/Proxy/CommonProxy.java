@@ -2,6 +2,7 @@ package miku.Miku.Proxy;
 
 import miku.Config.MikuConfig;
 import miku.Event.*;
+import miku.Items.Miku.MikuItem;
 import miku.Miku.MikuLoader;
 import miku.World.MikuWorld.MikuWorld;
 import miku.World.OverWorldGen;
@@ -23,6 +24,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new MikuEntityEvent());
         MinecraftForge.EVENT_BUS.register(new BreakBlock());
         MinecraftForge.EVENT_BUS.register(new EntityDropEvent());
+        MinecraftForge.EVENT_BUS.register(new MikuItem());
         MinecraftForge.EVENT_BUS.register(new MikuItemEvent());
         MinecraftForge.EVENT_BUS.register(new PlayerEvent());
         MinecraftForge.EVENT_BUS.register(new EntityEvent());

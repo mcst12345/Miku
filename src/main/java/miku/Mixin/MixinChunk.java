@@ -1,7 +1,7 @@
 package miku.Mixin;
 
 import miku.Entity.Hatsune_Miku;
-import miku.Items.MikuItem;
+import miku.Items.Miku.MikuItem;
 import miku.Utils.InventoryUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

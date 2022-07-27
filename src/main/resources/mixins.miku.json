@@ -16,10 +16,13 @@
     "MixinEntityPlayerMP",
     "MixinInventoryPlayer",
     "MixinLoli",
+    "MixinNoException",
     "MixinWorld",
     "MixinWorldServer"
   ],
-  "client": [],
+  "client": [
+    "MixinEntityPlayerSP"
+  ],
   "server": [],
   "required": false
 }

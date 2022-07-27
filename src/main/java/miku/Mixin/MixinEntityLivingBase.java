@@ -1,6 +1,6 @@
 package miku.Mixin;
 
-import miku.MixinInterface.IEntityLivingBase;
+import miku.Interface.MixinInterface.IEntityLivingBase;
 import miku.Utils.InventoryUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

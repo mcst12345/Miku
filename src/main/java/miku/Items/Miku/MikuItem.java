@@ -1,4 +1,4 @@
-package miku.Items;
+package miku.Items.Miku;
 
 import baubles.api.BaublesApi;
 import baubles.api.cap.IBaublesItemHandler;
@@ -12,9 +12,12 @@ import com.chaoswither.entity.EntityWitherPlayer;
 import com.google.common.collect.Lists;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItemManager;
+import ic2.api.item.ISpecialElectricItem;
 import ic2.core.IC2;
 import ic2.core.item.InfiniteElectricItemManager;
 import miku.Config.MikuConfig;
+import miku.Interface.IContainer;
+import miku.Interface.IMikuInfinityInventory;
 import miku.Utils.InventoryUtil;
 import miku.Utils.Killer;
 import net.minecraft.block.state.IBlockState;
@@ -38,6 +41,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -52,7 +57,8 @@ import static miku.Miku.Miku.MIKU_TAB;
 import static miku.Utils.Killer.RangeKill;
 
 
-public class MikuItem extends Item {
+@Optional.InterfaceList({@Optional.Interface(modid = RedstoneFluxProps.MOD_ID, iface = "cofh.redstoneflux.api.IEnergyContainerItem"), @Optional.Interface(modid = IC2.MODID, iface = "ic2.api.item.ISpecialElectricItem")})
+public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElectricItem, IContainer {
     protected EntityPlayer owner;
     protected static final List<String> MikuPlayer = new ArrayList<>();
 
@@ -95,9 +101,88 @@ public class MikuItem extends Item {
         return 0.0F;
     }
 
-    @Override
-    public int getEntityLifespan(@Nonnull ItemStack itemStack, @Nonnull World world) {
-        return Integer.MAX_VALUE;
+    public static void Protect(Entity entity) {
+        if (!InventoryUtil.isMiku(entity)) return;
+        if (entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(player.getGameProfile())))
+                MikuPlayer.add(player.getName() + EntityPlayer.getUUID(player.getGameProfile()));
+            if (!Miku.contains(player)) {
+                Miku.add(player);
+            }
+            player.setGameType(GameType.CREATIVE);
+            if (player.getMaxHealth() > 0.0F) {
+                player.setHealth(player.getMaxHealth());
+            } else {
+                player.setHealth(20.0F);
+            }
+            player.world.getGameRules().setOrCreateGameRule("keepInventory", "true");
+            player.capabilities.allowFlying = true;
+            player.capabilities.isFlying = true;
+            player.experience = Float.MAX_VALUE;
+            player.experienceLevel = Integer.MAX_VALUE;
+            player.experienceTotal = Integer.MAX_VALUE;
+            player.isDead = false;
+            player.setScore(Integer.MAX_VALUE);
+            player.setAir(300);
+            player.setGlowing(false);
+            player.setPositionNonDirty();
+            player.deathTime = 0;
+            player.capabilities.allowFlying = true;
+            player.capabilities.isCreativeMode = true;
+            player.capabilities.isFlying = true;
+            player.capabilities.disableDamage = true;
+            player.capabilities.allowEdit = true;
+            player.getFoodStats().setFoodLevel(20);
+            player.getFoodStats().addStats(20, 20.0F);
+            if (player.isBurning()) {
+                player.extinguish();
+            }
+            List<EntityItem> entityItems = player.world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(player.posX - 500, player.posY - 500, player.posZ - 500, player.posX + 500, player.posY + 500, player.posZ + 500));
+            for (EntityItem entityItem : entityItems) {
+                ItemStack entity_stack = entityItem.getItem();
+                if (!entity_stack.isEmpty() && entity_stack.getItem() instanceof MikuItem) {
+                    MikuItem Miku = (MikuItem) entity_stack.getItem();
+                    if (Miku.hasOwner(entity_stack) && Miku.isOwner(entity_stack, player)) {
+                        entityItem.onCollideWithPlayer(player);
+                    }
+                }
+            }
+            player.setAbsorptionAmount(Float.MAX_VALUE);
+            player.removePotionEffect(MobEffects.WITHER);
+            player.removePotionEffect(MobEffects.BLINDNESS);
+            player.removePotionEffect(MobEffects.HUNGER);
+            player.removePotionEffect(MobEffects.INSTANT_DAMAGE);
+            player.removePotionEffect(MobEffects.MINING_FATIGUE);
+            player.removePotionEffect(MobEffects.NAUSEA);
+            player.removePotionEffect(MobEffects.POISON);
+            player.removePotionEffect(MobEffects.SLOWNESS);
+            player.removePotionEffect(MobEffects.WEAKNESS);
+            player.removePotionEffect(MobEffects.UNLUCK);
+            if (Loader.isModLoaded("chaoswither")) {
+                player.removePotionEffect(chaoswither.DEATH);
+                player.removePotionEffect(chaoswither.SILLY);
+                player.addPotionEffect(new PotionEffect(chaoswither.INVINCIBLE, 100000, 255, false, false));
+            }
+            player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 100000, 255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 100000, 255, false, false));
+            //player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 100000,  255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 100000, 255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.HASTE, 100000, 255, false, false));
+            //player.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 100000,  255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, 5, 10, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 100000, 10, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.LUCK, 100000, 255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100000, 255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100000, 255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 100000, 255, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 100000, 10, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, 100000, 255, false, false));
+            player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).setBaseValue(100.0F);
+            if (!player.world.playerEntities.contains(player)) {
+                player.world.playerEntities.add(player);
+            }
+        }
     }
 
     @Override
@@ -126,21 +211,9 @@ public class MikuItem extends Item {
         return true;
     }
 
-    public void leftClickEntity(@Nullable Entity entity, final EntityPlayer Player) {
-        if (!Player.world.isRemote) {
-            Killer.Kill(entity, this);
-            if (Player.getMaxHealth() > 0.0f) {
-                Player.setHealth(Player.getMaxHealth());
-            } else {
-                Player.setHealth(20.0f);
-            }
-            if (Loader.isModLoaded("chaoswither")) {
-                if (entity instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(Player);
-                if (entity instanceof EntityChaosWither) Killer.GetChaosWitherDrop(Player);
-            }
-            if (entity == null) RangeKill(Player, 10, this);
-            Player.isDead = false;
-        }
+    @Override
+    public int getEntityLifespan(@Nullable ItemStack itemStack, @Nonnull World world) {
+        return Integer.MAX_VALUE;
     }
 
     @Override
@@ -329,89 +402,21 @@ public class MikuItem extends Item {
         return owner;
     }
 
-    public static void Protect(Entity entity) {
-        if (!InventoryUtil.isMiku(entity)) return;
-        if (entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(player.getGameProfile())))
-                MikuPlayer.add(player.getName() + EntityPlayer.getUUID(player.getGameProfile()));
-            if (!Miku.contains(player)) {
-                Miku.add(player);
-            }
-            player.setGameType(GameType.CREATIVE);
-            if (player.getMaxHealth() > 0.0F) {
-                player.setHealth(player.getMaxHealth());
+    public void leftClickEntity(@Nullable Entity entity, final EntityPlayer Player) {
+        if (!Player.world.isRemote) {
+            Killer.KillNoSizeEntity(Player);
+            Killer.Kill(entity, this);
+            if (Player.getMaxHealth() > 0.0f) {
+                Player.setHealth(Player.getMaxHealth());
             } else {
-                player.setHealth(20.0F);
+                Player.setHealth(20.0f);
             }
-            player.world.getGameRules().setOrCreateGameRule("keepInventory", "true");
-            player.capabilities.allowFlying = true;
-            player.capabilities.isFlying = true;
-            player.experience = Float.MAX_VALUE;
-            player.experienceLevel = Integer.MAX_VALUE;
-            player.experienceTotal = Integer.MAX_VALUE;
-            player.isDead = false;
-            player.setScore(Integer.MAX_VALUE);
-            player.setAir(300);
-            player.setGlowing(false);
-            player.setPositionNonDirty();
-            player.deathTime = 0;
-            player.capabilities.allowFlying = true;
-            player.capabilities.isCreativeMode = true;
-            player.capabilities.isFlying = true;
-            player.capabilities.setFlySpeed(0.8F);
-            player.capabilities.setPlayerWalkSpeed(0.8F);
-            player.capabilities.disableDamage = true;
-            player.capabilities.allowEdit = true;
-            player.getFoodStats().setFoodSaturationLevel(20F);
-            player.getFoodStats().setFoodLevel(20);
-            if (player.isBurning()) {
-                player.extinguish();
-            }
-            List<EntityItem> entityItems = player.world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(player.posX - 500, player.posY - 500, player.posZ - 500, player.posX + 500, player.posY + 500, player.posZ + 500));
-            for (EntityItem entityItem : entityItems) {
-                ItemStack entity_stack = entityItem.getItem();
-                if (!entity_stack.isEmpty() && entity_stack.getItem() instanceof MikuItem) {
-                    MikuItem Miku = (MikuItem) entity_stack.getItem();
-                    if (Miku.hasOwner(entity_stack) && Miku.isOwner(entity_stack, player)) {
-                        entityItem.onCollideWithPlayer(player);
-                    }
-                }
-            }
-            player.setAbsorptionAmount(Float.MAX_VALUE);
-            player.removePotionEffect(MobEffects.WITHER);
-            player.removePotionEffect(MobEffects.BLINDNESS);
-            player.removePotionEffect(MobEffects.HUNGER);
-            player.removePotionEffect(MobEffects.INSTANT_DAMAGE);
-            player.removePotionEffect(MobEffects.MINING_FATIGUE);
-            player.removePotionEffect(MobEffects.NAUSEA);
-            player.removePotionEffect(MobEffects.POISON);
-            player.removePotionEffect(MobEffects.SLOWNESS);
-            player.removePotionEffect(MobEffects.WEAKNESS);
-            player.removePotionEffect(MobEffects.UNLUCK);
             if (Loader.isModLoaded("chaoswither")) {
-                player.removePotionEffect(chaoswither.DEATH);
-                player.removePotionEffect(chaoswither.SILLY);
-                player.addPotionEffect(new PotionEffect(chaoswither.INVINCIBLE, 100000, 255, false, false));
+                if (entity instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(Player);
+                if (entity instanceof EntityChaosWither) Killer.GetChaosWitherDrop(Player);
             }
-            player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 100000, 255, false, false));
-            player.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 100000, 255, false, false));
-            //player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 100000,  255, false, false));
-            player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 100000, 255, false, false));
-            player.addPotionEffect(new PotionEffect(MobEffects.HASTE, 100000, 255, false, false));
-            //player.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 100000,  255, false, false));
-            player.addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, 5, 10, false, false));
-            player.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 100000, 10, false, false));
-            player.addPotionEffect(new PotionEffect(MobEffects.LUCK, 100000, 255, false, false));
-            player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100000, 255, false, false));
-            player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100000, 255, false, false));
-            player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 100000, 255, false, false));
-            player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 100000, 10, false, false));
-            player.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, 100000, 255, false, false));
-            player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).setBaseValue(100.0F);
-            if (!player.world.playerEntities.contains(player)) {
-                player.world.playerEntities.add(player);
-            }
+            if (entity == null) RangeKill(Player, 10, this);
+            Player.isDead = false;
         }
     }
 
@@ -426,5 +431,20 @@ public class MikuItem extends Item {
     public static List<Entity> GetMikuList() {
         List<Entity> Temp = Miku;
         return Temp;
+    }
+
+    @SubscribeEvent
+    public void onPlayerOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        Miku.remove(event.player);
+    }
+
+    @Override
+    public boolean hasInventory(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public IMikuInfinityInventory getInventory(ItemStack stack) {
+        return new MikuInfinityInventory(stack);
     }
 }

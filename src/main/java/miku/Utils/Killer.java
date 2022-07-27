@@ -4,12 +4,14 @@ import com.anotherstar.common.entity.IEntityLoli;
 import com.chaoswither.chaoswither;
 import com.chaoswither.entity.EntityChaosWither;
 import com.chaoswither.entity.EntityWitherPlayer;
+import com.google.common.collect.Lists;
+import com.shinoow.grue.common.entity.EntityGrue;
 import miku.DamageSource.MikuDamage;
 import miku.Entity.Hatsune_Miku;
-import miku.Items.MikuItem;
+import miku.Interface.MixinInterface.IEntity;
+import miku.Interface.MixinInterface.IEntityLivingBase;
+import miku.Items.Miku.MikuItem;
 import miku.Items.Music.music_base;
-import miku.MixinInterface.IEntity;
-import miku.MixinInterface.IEntityLivingBase;
 import miku.chaosloli.Entity.ChaosLoli;
 import net.mcreator.cthulhu.MCreatorAzathoth;
 import net.minecraft.client.Minecraft;
@@ -33,6 +35,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
@@ -62,8 +65,34 @@ public class Killer {
         return NoMoreChaosWither;
     }
 
-    public static void Kill(Entity entity, @Nullable MikuItem item, boolean forced) {
+    public static void KillNoSizeEntity(Entity entity) {
+        List<Entity> entitys = Lists.newArrayList();
+        for (int dist = 0; dist <= 100; dist += 2) {
+            AxisAlignedBB bb = entity.getEntityBoundingBox();
+            Vec3d vec = entity.getLookVec();
+            vec = vec.normalize();
+            bb = bb.grow(0.01 * dist + 2.0, 0.01 * dist + 0.25, 0.01 * dist + 2.0);
+            bb = bb.offset(vec.x * dist, vec.y * dist, vec.z * dist);
+            List<Entity> list = entity.world.getEntitiesWithinAABB(Entity.class, bb);
+            list.removeAll(entitys);
+            list.removeIf(en -> en.getDistance(en) > 100);
+            entitys.addAll(list);
+        }
+    }
+
+    public static void Kill(@Nullable Entity entity, @Nullable MikuItem item, boolean forced) {
         if (entity == null) return;
+
+        if (entity.world.isRemote) return;
+
+        if (Loader.isModLoaded("grue")) {
+            if (entity instanceof EntityGrue) {
+                entity.attackEntityFrom(DamageSource.IN_WALL, Float.MAX_VALUE);
+                entity.onRemovedFromWorld();
+                entity.world.removeEntity(entity);
+                return;
+            }
+        }
 
         if (Loader.isModLoaded("cthulhu")) {
             if (entity instanceof MCreatorAzathoth.EntityCustom) {
@@ -123,8 +152,17 @@ public class Killer {
         ChaosWitherPlayerNoDrop = false;
     }
 
-    public static void Kill(Entity entity, @Nullable MikuItem item) {
+    public static void Kill(@Nullable Entity entity, @Nullable MikuItem item) {
         if (entity == null) return;
+        if (entity.world.isRemote) return;
+        if (Loader.isModLoaded("grue")) {
+            if (entity instanceof EntityGrue) {
+                entity.attackEntityFrom(DamageSource.IN_WALL, Float.MAX_VALUE);
+                entity.onRemovedFromWorld();
+                entity.world.removeEntity(entity);
+                return;
+            }
+        }
         if (Loader.isModLoaded("cthulhu")) {
             if (entity instanceof MCreatorAzathoth.EntityCustom) {
                 NoMoreAzathoth = true;
@@ -205,7 +243,6 @@ public class Killer {
         player.attackEntityFrom(ds, Float.MAX_VALUE);
         player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(0.0);
         player.world.setEntityState(player, (byte) 2);
-        player.handleStatusUpdate((byte) 3);
         player.addStat(StatList.DEATHS, 1);
         player.closeScreen();
         player.velocityChanged = true;
@@ -217,7 +254,6 @@ public class Killer {
         player.motionZ = -MathHelper.sin((player.attackedAtYaw + player.rotationYaw) * 3.1415927f / 180.0f) * 0.1f;
         player.setLastAttackedEntity(player);
         player.world.setEntityState(player, (byte) 2);
-        player.handleStatusUpdate((byte) 3);
         player.addStat(StatList.DEATHS, 1);
         player.addStat(StatList.DAMAGE_TAKEN, Integer.MAX_VALUE);
         player.world.playerEntities.remove(player);
@@ -251,7 +287,6 @@ public class Killer {
             entity.velocityChanged = true;
             entity.addVelocity(-MathHelper.sin(entity.rotationYaw * 3.1415927f / 180.0f) * 1.0f * 0.5f, 0.1, MathHelper.cos(entity.rotationYaw * 3.1415927f / 180.0f) * 1.0f * 0.5f);
             //entity.recentlyHit = 60;
-            entity.handleStatusUpdate((byte) 3);
             if (!entity.getHeldItemMainhand().isEmpty()) {
                 final ItemStack item = entity.getHeldItemMainhand();
                 final EntityItem entityItem = new EntityItem(entity.world, entity.posX, entity.posY + 5.0, entity.posZ, item);
@@ -281,25 +316,32 @@ public class Killer {
                 entity.world.spawnEntity(entityItem);
                 entityItem.setItem(ItemStack.EMPTY);
             }
-            entity.motionX *= 0.6;
-            entity.motionZ *= 0.6;
-            DamageSource ds = source == null ? new DamageSource("miku") : new EntityDamageSource("miku", source);
-            entity.getCombatTracker().trackDamage(ds, Float.MAX_VALUE, Float.MAX_VALUE);
-            entity.setHealth(-1111.0f);
-            ((IEntityLivingBase) entity).ZeroHealth();
-            entity.attackEntityFrom(DamageSource.OUT_OF_WORLD.setDamageBypassesArmor(), 300000.0f);
-            entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(-1111110.0);
+        entity.motionX *= 0.6;
+        entity.motionZ *= 0.6;
+        DamageSource ds = source == null ? new DamageSource("miku") : new EntityDamageSource("miku", source);
+        entity.getCombatTracker().trackDamage(ds, Float.MAX_VALUE, Float.MAX_VALUE);
+        entity.setHealth(-1111.0f);
+        ((IEntityLivingBase) entity).ZeroHealth();
+        entity.attackEntityFrom(DamageSource.OUT_OF_WORLD.setDamageBypassesArmor(), 300000.0f);
+        entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(-1111110.0);
+        if (Loader.isModLoaded("grue")) {
+            if (!(entity instanceof EntityGrue)) {
+                entity.onDeath(ds);
+                entity.onDeath(MikuDamage.MikuDamage);
+            }
+        } else {
             entity.onDeath(ds);
             entity.onDeath(MikuDamage.MikuDamage);
-            final List entityList = new ArrayList();
-            entityList.add(entity);
-            entity.world.unloadEntities(entityList);
-            entity.world.onEntityRemoved(entity);
-            entity.world.loadedEntityList.remove(entity);
-            entity.world.setEntityState(entity, (byte) 3);
-            entity.world.removeEntityDangerously(entity);
-            entity.setInvisible(true);
-            entity.isDead = true;
+        }
+        final List entityList = new ArrayList();
+        entityList.add(entity);
+        entity.world.unloadEntities(entityList);
+        entity.world.onEntityRemoved(entity);
+        entity.world.loadedEntityList.remove(entity);
+        entity.world.setEntityState(entity, (byte) 3);
+        entity.world.removeEntityDangerously(entity);
+        entity.setInvisible(true);
+        entity.isDead = true;
         entity.onRemovedFromWorld();
         System.out.println("Kill entity living");
     }
@@ -314,8 +356,10 @@ public class Killer {
     }
 
     public static void killEntity(Entity entity) {
-        Minecraft.getMinecraft().entityRenderer.getShaderGroup();
-        Minecraft.getMinecraft().entityRenderer.stopUseShader();
+        if (entity.world.isRemote) {
+            Minecraft.getMinecraft().entityRenderer.getShaderGroup();
+            Minecraft.getMinecraft().entityRenderer.stopUseShader();
+        }
         final float Damage = 9999999999999.0F;
         entity.hurtResistantTime = 0;
         final DamageSource ds = new EntityDamageSource("directMagic", entity).setDamageBypassesArmor().setDamageAllowedInCreativeMode().setMagicDamage();
@@ -327,7 +371,7 @@ public class Killer {
 
         ((IEntity) entity).KillIt();
 
-        Minecraft.getMinecraft().entityRenderer.stopUseShader();
+        if (entity.world.isRemote) Minecraft.getMinecraft().entityRenderer.stopUseShader();
 
         System.out.println("kill entity");
     }

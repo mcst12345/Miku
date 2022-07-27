@@ -50,7 +50,7 @@ advancement.get_miku.description=You created Miku!
 #keys
 key.category.miku=Miku
 key.miku.fk_world=Destroy the world[not implemented]
-key.miku.reload_config=Reload Config
+key.miku.inventory=Miku Inventory
 
 #Entities
 entity.HatsuneMiku.name=Hatsune Miku
@@ -97,3 +97,6 @@ Attack Damage=?
 
 #DeathDamage
 death.attack.miku=%1$s was Killed By Miku
+
+#Container
+container.miku=Miku Infinity Inventory

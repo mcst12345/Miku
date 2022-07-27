@@ -3,7 +3,7 @@ package miku.Utils;
 import com.chaoswither.items.ItemChaosGodSword;
 import miku.Config.MikuConfig;
 import miku.Entity.Hatsune_Miku;
-import miku.Items.MikuItem;
+import miku.Items.Miku.MikuItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

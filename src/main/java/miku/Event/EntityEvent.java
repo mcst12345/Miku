@@ -1,7 +1,7 @@
 package miku.Event;
 
 import miku.Entity.Hatsune_Miku;
-import miku.Items.MikuItem;
+import miku.Items.Miku.MikuItem;
 import miku.Miku.MikuLoader;
 import miku.Utils.InventoryUtil;
 import miku.Utils.Killer;
@@ -17,14 +17,15 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-import static miku.Items.MikuItem.IsMikuPlayer;
-import static miku.Items.MikuItem.Protect;
+import static miku.Items.Miku.MikuItem.IsMikuPlayer;
+import static miku.Items.Miku.MikuItem.Protect;
 
 public class EntityEvent {
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void EntityJoinWorldEvent(EntityJoinWorldEvent event) {
         Entity entity = event.getEntity();
         if (entity.world.isRemote) return;
@@ -119,14 +120,10 @@ public class EntityEvent {
                 Miku.getItem().onCreated(Miku, player.world, player);
                 player.addItemStackToInventory(Miku);
             }
-            if (!player.world.playerEntities.contains(player)) {
-                player.world.playerEntities.add(player);
-                player.world.onEntityAdded(player);
-            }
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void Kill(LivingEvent.LivingUpdateEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity == null) return;

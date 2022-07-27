@@ -1,9 +1,10 @@
 package miku.Entity;
 
+import com.anotherstar.common.entity.IEntityLoli;
 import com.chaoswither.chaoswither;
 import com.github.alexthe666.iceandfire.IceAndFire;
 import com.github.alexthe666.iceandfire.entity.StoneEntityProperties;
-import miku.Items.MikuItem;
+import miku.Items.Miku.MikuItem;
 import miku.Miku.MikuLoader;
 import miku.Utils.Killer;
 import net.ilexiconn.llibrary.server.capability.IEntityData;
@@ -27,12 +28,13 @@ import net.minecraftforge.fml.common.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Hatsune_Miku extends EntityAnimal implements INpc {
+@Optional.InterfaceList({@Optional.Interface(modid = "lolipickaxe", iface = "com.anotherstar.common.entity.IEntityLoli")})
+public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
     public boolean isTrading = false;
 
     public Hatsune_Miku(World world) {
         super(world);
-        setHealth(Float.MAX_VALUE);
+        super.setHealth(Float.MAX_VALUE);
         this.setCanPickUpLoot(false);
         this.tasks.addTask(1, new EntityAIPanic(this, 1.4D));
         this.tasks.addTask(3, new EntityAITempt(this, 1.25D, MikuLoader.SCALLION, false));
@@ -395,5 +397,14 @@ public class Hatsune_Miku extends EntityAnimal implements INpc {
         this.isInWeb = false;
         if (!MikuItem.IsInMikuList(this)) MikuItem.AddToMikuList(this);
         super.setCanPickUpLoot(false);
+    }
+
+    @Override
+    public boolean isDispersal() {
+        return false;
+    }
+
+    @Override
+    public void setDispersal(boolean value) {
     }
 }

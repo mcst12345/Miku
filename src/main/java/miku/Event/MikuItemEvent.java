@@ -1,7 +1,7 @@
 package miku.Event;
 
 import miku.Entity.Hatsune_Miku;
-import miku.Items.MikuItem;
+import miku.Items.Miku.MikuItem;
 import miku.Utils.InventoryUtil;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -9,6 +9,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MikuItemEvent {
@@ -37,18 +38,7 @@ public class MikuItemEvent {
         }
     }
 
-    @SubscribeEvent
-    public void onGetHurt(LivingHurtEvent event) {
-        if (event.getEntityLiving().world.isRemote) return;
-        if (InventoryUtil.isMiku(event.getEntityLiving())) {
-            System.out.println("Protect entity");
-            MikuItem.Protect(event.getEntityLiving());
-            if (event.getEntityLiving() instanceof Hatsune_Miku) ((Hatsune_Miku) event.getEntityLiving()).Protect();
-            event.setCanceled(true);
-        }
-    }
-
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;

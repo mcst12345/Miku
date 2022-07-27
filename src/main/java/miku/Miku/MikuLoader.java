@@ -8,7 +8,7 @@ import miku.Blocks.Sekai.empty.WhiteGreyBlock;
 import miku.Enchantment.GodKiller;
 import miku.Entity.Hatsune_Miku;
 import miku.Items.Delicious_Scallion;
-import miku.Items.MikuItem;
+import miku.Items.Miku.MikuItem;
 import miku.Items.Music.*;
 import miku.Items.Scallion;
 import miku.Items.Summon_Miku;
@@ -31,6 +31,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -42,6 +43,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Objects;
+
+import static miku.Event.InputEvent.DESTROY_WORLD;
 
 @Mod.EventBusSubscriber
 public class MikuLoader {
@@ -220,7 +223,6 @@ public class MikuLoader {
 
     @SubscribeEvent
     public static void registerBlock(RegistryEvent.Register<Block> event) {
-        // 和物品一样，每一个方块都有唯一一个注册名，不能使用大写字母。
         event.getRegistry().register(MIKU_ORE.setRegistryName("miku:miku_ore"));
         event.getRegistry().register(EMPTY_SEKAI_BLOCK.setRegistryName("miku:empty_sekai_block"));
         event.getRegistry().register(MikuJukebox.setRegistryName("miku:miku_jukebox"));
@@ -269,6 +271,10 @@ public class MikuLoader {
     public void onRegisterBiomeEvent(RegistryEvent.Register<Biome> event) {
         BiomeRegister = event.getRegistry();
         RegisterBiomes();
+    }
+
+    public static void RegisterKey() {
+        ClientRegistry.registerKeyBinding(DESTROY_WORLD);
     }
 
 }

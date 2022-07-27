@@ -11,7 +11,7 @@ plugins {
 }
 
 group = 'miku'
-version = '1.0.1-pre11'
+version = '1.0.1-pre13'
 
 java {
     archivesBaseName = 'miku'

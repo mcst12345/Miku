@@ -8,10 +8,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee445276-b487-450a-82d5-af3ab733f797" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/libs/mowziesmobs-1.5.8.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinChunk.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/DarknessLib-1.12.2-1.1.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/Grue-1.12.2-1.8.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Gui/Container/MikuGuiContainer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Gui/Container/MikuInventoryContainer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Gui/MikuGuiHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Interface/IContainer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Interface/IMikuInfinityInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Interface/MixinInterface/IEntityPlayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Items/Miku/MikuInfinityInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinEntityPlayerSP.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinNoException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Network/Packet/MikuKillNoSizeEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miku/Network/Packet/OpenGuiPacket.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/miku/recipes/scallion_block.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/miku/textures/gui/container/miku_inventory_container.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/checksums/md5-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" afterDir="false" />
@@ -19,25 +31,46 @@
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Entity/Hatsune_Miku.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/Entity/Hatsune_Miku.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Mixin/MixinLoliAttackAI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/libs/sign.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/sign.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reobfJar/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/reobfJar/log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reobfJar/output.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/reobfJar/output.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/mcmod.info" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/mcmod.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/resources/main/mixins.miku.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/mixins.miku.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileJava-mappings.tsrg" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/compileJava-mappings.tsrg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileJava-refmap.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/compileJava-refmap.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/mixin.refmap.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/mixin.refmap.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Entity/Hatsune_Miku.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Entity/Hatsune_Miku.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Event/BreakBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Event/BreakBlock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miku/Event/EntityEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Event/EntityEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Items/MikuItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Items/MikuItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Items/Music/Miku_Music_Box.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Items/Music/Miku_Music_Box.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Event/InputEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Event/InputEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Event/MikuItemEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Event/MikuItemEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Event/PlayerEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Event/PlayerEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Event/WorldEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Event/WorldEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Items/MikuItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Items/Miku/MikuItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Miku/Miku.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Miku/Miku.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Miku/MikuLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Miku/MikuLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Miku/Proxy/ClientProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Miku/Proxy/ClientProxy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Miku/Proxy/CommonProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Miku/Proxy/CommonProxy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinChunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinChunk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinEntityLivingBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinEntityLivingBase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinEntityPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinEntityPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinEntityPlayerMP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinEntityPlayerMP.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Mixin/MixinWorld.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/MixinInterface/IEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Interface/MixinInterface/IEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/MixinInterface/IEntityLivingBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Interface/MixinInterface/IEntityLivingBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miku/Utils/InventoryUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Utils/InventoryUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miku/Utils/Killer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miku/Utils/Killer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/miku/lang/en_us.lang" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/miku/lang/en_us.lang" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/miku/lang/zh_cn.lang" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/miku/lang/zh_cn.lang" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mcmod.info" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mcmod.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mixins.miku.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mixins.miku.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -78,18 +111,6 @@
                 <item name="miku_mod" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="miku_mod" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="publishing" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="miku_mod" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="verification" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
@@ -162,20 +183,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;last_opened_file_path&quot;: &quot;/root/下载/LoliPickaxe-master/src/main/java&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;http.proxy&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/mnt/FA10AC15CB1B98EF/code/java/miku_mod/src/main/resources/assets/miku/textures/gui/container",
+    "settings.editor.selected.configurable": "inlay.hints"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/assets/miku/textures/gui/container" />
       <recent name="$PROJECT_DIR$/src/main/resources/assets/miku/textures/items" />
       <recent name="C:\code\java\miku_mod\src\main\resources\assets\miku\textures\items" />
       <recent name="C:\code\java\miku_mod\src\main\resources\assets\miku\textures\entities" />
       <recent name="C:\code\java\miku_mod\libs" />
-      <recent name="C:\code\java\miku_mod\src\main\java\miku\Mixin" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/assets/miku/textures/blocks" />
@@ -186,6 +208,7 @@
       <recent name="miku.miku.Loader" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="miku.Interface" />
       <recent name="miku.World.MikuWorld" />
       <recent name="miku.items.compressed_scallion" />
     </key>
@@ -222,27 +245,6 @@
         <option name="taskNames">
           <list>
             <option value="assemble" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="miku_mod [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="buildDependents" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -294,22 +296,43 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="miku_mod [sync]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="sync" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <list>
+      <item itemvalue="Gradle.miku_mod [sync]" />
       <item itemvalue="Gradle.build offline" />
       <item itemvalue="Gradle.miku_mod [assemble]" />
       <item itemvalue="Gradle.miku_mod [build] (1)" />
       <item itemvalue="Gradle.miku_mod [clean]" />
-      <item itemvalue="Gradle.miku_mod [buildDependents]" />
       <item itemvalue="应用程序.runClient" />
       <item itemvalue="应用程序.runServer" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.miku_mod [build] (1)" />
+        <item itemvalue="Gradle.miku_mod [sync]" />
         <item itemvalue="Gradle.build offline" />
         <item itemvalue="Gradle.miku_mod [assemble]" />
         <item itemvalue="Gradle.miku_mod [clean]" />
-        <item itemvalue="Gradle.miku_mod [buildDependents]" />
       </list>
     </recent_temporary>
   </component>
@@ -367,6 +390,7 @@
       <workItem from="1658205757746" duration="1178000" />
       <workItem from="1658286861123" duration="1879000" />
       <workItem from="1658428981595" duration="846000" />
+      <workItem from="1658710568968" duration="135000" />
     </task>
     <task id="LOCAL-00001" summary="Changes">
       <created>1657540515455</created>
@@ -634,7 +658,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658657535982</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Changes">
+      <created>1658730104679</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1658730104679</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -690,8 +721,8 @@
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$USER_HOME$/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.12.2-14.23.5.2860_mapped_stable_39-1.12/forge-1.12.2-14.23.5.2860_mapped_stable_39-1.12-sources.jar!/net/minecraft/world/World.java</url>
-          <line>1672</line>
+          <url>file://$USER_HOME$/下载/LoliPickaxe-master/src/main/java/com/anotherstar/common/item/tool/ItemLoliPickaxe.java</url>
+          <line>423</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>

@@ -5,4 +5,11 @@ miku/Mixin/MixinEntityLivingBase recentlyHit field_70718_bc
 miku/Mixin/MixinInventoryPlayer player field_70458_d
 miku/Mixin/MixinWorld unloadedEntityList field_72997_g
 miku/Mixin/MixinEntityLivingBase getMaxHealth ()F func_110138_aP
+miku/Mixin/MixinEntityPlayer getExperiencePoints (Lnet/minecraft/entity/player/EntityPlayer;)I func_70693_a
+miku/Mixin/MixinEntityPlayer canPlayerEdit (Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Lnet/minecraft/item/ItemStack;)Z func_175151_a
+miku/Mixin/MixinEntityPlayer isAllowEdit ()Z func_175142_cm
+miku/Mixin/MixinEntityPlayer getArmorVisibility ()F func_82243_bO
+miku/Mixin/MixinEntityPlayer canAttackPlayer (Lnet/minecraft/entity/player/EntityPlayer;)Z func_96122_a
+miku/Mixin/MixinEntityPlayerMP canPlayersAttack ()Z func_175400_cq
+miku/Mixin/MixinEntityPlayerMP canAttackPlayer (Lnet/minecraft/entity/player/EntityPlayer;)Z func_96122_a
 miku/Mixin/MixinWorld unloadEntities (Ljava/util/Collection;)V func_175681_c

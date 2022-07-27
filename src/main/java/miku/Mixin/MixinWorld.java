@@ -3,7 +3,7 @@ package miku.Mixin;
 import com.chaoswither.entity.EntityChaosWither;
 import com.google.common.collect.Lists;
 import miku.Entity.Hatsune_Miku;
-import miku.Items.MikuItem;
+import miku.Items.Miku.MikuItem;
 import miku.Utils.InventoryUtil;
 import miku.Utils.Killer;
 import net.mcreator.cthulhu.MCreatorAzathoth;

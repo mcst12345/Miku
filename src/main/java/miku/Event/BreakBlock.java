@@ -1,6 +1,6 @@
 package miku.Event;
 
-import miku.Items.MikuItem;
+import miku.Items.Miku.MikuItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
