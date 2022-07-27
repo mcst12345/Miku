@@ -50,7 +50,7 @@ advancement.get_miku.description=你合成了Miku!
 #按键
 key.category.miku=Miku
 key.miku.fk_world=毁灭世界[未实现]
-key.miku.reload_config=重载配置
+key.miku.inventory=Miku背包
 
 #实体
 entity.HatsuneMiku.name=初音未来
@@ -97,3 +97,6 @@ Attack Damage=?
 
 #死亡信息
 death.attack.miku=%1$s被Miku杀死了
+
+#容器
+container.miku=Miku无限背包
