@@ -1,5 +1,7 @@
 package miku.Thread;
 
+import miku.Exception.MusicFileNotFound;
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +25,11 @@ public class PlayMusic extends Thread {
                 return;
             }
             isPlaying = true;
-            as = AudioSystem.getAudioInputStream(new File("audio/" + FileName + ".wav"));//音频文件在项目根目录的img文件夹下
+            File MusicFile = new File("audio/" + FileName + ".wav");
+            if (!MusicFile.exists()) {
+                throw new MusicFileNotFound();
+            }
+            as = AudioSystem.getAudioInputStream(MusicFile);
             AudioFormat format = as.getFormat();
             SourceDataLine sdl;
             DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);

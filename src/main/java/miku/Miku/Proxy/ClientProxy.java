@@ -2,8 +2,10 @@ package miku.Miku.Proxy;
 
 import miku.Entity.Hatsune_Miku;
 import miku.Event.InputEvent;
+import miku.Exception.MusicPackNotFound;
 import miku.Miku.Miku;
 import miku.Miku.MikuLoader;
+import miku.Render.MikuRenderItem;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
@@ -11,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import javax.annotation.Nonnull;
@@ -26,6 +29,7 @@ public class ClientProxy extends CommonProxy {
         File MusicFolder = new File("audio");
         if (!MusicFolder.isDirectory()) {
             Miku.INSTANCE.GetLogger().fatal("Cannot find music pack! Please download the music pack. You can find the link on the modrinth page.");
+            throw new MusicPackNotFound();
         }
         MikuLoader.RegisterKey();
         MinecraftForge.EVENT_BUS.register(new InputEvent());
@@ -43,5 +47,11 @@ public class ClientProxy extends CommonProxy {
             });
             return customRender;
         });
+    }
+
+    @Override
+    public void init(FMLInitializationEvent event) {
+        super.init(event);
+        MikuRenderItem.init();
     }
 }

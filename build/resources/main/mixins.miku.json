@@ -6,22 +6,28 @@
     "MixinChaosEntityTool",
     "MixinChaosUpdateEvent",
     "MixinChaosUpdateEvent1",
+    "MixinEntityChaosWither",
     "MixinChunk",
     "MixinCommandClearInventory",
     "MixinCommandEffect",
     "MixinCommandKill",
+    "MixinEnderInventory",
     "MixinEntity",
+    "MixinEntityLiving",
     "MixinEntityLivingBase",
     "MixinEntityPlayer",
     "MixinEntityPlayerMP",
+    "MixinInventoryBasic",
     "MixinInventoryPlayer",
+    "MixinItemStack",
     "MixinLoli",
     "MixinNoException",
     "MixinWorld",
     "MixinWorldServer"
   ],
   "client": [
-    "MixinEntityPlayerSP"
+    "MixinEntityPlayerSP",
+    "MixinMinecraft"
   ],
   "server": [],
   "required": false

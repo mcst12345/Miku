@@ -7,6 +7,7 @@ import miku.Blocks.ScallionBlock;
 import miku.Blocks.Sekai.empty.WhiteGreyBlock;
 import miku.Enchantment.GodKiller;
 import miku.Entity.Hatsune_Miku;
+import miku.Items.DebugItem;
 import miku.Items.Delicious_Scallion;
 import miku.Items.Miku.MikuItem;
 import miku.Items.Music.*;
@@ -52,6 +53,7 @@ public class MikuLoader {
 
     public static final Item MIKU = new MikuItem();
     public static final Item SCALLION = new Scallion();
+    public static final Item DebugItem = new DebugItem();
     public static final Item DeliciousScallion = new Delicious_Scallion();
     public static final Item COMPRESSED_SCALLION_LAYER1 = new CompressedScallionLayer1();
     public static final Item COMPRESSED_SCALLION_LAYER2 = new CompressedScallionLayer2();
@@ -161,6 +163,7 @@ public class MikuLoader {
         event.getRegistry().register(DeliciousScallion.setRegistryName("miku:delicious_scallion"));
         event.getRegistry().register(ScallionBlockItem.setRegistryName("miku:scallion_block"));
         event.getRegistry().register(MikuPortalItem.setRegistryName("miku:miku_portal"));
+        event.getRegistry().register(DebugItem.setRegistryName("miku:debug"));
     }
 
     @SubscribeEvent

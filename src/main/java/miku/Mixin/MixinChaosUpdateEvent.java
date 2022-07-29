@@ -10,6 +10,8 @@ import com.chaoswither.items.ItemChaosGodSword;
 import com.chaoswither.items.ItemSillyMode;
 import com.chaoswither.items.armor.ItemChaosArmor;
 import com.google.common.collect.Sets;
+import miku.Config.MikuConfig;
+import miku.Interface.MixinInterface.IEntityChaosWither;
 import miku.Utils.InventoryUtil;
 import miku.Utils.Killer;
 import net.minecraft.client.Minecraft;
@@ -62,7 +64,8 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isGod1(EntityPlayer player) {
-        if (InventoryUtil.isMiku(player) || Killer.NoMoreChaosWither()) return true;
+        if (InventoryUtil.isMiku(player)) return true;
+        if (Killer.isDead(player)) return false;
         Iterator<ItemStack> var1 = player.inventory.armorInventory.iterator();
 
         ItemStack itemStack;
@@ -83,7 +86,8 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isGod(EntityLivingBase entity) {
-        if (InventoryUtil.isMiku(entity) || Killer.NoMoreChaosWither()) return true;
+        if (InventoryUtil.isMiku(entity)) return true;
+        if (Killer.isDead(entity)) return false;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
 
@@ -119,7 +123,7 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isOver(EntityLivingBase entity) {
-        if (InventoryUtil.isMiku(entity) || Killer.NoMoreChaosWither()) return false;
+        if (InventoryUtil.isMiku(entity) || (Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return false;
         if (!entity.isDead) {
             Collection<PotionEffect> effects = entity.getActivePotionEffects();
             if (effects.size() > 0) {
@@ -149,57 +153,20 @@ public abstract class MixinChaosUpdateEvent {
 
     /**
      * @author mcst12345
-     * @reason No more ChaosWithers!
-     */
-    @SubscribeEvent
-    @Overwrite
-    public void onServerTick(TickEvent.ServerTickEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
-        LivingEvent.LivingUpdateEvent event1 = new LivingEvent.LivingUpdateEvent(Minecraft.getMinecraft().player);
-        this.onLivingUpdate(event1);
-        if (isGod(Minecraft.getMinecraft().player)) {
-            GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-            if (gui instanceof GuiGameOver) {
-                Minecraft.getMinecraft().currentScreen.onGuiClosed();
-                Minecraft.getMinecraft().currentScreen = null;
-                Minecraft.getMinecraft().player.setPlayerSPHealth(20.0F);
-                Minecraft.getMinecraft().player.setHealth(20.0F);
-            }
-        }
-
-        if (Killer.NoMoreChaosWither()) return;
-        for (EntityChaosWither wither : this.cwither) {
-            if (wither.isDead) {
-                wither.isDead = false;
-            }
-
-            if (!wither.world.loadedEntityList.contains(wither)) {
-                wither.world.loadedEntityList.add(wither);
-                wither.world.onEntityAdded(wither);
-            }
-        }
-
-    }
-
-
-    /**
-     * @author mcst12345
      * @reason ChaosWitherMod will think that there are no ChaosWithers in your world if you have miku.
      */
     @Overwrite
     public static boolean isNoWitherWorld(World world) {
-        if (Killer.NoMoreChaosWither()) return true;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return true;
         boolean noWither = true;
         List<Entity> list = world.loadedEntityList;
         if (list != null && !list.isEmpty()) {
             for (Entity o : list) {
-                if (o instanceof EntityChaosWither) {
+                if (o instanceof EntityChaosWither && !((IEntityChaosWither) o).IsMikuDead()) {
                     noWither = false;
                 }
-                if (InventoryUtil.isMiku(o)) return true;
             }
         }
-
         return noWither;
     }
 
@@ -209,13 +176,13 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isWitherWorld(World world) {
-        if (Killer.NoMoreChaosWither()) return false;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return false;
         boolean b = false;
         List<Entity> list = world.loadedEntityList;
         if (list != null && !list.isEmpty()) {
             for (Entity o : list) {
                 if (InventoryUtil.isMiku(o)) return false;
-                if (o != null && o instanceof EntityChaosWither && !o.isDead) {
+                if (o != null && o instanceof EntityChaosWither && !o.isDead && !((IEntityChaosWither) o).IsMikuDead()) {
                     b = true;
                 }
             }
@@ -231,10 +198,11 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static void setTimeStop(Minecraft mc, EntityLivingBase player) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         List<Entity> entities = mc.world.loadedEntityList;
         if (entities != null && entities.size() > 0) {
             for (Entity hitEntity : entities) {
+                if (InventoryUtil.isMiku(hitEntity)) continue;
                 if (hitEntity.ticksExisted >= 2 && !(hitEntity instanceof EntityChaosWither) && !(InventoryUtil.isMiku(hitEntity))) {
                     hitEntity.setPosition(hitEntity.prevPosX, hitEntity.prevPosY, hitEntity.prevPosZ);
                     hitEntity.rotationYaw = hitEntity.prevRotationYaw;
@@ -278,7 +246,8 @@ public abstract class MixinChaosUpdateEvent {
      */
     @Overwrite
     public static boolean isDead(EntityLivingBase entity) {
-        if (InventoryUtil.isMiku(entity) || Killer.NoMoreChaosWither()) return false;
+        if (InventoryUtil.isMiku(entity)) return false;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return false;
         Collection<PotionEffect> effects = entity.getActivePotionEffects();
         if (!effects.isEmpty()) {
             for (PotionEffect effect : effects) {
@@ -295,9 +264,64 @@ public abstract class MixinChaosUpdateEvent {
      * @reason No reason!
      */
     @Overwrite
+    public static boolean isnoChaossword(EntityLivingBase entity) {
+        if (InventoryUtil.isMiku(entity)) return false;
+        if (entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+
+            for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
+                ItemStack itemStack = player.inventory.getStackInSlot(i);
+                if (itemStack.getItem() instanceof ItemChaosGodSword) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @author mcst12345
+     * @reason No more ChaosWithers!
+     */
+    @SubscribeEvent
+    @Overwrite
+    public void onServerTick(TickEvent.ServerTickEvent event) {
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
+        LivingEvent.LivingUpdateEvent event1 = new LivingEvent.LivingUpdateEvent(Minecraft.getMinecraft().player);
+        this.onLivingUpdate(event1);
+        if (isGod(Minecraft.getMinecraft().player)) {
+            GuiScreen gui = Minecraft.getMinecraft().currentScreen;
+            if (gui instanceof GuiGameOver) {
+                Minecraft.getMinecraft().currentScreen.onGuiClosed();
+                Minecraft.getMinecraft().currentScreen = null;
+                Minecraft.getMinecraft().player.setPlayerSPHealth(20.0F);
+                Minecraft.getMinecraft().player.setHealth(20.0F);
+            }
+        }
+
+        if (Killer.NoMoreChaosWither()) return;
+        for (EntityChaosWither wither : this.cwither) {
+            if (wither.isDead && !((IEntityChaosWither) wither).IsMikuDead()) {
+                wither.isDead = false;
+            }
+
+            if (!wither.world.loadedEntityList.contains(wither) && !((IEntityChaosWither) wither).IsMikuDead()) {
+                wither.world.loadedEntityList.add(wither);
+                wither.world.onEntityAdded(wither);
+            }
+        }
+
+    }
+
+    /**
+     * @author mcst12345
+     * @reason No reason!
+     */
+    @Overwrite
     @SubscribeEvent
     public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         if (event.getEntity() != null && isWitherWorld(event.getEntity().world) && !(event.getEntity() instanceof EntityPlayer) && !(event.getEntity() instanceof EntityChaosWither) && !(event.getEntity() instanceof EntityChaosWitherBase) && !(InventoryUtil.isMiku(event.getEntity()))) {
             if (event.getEntity() instanceof EntityLivingBase) {
                 ((EntityLivingBase) event.getEntity()).setHealth(-1.0F);
@@ -676,28 +700,6 @@ public abstract class MixinChaosUpdateEvent {
 
     }
 
-
-    /**
-     * @author mcst12345
-     * @reason No reason!
-     */
-    @Overwrite
-    public static boolean isnoChaossword(EntityLivingBase entity) {
-        if (InventoryUtil.isMiku(entity) || Killer.NoMoreChaosWither()) return false;
-        if (entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-
-            for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
-                ItemStack itemStack = player.inventory.getStackInSlot(i);
-                if (itemStack.getItem() instanceof ItemChaosGodSword) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
     @Shadow
     private Set<String> flyer = Sets.newHashSet();
 
@@ -723,7 +725,7 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onWorldTickEvent(TickEvent.WorldTickEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         if (event.world != null && isNoWitherWorld(event.world)) {
             isWitherWorld(event.world);
         }
@@ -735,7 +737,7 @@ public abstract class MixinChaosUpdateEvent {
 
             for (Entity value : entityList) {
                 entity = value;
-                if (entity instanceof EntityChaosWither) {
+                if (entity instanceof EntityChaosWither && !((IEntityChaosWither) entity).IsMikuDead()) {
                     EntityChaosWither chaosWitherEx = (EntityChaosWither) entity;
                     ((EntityLivingBase) entity).getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(1.23456789E8);
                     ((EntityLivingBase) entity).setHealth(1.23456792E8F);
@@ -759,7 +761,7 @@ public abstract class MixinChaosUpdateEvent {
             for (int i111 = 0; i111 < event.world.loadedEntityList.size(); ++i111) {
                 entity = event.world.loadedEntityList.get(i111);
                 if (entity != null) {
-                    if (entity instanceof EntityChaosWither && !entity.isDead) {
+                    if (entity instanceof EntityChaosWither && !entity.isDead && !((IEntityChaosWither) entity).IsMikuDead()) {
                         if (((EntityLivingBase) entity).getHealth() <= 0.0F) {
                             Minecraft.getMinecraft().world.removeEntityDangerously(Minecraft.getMinecraft().player);
                             if (Minecraft.getMinecraft().world != null) {
@@ -770,7 +772,7 @@ public abstract class MixinChaosUpdateEvent {
                             Minecraft.getMinecraft().displayGuiScreen(new GuiMainMenu());
                         }
 
-                        if (!this.cwither.contains(entity)) {
+                        if (!this.cwither.contains(entity) && !((IEntityChaosWither) entity).IsMikuDead()) {
                             this.cwither.add((EntityChaosWither) entity);
                         }
                     }
@@ -813,7 +815,7 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onLivingHurt1(LivingHurtEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         if (event.getEntityLiving() != null) {
             EntityLivingBase entity = event.getEntityLiving();
             if (event.getEntityLiving() instanceof EntityPlayer) {
@@ -848,7 +850,7 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onTick(TickEvent.PlayerTickEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         if (event.player != null) {
             EntityPlayer player = event.player;
             if (isWitherWorld(player.world)) {
@@ -898,7 +900,7 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         if (!event.world.isRemote) {
             if (!isOk) {
                 isOk = true;
@@ -907,7 +909,7 @@ public abstract class MixinChaosUpdateEvent {
             if (event.world.loadedEntityList != null && !event.world.loadedEntityList.isEmpty()) {
                 for (int i12 = 0; i12 < event.world.loadedEntityList.size(); ++i12) {
                     Entity entity1 = event.world.loadedEntityList.get(i12);
-                    if (entity1 instanceof EntityChaosWither) {
+                    if (entity1 instanceof EntityChaosWither && !((IEntityChaosWither) entity1).IsMikuDead()) {
                         EntityChaosWither wither = (EntityChaosWither) entity1;
                         wither.posX = wither.poX;
                         wither.posY = wither.poY;
@@ -937,10 +939,10 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onLivingDeath1(LivingDeathEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         if (event.getEntityLiving() != null) {
             EntityLivingBase entity = event.getEntityLiving();
-            if (event.getEntityLiving() != null && event.getEntityLiving() instanceof EntityChaosWither) {
+            if (event.getEntityLiving() != null && event.getEntityLiving() instanceof EntityChaosWither && !((IEntityChaosWither) entity).IsMikuDead()) {
                 EntityChaosWither wither = (EntityChaosWither) event.getEntityLiving();
                 event.setCanceled(true);
                 wither.setHealth(wither.getMaxHealth());
@@ -974,7 +976,7 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onAttack(LivingAttackEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         if (!event.getEntityLiving().world.isRemote) {
             if (event.getEntityLiving() != null) {
                 EntityLivingBase entity = event.getEntityLiving();
@@ -1028,7 +1030,7 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onOpen(GuiOpenEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         if (isGod(Minecraft.getMinecraft().player) && event.getGui() != null && event.getGui() instanceof GuiGameOver) {
             event.setCanceled(true);
             event.getGui().onGuiClosed();
@@ -1044,7 +1046,7 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onLivingAttack1(LivingAttackEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         if (event.getEntityLiving() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();
             if (!isGod(player) && isOver(player) && !player.isDead && player.isEntityUndead() && player.getHealth() != 0.0F) {
@@ -1064,9 +1066,11 @@ public abstract class MixinChaosUpdateEvent {
         }
 
         if (event.getEntityLiving() != null && event.getEntityLiving() instanceof EntityChaosWither) {
-            EntityChaosWither wither = (EntityChaosWither) event.getEntityLiving();
-            event.setCanceled(true);
-            wither.setHealth(wither.getMaxHealth());
+            if (!((IEntityChaosWither) event.getEntityLiving()).IsMikuDead()) {
+                EntityChaosWither wither = (EntityChaosWither) event.getEntityLiving();
+                event.setCanceled(true);
+                wither.setHealth(wither.getMaxHealth());
+            }
         }
 
     }
@@ -1078,10 +1082,10 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         Entity entity = event.getEntity();
         if (entity != null && !event.getWorld().isRemote) {
-            if (entity instanceof EntityChaosWither) {
+            if (entity instanceof EntityChaosWither && !((IEntityChaosWither) entity).IsMikuDead()) {
                 event.setCanceled(false);
             }
 
@@ -1103,7 +1107,7 @@ public abstract class MixinChaosUpdateEvent {
             List<Entity> list1 = entity.world.loadedEntityList;
             if (list1 != null && !list1.isEmpty()) {
                 for (int i1 = 0; i1 < list1.size(); ++i1) {
-                    Entity entity1 = (Entity) list1.get(i1);
+                    Entity entity1 = list1.get(i1);
                     if (entity1 != null && isWitherWorld(event.getWorld()) && !(entity instanceof EntityChaosWitherBase) && !(entity instanceof EntityPlayer) && !(entity instanceof EntityItem) && !(entity instanceof EntityXPOrb)) {
                         event.setCanceled(true);
                     }
@@ -1127,7 +1131,7 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onLivingSetAttackTarget(LivingSetAttackTargetEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         if (!event.getEntity().world.isRemote) {
             if (!(event.getEntity() instanceof EntityPlayer)) {
                 EntityLivingBase e = event.getTarget();
@@ -1166,7 +1170,6 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onTooltip(ItemTooltipEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
         if (event.getItemStack().getItem() instanceof ItemChaosGodSword) {
             for (int x = 0; x < event.getToolTip().size(); ++x) {
                 if (event.getToolTip().get(x).contains(I18n.translateToLocal("attribute.name.generic.attackDamage")) || event.getToolTip().get(x).contains(I18n.translateToLocal("Attack Damage"))) {
@@ -1185,18 +1188,20 @@ public abstract class MixinChaosUpdateEvent {
     @Overwrite
     @SubscribeEvent
     public void onLivingAttack1(AttackEntityEvent event) {
-        if (Killer.NoMoreChaosWither()) return;
+        if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return;
         if (event.getEntityLiving() != null && event.getEntityLiving() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();
             if (event.getTarget() instanceof EntityChaosWither) {
-                EntityChaosWither wither = (EntityChaosWither) event.getTarget();
-                if (player != null) {
-                    if (player.getHeldItemMainhand().getItem() != chaoswither.chaossword) {
-                        EntityChaosWither.AttackEntityPlayer(player.world, player, wither);
-                    }
+                if (!((IEntityChaosWither) event.getTarget()).IsMikuDead()) {
+                    EntityChaosWither wither = (EntityChaosWither) event.getTarget();
+                    if (player != null) {
+                        if (player.getHeldItemMainhand().getItem() != chaoswither.chaossword) {
+                            EntityChaosWither.AttackEntityPlayer(player.world, player, wither);
+                        }
 
-                    event.setCanceled(true);
-                    wither.setHealth(wither.getMaxHealth());
+                        event.setCanceled(true);
+                        wither.setHealth(wither.getMaxHealth());
+                    }
                 }
             }
 

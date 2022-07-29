@@ -3,12 +3,16 @@ package miku.Mixin;
 import com.chaoswither.entity.EntityChaosWither;
 import com.google.common.collect.Lists;
 import miku.Entity.Hatsune_Miku;
+import miku.Interface.MixinInterface.IChunk;
+import miku.Interface.MixinInterface.IEntity;
+import miku.Interface.MixinInterface.IWorld;
 import miku.Items.Miku.MikuItem;
 import miku.Utils.InventoryUtil;
 import miku.Utils.Killer;
 import net.mcreator.cthulhu.MCreatorAzathoth;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.IWorldEventListener;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 import org.spongepowered.asm.mixin.Final;
@@ -25,7 +29,12 @@ import java.util.Collection;
 import java.util.List;
 
 @Mixin(World.class)
-public abstract class MixinWorld {
+public abstract class MixinWorld implements IWorld {
+    @Shadow
+    protected List<IWorldEventListener> eventListeners;
+
+    @Shadow
+    protected abstract boolean isChunkLoaded(int x, int z, boolean allowEmpty);
 
     @Final
     @Shadow
@@ -109,5 +118,51 @@ public abstract class MixinWorld {
             if (!InventoryUtil.isMiku(en)) fucked.add(en);
         }
         unloadedEntityList.addAll(fucked);
+    }
+
+    @Override
+    public void TrueOnEntityRemoved(Entity entityIn) {
+        for (int i = 0; i < eventListeners.size(); ++i) {
+            ((IWorldEventListener) eventListeners.get(i)).onEntityRemoved(entityIn);
+        }
+        ((IEntity) entityIn).TrueOnRemovedFromWorld();
+    }
+
+    @Override
+    public void TrueRemovedDangerously(Entity entityIn) {
+        entityIn.setDropItemsWhenDead(true);
+        entityIn.isDead = true;
+        if (entityIn instanceof EntityPlayer) {
+            ((World) (Object) this).playerEntities.remove(entityIn);
+            ((World) (Object) this).updateAllPlayersSleepingFlag();
+        }
+        int i = entityIn.chunkCoordX;
+        int j = entityIn.chunkCoordZ;
+
+        if (entityIn.addedToChunk && isChunkLoaded(i, j, true)) {
+            ((IChunk) ((World) (Object) this).getChunk(i, j)).TrueRemoveEntity(entityIn);
+        }
+
+        ((World) (Object) this).loadedEntityList.remove(entityIn);
+        TrueOnEntityRemoved(entityIn);
+    }
+
+    @Override
+    public void TrueRemoveEntity(Entity entityIn) {
+        if (entityIn.isBeingRidden()) {
+            entityIn.removePassengers();
+        }
+
+        if (entityIn.isRiding()) {
+            entityIn.dismountRidingEntity();
+        }
+
+        entityIn.isDead = true;
+
+        if (entityIn instanceof EntityPlayer) {
+            ((World) (Object) this).playerEntities.remove(entityIn);
+            ((World) (Object) this).updateAllPlayersSleepingFlag();
+            TrueOnEntityRemoved(entityIn);
+        }
     }
 }

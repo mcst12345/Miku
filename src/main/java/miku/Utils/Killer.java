@@ -4,21 +4,21 @@ import com.anotherstar.common.entity.IEntityLoli;
 import com.chaoswither.chaoswither;
 import com.chaoswither.entity.EntityChaosWither;
 import com.chaoswither.entity.EntityWitherPlayer;
+import com.chaoswither.event.ChaosUpdateEvent;
+import com.chaoswither.event.ChaosUpdateEvent1;
 import com.google.common.collect.Lists;
 import com.shinoow.grue.common.entity.EntityGrue;
-import miku.DamageSource.MikuDamage;
 import miku.Entity.Hatsune_Miku;
-import miku.Interface.MixinInterface.IEntity;
-import miku.Interface.MixinInterface.IEntityLivingBase;
+import miku.Interface.MixinInterface.*;
 import miku.Items.Miku.MikuItem;
 import miku.Items.Music.music_base;
 import miku.chaosloli.Entity.ChaosLoli;
 import net.mcreator.cthulhu.MCreatorAzathoth;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MultiPartEntityPart;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,13 +26,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -40,10 +36,10 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,6 +61,12 @@ public class Killer {
         return NoMoreChaosWither;
     }
 
+    public static void Kill(Collection<Entity> entities) {
+        for (Entity entity : entities) {
+            Kill(entity, null);
+        }
+    }
+
     public static void KillNoSizeEntity(Entity entity) {
         List<Entity> entitys = Lists.newArrayList();
         for (int dist = 0; dist <= 100; dist += 2) {
@@ -78,6 +80,7 @@ public class Killer {
             list.removeIf(en -> en.getDistance(en) > 100);
             entitys.addAll(list);
         }
+        Kill(entitys);
     }
 
     public static void Kill(@Nullable Entity entity, @Nullable MikuItem item, boolean forced) {
@@ -85,33 +88,33 @@ public class Killer {
 
         if (entity.world.isRemote) return;
 
-        if (Loader.isModLoaded("grue")) {
-            if (entity instanceof EntityGrue) {
-                entity.attackEntityFrom(DamageSource.IN_WALL, Float.MAX_VALUE);
-                entity.onRemovedFromWorld();
-                entity.world.removeEntity(entity);
-                return;
-            }
-        }
+        if (entity.getClass() == Hatsune_Miku.class) return;
 
-        if (Loader.isModLoaded("cthulhu")) {
-            if (entity instanceof MCreatorAzathoth.EntityCustom) {
-                NoMoreAzathoth = true;
-            }
-        }
-        if (entity instanceof Hatsune_Miku) return;
         if (forced) {
             if (Loader.isModLoaded("chaoswither")) {
                 if (entity instanceof EntityChaosWither) {
                     NoMoreChaosWither = true;
-                    ((EntityChaosWither) entity).isDead1 = true;
+                    SafeKill.Kill(entity);
+                    ((IEntityChaosWither) entity).SetMikuDead();
+                    chaoswither.happymode = false;
+                    ChaosUpdateEvent.WITHERLIVE = false;
+                    ChaosUpdateEvent1.WITHERLIVE = false;
+                    System.out.println("Kill ChaosWither");
+                    return;
                 }
-                if (entity instanceof EntityWitherPlayer) {
-                    if (item != null) {
-                        if (item.GetOwner() != null) {
-                            ChaosWitherPlayerNoDrop = true;
-                        }
-                    }
+                //if (entity instanceof EntityWitherPlayer) {if (item != null) {ChaosWitherPlayerNoDrop = true;}}
+            }
+            if (Loader.isModLoaded("grue")) {
+                if (entity instanceof EntityGrue) {
+                    entity.attackEntityFrom(DamageSource.IN_WALL, Float.MAX_VALUE);
+                    entity.onRemovedFromWorld();
+                    entity.world.removeEntity(entity);
+                    return;
+                }
+            }
+            if (Loader.isModLoaded("cthulhu")) {
+                if (entity instanceof MCreatorAzathoth.EntityCustom) {
+                    NoMoreAzathoth = true;
                 }
             }
             if (Loader.isModLoaded("chaosloli")) {
@@ -129,17 +132,16 @@ public class Killer {
                     ((IEntityLoli) entity).setDispersal(true);
                 }
             }
-
-            if (entity instanceof EntityPlayer) {
-                killPlayer(((EntityPlayer) entity), ((EntityPlayer) entity));
-            }
-            if (entity instanceof EntityLivingBase) {
-                killEntityLiving(((EntityLivingBase) entity), ((EntityLivingBase) entity));
-            }
+            killEntity(entity);
             if (entity instanceof MultiPartEntityPart) {
                 killMultipart(entity);
             }
-            killEntity(entity);
+            if (entity instanceof EntityLivingBase) {
+                killEntityLiving(((EntityLivingBase) entity));
+            }
+            if (entity instanceof EntityPlayer) {
+                killPlayer(((EntityPlayer) entity));
+            }
         } else {
             Kill(entity, item);
         }
@@ -155,6 +157,24 @@ public class Killer {
     public static void Kill(@Nullable Entity entity, @Nullable MikuItem item) {
         if (entity == null) return;
         if (entity.world.isRemote) return;
+        if (entity.getClass() == Hatsune_Miku.class) return;
+        if (Loader.isModLoaded("chaoswither")) {
+            if (entity instanceof EntityChaosWither) {
+                NoMoreChaosWither = true;
+                SafeKill.Kill(entity);
+                ((IEntityChaosWither) entity).SetMikuDead();
+                chaoswither.happymode = false;
+                ChaosUpdateEvent.WITHERLIVE = false;
+                ChaosUpdateEvent1.WITHERLIVE = false;
+                System.out.println("Kill ChaosWither");
+                return;
+            }
+            //if (entity instanceof EntityWitherPlayer) {if (item != null) {ChaosWitherPlayerNoDrop = true;}}
+        }
+        if (entity instanceof EntityItem) {
+            if (((EntityItem) entity).getItem().getItem() instanceof music_base) return;
+            if (((EntityItem) entity).getItem().getItem() instanceof MikuItem) return;
+        }
         if (Loader.isModLoaded("grue")) {
             if (entity instanceof EntityGrue) {
                 entity.attackEntityFrom(DamageSource.IN_WALL, Float.MAX_VALUE);
@@ -168,16 +188,6 @@ public class Killer {
                 NoMoreAzathoth = true;
             }
         }
-        if (Loader.isModLoaded("chaoswither")) {
-            if (entity instanceof EntityChaosWither) {
-                NoMoreChaosWither = true;
-            }
-            if (entity instanceof EntityWitherPlayer) {
-                if (item != null) {
-                    ChaosWitherPlayerNoDrop = true;
-                }
-            }
-        }
         if (Loader.isModLoaded("chaosloli")) {
             if (entity instanceof ChaosLoli) {
                 ((ChaosLoli) entity).KilledByMiku();
@@ -188,29 +198,27 @@ public class Killer {
             ((EntityLivingBase) entity).setHealth(0.0F);
             return;
         }
-        if (entity instanceof Hatsune_Miku) return;
         if (entity instanceof EntityItem) {
             entity.isDead = true;
             entity.onKillCommand();
             entity.onUpdate();
         }
         if (Loader.isModLoaded("lolipickaxe")) {
+            LoliDeadEntities.add(entity);
             if (entity instanceof IEntityLoli) {
                 ((IEntityLoli) entity).setDispersal(true);
             }
-            LoliDeadEntities.add(entity);
         }
-
-        if (entity instanceof EntityPlayer) {
-            killPlayer(((EntityPlayer) entity), ((EntityPlayer) entity));
-        }
-        if (entity instanceof EntityLivingBase) {
-            killEntityLiving(((EntityLivingBase) entity), ((EntityLivingBase) entity));
-        }
+        killEntity(entity);
         if (entity instanceof MultiPartEntityPart) {
             killMultipart(entity);
         }
-        killEntity(entity);
+        if (entity instanceof EntityLivingBase) {
+            killEntityLiving(((EntityLivingBase) entity));
+        }
+        if (entity instanceof EntityPlayer) {
+            killPlayer(((EntityPlayer) entity));
+        }
         ChaosWitherPlayerNoDrop = false;
         if (!DeadEntities.contains(entity.getUniqueID())) {
             DeadEntities.add(entity.getUniqueID());
@@ -220,42 +228,25 @@ public class Killer {
         }
     }
 
-    public static void killPlayer(EntityPlayer player, EntityLivingBase source) {
+    static void killPlayer(EntityPlayer player) {
         player.velocityChanged = true;
-        player.inventory.clearMatchingItems(null, -1, -1, null);
-        InventoryEnderChest ec = player.getInventoryEnderChest();
-        for (int i = 0; i < ec.getSizeInventory(); i++) {
-            ec.removeStackFromSlot(i);
-        }
-        player.inventory.dropAllItems();
-        player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
-        player.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, ItemStack.EMPTY);
-        player.setItemStackToSlot(EntityEquipmentSlot.CHEST, ItemStack.EMPTY);
-        player.setItemStackToSlot(EntityEquipmentSlot.FEET, ItemStack.EMPTY);
-        player.setItemStackToSlot(EntityEquipmentSlot.HEAD, ItemStack.EMPTY);
-        player.setItemStackToSlot(EntityEquipmentSlot.LEGS, ItemStack.EMPTY);
-        player.clearActivePotions();
-        DamageSource ds = source == null ? new DamageSource("miku") : new EntityDamageSource("miku", source);
-        player.getCombatTracker().trackDamage(ds, Float.MAX_VALUE, Float.MAX_VALUE);
-        player.setHealth(0.0F);
-        player.onDeath(ds);
-        player.attackEntityFrom(DamageSource.OUT_OF_WORLD.setDamageBypassesArmor().setDamageAllowedInCreativeMode(), Float.MAX_VALUE);
-        player.attackEntityFrom(ds, Float.MAX_VALUE);
-        player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(0.0);
+        ((IEnderInventory) ((IEntityPlayer) player).GetEnderInventory()).Clear();
+        ((IPlayerInventory) player.inventory).ClearPlayerInventory();
+        ((IEntityPlayer) player).KillPlayer();
         player.world.setEntityState(player, (byte) 2);
-        player.addStat(StatList.DEATHS, 1);
+        if (player instanceof EntityPlayerMP) {
+            ((IEntityPlayerMP) player).AddDamageStat();
+            ((IEntityPlayerMP) player).AddDeathStat();
+        }
+        ((IEntityLivingBase) player).NullLastAttackedEntity();
         player.closeScreen();
         player.velocityChanged = true;
-        player.addStat(StatList.DAMAGE_TAKEN, Math.round(20.0f));
         player.motionY = 0.10000000149011612;
         player.width = 0.2f;
         player.height = 0.2f;
         player.motionX = -MathHelper.cos((player.attackedAtYaw + player.rotationYaw) * 3.1415927f / 180.0f) * 0.1f;
         player.motionZ = -MathHelper.sin((player.attackedAtYaw + player.rotationYaw) * 3.1415927f / 180.0f) * 0.1f;
-        player.setLastAttackedEntity(player);
         player.world.setEntityState(player, (byte) 2);
-        player.addStat(StatList.DEATHS, 1);
-        player.addStat(StatList.DAMAGE_TAKEN, Integer.MAX_VALUE);
         player.world.playerEntities.remove(player);
         player.closeScreen();
         if (player instanceof EntityPlayerMP) {
@@ -265,114 +256,61 @@ public class Killer {
         System.out.println("Kill player");
     }
 
-    public static void killEntityLiving(EntityLivingBase entity, EntityLivingBase source) {
-            try {
-                ReflectionHelper.findField(EntityLivingBase.class, new String[]{"recentlyHit", "recentlyHit"}).setInt(entity, 100);
-            } catch (Exception e) {
-                entity.hurtResistantTime = 0;
-            }
-            entity.setInWeb();
-            entity.setFire(Integer.MAX_VALUE);
-            entity.clearActivePotions();
-            entity.setRevengeTarget(null);
-            entity.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 1000, 1));
-            entity.addPotionEffect(new PotionEffect(MobEffects.INVISIBILITY, 1000, 1));
-            entity.addPotionEffect(new PotionEffect(MobEffects.GLOWING, 1000, 1));
-            if (Loader.isModLoaded("chaoswither")) {
-                entity.addPotionEffect(new PotionEffect(chaoswither.DEATH, Integer.MAX_VALUE, 255, false, false));
-            }
-            entity.setAIMoveSpeed(0.0F);
-            entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0);
-            entity.hurtResistantTime = 0;
-            entity.velocityChanged = true;
-            entity.addVelocity(-MathHelper.sin(entity.rotationYaw * 3.1415927f / 180.0f) * 1.0f * 0.5f, 0.1, MathHelper.cos(entity.rotationYaw * 3.1415927f / 180.0f) * 1.0f * 0.5f);
-            //entity.recentlyHit = 60;
-            if (!entity.getHeldItemMainhand().isEmpty()) {
-                final ItemStack item = entity.getHeldItemMainhand();
-                final EntityItem entityItem = new EntityItem(entity.world, entity.posX, entity.posY + 5.0, entity.posZ, item);
-                entityItem.setDefaultPickupDelay();
-                entity.world.spawnEntity(entityItem);
-                entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
-            }
-            if (!entity.getHeldItemOffhand().isEmpty()) {
-                final ItemStack item = entity.getHeldItemOffhand();
-                final EntityItem entityItem = new EntityItem(entity.world, entity.posX, entity.posY + 5.0, entity.posZ, item);
-                entityItem.setDefaultPickupDelay();
-                entity.world.spawnEntity(entityItem);
-                entity.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, ItemStack.EMPTY);
-            }
-
-            if (!entity.getHeldItemMainhand().isEmpty()) {
-                final ItemStack item = entity.getHeldItemMainhand();
-                final EntityItem entityItem = new EntityItem(entity.world, entity.posX, entity.posY, entity.posZ, item);
-                entityItem.setDefaultPickupDelay();
-                entity.world.spawnEntity(entityItem);
-                entityItem.setItem(ItemStack.EMPTY);
-            }
-            if (!entity.getHeldItemOffhand().isEmpty()) {
-                final ItemStack item = entity.getHeldItemOffhand();
-                final EntityItem entityItem = new EntityItem(entity.world, entity.posX, entity.posY, entity.posZ, item);
-                entityItem.setDefaultPickupDelay();
-                entity.world.spawnEntity(entityItem);
-                entityItem.setItem(ItemStack.EMPTY);
-            }
-        entity.motionX *= 0.6;
-        entity.motionZ *= 0.6;
-        DamageSource ds = source == null ? new DamageSource("miku") : new EntityDamageSource("miku", source);
-        entity.getCombatTracker().trackDamage(ds, Float.MAX_VALUE, Float.MAX_VALUE);
-        entity.setHealth(-1111.0f);
-        ((IEntityLivingBase) entity).ZeroHealth();
-        entity.attackEntityFrom(DamageSource.OUT_OF_WORLD.setDamageBypassesArmor(), 300000.0f);
-        entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(-1111110.0);
-        if (Loader.isModLoaded("grue")) {
-            if (!(entity instanceof EntityGrue)) {
-                entity.onDeath(ds);
-                entity.onDeath(MikuDamage.MikuDamage);
-            }
-        } else {
-            entity.onDeath(ds);
-            entity.onDeath(MikuDamage.MikuDamage);
+    static void killEntityLiving(EntityLivingBase entity) {
+        entity.hurtResistantTime = 0;
+        ((IEntityLivingBase) entity).NullLastAttackedEntity();
+        ((IEntityLivingBase) entity).TrueClearActivePotions();
+        ((IEntityLivingBase) entity).TrueAddPotionEffect(new PotionEffect(MobEffects.LEVITATION, 1000, 1));
+        ((IEntityLivingBase) entity).TrueAddPotionEffect(new PotionEffect(MobEffects.INVISIBILITY, 1000, 1));
+        ((IEntityLivingBase) entity).TrueAddPotionEffect(new PotionEffect(MobEffects.GLOWING, 1000, 1));
+        if (Loader.isModLoaded("chaoswither")) {
+            ((IEntityLivingBase) entity).TrueAddPotionEffect(new PotionEffect(chaoswither.DEATH, Integer.MAX_VALUE, 255, false, false));
         }
+        ((IEntityLivingBase) entity).ZeroAiMoveSpeed();
+        ((IEntityLivingBase) entity).ZeroMovementSpeed();
+        entity.hurtResistantTime = 0;
+        entity.velocityChanged = true;
+        entity.addVelocity(-MathHelper.sin(entity.rotationYaw * 3.1415927f / 180.0f) * 1.0f * 0.5f, 0.1, MathHelper.cos(entity.rotationYaw * 3.1415927f / 180.0f) * 1.0f * 0.5f);
+        if (entity instanceof EntityLiving) {
+            EntityLiving entityLiving = (EntityLiving) entity;
+            ((IEntityLiving) entityLiving).ClearEntityInventory();
+        }
+        ((IEntityLivingBase) entity).ZeroHealth();
+        ((IEntityLivingBase) entity).TrueAttackEntityFrom();
+        ((IEntityLivingBase) entity).ZeroMaxHealth();
+        ((IEntityLivingBase) entity).TrueOnDeath();
         final List entityList = new ArrayList();
         entityList.add(entity);
         entity.world.unloadEntities(entityList);
-        entity.world.onEntityRemoved(entity);
         entity.world.loadedEntityList.remove(entity);
         entity.world.setEntityState(entity, (byte) 3);
-        entity.world.removeEntityDangerously(entity);
-        entity.setInvisible(true);
+        ((IWorld) entity.world).TrueRemovedDangerously(entity);
+        ((IWorld) entity.world).TrueOnEntityRemoved(entity);
+        ((IEntity) entity).TrueSetInvisible();
         entity.isDead = true;
-        entity.onRemovedFromWorld();
+        ((IEntity) entity).TrueOnRemovedFromWorld();
         System.out.println("Kill entity living");
     }
 
-    public static void killMultipart(Entity entity) {
-        if (!(entity instanceof MultiPartEntityPart)) return;
-        entity.setDead();
+    static void killMultipart(Entity entity) {
         entity.isDead = true;
         entity.posY = -Double.MAX_VALUE;
-        entity.world.removeEntity(entity);
-        entity.world.removeEntityDangerously(entity);
+        ((IWorld) entity.world).TrueRemoveEntity(entity);
+        ((IWorld) entity.world).TrueRemovedDangerously(entity);
+        ((IWorld) entity.world).TrueOnEntityRemoved(entity);
     }
 
-    public static void killEntity(Entity entity) {
+    static void killEntity(Entity entity) {
         if (entity.world.isRemote) {
             Minecraft.getMinecraft().entityRenderer.getShaderGroup();
             Minecraft.getMinecraft().entityRenderer.stopUseShader();
         }
-        final float Damage = 9999999999999.0F;
+        ((IEntity) entity).TrueSetInWeb();
+        ((IEntity) entity).TrueSetFire();
         entity.hurtResistantTime = 0;
-        final DamageSource ds = new EntityDamageSource("directMagic", entity).setDamageBypassesArmor().setDamageAllowedInCreativeMode().setMagicDamage();
-        entity.attackEntityFrom(ds, Damage);
-
-        entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE);
-
-        entity.setDead();
-
+        entity.isDead = true;
         ((IEntity) entity).KillIt();
-
         if (entity.world.isRemote) Minecraft.getMinecraft().entityRenderer.stopUseShader();
-
         System.out.println("kill entity");
     }
 
@@ -381,19 +319,19 @@ public class Killer {
         List<Entity> list = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(Player.posX - range, Player.posY - range, Player.posZ - range, Player.posX + range, Player.posY + range, Player.posZ + range));
         list.remove(Player);
         for (Entity en : list) {
-            Kill(en, item);
             if (Loader.isModLoaded("chaoswither")) {
                 if (en instanceof EntityWitherPlayer) {
+                    SafeKill.Kill(en);
                     if (item != null) {
                         GetChaosWitherPlayerDrop(item.GetOwner());
                     }
-                }
-                if (en instanceof EntityChaosWither) {
+                } else if (en instanceof EntityChaosWither) {
+                    SafeKill.Kill(en);
                     if (item != null) {
                         GetChaosWitherDrop(item.GetOwner());
                     }
-                }
-            }
+                } else Kill(en, item);
+            } else Kill(en, item);
         }
         System.out.println("Range kill");
     }
@@ -415,6 +353,7 @@ public class Killer {
     }
 
     public static boolean isDead(Entity entity) {
+        if (entity == null) return false;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
             if (player.getGameProfile() == null) return false;
@@ -426,6 +365,12 @@ public class Killer {
 
     public static boolean NoMoreAzathoth() {
         return NoMoreAzathoth;
+    }
+
+    public static void AddToDeadEntities(Entity entity) {
+        if (InventoryUtil.isMiku(entity)) return;
+        if (!DeadEntities.contains(entity.getPersistentID())) DeadEntities.add(entity.getPersistentID());
+        if (!DeadEntities.contains(entity.getUniqueID())) DeadEntities.add(entity.getUniqueID());
     }
 
     @Optional.Method(modid = "lolipickaxe")

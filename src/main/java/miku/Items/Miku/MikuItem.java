@@ -1,5 +1,6 @@
 package miku.Items.Miku;
 
+import com.anotherstar.common.entity.EntityLoli;
 import com.chaoswither.chaoswither;
 import com.chaoswither.entity.EntityChaosWither;
 import com.chaoswither.entity.EntityWitherPlayer;
@@ -9,6 +10,7 @@ import miku.Interface.IContainer;
 import miku.Interface.IMikuInfinityInventory;
 import miku.Utils.InventoryUtil;
 import miku.Utils.Killer;
+import miku.Utils.SafeKill;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -178,12 +180,16 @@ public class MikuItem extends Item implements IContainer {
 
     @Override
     public boolean onLeftClickEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull Entity entity) {
+        //SafeKill.Kill(entity);
         leftClickEntity(entity, player);
-        return true;
+        return false;
     }
 
     @Override
     public boolean itemInteractionForEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull EntityLivingBase target, @Nonnull EnumHand hand) {
+        if (Loader.isModLoaded("lolipickaxe")) {
+            if (!(target instanceof EntityLoli)) SafeKill.Kill(target);
+        } else SafeKill.Kill(target);
         Killer.Kill(target, this);
         if (Loader.isModLoaded("chaoswither")) {
             if (target instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(player);
@@ -294,8 +300,9 @@ public class MikuItem extends Item implements IContainer {
 
     public void leftClickEntity(@Nullable Entity entity, final EntityPlayer Player) {
         if (!Player.world.isRemote) {
-            Killer.KillNoSizeEntity(Player);
-            Killer.Kill(entity, this);
+            if (Loader.isModLoaded("lolipickaxe")) {
+                if (!(entity instanceof EntityLoli)) SafeKill.Kill(entity);
+            } else SafeKill.Kill(entity);
             if (Player.getMaxHealth() > 0.0f) {
                 Player.setHealth(Player.getMaxHealth());
             } else {

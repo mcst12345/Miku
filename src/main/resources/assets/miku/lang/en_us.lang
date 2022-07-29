@@ -23,6 +23,7 @@ item.scallion_pickaxe.name=Scallion Pickaxe
 item.scallion_axe.name=Scallion Axe
 item.scallion_sword.name=Scallion Sword
 item.scallion_hoe.name=Scallion Hoe
+item.miku.debug_item.name=Debug Item
 
 #CreativeTab
 itemGroup.miku=miku

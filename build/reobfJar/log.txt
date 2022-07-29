@@ -9,6 +9,7 @@ Classpath:
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/appliedenergistics2-rv6-stable-7-api.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/Avaritia-1.12.2-3.3.0.37-universal.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/Baubles-1.12-1.5.2.jar
+ - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/By+The+Gods-1.12.2-1.1.1.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/ChaosLoli-1.0-SNAPSHOT.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/CodeChickenLib-1.12.2-3.2.3.358-universal.jar
  - /mnt/FA10AC15CB1B98EF/code/java/miku_mod/libs/CodeWither-mc1.12-0.2.3beta.jar
@@ -116,18 +117,18 @@ Loading mappings... 20%
 Loading mappings... 30%
 Loading mappings... 40%
 Loading mappings... 50%
-Loading mappings...  3%
+Loading mappings...  1%
 Loading mappings... 10%
-Loading mappings... 20%
+Loading mappings... 21%
 Loading mappings... 30%
-Loading mappings... 40%
+Loading mappings... 41%
 Loading mappings... 50%
 Loading mappings... 60%
-Loading mappings... 70%
+Loading mappings... 71%
 Loading mappings... 80%
-Loading mappings... 90%
+Loading mappings... 91%
 Loading mappings... 100%
-0 packages, 3344 classes, 11921 fields, 20826 methods
+0 packages, 3344 classes, 11947 fields, 20833 methods
 Remapping final jar
 Remapping jar...  0%
 Remapping jar... 10%

@@ -1,6 +1,7 @@
 {
   "mappings": {
     "miku/Mixin/MixinEntityLivingBase": {
+      "isMovementBlocked": "Lnet/minecraft/entity/EntityLivingBase;func_70610_aX()Z",
       "damageEntity": "Lnet/minecraft/entity/EntityLivingBase;func_70665_d(Lnet/minecraft/util/DamageSource;F)V",
       "setHealth": "Lnet/minecraft/entity/EntityLivingBase;func_70606_j(F)V"
     },
@@ -30,7 +31,8 @@
       "execute": "Lnet/minecraft/command/CommandClearInventory;func_184881_a(Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/command/ICommandSender;[Ljava/lang/String;)V"
     },
     "miku/Mixin/MixinEntityPlayerMP": {
-      "setGameType": "Lnet/minecraft/entity/player/EntityPlayerMP;func_71033_a(Lnet/minecraft/world/GameType;)V"
+      "setGameType": "Lnet/minecraft/entity/player/EntityPlayerMP;func_71033_a(Lnet/minecraft/world/GameType;)V",
+      "sendAllContents": "Lnet/minecraft/entity/player/EntityPlayerMP;func_71110_a(Lnet/minecraft/inventory/Container;Lnet/minecraft/util/NonNullList;)V"
     },
     "miku/Mixin/MixinEntityPlayer": {
       "damageEntity": "Lnet/minecraft/entity/player/EntityPlayer;func_70665_d(Lnet/minecraft/util/DamageSource;F)V",
@@ -44,11 +46,23 @@
     },
     "miku/Mixin/MixinCommandKill": {
       "execute": "Lnet/minecraft/command/CommandKill;func_184881_a(Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/command/ICommandSender;[Ljava/lang/String;)V"
+    },
+    "miku/Mixin/MixinItemStack": {
+      "attemptDamageItem": "Lnet/minecraft/item/ItemStack;func_96631_a(ILjava/util/Random;Lnet/minecraft/entity/player/EntityPlayerMP;)Z",
+      "canDestroy": "Lnet/minecraft/item/ItemStack;func_179544_c(Lnet/minecraft/block/Block;)Z",
+      "isItemStackDamageable": "Lnet/minecraft/item/ItemStack;func_77984_f()Z",
+      "getItemDamage": "Lnet/minecraft/item/ItemStack;func_77952_i()I",
+      "isItemDamaged": "Lnet/minecraft/item/ItemStack;func_77951_h()Z",
+      "setItemDamage": "Lnet/minecraft/item/ItemStack;func_77964_b(I)V",
+      "getMaxDamage": "Lnet/minecraft/item/ItemStack;func_77958_k()I",
+      "getCount": "Lnet/minecraft/item/ItemStack;func_190916_E()I",
+      "setCount": "Lnet/minecraft/item/ItemStack;func_190920_e(I)V"
     }
   },
   "data": {
     "searge": {
       "miku/Mixin/MixinEntityLivingBase": {
+        "isMovementBlocked": "Lnet/minecraft/entity/EntityLivingBase;func_70610_aX()Z",
         "damageEntity": "Lnet/minecraft/entity/EntityLivingBase;func_70665_d(Lnet/minecraft/util/DamageSource;F)V",
         "setHealth": "Lnet/minecraft/entity/EntityLivingBase;func_70606_j(F)V"
       },
@@ -78,7 +92,8 @@
         "execute": "Lnet/minecraft/command/CommandClearInventory;func_184881_a(Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/command/ICommandSender;[Ljava/lang/String;)V"
       },
       "miku/Mixin/MixinEntityPlayerMP": {
-        "setGameType": "Lnet/minecraft/entity/player/EntityPlayerMP;func_71033_a(Lnet/minecraft/world/GameType;)V"
+        "setGameType": "Lnet/minecraft/entity/player/EntityPlayerMP;func_71033_a(Lnet/minecraft/world/GameType;)V",
+        "sendAllContents": "Lnet/minecraft/entity/player/EntityPlayerMP;func_71110_a(Lnet/minecraft/inventory/Container;Lnet/minecraft/util/NonNullList;)V"
       },
       "miku/Mixin/MixinEntityPlayer": {
         "damageEntity": "Lnet/minecraft/entity/player/EntityPlayer;func_70665_d(Lnet/minecraft/util/DamageSource;F)V",
@@ -92,6 +107,17 @@
       },
       "miku/Mixin/MixinCommandKill": {
         "execute": "Lnet/minecraft/command/CommandKill;func_184881_a(Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/command/ICommandSender;[Ljava/lang/String;)V"
+      },
+      "miku/Mixin/MixinItemStack": {
+        "attemptDamageItem": "Lnet/minecraft/item/ItemStack;func_96631_a(ILjava/util/Random;Lnet/minecraft/entity/player/EntityPlayerMP;)Z",
+        "canDestroy": "Lnet/minecraft/item/ItemStack;func_179544_c(Lnet/minecraft/block/Block;)Z",
+        "isItemStackDamageable": "Lnet/minecraft/item/ItemStack;func_77984_f()Z",
+        "getItemDamage": "Lnet/minecraft/item/ItemStack;func_77952_i()I",
+        "isItemDamaged": "Lnet/minecraft/item/ItemStack;func_77951_h()Z",
+        "setItemDamage": "Lnet/minecraft/item/ItemStack;func_77964_b(I)V",
+        "getMaxDamage": "Lnet/minecraft/item/ItemStack;func_77958_k()I",
+        "getCount": "Lnet/minecraft/item/ItemStack;func_190916_E()I",
+        "setCount": "Lnet/minecraft/item/ItemStack;func_190920_e(I)V"
       }
     }
   }

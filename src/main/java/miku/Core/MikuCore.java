@@ -16,7 +16,6 @@ public class MikuCore implements IFMLLoadingPlugin {
         MixinBootstrap.init();
         Mixins.addConfiguration("mixins.miku.json");
     }
-
     public static boolean debug;
 
     @Override

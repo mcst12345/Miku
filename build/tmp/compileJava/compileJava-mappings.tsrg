@@ -1,10 +1,41 @@
+miku/Mixin/MixinChunk entityLists field_76645_j
+miku/Mixin/MixinEntity isInWeb field_70134_J
+miku/Mixin/MixinEntity fire field_190534_ay
 miku/Mixin/MixinEntity FLAGS field_184240_ax
 miku/Mixin/MixinEntity dataManager field_70180_af
+miku/Mixin/MixinEntityLiving inventoryHands field_184656_bv
+miku/Mixin/MixinEntityLiving inventoryArmor field_184657_bw
+miku/Mixin/MixinEntityLivingBase activePotionsMap field_70713_bf
+miku/Mixin/MixinEntityLivingBase combatTracker field_94063_bt
+miku/Mixin/MixinEntityLivingBase attackingPlayer field_70717_bb
+miku/Mixin/MixinEntityLivingBase lastDamage field_110153_bc
+miku/Mixin/MixinEntityLivingBase idleTime field_70708_bq
+miku/Mixin/MixinEntityLivingBase dead field_70729_aU
+miku/Mixin/MixinEntityLivingBase landMovementFactor field_70746_aG
+miku/Mixin/MixinEntityLivingBase potionsNeedUpdate field_70752_e
+miku/Mixin/MixinEntityLivingBase attributeMap field_110155_d
+miku/Mixin/MixinEntityLivingBase revengeTarget field_70755_b
+miku/Mixin/MixinEntityLivingBase revengeTimer field_70756_c
+miku/Mixin/MixinEntityLivingBase absorptionAmount field_110151_bq
+miku/Mixin/MixinEntityLivingBase lastAttackedEntity field_110150_bn
 miku/Mixin/MixinEntityLivingBase HEALTH field_184632_c
 miku/Mixin/MixinEntityLivingBase recentlyHit field_70718_bc
+miku/Mixin/MixinEntityPlayer enderChest field_71078_a
+miku/Mixin/MixinEntityPlayerMP statsFile field_147103_bO
+miku/Mixin/MixinInventoryBasic inventoryContents field_70482_c
 miku/Mixin/MixinInventoryPlayer player field_70458_d
+miku/Mixin/MixinInventoryPlayer allInventories field_184440_g
+miku/Mixin/MixinItemStack itemDamage field_77991_e
+miku/Mixin/MixinItemStack stackSize field_77994_a
+miku/Mixin/MixinMinecraft modelManager field_175617_aL
+miku/Mixin/MixinWorld eventListeners field_73021_x
 miku/Mixin/MixinWorld unloadedEntityList field_72997_g
+miku/Mixin/MixinEntityLivingBase getSoundPitch ()F func_70647_i
+miku/Mixin/MixinEntityLivingBase getSoundVolume ()F func_70599_aP
+miku/Mixin/MixinEntityLivingBase getDeathSound ()Lnet/minecraft/util/SoundEvent; func_184615_bR
+miku/Mixin/MixinEntityLivingBase dropLoot (ZILnet/minecraft/util/DamageSource;)V func_184610_a
 miku/Mixin/MixinEntityLivingBase getMaxHealth ()F func_110138_aP
+miku/Mixin/MixinEntityLivingBase damageShield (F)V func_184590_k
 miku/Mixin/MixinEntityPlayer getExperiencePoints (Lnet/minecraft/entity/player/EntityPlayer;)I func_70693_a
 miku/Mixin/MixinEntityPlayer canPlayerEdit (Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Lnet/minecraft/item/ItemStack;)Z func_175151_a
 miku/Mixin/MixinEntityPlayer isAllowEdit ()Z func_175142_cm
@@ -12,4 +43,6 @@ miku/Mixin/MixinEntityPlayer getArmorVisibility ()F func_82243_bO
 miku/Mixin/MixinEntityPlayer canAttackPlayer (Lnet/minecraft/entity/player/EntityPlayer;)Z func_96122_a
 miku/Mixin/MixinEntityPlayerMP canPlayersAttack ()Z func_175400_cq
 miku/Mixin/MixinEntityPlayerMP canAttackPlayer (Lnet/minecraft/entity/player/EntityPlayer;)Z func_96122_a
+miku/Mixin/MixinItemStack getItem ()Lnet/minecraft/item/Item; func_77973_b
+miku/Mixin/MixinWorld isChunkLoaded (IIZ)Z func_175680_a
 miku/Mixin/MixinWorld unloadEntities (Ljava/util/Collection;)V func_175681_c

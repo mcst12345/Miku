@@ -2,7 +2,9 @@ package miku.Miku.Proxy;
 
 import miku.Config.MikuConfig;
 import miku.Event.*;
+import miku.Gui.MikuGuiHandler;
 import miku.Miku.MikuLoader;
+import miku.Network.NetworkHandler;
 import miku.World.MikuWorld.MikuWorld;
 import miku.World.OverWorldGen;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,5 +33,7 @@ public class CommonProxy {
 
     public void init(FMLInitializationEvent event) {
         MikuLoader.LoadRecipes();
+        NetworkHandler.INSTANCE.name();
+        MikuGuiHandler.INSTANCE.name();
     }
 }

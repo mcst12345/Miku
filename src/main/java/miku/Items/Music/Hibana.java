@@ -4,5 +4,6 @@ public class Hibana extends music_base {
     public Hibana() {
         this.setTranslationKey("hibana");
         this.File = "hibana";
+        this.id = 16;
     }
 }

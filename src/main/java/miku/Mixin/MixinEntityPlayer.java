@@ -6,6 +6,7 @@ import miku.Interface.MixinInterface.IEntityPlayer;
 import miku.Utils.InventoryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.stats.StatList;
@@ -14,6 +15,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -21,6 +23,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = EntityPlayer.class)
 public class MixinEntityPlayer implements IEntityPlayer {
+    @Shadow
+    protected InventoryEnderChest enderChest;
+
     /**
      * @author mcst12345
      * @reason Infinity ExperiencePoints!
@@ -91,10 +96,18 @@ public class MixinEntityPlayer implements IEntityPlayer {
             ((EntityPlayer) (Object) this).openContainer.onContainerClosed((EntityPlayer) (Object) this);
         }
         ((EntityPlayer) (Object) this).isDead = true;
+        ((IEntityLivingBase) this).ZeroAiMoveSpeed();
+        ((IEntityLivingBase) this).TrueClearActivePotions();
+        ((IEntityLivingBase) this).ZeroMaxHealth();
+        ((IEntityLivingBase) this).ZeroAbsorptionAmount();
+        ((IEntityLivingBase) this).TrueAttackEntityFrom();
+        ((IEntityLivingBase) this).TrueDamageEntity();
         ((IEntityLivingBase) this).ZeroHealth();
+        ((IEntityLivingBase) this).TrueOnDeath();
         ((IEntity) this).KillIt();
         ((EntityPlayer) (Object) this).addStat(StatList.DEATHS);
         ((EntityPlayer) (Object) this).takeStat(StatList.TIME_SINCE_DEATH);
+
     }
 
     @Inject(at = @At("HEAD"), method = "damageEntity", cancellable = true)
@@ -155,5 +168,9 @@ public class MixinEntityPlayer implements IEntityPlayer {
             cir.setReturnValue(false);
             cir.cancel();
         }
+    }
+
+    public InventoryEnderChest GetEnderInventory() {
+        return enderChest;
     }
 }

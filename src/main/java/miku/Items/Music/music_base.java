@@ -1,8 +1,10 @@
 package miku.Items.Music;
 
 import miku.Miku.Miku;
-import miku.Thread.PlayMusic;
+import miku.Network.NetworkHandler;
+import miku.Network.Packet.PlayMusicPacket;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -16,6 +18,8 @@ import javax.annotation.Nullable;
 public class music_base extends Item {
     public String File;
 
+    public int id;
+
     public music_base() {
         this.setCreativeTab(Miku.MIKU_MUSIC_TAB);
         this.setMaxStackSize(1);
@@ -26,8 +30,9 @@ public class music_base extends Item {
     @Override
     @Nonnull
     public ActionResult<ItemStack> onItemRightClick(@Nullable World world, EntityPlayer player, @Nonnull EnumHand hand) {
-        PlayMusic pm = new PlayMusic(File);
-        pm.start();
+        if (!player.world.isRemote) {
+            NetworkHandler.INSTANCE.sendMessageToPlayer(new PlayMusicPacket(id), (EntityPlayerMP) player);
+        }
         return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));
     }
 }
