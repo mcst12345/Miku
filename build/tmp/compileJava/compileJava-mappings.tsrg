@@ -1,8 +1,17 @@
 miku/Mixin/MixinChunk entityLists field_76645_j
+miku/Mixin/MixinEntity rotationYaw field_70177_z
+miku/Mixin/MixinEntity rotationPitch field_70125_A
+miku/Mixin/MixinEntity posX field_70165_t
+miku/Mixin/MixinEntity posY field_70163_u
+miku/Mixin/MixinEntity posZ field_70161_v
+miku/Mixin/MixinEntity motionX field_70159_w
+miku/Mixin/MixinEntity motionY field_70181_x
+miku/Mixin/MixinEntity motionZ field_70179_y
 miku/Mixin/MixinEntity isInWeb field_70134_J
 miku/Mixin/MixinEntity fire field_190534_ay
 miku/Mixin/MixinEntity FLAGS field_184240_ax
 miku/Mixin/MixinEntity dataManager field_70180_af
+miku/Mixin/MixinEntityLiving AI_FLAGS field_184654_a
 miku/Mixin/MixinEntityLiving inventoryHands field_184656_bv
 miku/Mixin/MixinEntityLiving inventoryArmor field_184657_bw
 miku/Mixin/MixinEntityLivingBase activePotionsMap field_70713_bf
@@ -30,6 +39,9 @@ miku/Mixin/MixinItemStack stackSize field_77994_a
 miku/Mixin/MixinMinecraft modelManager field_175617_aL
 miku/Mixin/MixinWorld eventListeners field_73021_x
 miku/Mixin/MixinWorld unloadedEntityList field_72997_g
+miku/Mixin/MixinWorld loadedEntityList field_72996_f
+miku/Mixin/MixinWorld profiler field_72984_F
+miku/Mixin/MixinWorld weatherEffects field_73007_j
 miku/Mixin/MixinEntityLivingBase getSoundPitch ()F func_70647_i
 miku/Mixin/MixinEntityLivingBase getSoundVolume ()F func_70599_aP
 miku/Mixin/MixinEntityLivingBase getDeathSound ()Lnet/minecraft/util/SoundEvent; func_184615_bR
@@ -39,10 +51,16 @@ miku/Mixin/MixinEntityLivingBase damageShield (F)V func_184590_k
 miku/Mixin/MixinEntityPlayer getExperiencePoints (Lnet/minecraft/entity/player/EntityPlayer;)I func_70693_a
 miku/Mixin/MixinEntityPlayer canPlayerEdit (Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Lnet/minecraft/item/ItemStack;)Z func_175151_a
 miku/Mixin/MixinEntityPlayer isAllowEdit ()Z func_175142_cm
-miku/Mixin/MixinEntityPlayer getArmorVisibility ()F func_82243_bO
 miku/Mixin/MixinEntityPlayer canAttackPlayer (Lnet/minecraft/entity/player/EntityPlayer;)Z func_96122_a
 miku/Mixin/MixinEntityPlayerMP canPlayersAttack ()Z func_175400_cq
 miku/Mixin/MixinEntityPlayerMP canAttackPlayer (Lnet/minecraft/entity/player/EntityPlayer;)Z func_96122_a
 miku/Mixin/MixinItemStack getItem ()Lnet/minecraft/item/Item; func_77973_b
 miku/Mixin/MixinWorld isChunkLoaded (IIZ)Z func_175680_a
+miku/Mixin/MixinWorld getChunk (Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/world/chunk/Chunk; func_175726_f
+miku/Mixin/MixinWorld getChunk (II)Lnet/minecraft/world/chunk/Chunk; func_72964_e
+miku/Mixin/MixinWorld removeEntity (Lnet/minecraft/entity/Entity;)V func_72900_e
+miku/Mixin/MixinWorld tickPlayers ()V func_184147_l
+miku/Mixin/MixinWorld onEntityRemoved (Lnet/minecraft/entity/Entity;)V func_72847_b
+miku/Mixin/MixinWorld updateEntity (Lnet/minecraft/entity/Entity;)V func_72870_g
 miku/Mixin/MixinWorld unloadEntities (Ljava/util/Collection;)V func_175681_c
+miku/Mixin/MixinWorld updateEntities ()V func_72939_s

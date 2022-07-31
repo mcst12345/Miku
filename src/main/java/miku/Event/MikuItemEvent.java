@@ -26,7 +26,6 @@ public class MikuItemEvent {
         if (entity.world.isRemote) return;
         boolean isMiku = InventoryUtil.isMiku(entity);
         if (isMiku) {
-            System.out.println("protect entity");
             MikuItem.Protect(entity);
             if (entity instanceof Hatsune_Miku) ((Hatsune_Miku) entity).Protect();
             event.setCanceled(true);
@@ -38,7 +37,6 @@ public class MikuItemEvent {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
         if (InventoryUtil.isMiku(entity)) {
-            System.out.println("Protect Entity");
             MikuItem.Protect(entity);
             if (entity instanceof Hatsune_Miku) ((Hatsune_Miku) entity).Protect();
             event.setCanceled(true);

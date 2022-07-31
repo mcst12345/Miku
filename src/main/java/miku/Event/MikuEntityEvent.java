@@ -1,6 +1,7 @@
 package miku.Event;
 
 import miku.Entity.Hatsune_Miku;
+import miku.Items.Scallion;
 import miku.Thread.MikuTradeThread;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -20,7 +21,7 @@ public class MikuEntityEvent {
     public void ItemTossEvent(ItemTossEvent event) {
         if (event.getEntity().world.isRemote) return;
         if (event.getEntityItem().getItem().getCount() > 1) return;
-        if (event.getEntityItem().getName().equals("item.item.miku.scallion")) {
+        if (event.getEntityItem().getItem().getItem() instanceof Scallion) {
             TARGET = event.getEntityItem();
             List<Entity> list = event.getEntityItem().getEntityWorld().getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(event.getEntityItem().posX - range, event.getEntityItem().posY - range, event.getEntityItem().posZ - range, event.getEntityItem().posX + range, event.getEntityItem().posY + range, event.getEntityItem().posZ + range));
             for (Entity en : list) {

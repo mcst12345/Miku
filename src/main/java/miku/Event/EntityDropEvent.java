@@ -21,6 +21,5 @@ public class EntityDropEvent {
         }
         final int amount = new Random().nextInt(10);
         event.getDrops().add(new EntityItem(entity.world, entity.posX, entity.posY, entity.posZ, new ItemStack(MikuLoader.SCALLION, amount)));
-        System.out.println("Added drop to entity");
     }
 }

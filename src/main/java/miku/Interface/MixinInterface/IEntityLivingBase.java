@@ -1,15 +1,18 @@
 package miku.Interface.MixinInterface;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
+
+import javax.annotation.Nullable;
 
 public interface IEntityLivingBase {
     void ZeroHealth();
 
-    void TrueOnDeath();
+    void TrueOnDeath(@Nullable EntityPlayer killer);
 
-    void TrueAttackEntityFrom();
+    void TrueAttackEntityFrom(@Nullable EntityPlayer killer);
 
-    void TrueDamageEntity();
+    void TrueDamageEntity(@Nullable EntityPlayer killer);
 
     void ZeroAbsorptionAmount();
 

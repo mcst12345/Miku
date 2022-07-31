@@ -1,9 +1,13 @@
 package miku.Mixin;
 
+import miku.Interface.MixinInterface.IEntity;
 import miku.Interface.MixinInterface.IEntityLiving;
 import miku.Interface.MixinInterface.IItemStack;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.NonNullList;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,11 +17,14 @@ import org.spongepowered.asm.mixin.Shadow;
 public class MixinEntityLiving implements IEntityLiving {
     @Final
     @Shadow
-    private final NonNullList<ItemStack> inventoryHands = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
+    private static final DataParameter<Byte> AI_FLAGS = EntityDataManager.createKey(EntityLiving.class, DataSerializers.BYTE);
+    @Final
+    @Shadow
+    private final NonNullList<ItemStack> inventoryHands = NonNullList.withSize(2, ItemStack.EMPTY);
 
     @Final
     @Shadow
-    private final NonNullList<ItemStack> inventoryArmor = NonNullList.<ItemStack>withSize(4, ItemStack.EMPTY);
+    private final NonNullList<ItemStack> inventoryArmor = NonNullList.withSize(4, ItemStack.EMPTY);
 
     @Override
     public void ClearEntityInventory() {
@@ -35,5 +42,10 @@ public class MixinEntityLiving implements IEntityLiving {
         inventoryArmor.set(1, ItemStack.EMPTY);
         inventoryArmor.set(2, ItemStack.EMPTY);
         inventoryArmor.set(3, ItemStack.EMPTY);
+    }
+
+    public void TrueNoAI() {
+        byte b0 = ((IEntity) this).GetDataManager().get(AI_FLAGS);
+        ((IEntity) this).GetDataManager().set(AI_FLAGS, (byte) (b0 | 1));
     }
 }

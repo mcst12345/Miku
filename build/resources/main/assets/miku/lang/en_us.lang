@@ -23,14 +23,21 @@ item.scallion_pickaxe.name=Scallion Pickaxe
 item.scallion_axe.name=Scallion Axe
 item.scallion_sword.name=Scallion Sword
 item.scallion_hoe.name=Scallion Hoe
+
+#DebugItem
 item.miku.debug_item.name=Debug Item
+item.miku.zero_health.name=Zero Health
+item.miku.no_ai.name=No AI
+item.miku.clear_inventory.name=Clear entity inventory
+item.miku.time_stop.name=Set entity time stop
 
 #CreativeTab
 itemGroup.miku=miku
 itemGroup.miku_music=miku music
 
 #Enchantment
-enchantment.miku.god_killer=God Killer
+enchantment.god_killer=God Killer
+enchantment.death=Death
 
 #block
 tile.miku.miku_ore.name=MikuOre
@@ -90,11 +97,6 @@ item.all_happy.name=お気に召すまま
 
 #Spawn Eggs
 item.spawn_miku.name=Spawn Hatsune Miku
-
-#?
-Attack Speed=?
-info.over=?
-Attack Damage=?
 
 #DeathDamage
 death.attack.miku=%1$s was Killed By Miku

@@ -65,6 +65,14 @@ public class Miku {
         }
     };
 
+    public static final CreativeTabs DEBUG = new CreativeTabs("debug") {
+        @Override
+        @Nonnull
+        public ItemStack createIcon() {
+            return new ItemStack(MikuLoader.DebugItem);
+        }
+    };
+
     public Logger GetLogger() {
         return log;
     }

@@ -26,6 +26,15 @@ public class MikuConfig {
     public static boolean IsDebugMode;
 
     @ConfigField(
+            type = {ConfigField.ConfigType.CONFIG},
+            comment = "禁止混沌凋灵的一些事件执行。可以让一些存档恢复正常，但是会让混沌凋灵的一些物品产生BUG。",
+            valueType = ConfigField.ValurType.BOOLEAN,
+            booleanDefaultValue = true
+    )
+    public static boolean FuckChaosWither;
+
+
+    @ConfigField(
             type = {ConfigField.ConfigType.CONFIG, ConfigField.ConfigType.COMMAND},
             comment = "FlySpeed",
             valueType = ConfigField.ValurType.DOUBLE,
@@ -40,14 +49,6 @@ public class MikuConfig {
             doubleDefaultValue = 1.0D
     )
     public static Double WalkSpeed;
-
-    @ConfigField(
-            type = {ConfigField.ConfigType.CONFIG},
-            comment = "禁止混沌凋灵的一些事件执行。可以让一些存档恢复正常，但是会让混沌凋灵的一些物品产生BUG。",
-            valueType = ConfigField.ValurType.BOOLEAN,
-            booleanDefaultValue = true
-    )
-    public static boolean FuckChaosWither;
 
 
     static {

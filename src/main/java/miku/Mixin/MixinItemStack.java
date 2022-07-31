@@ -37,7 +37,6 @@ public abstract class MixinItemStack implements IItemStack {
     public void isItemStackDamageable(CallbackInfoReturnable<Boolean> cir) {
         if (this.getItem() instanceof MikuItem) {
             cir.setReturnValue(false);
-            cir.cancel();
         }
     }
 
@@ -45,7 +44,6 @@ public abstract class MixinItemStack implements IItemStack {
     public void isItemDamaged(CallbackInfoReturnable<Boolean> cir) {
         if (this.getItem() instanceof MikuItem) {
             cir.setReturnValue(false);
-            cir.cancel();
         }
     }
 
@@ -60,7 +58,6 @@ public abstract class MixinItemStack implements IItemStack {
     public void getItemDamage(CallbackInfoReturnable<Integer> cir) {
         if (this.getItem() instanceof MikuItem) {
             cir.setReturnValue(0);
-            cir.cancel();
         }
     }
 
@@ -68,7 +65,6 @@ public abstract class MixinItemStack implements IItemStack {
     public void getMaxDamage(CallbackInfoReturnable<Integer> cir) {
         if (this.getItem() instanceof MikuItem) {
             cir.setReturnValue(Integer.MAX_VALUE);
-            cir.cancel();
         }
     }
 
@@ -76,7 +72,6 @@ public abstract class MixinItemStack implements IItemStack {
     public void attemptDamageItem(int amount, Random rand, EntityPlayerMP damager, CallbackInfoReturnable<Boolean> cir) {
         if (this.getItem() instanceof MikuItem) {
             cir.setReturnValue(false);
-            cir.cancel();
         }
     }
 
@@ -84,7 +79,6 @@ public abstract class MixinItemStack implements IItemStack {
     public void canDestroy(Block blockIn, CallbackInfoReturnable<Boolean> cir) {
         if (this.getItem() instanceof MikuItem) {
             cir.setReturnValue(true);
-            cir.cancel();
         }
     }
 
@@ -97,7 +91,6 @@ public abstract class MixinItemStack implements IItemStack {
     public void getCount(CallbackInfoReturnable<Integer> cir) {
         if (this.getItem() instanceof MikuItem) {
             cir.setReturnValue(1);
-            cir.cancel();
         }
     }
 }

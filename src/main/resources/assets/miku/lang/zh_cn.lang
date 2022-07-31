@@ -23,14 +23,21 @@ item.scallion_pickaxe.name=葱葱镐
 item.scallion_axe.name=葱葱斧
 item.scallion_sword.name=葱葱剑
 item.scallion_hoe.name=葱葱锄
+
+#调试物品
 item.miku.debug_item.name=调试物品
+item.miku.zero_health.name=血量清零
+item.miku.no_ai.name=清除生物AI
+item.miku.clear_inventory.name=清除生物背包
+item.miku.time_stop.name=目标生物时间停止
 
 #创造物品栏
 itemGroup.miku=miku
 itemGroup.miku_music=miku音乐
 
 #附魔
-enchantment.miku.god_killer=弑神者
+enchantment.god_killer=弑神者
+enchantment.death=死亡
 
 #方块
 tile.miku.miku_ore.name=Miku矿石
@@ -90,11 +97,6 @@ item.all_happy.name=お気に召すまま
 
 #刷怪蛋
 item.spawn_miku.name=生成 初音未来
-
-#?
-Attack Speed=?
-info.over=?
-Attack Damage=?
 
 #死亡信息
 death.attack.miku=%1$s被Miku杀死了

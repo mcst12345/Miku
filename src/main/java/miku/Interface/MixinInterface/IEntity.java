@@ -1,5 +1,7 @@
 package miku.Interface.MixinInterface;
 
+import net.minecraft.network.datasync.EntityDataManager;
+
 public interface IEntity {
     void KillIt();
 
@@ -10,4 +12,16 @@ public interface IEntity {
     void TrueSetInWeb();
 
     void TrueSetFire();
+
+    void SetMikuDead();
+
+    boolean isMikuDead();
+
+    void SetTimeStop();
+
+    boolean isTimeStop();
+
+    void TimeStop();
+
+    EntityDataManager GetDataManager();
 }

@@ -76,6 +76,7 @@ public class GodKiller extends Enchantment {
 
     @Override
     public void onEntityDamaged(@Nonnull EntityLivingBase user, @Nonnull Entity target, int level) {
+        if (user.world.isRemote) return;
         if (!(user instanceof EntityPlayer)) return;
         Killer.RangeKill(((EntityPlayer) user), 10, null);
     }

@@ -39,9 +39,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static miku.Miku.Miku.MIKU_TAB;
+import static miku.Utils.Killer.Kill;
 import static miku.Utils.Killer.RangeKill;
 
 public class MikuItem extends Item implements IContainer {
+    protected static boolean TimeStop = false;
+
+    public static boolean isTimeStop() {
+        return TimeStop;
+    }
+
     protected EntityPlayer owner;
     protected static final List<String> MikuPlayer = new ArrayList<>();
 
@@ -208,7 +215,11 @@ public class MikuItem extends Item implements IContainer {
     public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (!world.isRemote) {
-            RangeKill(player, 10000, this);
+            if (player.isSneaking()) {
+                TimeStop = !TimeStop;
+            } else {
+                RangeKill(player, 10000, this);
+            }
             if (player.getMaxHealth() > 0.0f) {
                 player.setHealth(player.getMaxHealth());
             }
@@ -303,6 +314,7 @@ public class MikuItem extends Item implements IContainer {
             if (Loader.isModLoaded("lolipickaxe")) {
                 if (!(entity instanceof EntityLoli)) SafeKill.Kill(entity);
             } else SafeKill.Kill(entity);
+            Kill(entity, this);
             if (Player.getMaxHealth() > 0.0f) {
                 Player.setHealth(Player.getMaxHealth());
             } else {

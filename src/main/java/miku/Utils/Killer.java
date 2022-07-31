@@ -41,11 +41,11 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 public class Killer {
+    protected static final List<Entity> DeadEntities = new ArrayList<>();
     protected static final List<Entity> LoliDeadEntities = new ArrayList<>();
-    protected static final List<UUID> DeadEntities = new ArrayList<>();
+    protected static boolean isKilling = false;
 
     protected static boolean NoMoreChaosWither = false;
 
@@ -91,6 +91,11 @@ public class Killer {
         if (entity.getClass() == Hatsune_Miku.class) return;
 
         if (forced) {
+            isKilling = true;
+            ((IEntity) entity).SetTimeStop();
+            if (!DeadEntities.contains(entity)) {
+                DeadEntities.add(entity);
+            }
             if (Loader.isModLoaded("chaoswither")) {
                 if (entity instanceof EntityChaosWither) {
                     NoMoreChaosWither = true;
@@ -132,32 +137,29 @@ public class Killer {
                     ((IEntityLoli) entity).setDispersal(true);
                 }
             }
+            if (entity instanceof EntityLivingBase) {
+                killEntityLiving(((EntityLivingBase) entity), item);
+            }
             killEntity(entity);
             if (entity instanceof MultiPartEntityPart) {
                 killMultipart(entity);
             }
-            if (entity instanceof EntityLivingBase) {
-                killEntityLiving(((EntityLivingBase) entity));
-            }
             if (entity instanceof EntityPlayer) {
-                killPlayer(((EntityPlayer) entity));
+                killPlayer(((EntityPlayer) entity), item);
             }
+            isKilling = false;
         } else {
             Kill(entity, item);
         }
-        if (!DeadEntities.contains(entity.getUniqueID())) {
-            DeadEntities.add(entity.getUniqueID());
-        }
-        if (!DeadEntities.contains(entity.getPersistentID())) {
-            DeadEntities.add(entity.getPersistentID());
-        }
-        ChaosWitherPlayerNoDrop = false;
+        //ChaosWitherPlayerNoDrop = false;
     }
 
     public static void Kill(@Nullable Entity entity, @Nullable MikuItem item) {
         if (entity == null) return;
         if (entity.world.isRemote) return;
         if (entity.getClass() == Hatsune_Miku.class) return;
+        isKilling = true;
+        ((IEntity) entity).SetTimeStop();
         if (Loader.isModLoaded("chaoswither")) {
             if (entity instanceof EntityChaosWither) {
                 NoMoreChaosWither = true;
@@ -214,25 +216,23 @@ public class Killer {
             killMultipart(entity);
         }
         if (entity instanceof EntityLivingBase) {
-            killEntityLiving(((EntityLivingBase) entity));
+            killEntityLiving(((EntityLivingBase) entity), item);
         }
         if (entity instanceof EntityPlayer) {
-            killPlayer(((EntityPlayer) entity));
+            killPlayer(((EntityPlayer) entity), item);
         }
-        ChaosWitherPlayerNoDrop = false;
-        if (!DeadEntities.contains(entity.getUniqueID())) {
-            DeadEntities.add(entity.getUniqueID());
+        //ChaosWitherPlayerNoDrop = false;
+        if (!DeadEntities.contains(entity)) {
+            DeadEntities.add(entity);
         }
-        if (!DeadEntities.contains(entity.getPersistentID())) {
-            DeadEntities.add(entity.getPersistentID());
-        }
+        isKilling = false;
     }
 
-    static void killPlayer(EntityPlayer player) {
+    static void killPlayer(EntityPlayer player, @Nullable MikuItem item) {
         player.velocityChanged = true;
         ((IEnderInventory) ((IEntityPlayer) player).GetEnderInventory()).Clear();
         ((IPlayerInventory) player.inventory).ClearPlayerInventory();
-        ((IEntityPlayer) player).KillPlayer();
+        ((IEntityPlayer) player).KillPlayer(item == null ? null : item.GetOwner());
         player.world.setEntityState(player, (byte) 2);
         if (player instanceof EntityPlayerMP) {
             ((IEntityPlayerMP) player).AddDamageStat();
@@ -256,7 +256,7 @@ public class Killer {
         System.out.println("Kill player");
     }
 
-    static void killEntityLiving(EntityLivingBase entity) {
+    static void killEntityLiving(EntityLivingBase entity, @Nullable MikuItem item) {
         entity.hurtResistantTime = 0;
         ((IEntityLivingBase) entity).NullLastAttackedEntity();
         ((IEntityLivingBase) entity).TrueClearActivePotions();
@@ -274,11 +274,12 @@ public class Killer {
         if (entity instanceof EntityLiving) {
             EntityLiving entityLiving = (EntityLiving) entity;
             ((IEntityLiving) entityLiving).ClearEntityInventory();
+            ((IEntityLiving) entityLiving).TrueNoAI();
         }
         ((IEntityLivingBase) entity).ZeroHealth();
-        ((IEntityLivingBase) entity).TrueAttackEntityFrom();
+        ((IEntityLivingBase) entity).TrueAttackEntityFrom(item == null ? null : item.GetOwner());
         ((IEntityLivingBase) entity).ZeroMaxHealth();
-        ((IEntityLivingBase) entity).TrueOnDeath();
+        ((IEntityLivingBase) entity).TrueOnDeath(item == null ? null : item.GetOwner());
         final List entityList = new ArrayList();
         entityList.add(entity);
         entity.world.unloadEntities(entityList);
@@ -286,9 +287,7 @@ public class Killer {
         entity.world.setEntityState(entity, (byte) 3);
         ((IWorld) entity.world).TrueRemovedDangerously(entity);
         ((IWorld) entity.world).TrueOnEntityRemoved(entity);
-        ((IEntity) entity).TrueSetInvisible();
         entity.isDead = true;
-        ((IEntity) entity).TrueOnRemovedFromWorld();
         System.out.println("Kill entity living");
     }
 
@@ -305,8 +304,11 @@ public class Killer {
             Minecraft.getMinecraft().entityRenderer.getShaderGroup();
             Minecraft.getMinecraft().entityRenderer.stopUseShader();
         }
+        ((IEntity) entity).SetMikuDead();
         ((IEntity) entity).TrueSetInWeb();
         ((IEntity) entity).TrueSetFire();
+        ((IEntity) entity).TrueSetInvisible();
+        ((IEntity) entity).TrueOnRemovedFromWorld();
         entity.hurtResistantTime = 0;
         entity.isDead = true;
         ((IEntity) entity).KillIt();
@@ -354,13 +356,8 @@ public class Killer {
 
     public static boolean isDead(Entity entity) {
         if (entity == null) return false;
-        if (entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            if (player.getGameProfile() == null) return false;
-            if (player.getName() == null) return false;
-            if (player.getName().equals("mcst12345")) return false;
-        }
-        return DeadEntities.contains(entity.getPersistentID()) || DeadEntities.contains(entity.getUniqueID());
+        if (entity.getClass() == Hatsune_Miku.class) return false;
+        return DeadEntities.contains(entity);
     }
 
     public static boolean NoMoreAzathoth() {
@@ -369,12 +366,19 @@ public class Killer {
 
     public static void AddToDeadEntities(Entity entity) {
         if (InventoryUtil.isMiku(entity)) return;
-        if (!DeadEntities.contains(entity.getPersistentID())) DeadEntities.add(entity.getPersistentID());
-        if (!DeadEntities.contains(entity.getUniqueID())) DeadEntities.add(entity.getUniqueID());
+        if (!DeadEntities.contains(entity)) DeadEntities.add(entity);
     }
 
     @Optional.Method(modid = "lolipickaxe")
     public static boolean isLoliDead(Entity entity) {
         return LoliDeadEntities.contains(entity);
+    }
+
+    public static void setNoMoreChaosWither() {
+        NoMoreChaosWither = true;
+    }
+
+    public static boolean isKilling() {
+        return isKilling;
     }
 }

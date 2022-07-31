@@ -1,10 +1,14 @@
 package miku.Event;
 
+import miku.Items.Miku.MikuItem;
+import miku.Utils.InventoryUtil;
 import miku.Utils.Killer;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class PlayerEvent {
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -19,5 +23,14 @@ public class PlayerEvent {
         }
 
         //if (InventoryUtil.isMiku(entity)) {MikuItem.Protect((EntityPlayer) entity);}
+    }
+
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void TimeStop(TickEvent.PlayerTickEvent event) {
+        EntityPlayer player = event.player;
+        if (!InventoryUtil.isMiku(player)) {
+            if (Killer.isKilling() || MikuItem.isTimeStop()) event.setCanceled(true);
+        }
     }
 }

@@ -16,7 +16,7 @@ public enum MikuGuiHandler implements IGuiHandler {
 
     public static final int MIKU_INVENTORY = 39;
 
-    private MikuGuiHandler() {
+    MikuGuiHandler() {
         NetworkRegistry.INSTANCE.registerGuiHandler(Miku.INSTANCE, this);
     }
 

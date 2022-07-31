@@ -31,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -123,7 +124,7 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
     }
 
     @Override
-    public void TrueOnDeath() {
+    public void TrueOnDeath(@Nullable EntityPlayer killer) {
         if (!dead) {
             dead = true;
             combatTracker.reset();
@@ -133,7 +134,7 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
 
                 captureDrops = true;
                 capturedDrops.clear();
-                this.dropLoot(true, i, MikuDamage.MikuDamage);
+                this.dropLoot(true, i, new MikuDamage(killer));
                 captureDrops = false;
                 for (EntityItem item : capturedDrops) {
                     world.spawnEntity(item);
@@ -145,7 +146,7 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
     }
 
     @Override
-    public void TrueAttackEntityFrom() {
+    public void TrueAttackEntityFrom(@Nullable EntityPlayer killer) {
         if (this.world.isRemote) {
             return;
         }
@@ -153,19 +154,19 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
         idleTime = 0;
         damageShield(Float.MAX_VALUE);
         lastDamage = Integer.MAX_VALUE;
-        TrueDamageEntity();
+        TrueDamageEntity(killer);
         revengeTarget = null;
         revengeTimer = 0;
         recentlyHit = 100;
         attackingPlayer = null;
         velocityChanged = true;
-        TrueOnDeath();
+        TrueOnDeath(killer);
         this.playSound(getDeathSound(), getSoundVolume(), getSoundPitch());
     }
 
     @Override
-    public void TrueDamageEntity() {
-        combatTracker.trackDamage(MikuDamage.MikuDamage, ((EntityLivingBase) (Object) this).getHealth(), Float.MAX_VALUE);
+    public void TrueDamageEntity(@Nullable EntityPlayer killer) {
+        combatTracker.trackDamage(new MikuDamage(killer), ((EntityLivingBase) (Object) this).getHealth(), Float.MAX_VALUE);
         ZeroHealth();
         ZeroAbsorptionAmount();
     }
@@ -179,7 +180,6 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
     protected void isMovementBlocked(CallbackInfoReturnable<Boolean> cir) {
         if (Killer.isDead((EntityLivingBase) (Object) this)) {
             cir.setReturnValue(true);
-            cir.cancel();
         }
     }
 
@@ -242,5 +242,19 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
     @Override
     public void NullLastAttackedEntity() {
         lastAttackedEntity = null;
+    }
+
+    @Inject(at = @At("HEAD"), method = "getHealth", cancellable = true)
+    public final void getHealth(CallbackInfoReturnable<Float> cir) {
+        if (InventoryUtil.isMiku(((EntityLivingBase) (Object) this))) {
+            cir.setReturnValue(10000000000.0F);
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "getMaxHealth", cancellable = true)
+    public final void GetMaxHealth(CallbackInfoReturnable<Float> cir) {
+        if (InventoryUtil.isMiku(((EntityLivingBase) (Object) this))) {
+            cir.setReturnValue(10000000000.0F);
+        }
     }
 }
