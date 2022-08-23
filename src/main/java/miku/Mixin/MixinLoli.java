@@ -7,7 +7,6 @@ import com.anotherstar.common.item.tool.ILoli;
 import com.anotherstar.util.LoliPickaxeUtil;
 import miku.Entity.Hatsune_Miku;
 import miku.Utils.InventoryUtil;
-import miku.Utils.Killer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -36,7 +35,6 @@ public abstract class MixinLoli {
     @Overwrite
     public static boolean invHaveLoliPickaxe(EntityLivingBase entity) {
         if (entity instanceof Hatsune_Miku) return true;
-        if (Killer.isLoliDead(entity)) return false;
         if (InventoryUtil.isMiku(entity)) {
             return true;
         }

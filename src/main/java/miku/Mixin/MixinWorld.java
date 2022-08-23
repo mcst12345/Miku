@@ -98,7 +98,7 @@ public abstract class MixinWorld implements IWorld {
      */
     @Overwrite
     public void unloadEntities(Collection<Entity> entityCollection) {
-        List<Entity> fucked = new ArrayList();
+        ArrayList<Entity> fucked = new ArrayList<>();
         for (Entity en : entityCollection) {
             if (!InventoryUtil.isMiku(en)) fucked.add(en);
         }
@@ -108,7 +108,7 @@ public abstract class MixinWorld implements IWorld {
     @Override
     public void TrueOnEntityRemoved(Entity entityIn) {
         for (int i = 0; i < eventListeners.size(); ++i) {
-            ((IWorldEventListener) eventListeners.get(i)).onEntityRemoved(entityIn);
+            eventListeners.get(i).onEntityRemoved(entityIn);
         }
         ((IEntity) entityIn).TrueOnRemovedFromWorld();
     }
@@ -174,7 +174,7 @@ public abstract class MixinWorld implements IWorld {
                 cir.setReturnValue(false);
             }
         }
-        if ((MikuItem.isTimeStop() && !InventoryUtil.isMiku(entityIn)) || Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || Killer.AntiEntityClass.contains(entityIn.getClass())) {
+        if ((MikuItem.isTimeStop() && !InventoryUtil.isMiku(entityIn)) || Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || Killer.isAnti(entityIn.getClass())) {
             cir.setReturnValue(false);
         }
     }
@@ -206,7 +206,7 @@ public abstract class MixinWorld implements IWorld {
 
     @Inject(at = @At("HEAD"), method = "onEntityAdded", cancellable = true)
     public void onEntityAdded(Entity entityIn, CallbackInfo ci) {
-        if ((MikuItem.isTimeStop() && !InventoryUtil.isMiku(entityIn)) || Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || Killer.AntiEntityClass.contains(entityIn.getClass())) {
+        if ((MikuItem.isTimeStop() && !InventoryUtil.isMiku(entityIn)) || Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || Killer.isAnti(entityIn.getClass())) {
             ci.cancel();
         }
     }
@@ -357,11 +357,12 @@ public abstract class MixinWorld implements IWorld {
         int k2 = MathHelper.ceil((aabb.maxX + MAX_ENTITY_RADIUS) / 16.0D);
         int l2 = MathHelper.floor((aabb.minZ - MAX_ENTITY_RADIUS) / 16.0D);
         int i3 = MathHelper.ceil((aabb.maxZ + MAX_ENTITY_RADIUS) / 16.0D);
-        List<T> list = Lists.<T>newArrayList();
+        List<T> list = Lists.newArrayList();
 
         for (int j3 = j2; j3 < k2; ++j3) {
             for (int k3 = l2; k3 < i3; ++k3) {
                 if (this.isChunkLoaded(j3, k3, true)) {
+                    assert filter != null;
                     this.getChunk(j3, k3).getEntitiesOfTypeWithinAABB(clazz, aabb, list, filter);
                 }
             }

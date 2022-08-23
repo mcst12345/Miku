@@ -20,6 +20,12 @@ public class MikuTemple extends WorldGenerator {
         structureName = "miku_temple";
     }
 
+    @Override
+    public boolean generate(@Nonnull World worldIn, @Nullable Random rand, @Nonnull BlockPos position) {
+        generateStructure(worldIn, position);
+        return true;
+    }
+
     public static void generateStructure(World world, BlockPos pos) {
         MinecraftServer mcServer = world.getMinecraftServer();
         TemplateManager manager = IStructure.worldServer.getStructureTemplateManager();
@@ -32,11 +38,5 @@ public class MikuTemple extends WorldGenerator {
         } else {
             System.out.println("Error:mod file damaged!");
         }
-    }
-
-    @Override
-    public boolean generate(@Nonnull World worldIn, @Nullable Random rand, @Nonnull BlockPos position) {
-        generateStructure(worldIn, position);
-        return true;
     }
 }

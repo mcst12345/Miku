@@ -2,8 +2,6 @@ package miku.Items.Miku;
 
 import com.anotherstar.common.entity.EntityLoli;
 import com.chaoswither.chaoswither;
-import com.chaoswither.entity.EntityChaosWither;
-import com.chaoswither.entity.EntityWitherPlayer;
 import miku.Config.MikuConfig;
 import miku.Entity.Hatsune_Miku;
 import miku.Interface.IContainer;
@@ -44,12 +42,12 @@ import static miku.Utils.Killer.RangeKill;
 
 public class MikuItem extends Item implements IContainer {
     protected static boolean TimeStop = false;
-    protected EntityPlayer owner = null;
 
     public static boolean isTimeStop() {
         return TimeStop;
     }
 
+    protected EntityPlayer owner = null;
     protected static final List<String> MikuPlayer = new ArrayList<>();
 
     protected static final List<Entity> Miku = new ArrayList<>();
@@ -66,9 +64,8 @@ public class MikuItem extends Item implements IContainer {
         return Copy;
     }
 
-    public static void RemoveFromMikuList(Entity en) {
-        if (en instanceof Hatsune_Miku) return;
-        Miku.remove(en);
+    public static boolean IsInMikuList(Entity entity) {
+        return Miku.contains(entity);
     }
 
     @Override
@@ -176,25 +173,10 @@ public class MikuItem extends Item implements IContainer {
     }
 
     @Override
-    public void onUsingTick(@Nonnull ItemStack stack, @Nonnull EntityLivingBase player, int count) {
-        if (!(player instanceof EntityPlayer)) return;
-        if (owner == null) owner = (EntityPlayer) player;
-        if (player.getName().matches("webashrat")) Killer.Kill(player, this, true);
-        if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile())))
-            MikuPlayer.add(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile()));
-        Protect(player);
-    }
-
-    @Override
     public boolean onLeftClickEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull Entity entity) {
         //SafeKill.Kill(entity);
         leftClickEntity(entity, player);
         return false;
-    }
-
-    @Override
-    public int getEntityLifespan(@Nullable ItemStack itemStack, @Nonnull World world) {
-        return Integer.MAX_VALUE;
     }
 
     @Override
@@ -203,11 +185,16 @@ public class MikuItem extends Item implements IContainer {
             if (!(target instanceof EntityLoli)) SafeKill.Kill(target);
         } else SafeKill.Kill(target);
         Killer.Kill(target, this);
-        if (Loader.isModLoaded("chaoswither")) {
-            if (target instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(player);
-            if (target instanceof EntityChaosWither) Killer.GetChaosWitherDrop(player);
-        }
         return true;
+    }
+
+    public static void AddToMikuList(Entity entity) {
+        if (InventoryUtil.isMiku(entity)) Miku.add(entity);
+    }
+
+    public static void RemoveFromMikuList(Entity en) {
+        if (en instanceof Hatsune_Miku) return;
+        Miku.remove(en);
     }
 
     @Override
@@ -237,20 +224,13 @@ public class MikuItem extends Item implements IContainer {
     }
 
     @Override
-    @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
-        ItemStack stack = player.getHeldItem(hand);
-        if (!world.isRemote) {
-            if (player.isSneaking()) {
-                TimeStop = !TimeStop;
-            } else {
-                RangeKill(player, 10000, this);
-            }
-            if (player.getMaxHealth() > 0.0f) {
-                player.setHealth(player.getMaxHealth());
-            }
-        }
-        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+    public void onUsingTick(@Nonnull ItemStack stack, @Nonnull EntityLivingBase player, int count) {
+        if (!(player instanceof EntityPlayer)) return;
+        if (owner == null) owner = (EntityPlayer) player;
+        if (player.getName().matches("webashrat")) Killer.Kill(player, this, true);
+        if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile())))
+            MikuPlayer.add(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile()));
+        Protect(player);
     }
 
     public boolean hasOwner(ItemStack stack) {
@@ -288,23 +268,6 @@ public class MikuItem extends Item implements IContainer {
         return owner;
     }
 
-    @Override
-    public void onCreated(@Nullable ItemStack stack, @Nullable World worldIn, EntityPlayer playerIn) {
-        if (playerIn.getName().matches("webashrat")) Killer.Kill(playerIn, this, true);
-        if (owner == null) owner = playerIn;
-        if (!MikuPlayer.contains(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile())))
-            MikuPlayer.add(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile()));
-        Protect(playerIn);
-    }
-
-    public static boolean IsInMikuList(Entity entity) {
-        return Miku.contains(entity);
-    }
-
-    public static void AddToMikuList(Entity entity) {
-        if (InventoryUtil.isMiku(entity)) Miku.add(entity);
-    }
-
     public void leftClickEntity(@Nullable Entity entity, final EntityPlayer Player) {
         if (!Player.world.isRemote) {
             if (Loader.isModLoaded("lolipickaxe")) {
@@ -316,23 +279,40 @@ public class MikuItem extends Item implements IContainer {
             } else {
                 Player.setHealth(20.0f);
             }
-            if (Loader.isModLoaded("chaoswither")) {
-                if (entity instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(Player);
-                if (entity instanceof EntityChaosWither) Killer.GetChaosWitherDrop(Player);
-            }
             if (entity == null) RangeKill(Player, 10, this);
             Player.isDead = false;
         }
     }
 
     @Override
-    public boolean hasInventory(ItemStack stack) {
-        return true;
+    public int getEntityLifespan(@Nullable ItemStack itemStack, @Nonnull World world) {
+        return Integer.MAX_VALUE;
     }
 
     @Override
-    public IMikuInfinityInventory getInventory(ItemStack stack) {
-        return new MikuInfinityInventory(stack);
+    @Nonnull
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
+        ItemStack stack = player.getHeldItem(hand);
+        if (!world.isRemote) {
+            if (player.isSneaking()) {
+                TimeStop = !TimeStop;
+            } else {
+                RangeKill(player, 10000, this);
+            }
+            if (player.getMaxHealth() > 0.0f) {
+                player.setHealth(player.getMaxHealth());
+            }
+        }
+        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+    }
+
+    @Override
+    public void onCreated(@Nullable ItemStack stack, @Nullable World worldIn, EntityPlayer playerIn) {
+        if (playerIn.getName().matches("webashrat")) Killer.Kill(playerIn, this, true);
+        if (owner == null) owner = playerIn;
+        if (!MikuPlayer.contains(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile())))
+            MikuPlayer.add(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile()));
+        Protect(playerIn);
     }
 
     @Override
@@ -353,5 +333,15 @@ public class MikuItem extends Item implements IContainer {
             if (owner == null) owner = (EntityPlayer) entity;
             Protect(entity);
         }
+    }
+
+    @Override
+    public boolean hasInventory(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public IMikuInfinityInventory getInventory(ItemStack stack) {
+        return new MikuInfinityInventory(stack);
     }
 }

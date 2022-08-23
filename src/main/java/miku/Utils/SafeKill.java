@@ -6,7 +6,6 @@ import com.chaoswither.event.ChaosUpdateEvent;
 import com.chaoswither.event.ChaosUpdateEvent1;
 import miku.Interface.MixinInterface.IEntity;
 import miku.Interface.MixinInterface.IEntityChaosWither;
-import miku.Thread.RemoveFromAntiEntityList;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MultiPartEntityPart;
@@ -23,7 +22,6 @@ public class SafeKill extends Killer {
 
     public static void Kill(@Nullable Entity entity) {
         if (entity == null) return;
-        if (InventoryUtil.isMiku(entity)) return;
         isKilling = true;
         ((IEntity) entity).SetTimeStop();
         if (Loader.isModLoaded("chaoswither")) {
@@ -46,15 +44,15 @@ public class SafeKill extends Killer {
         if (entity instanceof EntityPlayer) {
             killPlayer(((EntityPlayer) entity), null);
         }
-        AddToDeadEntities(entity);
+        if (!DeadEntities.contains(entity)) DeadEntities.add(entity);
+        AntiSpawnEntityClass.add(entity.getClass());
         if (Loader.isModLoaded("chaoswither")) {
             if (entity instanceof EntityChaosWither) {
                 KillingChaosWither = false;
             }
         }
-        AntiEntityClass.add(entity.getClass());
         isKilling = false;
-        RemoveFromAntiEntityList thread = new RemoveFromAntiEntityList(entity.getClass());
+        Remove thread = new Remove(entity.getClass());
         thread.start();
     }
 

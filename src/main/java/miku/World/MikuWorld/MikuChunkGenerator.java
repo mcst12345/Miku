@@ -28,10 +28,11 @@ import java.util.Random;
 public class MikuChunkGenerator implements IChunkGenerator {
     private final Random rand;
     private final World world;
+
     private final NoiseGeneratorOctaves perlinNoise1;
     private final NoiseGeneratorOctaves noiseGen1;
-    protected boolean GeneratedMikuTemple = false;
     double[] pnr, ar, br;
+    protected boolean GeneratedMikuTemple = false;
     BlockPos MikuTemplePos = new BlockPos(0, 0, 0);
     private double[] buffer;
 

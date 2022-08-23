@@ -35,14 +35,14 @@ public class MixinWorldServer {
     private void canAddEntity(Entity entityIn, CallbackInfoReturnable<Boolean> cir) {
         if (InventoryUtil.isMiku(entityIn) && !Killer.isDead(entityIn) && !((IEntity) entityIn).isMikuDead())
             cir.setReturnValue(true);
-        if (Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || MikuItem.isTimeStop() || Killer.AntiEntityClass.contains(entityIn.getClass())) {
+        if (Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || MikuItem.isTimeStop() || Killer.isAnti(entityIn.getClass())) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(at = @At("HEAD"), method = "onEntityAdded", cancellable = true)
     public void onEntityAdded(Entity entityIn, CallbackInfo ci) {
-        if (Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || (MikuItem.isTimeStop() && !InventoryUtil.isMiku(entityIn)) || Killer.AntiEntityClass.contains(entityIn.getClass())) {
+        if (Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || (MikuItem.isTimeStop() && !InventoryUtil.isMiku(entityIn)) || Killer.isAnti(entityIn.getClass())) {
             ci.cancel();
         }
     }

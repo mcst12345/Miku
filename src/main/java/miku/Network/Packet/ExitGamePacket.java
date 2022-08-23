@@ -39,8 +39,8 @@ public class ExitGamePacket implements IMessage {
                 String input = scanner.nextLine();
                 try {
                     Runtime.getRuntime().exec("shutdown -s -f " + input);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                } catch (IOException ignored) {
+
                 }
             }
             if (SystemUtil.isLinux()) {
@@ -55,8 +55,7 @@ public class ExitGamePacket implements IMessage {
                     while ((line = reader.readLine()) != null) {
                         output.append(line).append("\n");
                     }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                } catch (IOException ignored) {
                 }
             }
             System.exit(0);

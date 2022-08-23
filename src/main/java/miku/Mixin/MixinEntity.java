@@ -58,18 +58,6 @@ public abstract class MixinEntity implements IEntity {
     @Shadow
     public float rotationPitch;
     @Shadow
-    public double posX;
-    @Shadow
-    public double posY;
-    @Shadow
-    public double posZ;
-    @Shadow
-    public double motionX;
-    @Shadow
-    public double motionY;
-    @Shadow
-    public double motionZ;
-    @Shadow
     protected boolean glowing;
     @Shadow
     protected Vec3d lastPortalVec;
@@ -86,6 +74,12 @@ public abstract class MixinEntity implements IEntity {
             LastFallDistance,
             LastStepHeight,
             LastNextFlat;
+    @Shadow
+    public double posX;
+    @Shadow
+    public double posY;
+    @Shadow
+    public double posZ;
     protected int
             LastDimension,
             LastNextStepDistance,
@@ -102,6 +96,12 @@ public abstract class MixinEntity implements IEntity {
             LastLastTickPosY,
             LastLastTickPosZ;
     protected float LastPrevRotationYaw, LastPrevRotationPitch;
+    @Shadow
+    public double motionX;
+    @Shadow
+    public double motionY;
+    @Shadow
+    public double motionZ;
     protected World LastWorld;
     protected float LastRotationYaw, LastRotationPitch;
     protected boolean isTimeStop;

@@ -1,5 +1,6 @@
 package miku.Blocks.MikuPower;
 
+import miku.Config.MikuConfig;
 import miku.Interface.MixinInterface.ITileEntityHopper;
 import miku.Miku.MikuLoader;
 import net.minecraft.block.state.IBlockState;
@@ -15,21 +16,26 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class MikuGenerator extends MikuPowerBlockBase {
+
     protected ItemStack[] inventory = new ItemStack[9];
 
     public MikuGenerator() {
         super(100);
     }
 
-    public void updateTick(World worldIn, @Nonnull BlockPos pos, @Nullable IBlockState state, @Nullable Random rand) {
+    public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nullable IBlockState state, @Nullable Random rand) {
+        if (MikuConfig.IsDebugMode) System.out.println("Update Ticks");
         pos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
         if (worldIn.getBlockState(pos).getBlock() == Blocks.HOPPER) {
+            if (MikuConfig.IsDebugMode) System.out.println("Find HopperBlock");
             TileEntity tileentity = worldIn.getTileEntity(pos);
             if (tileentity != null) {
                 if (tileentity instanceof TileEntityHopper) {
+                    if (MikuConfig.IsDebugMode) System.out.println("Find HopperTileEntity");
                     TileEntityHopper hopper = (TileEntityHopper) tileentity;
                     for (ItemStack stack : ((ITileEntityHopper) hopper).getInventory()) {
                         if (stack.getItem() == MikuLoader.SCALLION) {
+                            if (MikuConfig.IsDebugMode) System.out.println("Find Scallion");
                             for (ItemStack MikuStack : inventory) {
                                 if (MikuStack == null) {
                                     MikuStack = new ItemStack(MikuLoader.SCALLION, 0);

@@ -59,13 +59,6 @@ public abstract class MixinChaosUpdateEvent {
     @Shadow
     private Set<EntityChaosWither> cwither = Sets.newHashSet();
 
-    @Shadow
-    public static boolean WITHERLIVE;
-    @Shadow
-    public static List<EntityPlayer> WitherPlayerList;
-    @Shadow
-    private Set<String> flyer = Sets.newHashSet();
-
     /**
      * @author mcst12345
      * @reason Now ChaosWither will think that player has Miku == player has ChaosGodSword
@@ -203,6 +196,13 @@ public abstract class MixinChaosUpdateEvent {
         }
         return chaoswither.happymode || b;
     }
+
+    @Shadow
+    public static boolean WITHERLIVE;
+    @Shadow
+    public static List<EntityPlayer> WitherPlayerList;
+    @Shadow
+    private Set<String> flyer = Sets.newHashSet();
 
     /**
      * @author mcst12345

@@ -12,7 +12,6 @@ import miku.Items.Miku.MikuItem;
 import miku.Items.Music.Music_base;
 import miku.Network.NetworkHandler;
 import miku.Network.Packet.ExitGamePacket;
-import miku.Thread.RemoveFromAntiEntityList;
 import miku.chaosloli.Entity.ChaosLoli;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -23,10 +22,7 @@ import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
@@ -34,7 +30,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Optional;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -42,9 +37,15 @@ import java.util.Collection;
 import java.util.List;
 
 public class Killer {
-    public static final List<Class> AntiEntityClass = new ArrayList<>();
-    protected static final List<Entity> LoliDeadEntities = new ArrayList<>();
     protected static final List<Entity> DeadEntities = new ArrayList<>();
+
+    protected static final List<Class> AntiSpawnEntityClass = new ArrayList<>();
+
+    public static boolean isAnti(Class entity) {
+        if (entity == Hatsune_Miku.class) return false;
+        return AntiSpawnEntityClass.contains(entity);
+    }
+
     static boolean isKilling = false;
 
     protected static boolean NoMoreChaosWither = false;
@@ -92,12 +93,12 @@ public class Killer {
             if (Loader.isModLoaded("chaoswither")) {
                 if (entity instanceof EntityChaosWither) {
                     NoMoreChaosWither = true;
-                    SafeKill.Kill(entity);
                     ((IEntityChaosWither) entity).SetMikuDead();
                     chaoswither.happymode = false;
                     ChaosUpdateEvent.WITHERLIVE = false;
                     ChaosUpdateEvent1.WITHERLIVE = false;
                     System.out.println("Kill ChaosWither");
+                    SafeKill.Kill(entity);
                     return;
                 }
             }
@@ -120,9 +121,9 @@ public class Killer {
             if (entity instanceof EntityPlayer) {
                 killPlayer(((EntityPlayer) entity), item);
             }
-            AntiEntityClass.add(entity.getClass());
+            AntiSpawnEntityClass.add(entity.getClass());
             isKilling = false;
-            RemoveFromAntiEntityList thread = new RemoveFromAntiEntityList(entity.getClass());
+            Remove thread = new Remove(entity.getClass());
             thread.start();
         } else {
             Kill(entity, item);
@@ -179,9 +180,9 @@ public class Killer {
         if (!DeadEntities.contains(entity)) {
             DeadEntities.add(entity);
         }
-        AntiEntityClass.add(entity.getClass());
+        AntiSpawnEntityClass.add(entity.getClass());
         isKilling = false;
-        RemoveFromAntiEntityList thread = new RemoveFromAntiEntityList(entity.getClass());
+        Remove thread = new Remove(entity.getClass());
         thread.start();
     }
 
@@ -280,50 +281,18 @@ public class Killer {
             if (Loader.isModLoaded("chaoswither")) {
                 if (en instanceof EntityWitherPlayer) {
                     SafeKill.Kill(en);
-                    if (item != null) {
-                        GetChaosWitherPlayerDrop(item.GetOwner());
-                    }
                 } else if (en instanceof EntityChaosWither) {
                     SafeKill.Kill(en);
-                    if (item != null) {
-                        GetChaosWitherDrop(item.GetOwner());
-                    }
                 } else Kill(en, item);
             } else Kill(en, item);
         }
         System.out.println("Range kill");
     }
 
-
-    @Optional.Method(modid = "chaoswither")
-    public static void GetChaosWitherDrop(EntityPlayer player) {
-        if (!InventoryUtil.InvHaveChaosSword(player))
-            player.addItemStackToInventory(new ItemStack(chaoswither.chaosgodsword));
-    }
-
-    @Optional.Method(modid = "chaoswither")
-    public static void GetChaosWitherPlayerDrop(EntityPlayer player) {
-        player.addItemStackToInventory(new ItemStack(Items.GOLDEN_APPLE, 64));
-        player.addItemStackToInventory(new ItemStack(Blocks.DIAMOND_BLOCK, 64));
-        player.addItemStackToInventory(new ItemStack(Items.NETHER_STAR, 64));
-        player.addItemStackToInventory(new ItemStack(chaoswither.chaosegg));
-        player.addItemStackToInventory(new ItemStack(chaoswither.chaoscore));
-    }
-
-    public static boolean isDead(Entity entity) {
+    public static boolean isDead(@Nullable Entity entity) {
         if (entity == null) return false;
         if (entity.getClass() == Hatsune_Miku.class) return false;
         return DeadEntities.contains(entity);
-    }
-
-    public static void AddToDeadEntities(Entity entity) {
-        if (InventoryUtil.isMiku(entity)) return;
-        if (!DeadEntities.contains(entity)) DeadEntities.add(entity);
-    }
-
-    @Optional.Method(modid = "lolipickaxe")
-    public static boolean isLoliDead(Entity entity) {
-        return LoliDeadEntities.contains(entity);
     }
 
     public static void setNoMoreChaosWither() {
@@ -332,5 +301,23 @@ public class Killer {
 
     public static boolean isKilling() {
         return isKilling;
+    }
+
+    static class Remove extends Thread {
+        protected final Class c;
+
+        public Remove(Class c) {
+            this.c = c;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            AntiSpawnEntityClass.remove(c);
+        }
     }
 }

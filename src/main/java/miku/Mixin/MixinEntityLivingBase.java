@@ -123,24 +123,19 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
 
     @Override
     public void TrueOnDeath(@Nullable EntityPlayer killer) {
-        if (!dead) {
-            dead = true;
-            combatTracker.reset();
-
-            if (!this.world.isRemote) {
-                int i = Integer.MAX_VALUE;
-
-                captureDrops = true;
-                capturedDrops.clear();
-                this.dropLoot(true, i, new MikuDamage(killer));
-                captureDrops = false;
-                for (EntityItem item : capturedDrops) {
-                    world.spawnEntity(item);
-                }
+        dead = true;
+        combatTracker.reset();
+        if (!this.world.isRemote) {
+            int i = Integer.MAX_VALUE;
+            captureDrops = true;
+            capturedDrops.clear();
+            this.dropLoot(true, i, new MikuDamage(killer));
+            captureDrops = false;
+            for (EntityItem item : capturedDrops) {
+                world.spawnEntity(item);
             }
-
-            world.setEntityState(this, (byte) 3);
         }
+        world.setEntityState(this, (byte) 3);
     }
 
     @Override
