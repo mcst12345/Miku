@@ -37,12 +37,12 @@ public class MixinChaosEntityTool {
      */
     @Overwrite
     public static void AttackSimpleEntity(World world, EntityLivingBase entityLivingBase, EntityLivingBase entityPlayer) {
-        if (InventoryUtil.isMiku(entityLivingBase)) {
-            Killer.Kill(entityPlayer, null);
-            if (entityLivingBase instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
-            return;
-        }
         if (!world.isRemote) {
+            if (InventoryUtil.isMiku(entityLivingBase)) {
+                Killer.Kill(entityPlayer, null);
+                if (entityLivingBase instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
+                return;
+            }
             if (!entityLivingBase.isDead) {
                 if (!(entityLivingBase instanceof EntityPlayer)) {
                     if (entityLivingBase.getHealth() <= 0.0F) {
@@ -80,12 +80,12 @@ public class MixinChaosEntityTool {
      */
     @Overwrite
     public static void AttackSpecialEntity(World world, Entity entity, EntityPlayer entityPlayer) {
-        if (InventoryUtil.isMiku(entity)) {
-            Killer.Kill(entityPlayer, null);
-            if (entity instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
-            return;
-        }
         if (!world.isRemote) {
+            if (InventoryUtil.isMiku(entity)) {
+                Killer.Kill(entityPlayer, null);
+                if (entity instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
+                return;
+            }
             if (entity != null && !(entity instanceof EntityItem) && !(entity instanceof EntityLivingBase)) {
                 entity.isDead = true;
             }
@@ -116,12 +116,12 @@ public class MixinChaosEntityTool {
      */
     @Overwrite
     public static void AttackEntityPlayer(World world, Entity entity22, EntityPlayer entityPlayer) {
-        if (InventoryUtil.isMiku(entity22)) {
-            Killer.Kill(entityPlayer, null);
-            if (entity22 instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
-            return;
-        }
         if (!world.isRemote) {
+            if (InventoryUtil.isMiku(entity22)) {
+                Killer.Kill(entityPlayer, null);
+                if (entity22 instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
+                return;
+            }
             if (!entity22.isDead) {
                 if (entity22 instanceof EntityPlayer) {
                     EntityPlayer entity23 = (EntityPlayer) entity22;
@@ -172,12 +172,12 @@ public class MixinChaosEntityTool {
      */
     @Overwrite
     public static void AttackSlyEntity(World world, EntityLivingBase entityLivingBase, EntityPlayer entityPlayer) {
-        if (InventoryUtil.isMiku(entityLivingBase)) {
-            Killer.Kill(entityPlayer, null);
-            if (entityLivingBase instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
-            return;
-        }
         if (!world.isRemote) {
+            if (InventoryUtil.isMiku(entityLivingBase)) {
+                Killer.Kill(entityPlayer, null);
+                if (entityLivingBase instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
+                return;
+            }
             if (!entityLivingBase.isDead) {
                 if (!(entityLivingBase instanceof EntityPlayer)) {
                     entityLivingBase.hurtResistantTime = 0;

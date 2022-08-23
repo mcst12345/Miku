@@ -362,6 +362,9 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
 
     public void Protect() {
         super.setHealth(Float.MAX_VALUE);
+        if (this.posY < -64.0D) {
+            this.outOfWorld();
+        }
         this.isDead = false;
         if (!super.world.loadedEntityList.contains(this)) {
             super.world.loadedEntityList.add(this);
@@ -396,6 +399,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
         this.inWater = false;
         this.isInWeb = false;
         if (!MikuItem.IsInMikuList(this)) MikuItem.AddToMikuList(this);
+        super.setFlag(5, false);
         super.setCanPickUpLoot(false);
     }
 
@@ -406,5 +410,9 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
 
     @Override
     public void setDispersal(boolean value) {
+    }
+
+    @Override
+    public void setInvisible(boolean b) {
     }
 }

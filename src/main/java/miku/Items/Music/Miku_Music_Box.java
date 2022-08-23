@@ -1,7 +1,7 @@
 package miku.Items.Music;
 
 import miku.Miku.Miku;
-import miku.Utils.Music_Box_Util;
+import miku.Utils.Music_Util;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -24,8 +24,7 @@ public class Miku_Music_Box extends Item {
     @Nonnull
     public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
         if (world.isRemote) return new ActionResult<>(EnumActionResult.FAIL, player.getHeldItem(hand));
-        Music_Box_Util.Get_Music_Box_Reward();
-        player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, Music_Box_Util.item);
+        player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, Music_Util.Get_Music_Box_Reward());
         return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));
     }
 }

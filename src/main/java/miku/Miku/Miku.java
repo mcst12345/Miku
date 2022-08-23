@@ -16,14 +16,14 @@ import java.io.IOException;
 @Mod(
         modid = Miku.MODID,
         name = Miku.NAME,
-        version = Miku.VERSION,
-        certificateFingerprint = "3759cb33a93a5a36c0df58e801166027486f160fa8cd62a49ee8c84d6c45be12"
+        version = Miku.VERSION
+        //certificateFingerprint = "3759cb33a93a5a36c0df58e801166027486f160fa8cd62a49ee8c84d6c45be12"
 )
 public class Miku {
 
     public static final String MODID = "miku";
     public static final String NAME = "Miku";
-    public static final String VERSION = "1.0.1-pre13";
+    public static final String VERSION = "1.0.2-pre1";
 
     public Miku() {
     }
@@ -62,6 +62,14 @@ public class Miku {
         @Nonnull
         public ItemStack createIcon() {
             return new ItemStack(MikuLoader.SCALLION);
+        }
+    };
+
+    public static final CreativeTabs DEBUG = new CreativeTabs("debug") {
+        @Override
+        @Nonnull
+        public ItemStack createIcon() {
+            return new ItemStack(MikuLoader.DebugItem);
         }
     };
 

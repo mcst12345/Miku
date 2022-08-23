@@ -36,6 +36,7 @@ public class MikuPortal extends BlockPortal {
         this.setHardness(-1);
         this.setResistance(900000F);
         this.setSoundType(SoundType.GLASS);
+        this.setTranslationKey("miku.miku_portal");
     }
 
     private static void causeLightning(World world, BlockPos pos) {

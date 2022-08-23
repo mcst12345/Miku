@@ -1,9 +1,11 @@
 package miku.Event;
 
 import miku.Entity.Hatsune_Miku;
+import miku.Items.Scallion;
 import miku.Thread.MikuTradeThread;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -11,6 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.util.List;
 
 public class MikuEntityEvent {
+    protected EntityPlayer player;
 
     protected Hatsune_Miku MIKU;
     protected EntityItem TARGET;
@@ -20,8 +23,9 @@ public class MikuEntityEvent {
     public void ItemTossEvent(ItemTossEvent event) {
         if (event.getEntity().world.isRemote) return;
         if (event.getEntityItem().getItem().getCount() > 1) return;
-        if (event.getEntityItem().getName().equals("item.item.miku.scallion")) {
+        if (event.getEntityItem().getItem().getItem() instanceof Scallion) {
             TARGET = event.getEntityItem();
+            player = event.getPlayer();
             List<Entity> list = event.getEntityItem().getEntityWorld().getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(event.getEntityItem().posX - range, event.getEntityItem().posY - range, event.getEntityItem().posZ - range, event.getEntityItem().posX + range, event.getEntityItem().posY + range, event.getEntityItem().posZ + range));
             for (Entity en : list) {
                 if (en instanceof Hatsune_Miku) {
@@ -30,7 +34,7 @@ public class MikuEntityEvent {
                 }
             }
             if (!(MIKU == null)) {
-                MikuTradeThread TT = new MikuTradeThread(TARGET, MIKU);
+                MikuTradeThread TT = new MikuTradeThread(TARGET, MIKU, player);
                 TT.start();
             }
         }

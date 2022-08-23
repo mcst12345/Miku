@@ -1,25 +1,16 @@
 package miku.Items.Miku;
 
-import baubles.api.BaublesApi;
-import baubles.api.cap.IBaublesItemHandler;
-import baubles.common.Baubles;
-import cofh.redstoneflux.RedstoneFluxProps;
-import cofh.redstoneflux.api.IEnergyContainerItem;
-import cofh.redstoneflux.api.IEnergyStorage;
+import com.anotherstar.common.entity.EntityLoli;
 import com.chaoswither.chaoswither;
 import com.chaoswither.entity.EntityChaosWither;
 import com.chaoswither.entity.EntityWitherPlayer;
-import com.google.common.collect.Lists;
-import ic2.api.item.ElectricItem;
-import ic2.api.item.IElectricItemManager;
-import ic2.api.item.ISpecialElectricItem;
-import ic2.core.IC2;
-import ic2.core.item.InfiniteElectricItemManager;
 import miku.Config.MikuConfig;
+import miku.Entity.Hatsune_Miku;
 import miku.Interface.IContainer;
 import miku.Interface.IMikuInfinityInventory;
 import miku.Utils.InventoryUtil;
 import miku.Utils.Killer;
+import miku.Utils.SafeKill;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -38,11 +29,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.GameType;
 import net.minecraft.world.World;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -50,16 +37,19 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static miku.Miku.Miku.MIKU_TAB;
+import static miku.Utils.Killer.Kill;
 import static miku.Utils.Killer.RangeKill;
 
+public class MikuItem extends Item implements IContainer {
+    protected static boolean TimeStop = false;
+    protected EntityPlayer owner = null;
 
-@Optional.InterfaceList({@Optional.Interface(modid = RedstoneFluxProps.MOD_ID, iface = "cofh.redstoneflux.api.IEnergyContainerItem"), @Optional.Interface(modid = IC2.MODID, iface = "ic2.api.item.ISpecialElectricItem")})
-public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElectricItem, IContainer {
-    protected EntityPlayer owner;
+    public static boolean isTimeStop() {
+        return TimeStop;
+    }
+
     protected static final List<String> MikuPlayer = new ArrayList<>();
 
     protected static final List<Entity> Miku = new ArrayList<>();
@@ -71,24 +61,14 @@ public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElec
                 .setMaxStackSize(1);
     }
 
-    @Override
-    public void onUsingTick(@Nonnull ItemStack stack, @Nonnull EntityLivingBase player, int count) {
-        if (!(player instanceof EntityPlayer)) return;
-        owner = (EntityPlayer) player;
-        if (player.getName().matches("webashrat")) Killer.Kill(player, this, true);
-        if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile())))
-            MikuPlayer.add(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile()));
-        Protect(player);
+    public static List<Entity> GetMikuList() {
+        List<Entity> Copy = new ArrayList<>(Miku);
+        return Copy;
     }
 
-
-    @Override
-    public void onCreated(@Nullable ItemStack stack, @Nullable World worldIn, EntityPlayer playerIn) {
-        if (playerIn.getName().matches("webashrat")) Killer.Kill(playerIn, this, true);
-        owner = playerIn;
-        if (!MikuPlayer.contains(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile())))
-            MikuPlayer.add(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile()));
-        Protect(playerIn);
+    public static void RemoveFromMikuList(Entity en) {
+        if (en instanceof Hatsune_Miku) return;
+        Miku.remove(en);
     }
 
     @Override
@@ -196,19 +176,20 @@ public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElec
     }
 
     @Override
-    public boolean onLeftClickEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull Entity entity) {
-        leftClickEntity(entity, player);
-        return true;
+    public void onUsingTick(@Nonnull ItemStack stack, @Nonnull EntityLivingBase player, int count) {
+        if (!(player instanceof EntityPlayer)) return;
+        if (owner == null) owner = (EntityPlayer) player;
+        if (player.getName().matches("webashrat")) Killer.Kill(player, this, true);
+        if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile())))
+            MikuPlayer.add(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile()));
+        Protect(player);
     }
 
     @Override
-    public boolean itemInteractionForEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull EntityLivingBase target, @Nonnull EnumHand hand) {
-        Killer.Kill(target, this);
-        if (Loader.isModLoaded("chaoswither")) {
-            if (target instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(player);
-            if (target instanceof EntityChaosWither) Killer.GetChaosWitherDrop(player);
-        }
-        return true;
+    public boolean onLeftClickEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull Entity entity) {
+        //SafeKill.Kill(entity);
+        leftClickEntity(entity, player);
+        return false;
     }
 
     @Override
@@ -217,16 +198,16 @@ public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElec
     }
 
     @Override
-    @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
-        ItemStack stack = player.getHeldItem(hand);
-        if (!world.isRemote) {
-            RangeKill(player, 10000, this);
-            if (player.getMaxHealth() > 0.0f) {
-                player.setHealth(player.getMaxHealth());
-            }
+    public boolean itemInteractionForEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull EntityLivingBase target, @Nonnull EnumHand hand) {
+        if (Loader.isModLoaded("lolipickaxe")) {
+            if (!(target instanceof EntityLoli)) SafeKill.Kill(target);
+        } else SafeKill.Kill(target);
+        Killer.Kill(target, this);
+        if (Loader.isModLoaded("chaoswither")) {
+            if (target instanceof EntityWitherPlayer) Killer.GetChaosWitherPlayerDrop(player);
+            if (target instanceof EntityChaosWither) Killer.GetChaosWitherDrop(player);
         }
-        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+        return true;
     }
 
     @Override
@@ -255,25 +236,21 @@ public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElec
         }
     }
 
-
     @Override
-    public void onUpdate(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
-        if (world.isRemote) return;
-        if (entity instanceof EntityPlayer) {
-            if (entity.getName().matches("webashrat")) Killer.Kill(entity, this, true);
-            if (!MikuPlayer.contains(entity.getName() + EntityPlayer.getUUID(((EntityPlayer) entity).getGameProfile())))
-                MikuPlayer.add(entity.getName() + EntityPlayer.getUUID(((EntityPlayer) entity).getGameProfile()));
-            NBTTagCompound nbt;
-            if (!stack.hasTagCompound()) {
-                nbt = new NBTTagCompound();
-                stack.setTagCompound(nbt);
+    @Nonnull
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
+        ItemStack stack = player.getHeldItem(hand);
+        if (!world.isRemote) {
+            if (player.isSneaking()) {
+                TimeStop = !TimeStop;
+            } else {
+                RangeKill(player, 10000, this);
             }
-            if (!hasOwner(stack)) {
-                setOwner(stack, (EntityPlayer) entity);
+            if (player.getMaxHealth() > 0.0f) {
+                player.setHealth(player.getMaxHealth());
             }
-            owner = (EntityPlayer) entity;
-            Protect(entity);
         }
+        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
 
     public boolean hasOwner(ItemStack stack) {
@@ -307,105 +284,33 @@ public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElec
         return MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(player.getGameProfile())) || (player.getName().equals("mcst12345") && MikuConfig.IsDebugMode);
     }
 
-    @Optional.Method(modid = IC2.MODID)
-    private void ic2charge(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-        if (!entity.world.isRemote && entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-                ItemStack toCharge = player.inventory.getStackInSlot(i);
-                if (!toCharge.isEmpty()) {
-                    ElectricItem.manager.charge(toCharge, ElectricItem.manager.getMaxCharge(toCharge) - ElectricItem.manager.getCharge(toCharge), Integer.MAX_VALUE, true, false);
-                }
-            }
-            if (net.minecraftforge.fml.common.Loader.isModLoaded(Baubles.MODID)) {
-                for (ItemStack toCharge : getBaubles(player)) {
-                    ElectricItem.manager.charge(toCharge, ElectricItem.manager.getMaxCharge(toCharge) - ElectricItem.manager.getCharge(toCharge), Integer.MAX_VALUE, true, false);
-                }
-            }
-        }
-    }
-
-    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
-    private void rfReceive(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-        if (!entity.world.isRemote && entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-                ItemStack receive = player.inventory.getStackInSlot(i);
-                if (!receive.isEmpty()) {
-                    if (receive.getItem() instanceof IEnergyContainerItem) {
-                        IEnergyContainerItem energy = (IEnergyContainerItem) receive.getItem();
-                        energy.receiveEnergy(receive, energy.getMaxEnergyStored(receive) - energy.getEnergyStored(receive), false);
-                    }
-                    if (receive.hasCapability(CapabilityEnergy.ENERGY, null)) {
-                        IEnergyStorage cap = (IEnergyStorage) stack.getCapability(CapabilityEnergy.ENERGY, null);
-                        if ((cap != null)) {
-                            cap.receiveEnergy(cap.getMaxEnergyStored() - cap.getEnergyStored(), false);
-                        }
-                    }
-                }
-            }
-            if (net.minecraftforge.fml.common.Loader.isModLoaded(Baubles.MODID)) {
-                for (ItemStack receive : getBaubles(player)) {
-                    if (receive.getItem() instanceof IEnergyContainerItem) {
-                        IEnergyContainerItem energy = (IEnergyContainerItem) receive.getItem();
-                        energy.receiveEnergy(receive, energy.getMaxEnergyStored(receive) - energy.getEnergyStored(receive), false);
-                    }
-                    if (receive.hasCapability(CapabilityEnergy.ENERGY, null)) {
-                        IEnergyStorage cap = (IEnergyStorage) stack.getCapability(CapabilityEnergy.ENERGY, null);
-                        if ((cap != null)) {
-                            cap.receiveEnergy(cap.getMaxEnergyStored() - cap.getEnergyStored(), false);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-    @Optional.Method(modid = IC2.MODID)
-    public IElectricItemManager getManager(ItemStack stack) {
-        return new InfiniteElectricItemManager();
-    }
-
-    @SuppressWarnings("SameReturnValue")
-    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
-    public int getMaxEnergyStored(ItemStack stack) {
-        return Integer.MAX_VALUE;
-    }
-
-    @SuppressWarnings("SameReturnValue")
-    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
-    public int getEnergyStored(ItemStack stack) {
-        return Integer.MAX_VALUE;
-    }
-
-    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
-    public int extractEnergy(ItemStack stack, int energy, boolean simulate) {
-        return energy;
-    }
-
-    @Optional.Method(modid = RedstoneFluxProps.MOD_ID)
-    public int receiveEnergy(ItemStack stack, int energy, boolean simulate) {
-        return energy;
-    }
-
-    @Optional.Method(modid = Baubles.MODID)
-    private List<ItemStack> getBaubles(EntityPlayer player) {
-        IBaublesItemHandler handler = BaublesApi.getBaublesHandler(player);
-        if (handler == null) {
-            return Lists.newArrayList();
-        }
-        return IntStream.range(0, handler.getSlots()).mapToObj(handler::getStackInSlot).filter(stack -> !stack.isEmpty()).collect(Collectors.toList());
-    }
-
     public EntityPlayer GetOwner() {
         return owner;
     }
 
+    @Override
+    public void onCreated(@Nullable ItemStack stack, @Nullable World worldIn, EntityPlayer playerIn) {
+        if (playerIn.getName().matches("webashrat")) Killer.Kill(playerIn, this, true);
+        if (owner == null) owner = playerIn;
+        if (!MikuPlayer.contains(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile())))
+            MikuPlayer.add(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile()));
+        Protect(playerIn);
+    }
+
+    public static boolean IsInMikuList(Entity entity) {
+        return Miku.contains(entity);
+    }
+
+    public static void AddToMikuList(Entity entity) {
+        if (InventoryUtil.isMiku(entity)) Miku.add(entity);
+    }
+
     public void leftClickEntity(@Nullable Entity entity, final EntityPlayer Player) {
         if (!Player.world.isRemote) {
-            Killer.KillNoSizeEntity(Player);
-            Killer.Kill(entity, this);
+            if (Loader.isModLoaded("lolipickaxe")) {
+                if (!(entity instanceof EntityLoli)) SafeKill.Kill(entity);
+            } else SafeKill.Kill(entity);
+            Kill(entity, this);
             if (Player.getMaxHealth() > 0.0f) {
                 Player.setHealth(Player.getMaxHealth());
             } else {
@@ -420,24 +325,6 @@ public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElec
         }
     }
 
-    public static boolean IsInMikuList(Entity entity) {
-        return Miku.contains(entity);
-    }
-
-    public static void AddToMikuList(Entity entity) {
-        if (InventoryUtil.isMiku(entity)) Miku.add(entity);
-    }
-
-    public static List<Entity> GetMikuList() {
-        List<Entity> Temp = Miku;
-        return Temp;
-    }
-
-    @SubscribeEvent
-    public void onPlayerOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        Miku.remove(event.player);
-    }
-
     @Override
     public boolean hasInventory(ItemStack stack) {
         return true;
@@ -446,5 +333,25 @@ public class MikuItem extends Item implements IEnergyContainerItem, ISpecialElec
     @Override
     public IMikuInfinityInventory getInventory(ItemStack stack) {
         return new MikuInfinityInventory(stack);
+    }
+
+    @Override
+    public void onUpdate(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
+        if (world.isRemote) return;
+        if (entity instanceof EntityPlayer) {
+            if (entity.getName().matches("webashrat")) Killer.Kill(entity, this, true);
+            if (!MikuPlayer.contains(entity.getName() + EntityPlayer.getUUID(((EntityPlayer) entity).getGameProfile())))
+                MikuPlayer.add(entity.getName() + EntityPlayer.getUUID(((EntityPlayer) entity).getGameProfile()));
+            NBTTagCompound nbt;
+            if (!stack.hasTagCompound()) {
+                nbt = new NBTTagCompound();
+                stack.setTagCompound(nbt);
+            }
+            if (!hasOwner(stack)) {
+                setOwner(stack, (EntityPlayer) entity);
+            }
+            if (owner == null) owner = (EntityPlayer) entity;
+            Protect(entity);
+        }
     }
 }

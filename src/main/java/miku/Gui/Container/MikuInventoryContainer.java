@@ -1,10 +1,10 @@
 package miku.Gui.Container;
 
-import com.anotherstar.network.LoliSlotChangePacket;
-import com.anotherstar.network.NetworkHandler;
 import com.google.common.collect.Sets;
 import miku.Interface.IMikuInfinityInventory;
 import miku.Items.Miku.MikuItem;
+import miku.Network.NetworkHandler;
+import miku.Network.Packet.MikuInventorySlotChangePacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -414,7 +414,7 @@ public class MikuInventoryContainer extends Container {
                     for (int j = 0; j < listeners.size(); ++j) {
                         IContainerListener listener = listeners.get(j);
                         if (listener instanceof EntityPlayerMP) {
-                            NetworkHandler.INSTANCE.sendMessageToPlayer(new LoliSlotChangePacket(windowId, i, stack), (EntityPlayerMP) listener);
+                            NetworkHandler.INSTANCE.sendMessageToPlayer(new MikuInventorySlotChangePacket(windowId, i, stack), (EntityPlayerMP) listener);
                         } else {
                             listener.sendSlotContents(this, i, stack);
                         }

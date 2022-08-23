@@ -6,7 +6,7 @@ import net.minecraft.world.biome.BiomeProviderSingle;
 public class MikuBiomeProvider extends BiomeProviderSingle {
 
 
-    public MikuBiomeProvider(long seed) {
+    public MikuBiomeProvider() {
         super(MikuWorld.miku_biome);
     }
 }

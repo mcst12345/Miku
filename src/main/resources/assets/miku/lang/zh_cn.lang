@@ -24,18 +24,31 @@ item.scallion_axe.name=葱葱斧
 item.scallion_sword.name=葱葱剑
 item.scallion_hoe.name=葱葱锄
 
+#调试物品
+item.miku.debug_item.name=调试物品
+item.miku.zero_health.name=血量清零
+item.miku.no_ai.name=清除生物AI
+item.miku.clear_inventory.name=清除生物背包
+item.miku.time_stop.name=目标生物时间停止
+
 #创造物品栏
 itemGroup.miku=miku
 itemGroup.miku_music=miku音乐
+itemGroup.debug=调试物品
 
 #附魔
-enchantment.miku.god_killer=弑神者
+enchantment.god_killer=弑神者
+enchantment.death=死亡
 
 #方块
 tile.miku.miku_ore.name=Miku矿石
 tile.miku.empty_sekai_block.name=没人世界方块
 tile.miku_jukebox.name=Miku唱片机
 tile.miku.scallion_block.name=葱葱块
+tile.miku.miku_portal.name=Miku传送门
+tile.miku_dirt.name=Miku 泥土
+tile.miku_grass.name=Miku 草
+tile.miku_stone.name=Miku 石头
 
 #成就
 advancement.root=Miku
@@ -86,17 +99,23 @@ item.tokyo_ghetto.name=トーキョーゲットー
 item.deep_sea_lily.name=ウミユリ海底譚
 item.deep_sea_lily_piano.name=ウミユリ海底譚 piano ver.
 item.all_happy.name=お気に召すまま
+item.Vampire.name=ヴァンパイア
+item.Tell_Your_World.name=Tell Your World
+item.Melty_Land_Nightmare.name=メルティランドナイトメア
+item.Senbonzakura.name=千本桜
+item.Sand_Planet.name=砂の惑星
+item.39Music.name=39みゅーじっく！
+item.Teo.name=テオ
+item.Patchwork_Staccato.name=ツギハギスタッカート
+item.Hibikase.name=ヒビカセ
+item.Hitorinbo_Envy.name=独りんぼエンヴィー
+item.Girl_Ray.name=少女レイ
 
 #刷怪蛋
 item.spawn_miku.name=生成 初音未来
 
-#?
-Attack Speed=?
-info.over=?
-Attack Damage=?
-
 #死亡信息
-death.attack.miku=%1$s被Miku杀死了
+death.attack.miku=%1$s被系统抹杀了
 
 #容器
 container.miku=Miku无限背包

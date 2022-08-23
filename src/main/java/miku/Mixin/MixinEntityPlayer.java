@@ -5,7 +5,10 @@ import miku.Interface.MixinInterface.IEntityLivingBase;
 import miku.Interface.MixinInterface.IEntityPlayer;
 import miku.Utils.InventoryUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.stats.StatList;
@@ -14,13 +17,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import javax.annotation.Nullable;
+
 @Mixin(value = EntityPlayer.class)
 public class MixinEntityPlayer implements IEntityPlayer {
+    @Shadow
+    protected InventoryEnderChest enderChest;
+
     /**
      * @author mcst12345
      * @reason Infinity ExperiencePoints!
@@ -84,17 +93,25 @@ public class MixinEntityPlayer implements IEntityPlayer {
     }
 
     @Override
-    public void KillPlayer() {
+    public void KillPlayer(@Nullable EntityPlayer player) {
         ((EntityPlayer) (Object) this).inventoryContainer.onContainerClosed((EntityPlayer) (Object) this);
 
         if (((EntityPlayer) (Object) this).openContainer != null) {
             ((EntityPlayer) (Object) this).openContainer.onContainerClosed((EntityPlayer) (Object) this);
         }
         ((EntityPlayer) (Object) this).isDead = true;
+        ((IEntityLivingBase) this).ZeroAiMoveSpeed();
+        ((IEntityLivingBase) this).TrueClearActivePotions();
+        ((IEntityLivingBase) this).ZeroMaxHealth();
+        ((IEntityLivingBase) this).ZeroAbsorptionAmount();
+        ((IEntityLivingBase) this).TrueAttackEntityFrom(player);
+        ((IEntityLivingBase) this).TrueDamageEntity(player);
         ((IEntityLivingBase) this).ZeroHealth();
+        ((IEntityLivingBase) this).TrueOnDeath(player);
         ((IEntity) this).KillIt();
         ((EntityPlayer) (Object) this).addStat(StatList.DEATHS);
         ((EntityPlayer) (Object) this).takeStat(StatList.TIME_SINCE_DEATH);
+
     }
 
     @Inject(at = @At("HEAD"), method = "damageEntity", cancellable = true)
@@ -106,20 +123,11 @@ public class MixinEntityPlayer implements IEntityPlayer {
      * @author mcst12345
      * @reason No reason
      */
-    @Overwrite
-    public float getArmorVisibility() {
+    @Inject(at = @At("HEAD"), method = "getArmorVisibility", cancellable = true)
+    public void getArmorVisibility(CallbackInfoReturnable<Float> cir) {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) {
-            return 0.0F;
+            cir.setReturnValue(0.0F);
         }
-        int i = 0;
-
-        for (ItemStack itemstack : ((EntityPlayer) (Object) this).inventory.armorInventory) {
-            if (!itemstack.isEmpty()) {
-                ++i;
-            }
-        }
-
-        return (float) i / (float) ((EntityPlayer) (Object) this).inventory.armorInventory.size();
     }
 
     @Inject(at = @At("HEAD"), method = "damageShield", cancellable = true)
@@ -153,7 +161,33 @@ public class MixinEntityPlayer implements IEntityPlayer {
     public void attackEntityFrom(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) {
             cir.setReturnValue(false);
-            cir.cancel();
         }
+    }
+
+    public InventoryEnderChest GetEnderInventory() {
+        return enderChest;
+    }
+
+    @Inject(at = @At("HEAD"), method = "replaceItemInInventory", cancellable = true)
+    public void replaceItemInInventory(int inventorySlot, ItemStack itemStackIn, CallbackInfoReturnable<Boolean> cir) {
+        if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) {
+            cir.setReturnValue(false);
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "onDeath", cancellable = true)
+    public void onDeath(DamageSource cause, CallbackInfo ci) {
+        if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) ci.cancel();
+    }
+
+
+    @Inject(at = @At("HEAD"), method = "canHarvestBlock", cancellable = true)
+    public void canHarvestBlock(IBlockState state, CallbackInfoReturnable<Boolean> cir) {
+        if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) cir.setReturnValue(true);
+    }
+
+    @Inject(at = @At("HEAD"), method = "attackTargetEntityWithCurrentItem", cancellable = true)
+    public void attackTargetEntityWithCurrentItem(Entity targetEntity, CallbackInfo ci) {
+        if (InventoryUtil.isMiku(targetEntity)) ci.cancel();
     }
 }

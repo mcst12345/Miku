@@ -11,15 +11,21 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+
 
 public class MikuItemEvent {
+    @SubscribeEvent
+    public void onPlayerOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        MikuItem.RemoveFromMikuList(event.player);
+    }
+
     @SubscribeEvent
     public void LivingHurtEvent(LivingHurtEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
         boolean isMiku = InventoryUtil.isMiku(entity);
         if (isMiku) {
-            System.out.println("protect entity");
             MikuItem.Protect(entity);
             if (entity instanceof Hatsune_Miku) ((Hatsune_Miku) entity).Protect();
             event.setCanceled(true);
@@ -31,7 +37,6 @@ public class MikuItemEvent {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
         if (InventoryUtil.isMiku(entity)) {
-            System.out.println("Protect Entity");
             MikuItem.Protect(entity);
             if (entity instanceof Hatsune_Miku) ((Hatsune_Miku) entity).Protect();
             event.setCanceled(true);

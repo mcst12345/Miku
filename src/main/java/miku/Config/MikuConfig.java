@@ -1,5 +1,7 @@
 package miku.Config;
 
+//Copied from LoliPickaxe
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraftforge.common.config.Configuration;
@@ -24,6 +26,15 @@ public class MikuConfig {
             valueType = ConfigField.ValurType.BOOLEAN
     )
     public static boolean IsDebugMode;
+
+    @ConfigField(
+            type = {ConfigField.ConfigType.CONFIG},
+            comment = "禁止混沌凋灵的一些事件执行。可以让一些存档恢复正常，但是会让混沌凋灵的一些物品产生BUG。",
+            valueType = ConfigField.ValurType.BOOLEAN,
+            booleanDefaultValue = true
+    )
+    public static boolean FuckChaosWither;
+
 
     @ConfigField(
             type = {ConfigField.ConfigType.CONFIG, ConfigField.ConfigType.COMMAND},

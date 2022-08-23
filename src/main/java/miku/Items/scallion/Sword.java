@@ -5,8 +5,9 @@ import net.minecraft.item.ItemSword;
 public class Sword extends ItemSword {
     public Sword(ToolMaterial material) {
         super(material);
+        //material.setRepairItem(new ItemStack(MikuLoader.SCALLION));
         this.maxStackSize = 1;
-        this.setMaxDamage(6);
+        this.setMaxDamage(50);
         this.canRepair = true;
     }
 

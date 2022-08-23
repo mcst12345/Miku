@@ -24,18 +24,31 @@ item.scallion_axe.name=Scallion Axe
 item.scallion_sword.name=Scallion Sword
 item.scallion_hoe.name=Scallion Hoe
 
+#DebugItem
+item.miku.debug_item.name=Debug Item
+item.miku.zero_health.name=Zero Health
+item.miku.no_ai.name=No AI
+item.miku.clear_inventory.name=Clear entity inventory
+item.miku.time_stop.name=Set entity time stop
+
 #CreativeTab
 itemGroup.miku=miku
 itemGroup.miku_music=miku music
+itemGroup.debug=Debug Items
 
 #Enchantment
-enchantment.miku.god_killer=God Killer
+enchantment.god_killer=God Killer
+enchantment.death=Death
 
 #block
 tile.miku.miku_ore.name=MikuOre
 tile.miku.empty_sekai_block.name=EmptySekaiBlock
 tile.miku_jukebox.name=MikuJukebox
 tile.miku.scallion_block.name=ScallionBlock
+tile.miku.miku_portal.name=Miku Portal
+tile.miku_dirt.name=Miku Dirt
+tile.miku_grass.name=Miku Grass
+tile.miku_stone.name=Miku Stone
 
 #advancement
 advancement.root=Miku
@@ -86,14 +99,20 @@ item.tokyo_ghetto.name=トーキョーゲットー
 item.deep_sea_lily.name=ウミユリ海底譚
 item.deep_sea_lily_piano.name=ウミユリ海底譚 piano ver.
 item.all_happy.name=お気に召すまま
+item.Vampire.name=ヴァンパイア
+item.Tell_Your_World.name=Tell Your World
+item.Melty_Land_Nightmare.name=メルティランドナイトメア
+item.Senbonzakura.name=千本桜
+item.Sand_Planet.name=砂の惑星
+item.39Music.name=39みゅーじっく！
+item.Teo.name=テオ
+item.Patchwork_Staccato.name=ツギハギスタッカート
+item.Hibikase.name=ヒビカセ
+item.Hitorinbo_Envy.name=独りんぼエンヴィー
+item.Girl_Ray.name=少女レイ
 
 #Spawn Eggs
 item.spawn_miku.name=Spawn Hatsune Miku
-
-#?
-Attack Speed=?
-info.over=?
-Attack Damage=?
 
 #DeathDamage
 death.attack.miku=%1$s was Killed By Miku

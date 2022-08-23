@@ -1,8 +1,10 @@
 package miku.World.MikuWorld.Biome;
 
 import miku.Entity.Hatsune_Miku;
+import miku.World.MikuWorld.Biome.Derocation.MikuBiomeDecoration;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.gen.feature.*;
 
 import javax.annotation.Nonnull;
@@ -16,10 +18,9 @@ public class MikuBiomes extends Biome {
         spawnableMonsterList.clear();
         spawnableWaterCreatureList.clear();
         spawnableCreatureList.clear();
-        spawnableCreatureList.add(new SpawnListEntry(Hatsune_Miku.class, 1, 1, 1));
+        spawnableCreatureList.add(new SpawnListEntry(Hatsune_Miku.class, 100, 1, 1));
         spawnableCaveCreatureList.clear();
-        spawnableCaveCreatureList.add(new SpawnListEntry(Hatsune_Miku.class, 1, 1, 1));
-
+        this.decorator = new MikuBiomeDecoration();
     }
 
     @Override
@@ -52,7 +53,13 @@ public class MikuBiomes extends Biome {
 
     @Override
     public boolean canRain() {
-        return false;
+        return true;
+    }
+
+    @Override
+    @Nonnull
+    public BiomeDecorator createBiomeDecorator() {
+        return new MikuBiomeDecoration();
     }
 
 }

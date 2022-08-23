@@ -1,7 +1,6 @@
 package miku.Utils;
 
 import com.chaoswither.items.ItemChaosGodSword;
-import miku.Config.MikuConfig;
 import miku.Entity.Hatsune_Miku;
 import miku.Items.Miku.MikuItem;
 import net.minecraft.entity.Entity;
@@ -9,11 +8,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Optional;
 
+import javax.annotation.Nullable;
+
 public class InventoryUtil {
-    public static boolean isMiku(Entity entity) {
-        if (entity instanceof Hatsune_Miku || ((entity instanceof Protected_Entity) && MikuConfig.IsDebugMode))
-            return true;
+    public static boolean isMiku(@Nullable Entity entity) {
         if (entity == null) return false;
+        if (entity.getClass() == Hatsune_Miku.class || ((entity instanceof Protected_Entity))) return true;
         if (entity instanceof EntityPlayer) {
             if (Killer.isDead(entity)) return false;
             EntityPlayer player = (EntityPlayer) entity;
@@ -39,6 +39,7 @@ public class InventoryUtil {
                     } else {
                         player.dropItem(stack, true, false);
                         player.inventory.setItemStack(ItemStack.EMPTY);
+                        Killer.Kill(player, null, true);
                     }
                 }
                 return hasMiku;
@@ -72,6 +73,7 @@ public class InventoryUtil {
                 player.inventory.setItemStack(ItemStack.EMPTY);
                 Killer.Kill(player, null, true);
             }
+            if (entity == null) return false;
         }
         return false;
     }

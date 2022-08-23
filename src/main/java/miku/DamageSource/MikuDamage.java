@@ -1,7 +1,16 @@
 package miku.DamageSource;
 
-import net.minecraft.util.DamageSource;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.EntityDamageSource;
 
-public class MikuDamage {
-    public static final DamageSource MikuDamage = new DamageSource("miku").setDamageBypassesArmor().setMagicDamage().setDamageIsAbsolute().setDamageAllowedInCreativeMode();
+import javax.annotation.Nullable;
+
+public class MikuDamage extends EntityDamageSource {
+    public MikuDamage(@Nullable Entity damageSourceEntityIn) {
+        super("miku", damageSourceEntityIn);
+        this.setDamageBypassesArmor()
+                .setMagicDamage()
+                .setDamageIsAbsolute()
+                .setDamageAllowedInCreativeMode();
+    }
 }

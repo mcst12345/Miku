@@ -6,8 +6,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,7 +22,7 @@ public final class MikuWorldProvider extends WorldProvider {
     @Override
     protected void init() {
         this.hasSkyLight = true;
-        this.biomeProvider = new MikuBiomeProvider(this.world.getSeed());
+        this.biomeProvider = new MikuBiomeProvider();
     }
 
     @Override
@@ -61,11 +64,13 @@ public final class MikuWorldProvider extends WorldProvider {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public boolean doesXZShowFog(int x, int z) {
         return true;
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public boolean isSkyColored() {
         return true;
     }
@@ -76,6 +81,7 @@ public final class MikuWorldProvider extends WorldProvider {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public float getCloudHeight() {
         return -200F;
     }
@@ -105,7 +111,7 @@ public final class MikuWorldProvider extends WorldProvider {
     @Override
     @Nonnull
     public IChunkGenerator createChunkGenerator() {
-        return new MikuChunkGenerator(world, world.getSeed(), true);
+        return new MikuChunkGenerator(world, world.getSeed());
     }
 
     public boolean canRespawnHere() {
@@ -128,7 +134,12 @@ public final class MikuWorldProvider extends WorldProvider {
 
     @Override
     public float calculateCelestialAngle(long worldTime, float partialTicks) {
-        return new Random().nextFloat();
+        return 100;
     }
 
+    @Override
+    @Nonnull
+    public Biome getBiomeForCoords(@Nullable BlockPos pos) {
+        return MikuWorld.miku_biome;
+    }
 }
