@@ -1,0 +1,9 @@
+{
+  "parent": "miku:block/multi_texture_base",
+  "textures": {
+    "particle": "miku:blocks/miku_dirt",
+    "bottom": "miku:blocks/miku_dirt",
+    "top": "miku:blocks/miku_grass_top",
+    "side": "miku:blocks/miku_grass_side"
+  }
+}

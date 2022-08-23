@@ -1,0 +1,24 @@
+{
+  "variants": {
+    "snowy=false": [
+      {
+        "model": "miku:miku_grass"
+      },
+      {
+        "model": "miku:miku_grass",
+        "y": 90
+      },
+      {
+        "model": "miku:miku_grass",
+        "y": 180
+      },
+      {
+        "model": "miku:miku_grass",
+        "y": 270
+      }
+    ],
+    "snowy=true": {
+      "model": "miku:miku_grass"
+    }
+  }
+}
