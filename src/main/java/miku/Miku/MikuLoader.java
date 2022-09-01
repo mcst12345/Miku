@@ -1,7 +1,6 @@
 package miku.Miku;
 
 import miku.Blocks.MikuJukebox;
-import miku.Blocks.MikuPower.MikuGenerator;
 import miku.Blocks.Ore.MikuOre;
 import miku.Blocks.Portal.MikuPortal;
 import miku.Blocks.ScallionBlock;
@@ -12,6 +11,8 @@ import miku.Blocks.World.Sekai.empty.WhiteGreyBlock;
 import miku.Enchantment.Die;
 import miku.Enchantment.GodKiller;
 import miku.Entity.Hatsune_Miku;
+import miku.Entity.Machine.MikuGenerator;
+import miku.Event.*;
 import miku.Items.Debug.*;
 import miku.Items.Delicious_Scallion;
 import miku.Items.Miku.MikuItem;
@@ -25,9 +26,12 @@ import miku.Items.scallion.Pickaxe;
 import miku.Items.scallion.Sword;
 import miku.Model.MikuModel;
 import miku.Render.RenderMiku;
+import miku.Render.RenderMikuGenerator;
 import miku.Utils.Protected_Entity;
 import miku.Utils.RegisterUtil;
 import miku.World.MikuWorld.MikuWorld;
+import miku.World.OverWorldGenStructure;
+import miku.World.OverWorldOreGen;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -37,6 +41,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -44,6 +49,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -127,7 +133,6 @@ public class MikuLoader {
     public static final Block MikuGrass = new MikuGrass();
     public static final Block MikuPortal = new MikuPortal();
     public static final Block MikuStone = new MikuStone();
-    public static final Block MikuGenerator = new MikuGenerator();
 
 
     public static final ItemBlock MIKU_ORE_ITEM = new ItemBlock(MIKU_ORE);
@@ -138,8 +143,6 @@ public class MikuLoader {
     public static final ItemBlock MikuDirtItem = new ItemBlock(MikuDirt);
     public static final ItemBlock MikuGrassItem = new ItemBlock(MikuGrass);
     public static final ItemBlock MikuStoneItem = new ItemBlock(MikuStone);
-    public static final ItemBlock MikuGeneratorItem = new ItemBlock(MikuGenerator);
-
 
     public static final Enchantment GodKiller = new GodKiller();
 
@@ -220,7 +223,6 @@ public class MikuLoader {
         RegisterUtil.RegisterItem(event, Hibikase, "Hibikase");
         RegisterUtil.RegisterItem(event, Hitorinbo_Envy, "Hitorinbo_Envy");
         RegisterUtil.RegisterItem(event, Girl_Ray, "Girl_Ray");
-        RegisterUtil.RegisterItem(event, MikuGeneratorItem, "miku_generator");
     }
 
     @SubscribeEvent
@@ -297,7 +299,6 @@ public class MikuLoader {
         RegisterUtil.RegisterItemModel(Hibikase);
         RegisterUtil.RegisterItemModel(Hitorinbo_Envy);
         RegisterUtil.RegisterItemModel(Girl_Ray);
-        RegisterUtil.RegisterItemModel(MikuGeneratorItem);
     }
 
     @SubscribeEvent
@@ -317,24 +318,24 @@ public class MikuLoader {
         RegisterUtil.RegisterBlock(event, MikuDirt, "miku_dirt");
         RegisterUtil.RegisterBlock(event, MikuGrass, "miku_grass");
         RegisterUtil.RegisterBlock(event, MikuStone, "miku_stone");
-        RegisterUtil.RegisterBlock(event, MikuGenerator, "miku_generator");
     }
 
     @SubscribeEvent
     public static void RegisterEntity(RegistryEvent.Register<EntityEntry> event) {
         RegisterUtil.RegisterEntity(event, "hatsune_miku", "初音ミク", 3939, Hatsune_Miku.class);
         RegisterUtil.RegisterEntity(event, "test_entity", "test_entity", 0, Protected_Entity.class);
+        RegisterUtil.RegisterEntity(event, "miku_generator", "MikuGenerator", 1, MikuGenerator.class);
         EntityRegistry.registerEgg(new ResourceLocation("miku", "hatsune_miku"), 0x39C5BB, 0x39C5BB);
+        EntityRegistry.registerEgg(new ResourceLocation("miku,", "miku_generator"), 0x39C5BB, 0x39C5BB);
     }
 
     public static void LoadRecipes() {
         new miku.Items.Recipes.Delicious_Scallion();
     }
 
-    @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public void registerModel(ModelRegistryEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(Hatsune_Miku.class, manager -> new RenderMiku(manager, new MikuModel(), 0.3f));
+    public static void RegisterWorldGen() {
+        GameRegistry.registerWorldGenerator(new OverWorldOreGen(), 3);
+        GameRegistry.registerWorldGenerator(new OverWorldGenStructure(), 6);
     }
 
     @SideOnly(Side.CLIENT)
@@ -346,5 +347,22 @@ public class MikuLoader {
     @SubscribeEvent
     public void onRegisterBiomeEvent(RegistryEvent.Register<Biome> event) {
         Biome.registerBiome(3939, "miku:miku_land", MikuWorld.miku_biome);
+    }
+
+    public static void RegisterEvent() {
+        MinecraftForge.EVENT_BUS.register(new BreakBlock());
+        MinecraftForge.EVENT_BUS.register(new EntityDropEvent());
+        MinecraftForge.EVENT_BUS.register(new MikuItemEvent());
+        MinecraftForge.EVENT_BUS.register(new PlayerEvent());
+        MinecraftForge.EVENT_BUS.register(new EntityEvent());
+        MinecraftForge.EVENT_BUS.register(new WorldEvent());
+        MinecraftForge.EVENT_BUS.register(new ToolTipEvent());
+    }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void registerModel(ModelRegistryEvent event) {
+        RenderingRegistry.registerEntityRenderingHandler(Hatsune_Miku.class, manager -> new RenderMiku(manager, new MikuModel(), 0.3f));
+        RenderingRegistry.registerEntityRenderingHandler(MikuGenerator.class, RenderMikuGenerator::new);
     }
 }

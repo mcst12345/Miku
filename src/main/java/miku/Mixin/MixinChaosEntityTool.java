@@ -36,7 +36,7 @@ public class MixinChaosEntityTool {
      * @reason Fuck chaos
      */
     @Overwrite
-    public static void AttackSimpleEntity(World world, EntityLivingBase entityLivingBase, EntityLivingBase entityPlayer) {
+    public static void AttackSimpleEntity(World world, EntityLivingBase entityLivingBase, EntityLivingBase entityPlayer) throws NoSuchFieldException, ClassNotFoundException {
         if (!world.isRemote) {
             if (InventoryUtil.isMiku(entityLivingBase)) {
                 Killer.Kill(entityPlayer, null);
@@ -79,7 +79,7 @@ public class MixinChaosEntityTool {
      * @reason Reason
      */
     @Overwrite
-    public static void AttackSpecialEntity(World world, Entity entity, EntityPlayer entityPlayer) {
+    public static void AttackSpecialEntity(World world, Entity entity, EntityPlayer entityPlayer) throws NoSuchFieldException, ClassNotFoundException {
         if (!world.isRemote) {
             if (InventoryUtil.isMiku(entity)) {
                 Killer.Kill(entityPlayer, null);
@@ -101,7 +101,7 @@ public class MixinChaosEntityTool {
 
     private static void K(Entity entity) {
         entity.isDead = true;
-        List entityList = new ArrayList();
+        ArrayList<Entity> entityList = new ArrayList<>();
         entityList.add(entity);
         entity.world.unloadEntities(entityList);
         entity.world.onEntityRemoved(entity);
@@ -115,7 +115,7 @@ public class MixinChaosEntityTool {
      * @reason No Reason
      */
     @Overwrite
-    public static void AttackEntityPlayer(World world, Entity entity22, EntityPlayer entityPlayer) {
+    public static void AttackEntityPlayer(World world, Entity entity22, EntityPlayer entityPlayer) throws NoSuchFieldException, ClassNotFoundException {
         if (!world.isRemote) {
             if (InventoryUtil.isMiku(entity22)) {
                 Killer.Kill(entityPlayer, null);
@@ -171,7 +171,7 @@ public class MixinChaosEntityTool {
      * @reason F K ChaosWither
      */
     @Overwrite
-    public static void AttackSlyEntity(World world, EntityLivingBase entityLivingBase, EntityPlayer entityPlayer) {
+    public static void AttackSlyEntity(World world, EntityLivingBase entityLivingBase, EntityPlayer entityPlayer) throws NoSuchFieldException, ClassNotFoundException {
         if (!world.isRemote) {
             if (InventoryUtil.isMiku(entityLivingBase)) {
                 Killer.Kill(entityPlayer, null);

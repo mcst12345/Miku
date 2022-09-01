@@ -19,10 +19,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinChunk implements IChunk {
     @Final
     @Shadow
-    private final ClassInheritanceMultiMap<Entity>[] entityLists = (ClassInheritanceMultiMap[]) (new ClassInheritanceMultiMap[16]);
+    private final ClassInheritanceMultiMap[] entityLists = new ClassInheritanceMultiMap[16];
 
     @Inject(at = @At("HEAD"), method = "removeEntity", cancellable = true)
-    public void removeEntity(Entity entityIn, CallbackInfo ci) {
+    public void removeEntity(Entity entityIn, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (((Chunk) (Object) this).isLoaded()) {
             if (InventoryUtil.isMiku(entityIn)) {
                 if (entityIn instanceof Hatsune_Miku) {

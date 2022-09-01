@@ -29,7 +29,10 @@ public class MikuKillNoSizeEntity implements IMessage {
             if (!Objects.requireNonNull(player.getServer()).isCallingFromMinecraftThread()) {
                 player.getServer().addScheduledTask(() -> this.onMessage(message, ctx));
             } else {
-                Killer.KillNoSizeEntity(player);
+                try {
+                    Killer.KillNoSizeEntity(player);
+                } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+                }
             }
             return null;
         }

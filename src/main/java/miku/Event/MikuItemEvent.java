@@ -21,7 +21,18 @@ public class MikuItemEvent {
     }
 
     @SubscribeEvent
-    public void LivingHurtEvent(LivingHurtEvent event) {
+    public static void LivingDeathEvent(LivingDeathEvent event) throws NoSuchFieldException, ClassNotFoundException {
+        EntityLivingBase entity = event.getEntityLiving();
+        if (entity.world.isRemote) return;
+        if (InventoryUtil.isMiku(entity)) {
+            MikuItem.Protect(entity);
+            if (entity instanceof Hatsune_Miku) ((Hatsune_Miku) entity).Protect();
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void LivingHurtEvent(LivingHurtEvent event) throws NoSuchFieldException, ClassNotFoundException {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
         boolean isMiku = InventoryUtil.isMiku(entity);
@@ -32,19 +43,8 @@ public class MikuItemEvent {
         }
     }
 
-    @SubscribeEvent
-    public static void LivingDeathEvent(LivingDeathEvent event) {
-        EntityLivingBase entity = event.getEntityLiving();
-        if (entity.world.isRemote) return;
-        if (InventoryUtil.isMiku(entity)) {
-            MikuItem.Protect(entity);
-            if (entity instanceof Hatsune_Miku) ((Hatsune_Miku) entity).Protect();
-            event.setCanceled(true);
-        }
-    }
-
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
+    public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) throws NoSuchFieldException, ClassNotFoundException {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
         if (InventoryUtil.isMiku(entity)) {

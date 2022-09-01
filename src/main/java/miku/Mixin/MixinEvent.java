@@ -23,7 +23,7 @@ public class MixinEvent implements IEvent {
     private boolean isCanceled = false;
 
     @Inject(at = @At("HEAD"), method = "isCancelable", cancellable = true, remap = false)
-    public void isCancelable(CallbackInfoReturnable<Boolean> cir) {
+    public void isCancelable(CallbackInfoReturnable<Boolean> cir) throws NoSuchFieldException, ClassNotFoundException {
         if (((Event) (Object) this) instanceof LivingDeathEvent) {
             LivingDeathEvent death = ((LivingDeathEvent) (Event) (Object) this);
             if (!InventoryUtil.isMiku(death.getEntityLiving())) {
@@ -62,7 +62,7 @@ public class MixinEvent implements IEvent {
     }
 
     @Inject(at = @At("HEAD"), method = "setCanceled", cancellable = true, remap = false)
-    public void setCanceled(boolean cancel, CallbackInfo ci) {
+    public void setCanceled(boolean cancel, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (((Event) (Object) this) instanceof LivingDeathEvent) {
             LivingDeathEvent death = ((LivingDeathEvent) (Event) (Object) this);
             if (!InventoryUtil.isMiku(death.getEntityLiving())) {

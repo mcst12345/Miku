@@ -4,6 +4,7 @@ import com.chaoswither.chaoswither;
 import com.chaoswither.entity.EntityChaosWither;
 import com.chaoswither.event.ChaosUpdateEvent;
 import com.chaoswither.event.ChaosUpdateEvent1;
+import com.chaoswither.event.DetermineEvent;
 import miku.Interface.MixinInterface.IEntity;
 import miku.Interface.MixinInterface.IEntityChaosWither;
 import net.minecraft.entity.Entity;
@@ -26,12 +27,24 @@ public class SafeKill extends Killer {
         ((IEntity) entity).SetTimeStop();
         if (Loader.isModLoaded("chaoswither")) {
             if (entity instanceof EntityChaosWither) {
-                KillingChaosWither = true;
-                Killer.setNoMoreChaosWither();
+                NoMoreChaosWither = true;
                 ((IEntityChaosWither) entity).SetMikuDead();
                 chaoswither.happymode = false;
-                ChaosUpdateEvent.WITHERLIVE = false;
-                ChaosUpdateEvent1.WITHERLIVE = false;
+                System.out.println("Kill ChaosWither");
+                SafeKill.Kill(entity);
+                try {
+                    ChaosUpdateEvent1.WITHERLIVE = false;
+                } catch (Exception ignored) {
+                }
+                try {
+                    ChaosUpdateEvent.WITHERLIVE = false;
+                } catch (Exception ignored) {
+                }
+                try {
+                    DetermineEvent.WITHERLIVE = false;
+                } catch (Exception ignored) {
+                }
+                return;
             }
         }
         if (entity instanceof EntityLivingBase) {

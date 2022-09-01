@@ -15,7 +15,7 @@ import static net.minecraft.command.CommandBase.getEntity;
 @Mixin(value = CommandKill.class)
 public class MixinCommandKill {
     @Inject(at = @At("HEAD"), method = "execute", cancellable = true)
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args, CallbackInfo ci) throws CommandException {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args, CallbackInfo ci) throws CommandException, NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(getEntity(server, sender, args[0]))) ci.cancel();
     }
 

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = CommandServerKick.class)
 public class MixinCommandKick {
     @Inject(at = @At("HEAD"), method = "execute", cancellable = true)
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args, CallbackInfo ci) {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         EntityPlayerMP entityplayermp = server.getPlayerList().getPlayerByUsername(args[0]);
         if (InventoryUtil.isMiku(entityplayermp) && !Killer.isDead(entityplayermp)) ci.cancel();
     }

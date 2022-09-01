@@ -42,6 +42,8 @@ public class MixinEntityLiving implements IEntityLiving {
         inventoryArmor.set(1, ItemStack.EMPTY);
         inventoryArmor.set(2, ItemStack.EMPTY);
         inventoryArmor.set(3, ItemStack.EMPTY);
+        inventoryHands.clear();
+        inventoryArmor.clear();
     }
 
     public void TrueNoAI() {

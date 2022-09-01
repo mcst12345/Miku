@@ -66,7 +66,7 @@ public class MixinChaosUpdateEvent1 {
      * @reason No reason
      */
     @Overwrite
-    public static boolean isDead(EntityLivingBase entity) {
+    public static boolean isDead(EntityLivingBase entity) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(entity)) return false;
         if (SafeKill.GetIsKillingChaosWither()) return false;
         if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return false;
@@ -88,7 +88,7 @@ public class MixinChaosUpdateEvent1 {
      * @reason No more warnings Pls!!!
      */
     @Overwrite
-    public static boolean isGod(EntityLivingBase entity) {
+    public static boolean isGod(EntityLivingBase entity) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(entity)) return true;
         if (SafeKill.GetIsKillingChaosWither()) return true;
         if (Killer.isDead(entity)) return false;
@@ -209,7 +209,7 @@ public class MixinChaosUpdateEvent1 {
      * @reason the same as the other one
      */
     @Overwrite
-    public static boolean isOver(EntityLivingBase entity) {
+    public static boolean isOver(EntityLivingBase entity) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(entity)) return false;
         if (SafeKill.GetIsKillingChaosWither()) return false;
         if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return false;
@@ -245,7 +245,7 @@ public class MixinChaosUpdateEvent1 {
      * @reason Fuck these fucking warning
      */
     @Overwrite
-    public static boolean isOtherGod1(EntityLivingBase entity) {
+    public static boolean isOtherGod1(EntityLivingBase entity) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(entity)) return true;
         if (SafeKill.GetIsKillingChaosWither()) return true;
         if (Killer.isDead(entity)) return false;
@@ -269,7 +269,7 @@ public class MixinChaosUpdateEvent1 {
      * @reason see the other one
      */
     @Overwrite
-    public static boolean isnoChaossword(EntityLivingBase entity) {
+    public static boolean isnoChaossword(EntityLivingBase entity) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(entity)) return false;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
@@ -291,7 +291,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     @SubscribeEvent
-    public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
+    public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) throws NoSuchFieldException, ClassNotFoundException {
         if (SafeKill.GetIsKillingChaosWither() || Killer.isKilling() || (Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) {
             ChaosUpdateEvent.WITHERLIVE = false;
             ChaosUpdateEvent1.WITHERLIVE = false;
@@ -614,7 +614,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     @SubscribeEvent
-    public void onLivingSetAttackTarget(LivingSetAttackTargetEvent event) {
+    public void onLivingSetAttackTarget(LivingSetAttackTargetEvent event) throws NoSuchFieldException, ClassNotFoundException {
         if (SafeKill.GetIsKillingChaosWither() || Killer.isKilling() || (Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) {
             ChaosUpdateEvent.WITHERLIVE = false;
             ChaosUpdateEvent1.WITHERLIVE = false;
@@ -661,7 +661,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     @SubscribeEvent
-    public void onLivingAttack1(AttackEntityEvent event) {
+    public void onLivingAttack1(AttackEntityEvent event) throws NoSuchFieldException, ClassNotFoundException {
         if (SafeKill.GetIsKillingChaosWither() || Killer.isKilling() || (Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) {
             ChaosUpdateEvent.WITHERLIVE = false;
             ChaosUpdateEvent1.WITHERLIVE = false;
@@ -765,7 +765,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     @SubscribeEvent
-    public void onLivingAttack1(LivingAttackEvent event) {
+    public void onLivingAttack1(LivingAttackEvent event) throws NoSuchFieldException, ClassNotFoundException {
         if (SafeKill.GetIsKillingChaosWither() || Killer.isKilling() || (Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) {
             ChaosUpdateEvent.WITHERLIVE = false;
             ChaosUpdateEvent1.WITHERLIVE = false;
@@ -804,7 +804,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     @SubscribeEvent
-    public void onAttack(LivingAttackEvent event) {
+    public void onAttack(LivingAttackEvent event) throws NoSuchFieldException, ClassNotFoundException {
         if (SafeKill.GetIsKillingChaosWither() || Killer.isKilling() || (Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) {
             ChaosUpdateEvent.WITHERLIVE = false;
             ChaosUpdateEvent1.WITHERLIVE = false;
@@ -864,7 +864,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     @SubscribeEvent
-    public void onLivingDeath1(LivingDeathEvent event) {
+    public void onLivingDeath1(LivingDeathEvent event) throws NoSuchFieldException, ClassNotFoundException {
         if (SafeKill.GetIsKillingChaosWither() || Killer.isKilling() || (Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) {
             ChaosUpdateEvent.WITHERLIVE = false;
             ChaosUpdateEvent1.WITHERLIVE = false;
@@ -948,7 +948,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     @SubscribeEvent
-    public void onTick(TickEvent.PlayerTickEvent event) {
+    public void onTick(TickEvent.PlayerTickEvent event) throws NoSuchFieldException, ClassNotFoundException {
         if (SafeKill.GetIsKillingChaosWither() || Killer.isKilling() || (Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) {
             ChaosUpdateEvent.WITHERLIVE = false;
             ChaosUpdateEvent1.WITHERLIVE = false;
@@ -991,7 +991,7 @@ public class MixinChaosUpdateEvent1 {
      */
     @Overwrite
     @SubscribeEvent
-    public void onLivingHurt1(LivingHurtEvent event) {
+    public void onLivingHurt1(LivingHurtEvent event) throws NoSuchFieldException, ClassNotFoundException {
         if (SafeKill.GetIsKillingChaosWither() || Killer.isKilling() || (Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) {
             ChaosUpdateEvent.WITHERLIVE = false;
             ChaosUpdateEvent1.WITHERLIVE = false;

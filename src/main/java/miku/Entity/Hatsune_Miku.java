@@ -4,21 +4,30 @@ import com.anotherstar.common.entity.IEntityLoli;
 import com.chaoswither.chaoswither;
 import com.github.alexthe666.iceandfire.IceAndFire;
 import com.github.alexthe666.iceandfire.entity.StoneEntityProperties;
+import miku.Interface.MixinInterface.IWorld;
 import miku.Items.Miku.MikuItem;
+import miku.Items.Scallion;
+import miku.Miku.MikuCombatTracker;
 import miku.Miku.MikuLoader;
+import miku.Thread.MikuTradeThread;
 import miku.Utils.Killer;
 import net.ilexiconn.llibrary.server.capability.IEntityData;
 import net.ilexiconn.llibrary.server.capability.IEntityDataCapability;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.CombatTracker;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -27,25 +36,20 @@ import net.minecraftforge.fml.common.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(modid = "lolipickaxe", iface = "com.anotherstar.common.entity.IEntityLoli")})
 public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
     public boolean isTrading = false;
 
+    protected final CombatTracker combatTracker = new MikuCombatTracker(this);
+    protected boolean tp_cooldown;
+
     public Hatsune_Miku(World world) {
         super(world);
-        super.setHealth(Float.MAX_VALUE);
+        ((IWorld) world).MIKUS.add(this);
+        super.setHealth(40.0F);
         this.setCanPickUpLoot(false);
-        this.tasks.addTask(1, new EntityAIPanic(this, 1.4D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, MikuLoader.SCALLION, false));
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAILookIdle(this));
-        this.tasks.addTask(2, new EntityAIMoveIndoors(this));
-        this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
-        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-        this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
-        this.tasks.addTask(9, new EntityAIWanderAvoidWater(this, 0.6D));
-        //this.tasks.addTask(0, new MikuAI(this));
     }
 
     @Nullable
@@ -116,8 +120,18 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
     }
 
     @Override
-    public void setHealth(float health) {
-        super.setHealth(Float.MAX_VALUE);
+    protected void initEntityAI() {
+        this.tasks.addTask(1, new EntityAIPanic(this, 1.4D));
+        this.tasks.addTask(1, new EntityAIAvoidEntity<>(this, EntityMob.class, 8.0F, 0.6D, 0.6D));
+        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, MikuLoader.SCALLION, false));
+        this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(2, new EntityAILookIdle(this));
+        this.tasks.addTask(2, new EntityAIMoveIndoors(this));
+        this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
+        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
+        this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
+        this.tasks.addTask(9, new EntityAIWanderAvoidWater(this, 0.6D));
+        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
     }
 
     @Override
@@ -144,9 +158,8 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
     }
 
     @Override
-    public boolean hitByEntity(@Nullable Entity entityIn) {
-        Killer.Kill(entityIn, null);
-        return false;
+    public void setHealth(float health) {
+        super.setHealth(40.0F);
     }
 
     @Override
@@ -294,8 +307,11 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
     }
 
     @Override
-    public boolean attackEntityAsMob(@Nullable Entity entityIn) {
-        Killer.Kill(entityIn, null);
+    public boolean hitByEntity(@Nullable Entity entityIn) {
+        try {
+            Killer.Kill(entityIn, null);
+        } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+        }
         return false;
     }
 
@@ -333,7 +349,12 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
     }
 
     @Override
-    public void setNoAI(boolean disable) {
+    public boolean attackEntityAsMob(@Nullable Entity entityIn) {
+        try {
+            Killer.Kill(entityIn, null);
+        } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+        }
+        return false;
     }
 
     @Override
@@ -347,12 +368,17 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
     }
 
     @Override
+    public void setNoAI(boolean disable) {
+        super.setNoAI(false);
+    }
+
+    @Override
     @Nullable
     @Optional.Method(modid = IceAndFire.MODID)
     public <T> T getCapability(@Nonnull net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable net.minecraft.util.EnumFacing facing) {
         T result = super.getCapability(capability, facing);
         if (result instanceof IEntityDataCapability) {
-            IEntityData data = ((IEntityDataCapability) result).getData("Ice And Fire - Stone Property Tracker");
+            IEntityData<EntityLiving> data = ((IEntityDataCapability) result).getData("Ice And Fire - Stone Property Tracker");
             if (data instanceof StoneEntityProperties) {
                 ((StoneEntityProperties) data).isStone = false;
             }
@@ -360,14 +386,23 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
         return result;
     }
 
-    public void Protect() {
-        super.setHealth(Float.MAX_VALUE);
+    @Override
+    public boolean isDispersal() {
+        return false;
+    }
+
+    @Override
+    public void setDispersal(boolean value) {
+    }
+
+    public void Protect() throws NoSuchFieldException, ClassNotFoundException {
+        super.setHealth(40.0F);
         if (this.posY < -64.0D) {
-            this.outOfWorld();
+            setLocationAndAngles(posX, 256, posZ, rotationYaw, rotationPitch);
         }
         this.isDead = false;
-        if (!super.world.loadedEntityList.contains(this)) {
-            super.world.loadedEntityList.add(this);
+        if (!world.loadedEntityList.contains(this)) {
+            world.loadedEntityList.add(this);
         }
         super.removePotionEffect(MobEffects.WITHER);
         super.removePotionEffect(MobEffects.BLINDNESS);
@@ -389,6 +424,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
             super.extinguish();
         }
         this.deathTime = 0;
+        this.hurtTime = 0;
         super.setNoAI(false);
         this.arrowHitTimer = 0;
         this.dead = false;
@@ -401,18 +437,80 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
         if (!MikuItem.IsInMikuList(this)) MikuItem.AddToMikuList(this);
         super.setFlag(5, false);
         super.setCanPickUpLoot(false);
-    }
-
-    @Override
-    public boolean isDispersal() {
-        return false;
-    }
-
-    @Override
-    public void setDispersal(boolean value) {
+        super.setInvisible(false);
+        super.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10000);
     }
 
     @Override
     public void setInvisible(boolean b) {
+        super.setInvisible(false);
+    }
+
+    @Override
+    @Nonnull
+    public CombatTracker getCombatTracker() {
+        return combatTracker;
+    }
+
+    @Override
+    public void onKillEntity(@Nullable EntityLivingBase entityLivingIn) {
+        if (entityLivingIn != null) {
+            if (!(entityLivingIn.getClass() == Hatsune_Miku.class)) {
+                try {
+                    Killer.Kill(entityLivingIn, null, true);
+                } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onUpdate() {
+        try {
+            this.Protect();
+        } catch (NoSuchFieldException | ClassNotFoundException ignored) {
+        }
+        super.onUpdate();
+        if (!isTrading) {
+            List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.posX - 5, this.posY - 5, this.posZ - 5, this.posX + 5, this.posY + 5, this.posZ + 5));
+            if (players.isEmpty()) tp_cooldown = false;
+            if (!tp_cooldown) {
+                for (EntityPlayer player : players) {
+                    if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof Scallion) {
+                        this.posX = player.posX;
+                        this.posY = player.posY;
+                        this.posZ = player.posZ;
+                        tp_cooldown = true;
+                    }
+                }
+            }
+            List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(this.posX - 5, this.posY - 5, this.posZ - 5, this.posX + 5, this.posY + 5, this.posZ + 5));
+            for (EntityItem item : items) {
+                if (item.getItem().getItem() instanceof Scallion) {
+                    if (item.getItem().getCount() == 1) {
+                        MikuTradeThread TT = new MikuTradeThread(item, this);
+                        TT.start();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onLivingUpdate() {
+        try {
+            this.Protect();
+        } catch (NoSuchFieldException | ClassNotFoundException ignored) {
+        }
+        super.onLivingUpdate();
+    }
+
+    @Override
+    public void setPosition(double x, double y, double z) {
+    }
+
+    @Override
+    public float getPathPriority(@Nullable PathNodeType nodeType) {
+        return 0;
     }
 }

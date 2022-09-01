@@ -3,6 +3,7 @@ package miku.Mixin;
 import com.google.common.collect.Maps;
 import miku.DamageSource.MikuDamage;
 import miku.Interface.MixinInterface.IEntityLivingBase;
+import miku.Miku.MikuCombatTracker;
 import miku.Utils.InventoryUtil;
 import miku.Utils.Killer;
 import net.minecraft.entity.Entity;
@@ -37,6 +38,8 @@ import java.util.Map;
 
 @Mixin(value = EntityLivingBase.class)
 public abstract class MixinEntityLivingBase extends Entity implements IEntityLivingBase {
+    private final CombatTracker CombatTracker = new MikuCombatTracker(((EntityLivingBase) (Object) this));
+
 
     @Final
     @Shadow
@@ -103,7 +106,7 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
     }
 
     @Inject(at = @At("HEAD"), method = "setHealth", cancellable = true)
-    public void setHealth(float health, CallbackInfo ci) {
+    public void setHealth(float health, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityLivingBase) (Object) this)) {
             if (this.getMaxHealth() > 0.0F)
                 this.dataManager.set(HEALTH, MathHelper.clamp(this.getMaxHealth(), this.getMaxHealth(), this.getMaxHealth()));
@@ -115,7 +118,7 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
     }
 
     @Inject(at = @At("HEAD"), method = "damageEntity", cancellable = true)
-    protected void damageEntity(DamageSource damageSrc, float damageAmount, CallbackInfo ci) {
+    protected void damageEntity(DamageSource damageSrc, float damageAmount, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityLivingBase) (Object) this)) {
             ci.cancel();
         }
@@ -238,16 +241,23 @@ public abstract class MixinEntityLivingBase extends Entity implements IEntityLiv
     }
 
     @Inject(at = @At("HEAD"), method = "getHealth", cancellable = true)
-    public final void getHealth(CallbackInfoReturnable<Float> cir) {
+    public final void getHealth(CallbackInfoReturnable<Float> cir) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(((EntityLivingBase) (Object) this))) {
             cir.setReturnValue(10000000000.0F);
         }
     }
 
     @Inject(at = @At("HEAD"), method = "getMaxHealth", cancellable = true)
-    public final void GetMaxHealth(CallbackInfoReturnable<Float> cir) {
+    public final void GetMaxHealth(CallbackInfoReturnable<Float> cir) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(((EntityLivingBase) (Object) this))) {
             cir.setReturnValue(10000000000.0F);
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "getCombatTracker", cancellable = true)
+    public void getCombatTracker(CallbackInfoReturnable<CombatTracker> cir) throws NoSuchFieldException, ClassNotFoundException {
+        if (InventoryUtil.isMiku(this)) {
+            cir.setReturnValue(CombatTracker);
         }
     }
 }

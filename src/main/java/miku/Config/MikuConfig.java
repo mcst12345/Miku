@@ -36,23 +36,6 @@ public class MikuConfig {
     public static boolean FuckChaosWither;
 
 
-    @ConfigField(
-            type = {ConfigField.ConfigType.CONFIG, ConfigField.ConfigType.COMMAND},
-            comment = "FlySpeed",
-            valueType = ConfigField.ValurType.DOUBLE,
-            doubleDefaultValue = 1.0D
-    )
-    public static Double FlySpeed;
-
-    @ConfigField(
-            type = {ConfigField.ConfigType.CONFIG, ConfigField.ConfigType.COMMAND},
-            comment = "WalkSpeed",
-            valueType = ConfigField.ValurType.DOUBLE,
-            doubleDefaultValue = 1.0D
-    )
-    public static Double WalkSpeed;
-
-
     static {
         try {
             Field[] fields = MikuConfig.class.getFields();

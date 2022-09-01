@@ -17,7 +17,7 @@ import static net.minecraft.command.CommandBase.getPlayer;
 @Mixin(value = CommandClearInventory.class)
 public class MixinCommandClearInventory {
     @Inject(at = @At("HEAD"), method = "execute", cancellable = true)
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args, CallbackInfo ci) throws CommandException {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args, CallbackInfo ci) throws CommandException, NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(getCommandSenderAsPlayer(sender)) || InventoryUtil.isMiku(getPlayer(server, sender, args[0])))
             ci.cancel();
     }

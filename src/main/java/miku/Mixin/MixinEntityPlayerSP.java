@@ -12,12 +12,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = EntityPlayerSP.class)
 public class MixinEntityPlayerSP {
     @Inject(at = @At("HEAD"), method = "damageEntity", cancellable = true)
-    protected void damageEntity(DamageSource damageSrc, float damageAmount, CallbackInfo ci) {
+    protected void damageEntity(DamageSource damageSrc, float damageAmount, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayerSP) (Object) this)) ci.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "attackEntityFrom", cancellable = true)
-    public void attackEntityFrom(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    public void attackEntityFrom(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayerSP) (Object) this)) {
             cir.setReturnValue(false);
         }

@@ -5,6 +5,7 @@ import com.chaoswither.entity.EntityChaosWither;
 import com.chaoswither.entity.EntityWitherPlayer;
 import com.chaoswither.event.ChaosUpdateEvent;
 import com.chaoswither.event.ChaosUpdateEvent1;
+import com.chaoswither.event.DetermineEvent;
 import com.google.common.collect.Lists;
 import miku.Entity.Hatsune_Miku;
 import miku.Interface.MixinInterface.*;
@@ -39,9 +40,9 @@ import java.util.List;
 public class Killer {
     protected static final List<Entity> DeadEntities = new ArrayList<>();
 
-    protected static final List<Class> AntiSpawnEntityClass = new ArrayList<>();
+    protected static final List<Class<?>> AntiSpawnEntityClass = new ArrayList<>();
 
-    public static boolean isAnti(Class entity) {
+    public static boolean isAnti(Class<?> entity) {
         if (entity == Hatsune_Miku.class) return false;
         return AntiSpawnEntityClass.contains(entity);
     }
@@ -54,13 +55,13 @@ public class Killer {
         return NoMoreChaosWither;
     }
 
-    public static void Kill(Collection<Entity> entities) {
+    public static void Kill(Collection<Entity> entities) throws ClassNotFoundException, NoSuchFieldException {
         for (Entity entity : entities) {
             Kill(entity, null);
         }
     }
 
-    public static void KillNoSizeEntity(Entity entity) {
+    public static void KillNoSizeEntity(Entity entity) throws ClassNotFoundException, NoSuchFieldException {
         List<Entity> entities = Lists.newArrayList();
         for (int dist = 0; dist <= 100; dist += 2) {
             AxisAlignedBB bb = entity.getEntityBoundingBox();
@@ -77,7 +78,7 @@ public class Killer {
         Kill(entities);
     }
 
-    public static void Kill(@Nullable Entity entity, @Nullable MikuItem item, boolean forced) {
+    public static void Kill(@Nullable Entity entity, @Nullable MikuItem item, boolean forced) throws ClassNotFoundException, NoSuchFieldException {
         if (entity == null) return;
 
         if (entity.world.isRemote) return;
@@ -86,6 +87,7 @@ public class Killer {
 
         if (forced) {
             isKilling = true;
+            entity.updateBlocked = true;
             ((IEntity) entity).SetTimeStop();
             if (!DeadEntities.contains(entity)) {
                 DeadEntities.add(entity);
@@ -95,10 +97,21 @@ public class Killer {
                     NoMoreChaosWither = true;
                     ((IEntityChaosWither) entity).SetMikuDead();
                     chaoswither.happymode = false;
-                    ChaosUpdateEvent.WITHERLIVE = false;
-                    ChaosUpdateEvent1.WITHERLIVE = false;
                     System.out.println("Kill ChaosWither");
                     SafeKill.Kill(entity);
+                    try {
+                        ChaosUpdateEvent1.WITHERLIVE = false;
+                    } catch (Exception ignored) {
+                    }
+
+                    try {
+                        ChaosUpdateEvent.WITHERLIVE = false;
+                    } catch (Exception ignored) {
+                    }
+                    try {
+                        DetermineEvent.WITHERLIVE = false;
+                    } catch (Exception ignored) {
+                    }
                     return;
                 }
             }
@@ -130,21 +143,32 @@ public class Killer {
         }
     }
 
-    public static void Kill(@Nullable Entity entity, @Nullable MikuItem item) {
+    public static void Kill(@Nullable Entity entity, @Nullable MikuItem item) throws ClassNotFoundException, NoSuchFieldError, NoSuchFieldException {
         if (entity == null) return;
         if (entity.world.isRemote) return;
         if (entity.getClass() == Hatsune_Miku.class) return;
         isKilling = true;
+        entity.updateBlocked = true;
         ((IEntity) entity).SetTimeStop();
         if (Loader.isModLoaded("chaoswither")) {
             if (entity instanceof EntityChaosWither) {
                 NoMoreChaosWither = true;
-                SafeKill.Kill(entity);
                 ((IEntityChaosWither) entity).SetMikuDead();
                 chaoswither.happymode = false;
-                ChaosUpdateEvent.WITHERLIVE = false;
-                ChaosUpdateEvent1.WITHERLIVE = false;
                 System.out.println("Kill ChaosWither");
+                SafeKill.Kill(entity);
+                try {
+                    ChaosUpdateEvent1.WITHERLIVE = false;
+                } catch (Exception ignored) {
+                }
+                try {
+                    ChaosUpdateEvent.WITHERLIVE = false;
+                } catch (Exception ignored) {
+                }
+                try {
+                    DetermineEvent.WITHERLIVE = false;
+                } catch (Exception ignored) {
+                }
                 return;
             }
         }
@@ -236,7 +260,7 @@ public class Killer {
         ((IEntityLivingBase) entity).TrueAttackEntityFrom(item == null ? null : item.GetOwner());
         ((IEntityLivingBase) entity).ZeroMaxHealth();
         ((IEntityLivingBase) entity).TrueOnDeath(item == null ? null : item.GetOwner());
-        final List entityList = new ArrayList();
+        final ArrayList<Entity> entityList = new ArrayList<>();
         entityList.add(entity);
         ((IWorld) entity.world).TrueUnloadEntities(entityList);
         entity.world.loadedEntityList.remove(entity);
@@ -256,10 +280,6 @@ public class Killer {
     }
 
     static void killEntity(Entity entity) {
-        if (entity.world.isRemote) {
-            Minecraft.getMinecraft().entityRenderer.getShaderGroup();
-            Minecraft.getMinecraft().entityRenderer.stopUseShader();
-        }
         entity.isDead = true;
         ((IEntity) entity).SetMikuDead();
         ((IEntity) entity).TrueSetInWeb();
@@ -273,7 +293,7 @@ public class Killer {
         System.out.println("kill entity");
     }
 
-    public static void RangeKill(final EntityPlayer Player, int range, MikuItem item) {
+    public static void RangeKill(final EntityPlayer Player, int range, MikuItem item) throws ClassNotFoundException, NoSuchFieldException {
         World world = Player.getEntityWorld();
         List<Entity> list = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(Player.posX - range, Player.posY - range, Player.posZ - range, Player.posX + range, Player.posY + range, Player.posZ + range));
         list.remove(Player);
@@ -290,13 +310,9 @@ public class Killer {
     }
 
     public static boolean isDead(@Nullable Entity entity) {
-        if (entity == null) return false;
+        if (entity == null) return true;
         if (entity.getClass() == Hatsune_Miku.class) return false;
         return DeadEntities.contains(entity);
-    }
-
-    public static void setNoMoreChaosWither() {
-        NoMoreChaosWither = true;
     }
 
     public static boolean isKilling() {
@@ -304,9 +320,9 @@ public class Killer {
     }
 
     static class Remove extends Thread {
-        protected final Class c;
+        protected final Class<?> c;
 
-        public Remove(Class c) {
+        public Remove(Class<?> c) {
             this.c = c;
         }
 

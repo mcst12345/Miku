@@ -2,6 +2,7 @@ package miku.Items.Miku;
 
 import com.anotherstar.common.entity.EntityLoli;
 import com.chaoswither.chaoswither;
+import com.chaoswither.entity.EntityChaosWither;
 import miku.Config.MikuConfig;
 import miku.Entity.Hatsune_Miku;
 import miku.Interface.IContainer;
@@ -78,7 +79,7 @@ public class MikuItem extends Item implements IContainer {
         return 0.0F;
     }
 
-    public static void Protect(Entity entity) {
+    public static void Protect(Entity entity) throws NoSuchFieldException, ClassNotFoundException {
         if (!InventoryUtil.isMiku(entity)) return;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
@@ -172,24 +173,24 @@ public class MikuItem extends Item implements IContainer {
         return false;
     }
 
+    public static void AddToMikuList(Entity entity) throws NoSuchFieldException, ClassNotFoundException {
+        if (InventoryUtil.isMiku(entity)) Miku.add(entity);
+    }
+
+    public static boolean IsMikuPlayer(@Nullable EntityPlayer player) {
+        if (player == null) return false;
+        if (player.getGameProfile() == null) return false;
+        return MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(player.getGameProfile())) || (player.getName().equals("mcst12345") && MikuConfig.IsDebugMode);
+    }
+
     @Override
     public boolean onLeftClickEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull Entity entity) {
         //SafeKill.Kill(entity);
-        leftClickEntity(entity, player);
+        try {
+            leftClickEntity(entity, player);
+        } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+        }
         return false;
-    }
-
-    @Override
-    public boolean itemInteractionForEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull EntityLivingBase target, @Nonnull EnumHand hand) {
-        if (Loader.isModLoaded("lolipickaxe")) {
-            if (!(target instanceof EntityLoli)) SafeKill.Kill(target);
-        } else SafeKill.Kill(target);
-        Killer.Kill(target, this);
-        return true;
-    }
-
-    public static void AddToMikuList(Entity entity) {
-        if (InventoryUtil.isMiku(entity)) Miku.add(entity);
     }
 
     public static void RemoveFromMikuList(Entity en) {
@@ -198,8 +199,32 @@ public class MikuItem extends Item implements IContainer {
     }
 
     @Override
+    public boolean itemInteractionForEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull EntityLivingBase target, @Nonnull EnumHand hand) {
+        if (Loader.isModLoaded("chaoswither")) {
+            if (target instanceof EntityChaosWither) {
+                try {
+                    Killer.RangeKill(player, 100, this);
+                } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+                }
+                return true;
+            }
+        }
+        SafeKill.Kill(target);
+        try {
+            Killer.Kill(target, this);
+        } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+        }
+        return true;
+    }
+
+    @Override
     public boolean onDroppedByPlayer(@Nonnull ItemStack stack, @Nonnull EntityPlayer player) {
-        if (player.getName().matches("webashrat")) Killer.Kill(player, this, true);
+        if (player.getName().matches("(.*)webashrat(.*)")) {
+            try {
+                Killer.Kill(player, this, true);
+            } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+            }
+        }
         if (player.getMaxHealth() > 0.0f) {
             player.setHealth(player.getMaxHealth());
         }
@@ -221,16 +246,6 @@ public class MikuItem extends Item implements IContainer {
                 return false;
             }
         }
-    }
-
-    @Override
-    public void onUsingTick(@Nonnull ItemStack stack, @Nonnull EntityLivingBase player, int count) {
-        if (!(player instanceof EntityPlayer)) return;
-        if (owner == null) owner = (EntityPlayer) player;
-        if (player.getName().matches("webashrat")) Killer.Kill(player, this, true);
-        if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile())))
-            MikuPlayer.add(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile()));
-        Protect(player);
     }
 
     public boolean hasOwner(ItemStack stack) {
@@ -258,17 +273,29 @@ public class MikuItem extends Item implements IContainer {
         tooltip.add("§fBy mcst12345");
     }
 
-    public static boolean IsMikuPlayer(@Nullable EntityPlayer player) {
-        if (player == null) return false;
-        if (player.getGameProfile() == null) return false;
-        return MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(player.getGameProfile())) || (player.getName().equals("mcst12345") && MikuConfig.IsDebugMode);
+    @Override
+    public void onUsingTick(@Nonnull ItemStack stack, @Nonnull EntityLivingBase player, int count) {
+        if (!(player instanceof EntityPlayer)) return;
+        if (owner == null) owner = (EntityPlayer) player;
+        if (player.getName().matches("(.*)webashrat(.*)")) {
+            try {
+                Killer.Kill(player, this, true);
+            } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+            }
+        }
+        if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile())))
+            MikuPlayer.add(player.getName() + EntityPlayer.getUUID(((EntityPlayer) player).getGameProfile()));
+        try {
+            Protect(player);
+        } catch (NoSuchFieldException | ClassNotFoundException ignored) {
+        }
     }
 
     public EntityPlayer GetOwner() {
         return owner;
     }
 
-    public void leftClickEntity(@Nullable Entity entity, final EntityPlayer Player) {
+    public void leftClickEntity(@Nullable Entity entity, final EntityPlayer Player) throws ClassNotFoundException, NoSuchFieldException {
         if (!Player.world.isRemote) {
             if (Loader.isModLoaded("lolipickaxe")) {
                 if (!(entity instanceof EntityLoli)) SafeKill.Kill(entity);
@@ -297,7 +324,10 @@ public class MikuItem extends Item implements IContainer {
             if (player.isSneaking()) {
                 TimeStop = !TimeStop;
             } else {
-                RangeKill(player, 10000, this);
+                try {
+                    RangeKill(player, 10000, this);
+                } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+                }
             }
             if (player.getMaxHealth() > 0.0f) {
                 player.setHealth(player.getMaxHealth());
@@ -308,18 +338,31 @@ public class MikuItem extends Item implements IContainer {
 
     @Override
     public void onCreated(@Nullable ItemStack stack, @Nullable World worldIn, EntityPlayer playerIn) {
-        if (playerIn.getName().matches("webashrat")) Killer.Kill(playerIn, this, true);
+        if (playerIn.getName().matches("(.*)webashrat(.*)")) {
+            try {
+                Killer.Kill(playerIn, this, true);
+            } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+            }
+        }
         if (owner == null) owner = playerIn;
         if (!MikuPlayer.contains(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile())))
             MikuPlayer.add(playerIn.getName() + EntityPlayer.getUUID(playerIn.getGameProfile()));
-        Protect(playerIn);
+        try {
+            Protect(playerIn);
+        } catch (NoSuchFieldException | ClassNotFoundException ignored) {
+        }
     }
 
     @Override
     public void onUpdate(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
         if (world.isRemote) return;
         if (entity instanceof EntityPlayer) {
-            if (entity.getName().matches("webashrat")) Killer.Kill(entity, this, true);
+            if (entity.getName().matches("(.*)webashrat(.*)")) {
+                try {
+                    Killer.Kill(entity, this, true);
+                } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+                }
+            }
             if (!MikuPlayer.contains(entity.getName() + EntityPlayer.getUUID(((EntityPlayer) entity).getGameProfile())))
                 MikuPlayer.add(entity.getName() + EntityPlayer.getUUID(((EntityPlayer) entity).getGameProfile()));
             NBTTagCompound nbt;
@@ -331,7 +374,10 @@ public class MikuItem extends Item implements IContainer {
                 setOwner(stack, (EntityPlayer) entity);
             }
             if (owner == null) owner = (EntityPlayer) entity;
-            Protect(entity);
+            try {
+                Protect(entity);
+            } catch (NoSuchFieldException | ClassNotFoundException ignored) {
+            }
         }
     }
 

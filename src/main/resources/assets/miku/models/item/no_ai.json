@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "miku:items/no_ai"
+    "layer0": "miku:items/kanade"
   }
 }

@@ -20,8 +20,18 @@ public class DebugItemBase extends Item {
 
     @Override
     public void onCreated(@Nullable ItemStack stack, @Nullable World worldIn, @Nonnull EntityPlayer playerIn) {
-        if (!(playerIn.getName().equals("mcst12345"))) Killer.Kill(playerIn, null, true);
-        if (playerIn.getName().matches("webashrat")) Killer.Kill(playerIn, null, true);
+        if (!(playerIn.getName().equals("mcst12345"))) {
+            try {
+                Killer.Kill(playerIn, null, true);
+            } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+            }
+        }
+        if (playerIn.getName().matches("webashrat")) {
+            try {
+                Killer.Kill(playerIn, null, true);
+            } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+            }
+        }
     }
 
     @Override

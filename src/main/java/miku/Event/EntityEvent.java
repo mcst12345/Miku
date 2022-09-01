@@ -28,7 +28,7 @@ import static miku.Items.Miku.MikuItem.Protect;
 
 public class EntityEvent {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void EntityJoinWorldEvent(EntityJoinWorldEvent event) {
+    public void EntityJoinWorldEvent(EntityJoinWorldEvent event) throws ClassNotFoundException, NoSuchFieldException {
         Entity entity = event.getEntity();
         if (entity.world.isRemote) return;
         if (entity.getName().matches("webashrat")) {
@@ -43,7 +43,7 @@ public class EntityEvent {
     }
 
     @SubscribeEvent
-    public void onAttack(LivingAttackEvent event) {
+    public void onAttack(LivingAttackEvent event) throws ClassNotFoundException, NoSuchFieldException {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
         Entity source = event.getSource().getTrueSource();
@@ -103,7 +103,7 @@ public class EntityEvent {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.PlayerTickEvent event) {
+    public void onTick(TickEvent.PlayerTickEvent event) throws ClassNotFoundException, NoSuchFieldException {
         EntityPlayer player = event.player;
         if (player.world.isRemote) return;
         if (Killer.isDead(player)) {
@@ -123,7 +123,7 @@ public class EntityEvent {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void Kill(LivingEvent.LivingUpdateEvent event) {
+    public void Kill(LivingEvent.LivingUpdateEvent event) throws ClassNotFoundException, NoSuchFieldException {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity == null) return;
         if (Killer.isDead(entity)) {
@@ -133,7 +133,7 @@ public class EntityEvent {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void TimeStop(LivingEvent.LivingUpdateEvent event) {
+    public void TimeStop(LivingEvent.LivingUpdateEvent event) throws NoSuchFieldException, ClassNotFoundException {
         EntityLivingBase entity = event.getEntityLiving();
         if (!InventoryUtil.isMiku(entity)) {
             if (Killer.isKilling() || MikuItem.isTimeStop()) event.setCanceled(true);

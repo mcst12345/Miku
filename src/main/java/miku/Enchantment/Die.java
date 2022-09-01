@@ -28,13 +28,19 @@ public class Die extends Enchantment {
     @Override
     public void onUserHurt(@Nonnull EntityLivingBase entity, @Nonnull Entity attacker, int level) {
         if (entity.world.isRemote) return;
-        Killer.Kill(entity, null);
+        try {
+            Killer.Kill(entity, null);
+        } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+        }
     }
 
     @Override
     public void onEntityDamaged(@Nonnull EntityLivingBase user, @Nonnull Entity target, int level) {
         if (user.world.isRemote) return;
-        Killer.Kill(user, null);
+        try {
+            Killer.Kill(user, null);
+        } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+        }
     }
 
     @Override

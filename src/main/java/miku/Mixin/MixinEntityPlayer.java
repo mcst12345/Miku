@@ -35,7 +35,7 @@ public class MixinEntityPlayer implements IEntityPlayer {
      * @reason Infinity ExperiencePoints!
      */
     @Overwrite
-    protected int getExperiencePoints(EntityPlayer player) {
+    protected int getExperiencePoints(EntityPlayer player) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(player)) return Integer.MAX_VALUE;
         if (!((EntityPlayer) (Object) this).world.getGameRules().getBoolean("keepInventory") && !((EntityPlayer) (Object) this).isSpectator()) {
             int i = ((EntityPlayer) (Object) this).experienceLevel * 7;
@@ -50,7 +50,7 @@ public class MixinEntityPlayer implements IEntityPlayer {
      * @reason No reason
      */
     @Overwrite
-    public boolean canPlayerEdit(BlockPos pos, EnumFacing facing, ItemStack stack) {
+    public boolean canPlayerEdit(BlockPos pos, EnumFacing facing, ItemStack stack) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(((EntityPlayer) (Object) this))) return true;
         if (((EntityPlayer) (Object) this).capabilities.allowEdit) {
             return true;
@@ -68,27 +68,27 @@ public class MixinEntityPlayer implements IEntityPlayer {
      * @reason No reason
      */
     @Overwrite
-    public boolean isAllowEdit() {
+    public boolean isAllowEdit() throws NoSuchFieldException, ClassNotFoundException {
         return ((EntityPlayer) (Object) this).capabilities.allowEdit || InventoryUtil.isMiku(((EntityPlayer) (Object) this));
     }
 
     @Inject(at = @At("HEAD"), method = "addExperience", cancellable = true)
-    public void addExperience(int amount, CallbackInfo ci) {
+    public void addExperience(int amount, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (amount < 0 && InventoryUtil.isMiku((EntityPlayer) (Object) this)) ci.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "setInWeb", cancellable = true)
-    public void setInWeb(CallbackInfo ci) {
+    public void setInWeb(CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) ci.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "doWaterSplashEffect", cancellable = true)
-    protected void doWaterSplashEffect(CallbackInfo ci) {
+    protected void doWaterSplashEffect(CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) ci.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "setDead", cancellable = true)
-    public void setDead(CallbackInfo ci) {
+    public void setDead(CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) ci.cancel();
     }
 
@@ -115,7 +115,7 @@ public class MixinEntityPlayer implements IEntityPlayer {
     }
 
     @Inject(at = @At("HEAD"), method = "damageEntity", cancellable = true)
-    protected void damageEntity(DamageSource damageSrc, float damageAmount, CallbackInfo ci) {
+    protected void damageEntity(DamageSource damageSrc, float damageAmount, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) ci.cancel();
     }
 
@@ -124,19 +124,19 @@ public class MixinEntityPlayer implements IEntityPlayer {
      * @reason No reason
      */
     @Inject(at = @At("HEAD"), method = "getArmorVisibility", cancellable = true)
-    public void getArmorVisibility(CallbackInfoReturnable<Float> cir) {
+    public void getArmorVisibility(CallbackInfoReturnable<Float> cir) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) {
             cir.setReturnValue(0.0F);
         }
     }
 
     @Inject(at = @At("HEAD"), method = "damageShield", cancellable = true)
-    protected void damageShield(float damage, CallbackInfo ci) {
+    protected void damageShield(float damage, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) ci.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "damageArmor", cancellable = true)
-    protected void damageArmor(float damage, CallbackInfo ci) {
+    protected void damageArmor(float damage, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) ci.cancel();
     }
 
@@ -145,7 +145,7 @@ public class MixinEntityPlayer implements IEntityPlayer {
      * @reason No more warnings plz!
      */
     @Overwrite
-    public boolean canAttackPlayer(EntityPlayer other) {
+    public boolean canAttackPlayer(EntityPlayer other) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) return true;
         Team team = ((EntityPlayer) (Object) this).getTeam();
         Team team1 = other.getTeam();
@@ -158,36 +158,37 @@ public class MixinEntityPlayer implements IEntityPlayer {
     }
 
     @Inject(at = @At("HEAD"), method = "attackEntityFrom", cancellable = true)
-    public void attackEntityFrom(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    public void attackEntityFrom(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) {
             cir.setReturnValue(false);
         }
     }
 
+    @Override
     public InventoryEnderChest GetEnderInventory() {
         return enderChest;
     }
 
     @Inject(at = @At("HEAD"), method = "replaceItemInInventory", cancellable = true)
-    public void replaceItemInInventory(int inventorySlot, ItemStack itemStackIn, CallbackInfoReturnable<Boolean> cir) {
+    public void replaceItemInInventory(int inventorySlot, ItemStack itemStackIn, CallbackInfoReturnable<Boolean> cir) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(at = @At("HEAD"), method = "onDeath", cancellable = true)
-    public void onDeath(DamageSource cause, CallbackInfo ci) {
+    public void onDeath(DamageSource cause, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) ci.cancel();
     }
 
 
     @Inject(at = @At("HEAD"), method = "canHarvestBlock", cancellable = true)
-    public void canHarvestBlock(IBlockState state, CallbackInfoReturnable<Boolean> cir) {
+    public void canHarvestBlock(IBlockState state, CallbackInfoReturnable<Boolean> cir) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku((EntityPlayer) (Object) this)) cir.setReturnValue(true);
     }
 
     @Inject(at = @At("HEAD"), method = "attackTargetEntityWithCurrentItem", cancellable = true)
-    public void attackTargetEntityWithCurrentItem(Entity targetEntity, CallbackInfo ci) {
+    public void attackTargetEntityWithCurrentItem(Entity targetEntity, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(targetEntity)) ci.cancel();
     }
 }

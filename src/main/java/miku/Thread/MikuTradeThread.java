@@ -3,21 +3,18 @@ package miku.Thread;
 import miku.Entity.Hatsune_Miku;
 import miku.Miku.MikuLoader;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 
 public class MikuTradeThread extends Thread {
-    protected final EntityPlayer player;
     protected final EntityItem TARGET;
     protected final Hatsune_Miku MIKU;
     protected final ItemStack MUSIC_BOX = new ItemStack(MikuLoader.MIKU_MUSIC_BOX);
 
-    public MikuTradeThread(EntityItem item, Hatsune_Miku miku, EntityPlayer player) {
+    public MikuTradeThread(EntityItem item, Hatsune_Miku miku) {
         this.MIKU = miku;
         this.TARGET = item;
-        this.player = player;
     }
 
     @Override
@@ -67,7 +64,7 @@ public class MikuTradeThread extends Thread {
             throw new RuntimeException(e);
         }
         MIKU.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
-        final EntityItem item = new EntityItem(player.world, player.posX, player.posY + 1.0, player.posZ, MUSIC_BOX);
+        final EntityItem item = new EntityItem(TARGET.world, TARGET.posX, TARGET.posY + 1.0, TARGET.posZ, MUSIC_BOX);
         item.setNoPickupDelay();
         MIKU.world.spawnEntity(item);
         MIKU.isTrading = false;

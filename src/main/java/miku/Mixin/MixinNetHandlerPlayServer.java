@@ -17,7 +17,7 @@ public class MixinNetHandlerPlayServer {
     public EntityPlayerMP player;
 
     @Inject(at = @At("HEAD"), method = "disconnect", cancellable = true)
-    public void disconnect(ITextComponent textComponent, CallbackInfo ci) {
+    public void disconnect(ITextComponent textComponent, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(player) && !Killer.isDead(player)) ci.cancel();
     }
 }

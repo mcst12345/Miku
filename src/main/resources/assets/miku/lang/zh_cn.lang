@@ -49,6 +49,7 @@ tile.miku.miku_portal.name=Miku传送门
 tile.miku_dirt.name=Miku 泥土
 tile.miku_grass.name=Miku 草
 tile.miku_stone.name=Miku 石头
+tile.miku_generator.name=Miku 发电机
 
 #成就
 advancement.root=Miku
@@ -66,7 +67,8 @@ key.miku.fk_world=毁灭世界[未实现]
 key.miku.inventory=Miku背包
 
 #实体
-entity.HatsuneMiku.name=初音未来
+entity.初音ミク.name=初音未来
+entity.MikuGenerator.name=Miku 发电机
 
 #Music
 item.rolling_girl.name=ローリンガール
@@ -119,3 +121,6 @@ death.attack.miku=%1$s被系统抹杀了
 
 #容器
 container.miku=Miku无限背包
+
+#Null
+info.dead=

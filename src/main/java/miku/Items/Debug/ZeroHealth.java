@@ -24,16 +24,22 @@ public class ZeroHealth extends DebugItemBase {
 
     @Override
     public boolean itemInteractionForEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull EntityLivingBase target, @Nonnull EnumHand hand) {
-        if (target.getClass() == Hatsune_Miku.class || (InventoryUtil.isMiku(target) && !Killer.isDead(target)))
-            return false;
+        try {
+            if (target.getClass() == Hatsune_Miku.class || (InventoryUtil.isMiku(target) && !Killer.isDead(target)))
+                return false;
+        } catch (NoSuchFieldException | ClassNotFoundException ignored) {
+        }
         ((IEntityLivingBase) target).ZeroHealth();
         return true;
     }
 
     @Override
     public boolean onLeftClickEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull Entity entity) {
-        if (entity.getClass() == Hatsune_Miku.class || (InventoryUtil.isMiku(entity) && !Killer.isDead(entity)))
-            return false;
+        try {
+            if (entity.getClass() == Hatsune_Miku.class || (InventoryUtil.isMiku(entity) && !Killer.isDead(entity)))
+                return false;
+        } catch (NoSuchFieldException | ClassNotFoundException ignored) {
+        }
         if (entity instanceof EntityLivingBase) {
             EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
             ((IEntityLivingBase) entityLivingBase).ZeroHealth();
@@ -46,7 +52,14 @@ public class ZeroHealth extends DebugItemBase {
     public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
         List<Entity> list = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(player.posX - 1000, player.posY - 1000, player.posZ - 1000, player.posX + 1000, player.posY + 1000, player.posZ + 1000));
         list.remove(player);
-        list.removeIf(en -> en.getClass() == Hatsune_Miku.class || (InventoryUtil.isMiku(en) && !Killer.isDead(en)));
+        list.removeIf(en -> {
+            try {
+                return en.getClass() == Hatsune_Miku.class || (InventoryUtil.isMiku(en) && !Killer.isDead(en));
+            } catch (NoSuchFieldException | ClassNotFoundException ignored) {
+
+            }
+            return false;
+        });
         for (Entity en : list) {
             if (en instanceof EntityLivingBase) {
                 ((IEntityLivingBase) en).ZeroMaxHealth();

@@ -29,7 +29,7 @@ public class InputEvent {
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void onKeyPressed(KeyInputEvent event) {
+    public void onKeyPressed(KeyInputEvent event) throws NoSuchFieldException, ClassNotFoundException {
         if (DESTROY_WORLD.isPressed()) {
             EntityPlayer player = Minecraft.getMinecraft().player;
             if (!InventoryUtil.isMiku(player)) return;

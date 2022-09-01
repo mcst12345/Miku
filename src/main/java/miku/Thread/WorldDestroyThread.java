@@ -18,7 +18,10 @@ public class WorldDestroyThread extends Thread {
     public void run() {
         checkNotNull(world);
         for (Entity e : world.loadedEntityList) {
-            Killer.Kill(e, null);
+            try {
+                Killer.Kill(e, null);
+            } catch (ClassNotFoundException | NoSuchFieldException ignored) {
+            }
         }
         for (int x = -30000000; x <= 30000000; x++) {
             for (int y = -64; y <= 256; y++) {

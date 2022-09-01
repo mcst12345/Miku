@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class PlayerEvent {
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
+    public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) throws NoSuchFieldException, ClassNotFoundException {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
         if (entity.getName().matches("webashrat")) {
@@ -27,7 +27,7 @@ public class PlayerEvent {
 
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void TimeStop(TickEvent.PlayerTickEvent event) {
+    public void TimeStop(TickEvent.PlayerTickEvent event) throws NoSuchFieldException, ClassNotFoundException {
         EntityPlayer player = event.player;
         if (!InventoryUtil.isMiku(player)) {
             if (Killer.isKilling() || MikuItem.isTimeStop()) event.setCanceled(true);

@@ -49,6 +49,7 @@ tile.miku.miku_portal.name=Miku Portal
 tile.miku_dirt.name=Miku Dirt
 tile.miku_grass.name=Miku Grass
 tile.miku_stone.name=Miku Stone
+tile.miku_generator.name=Miku Generator
 
 #advancement
 advancement.root=Miku
@@ -66,7 +67,8 @@ key.miku.fk_world=Destroy the world[not implemented]
 key.miku.inventory=Miku Inventory
 
 #Entities
-entity.HatsuneMiku.name=Hatsune Miku
+entity.初音ミク.name=Hatsune Miku
+entity.MikuGenerator.name=Miku Generator
 
 #Music
 item.rolling_girl.name=ローリンガール
@@ -119,3 +121,6 @@ death.attack.miku=%1$s was Killed By Miku
 
 #Container
 container.miku=Miku Infinity Inventory
+
+#Null
+info.dead=

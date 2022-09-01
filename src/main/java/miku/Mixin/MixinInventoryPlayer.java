@@ -30,7 +30,7 @@ public abstract class MixinInventoryPlayer implements IPlayerInventory {
     private List<NonNullList<ItemStack>> allInventories;
 
     @Inject(at = @At("HEAD"), method = "clear", cancellable = true)
-    public void clear(CallbackInfo ci) {
+    public void clear(CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(player)) {
             ci.cancel();
         }
@@ -44,9 +44,16 @@ public abstract class MixinInventoryPlayer implements IPlayerInventory {
     }
 
     @Inject(at = @At("HEAD"), method = "clearMatchingItems", cancellable = true)
-    public void clearMatchingItems(Item itemIn, int metadataIn, int removeCount, NBTTagCompound itemNBT, CallbackInfoReturnable<Integer> cir) {
+    public void clearMatchingItems(Item itemIn, int metadataIn, int removeCount, NBTTagCompound itemNBT, CallbackInfoReturnable<Integer> cir) throws NoSuchFieldException, ClassNotFoundException {
         if (InventoryUtil.isMiku(player)) {
             cir.setReturnValue(0);
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "dropAllItems", cancellable = true)
+    public void dropAllItems(CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
+        if (InventoryUtil.isMiku(player)) {
+            ci.cancel();
         }
     }
 }
