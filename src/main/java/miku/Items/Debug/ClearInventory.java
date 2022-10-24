@@ -2,7 +2,7 @@ package miku.Items.Debug;
 
 import miku.Entity.Hatsune_Miku;
 import miku.Interface.MixinInterface.IEntityLiving;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import miku.Utils.Killer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -26,7 +26,7 @@ public class ClearInventory extends DebugItemBase {
     @Override
     public boolean itemInteractionForEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull EntityLivingBase target, @Nonnull EnumHand hand) {
         try {
-            if (target.getClass() == Hatsune_Miku.class || (InventoryUtil.isMiku(target) && !Killer.isDead(target)))
+            if (target.getClass() == Hatsune_Miku.class || (Judgement.isMiku(target) && !Killer.isDead(target)))
                 return false;
         } catch (NoSuchFieldException | ClassNotFoundException ignored) {
         }
@@ -40,7 +40,7 @@ public class ClearInventory extends DebugItemBase {
     @Override
     public boolean onLeftClickEntity(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, @Nonnull Entity entity) {
         try {
-            if (entity.getClass() == Hatsune_Miku.class || (InventoryUtil.isMiku(entity) && !Killer.isDead(entity)))
+            if (entity.getClass() == Hatsune_Miku.class || (Judgement.isMiku(entity) && !Killer.isDead(entity)))
                 return false;
         } catch (NoSuchFieldException | ClassNotFoundException ignored) {
         }
@@ -58,7 +58,7 @@ public class ClearInventory extends DebugItemBase {
         list.remove(player);
         list.removeIf(en -> {
             try {
-                return en.getClass() == Hatsune_Miku.class || (InventoryUtil.isMiku(en) && !Killer.isDead(en));
+                return en.getClass() == Hatsune_Miku.class || (Judgement.isMiku(en) && !Killer.isDead(en));
             } catch (NoSuchFieldException | ClassNotFoundException ignored) {
             }
             return false;

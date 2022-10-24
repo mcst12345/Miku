@@ -3,7 +3,7 @@ package miku.Mixin;
 import miku.Entity.Hatsune_Miku;
 import miku.Interface.MixinInterface.IChunk;
 import miku.Items.Miku.MikuItem;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ClassInheritanceMultiMap;
@@ -24,7 +24,7 @@ public abstract class MixinChunk implements IChunk {
     @Inject(at = @At("HEAD"), method = "removeEntity", cancellable = true)
     public void removeEntity(Entity entityIn, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (((Chunk) (Object) this).isLoaded()) {
-            if (InventoryUtil.isMiku(entityIn)) {
+            if (Judgement.isMiku(entityIn)) {
                 if (entityIn instanceof Hatsune_Miku) {
                     ((Hatsune_Miku) entityIn).Protect();
                 }

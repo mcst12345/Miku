@@ -3,7 +3,7 @@ package miku.Mixin;
 import miku.Entity.Hatsune_Miku;
 import miku.Interface.MixinInterface.IEntity;
 import miku.Items.Miku.MikuItem;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import miku.Utils.Killer;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -31,7 +31,7 @@ public abstract class MixinWorldServer extends World {
 
     @Inject(at = @At("HEAD"), method = "setEntityState", cancellable = true)
     public void setEntityState(Entity entityIn, byte state, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(entityIn)) {
+        if (Judgement.isMiku(entityIn)) {
             if (state == (byte) 3 || state == (byte) 2) {
                 if (entityIn.getClass() == Hatsune_Miku.class) {
                     ((Hatsune_Miku) entityIn).Protect();
@@ -46,7 +46,7 @@ public abstract class MixinWorldServer extends World {
 
     @Inject(at = @At("HEAD"), method = "canAddEntity", cancellable = true)
     private void canAddEntity(Entity entityIn, CallbackInfoReturnable<Boolean> cir) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(entityIn) && !Killer.isDead(entityIn) && !((IEntity) entityIn).isMikuDead())
+        if (Judgement.isMiku(entityIn) && !Killer.isDead(entityIn) && !((IEntity) entityIn).isMikuDead())
             cir.setReturnValue(true);
         if (Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || MikuItem.isTimeStop() || Killer.isAnti(entityIn.getClass())) {
             cir.setReturnValue(false);
@@ -55,14 +55,14 @@ public abstract class MixinWorldServer extends World {
 
     @Inject(at = @At("HEAD"), method = "onEntityAdded", cancellable = true)
     public void onEntityAdded(Entity entityIn, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
-        if (Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || (MikuItem.isTimeStop() && !InventoryUtil.isMiku(entityIn)) || Killer.isAnti(entityIn.getClass())) {
+        if (Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || (MikuItem.isTimeStop() && !Judgement.isMiku(entityIn)) || Killer.isAnti(entityIn.getClass())) {
             ci.cancel();
         }
     }
 
     @Inject(at = @At("HEAD"), method = "onEntityRemoved", cancellable = true)
     public void onEntityRemoved(Entity entityIn, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(entityIn)) {
+        if (Judgement.isMiku(entityIn)) {
             if (entityIn instanceof Hatsune_Miku) {
                 ((Hatsune_Miku) entityIn).Protect();
             }
@@ -107,7 +107,7 @@ public abstract class MixinWorldServer extends World {
             this.profiler.startSection("tick");
 
             try {
-                if (!entity.isDead || InventoryUtil.isMiku(entity)) {
+                if (!entity.isDead || Judgement.isMiku(entity)) {
                     try {
                         this.updateEntity(entity);
                     } catch (Throwable throwable) {
@@ -124,7 +124,7 @@ public abstract class MixinWorldServer extends World {
             this.profiler.startSection("remove");
 
             try {
-                if (entity.isDead && !InventoryUtil.isMiku(entity)) {
+                if (entity.isDead && !Judgement.isMiku(entity)) {
                     int j = entity.chunkCoordX;
                     int k = entity.chunkCoordZ;
 

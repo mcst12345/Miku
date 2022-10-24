@@ -4,7 +4,7 @@ import com.chaoswither.chaoswither;
 import com.chaoswither.event.ChaosAttackEvent;
 import com.chaoswither.event.DetermineEvent;
 import miku.Config.MikuConfig;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import miku.Utils.Killer;
 import miku.Utils.SafeKill;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinChaosAttackEvent {
     @Inject(at = @At("HEAD"), method = "onInternect", cancellable = true)
     public void onInternect(PlayerInteractEvent event, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(event.getEntityPlayer())) ci.cancel();
+        if (Judgement.isMiku(event.getEntityPlayer())) ci.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "onWorldTickEvent", cancellable = true)

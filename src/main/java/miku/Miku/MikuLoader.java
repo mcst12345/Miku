@@ -11,7 +11,6 @@ import miku.Blocks.World.Sekai.empty.WhiteGreyBlock;
 import miku.Enchantment.Die;
 import miku.Enchantment.GodKiller;
 import miku.Entity.Hatsune_Miku;
-import miku.Entity.Machine.MikuGenerator;
 import miku.Event.*;
 import miku.Items.Debug.*;
 import miku.Items.Delicious_Scallion;
@@ -26,7 +25,6 @@ import miku.Items.scallion.Pickaxe;
 import miku.Items.scallion.Sword;
 import miku.Model.MikuModel;
 import miku.Render.RenderMiku;
-import miku.Render.RenderMikuGenerator;
 import miku.Utils.Protected_Entity;
 import miku.Utils.RegisterUtil;
 import miku.World.MikuWorld.MikuWorld;
@@ -324,7 +322,6 @@ public class MikuLoader {
     public static void RegisterEntity(RegistryEvent.Register<EntityEntry> event) {
         RegisterUtil.RegisterEntity(event, "hatsune_miku", "初音ミク", 3939, Hatsune_Miku.class);
         RegisterUtil.RegisterEntity(event, "test_entity", "test_entity", 0, Protected_Entity.class);
-        RegisterUtil.RegisterEntity(event, "miku_generator", "MikuGenerator", 1, MikuGenerator.class);
         EntityRegistry.registerEgg(new ResourceLocation("miku", "hatsune_miku"), 0x39C5BB, 0x39C5BB);
         EntityRegistry.registerEgg(new ResourceLocation("miku,", "miku_generator"), 0x39C5BB, 0x39C5BB);
     }
@@ -363,6 +360,5 @@ public class MikuLoader {
     @SideOnly(Side.CLIENT)
     public void registerModel(ModelRegistryEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(Hatsune_Miku.class, manager -> new RenderMiku(manager, new MikuModel(), 0.3f));
-        RenderingRegistry.registerEntityRenderingHandler(MikuGenerator.class, RenderMikuGenerator::new);
     }
 }

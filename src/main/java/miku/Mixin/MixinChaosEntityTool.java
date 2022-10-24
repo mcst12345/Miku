@@ -5,7 +5,7 @@ import com.chaoswither.entity.EntityTool;
 import com.chaoswither.entity.EntityWitherPlayer;
 import com.chaoswither.source.ChaosDamageSource;
 import miku.Entity.Hatsune_Miku;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import miku.Utils.Killer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -38,7 +38,7 @@ public class MixinChaosEntityTool {
     @Overwrite
     public static void AttackSimpleEntity(World world, EntityLivingBase entityLivingBase, EntityLivingBase entityPlayer) throws NoSuchFieldException, ClassNotFoundException {
         if (!world.isRemote) {
-            if (InventoryUtil.isMiku(entityLivingBase)) {
+            if (Judgement.isMiku(entityLivingBase)) {
                 Killer.Kill(entityPlayer, null);
                 if (entityLivingBase instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
                 return;
@@ -81,7 +81,7 @@ public class MixinChaosEntityTool {
     @Overwrite
     public static void AttackSpecialEntity(World world, Entity entity, EntityPlayer entityPlayer) throws NoSuchFieldException, ClassNotFoundException {
         if (!world.isRemote) {
-            if (InventoryUtil.isMiku(entity)) {
+            if (Judgement.isMiku(entity)) {
                 Killer.Kill(entityPlayer, null);
                 if (entity instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
                 return;
@@ -117,7 +117,7 @@ public class MixinChaosEntityTool {
     @Overwrite
     public static void AttackEntityPlayer(World world, Entity entity22, EntityPlayer entityPlayer) throws NoSuchFieldException, ClassNotFoundException {
         if (!world.isRemote) {
-            if (InventoryUtil.isMiku(entity22)) {
+            if (Judgement.isMiku(entity22)) {
                 Killer.Kill(entityPlayer, null);
                 if (entity22 instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
                 return;
@@ -173,7 +173,7 @@ public class MixinChaosEntityTool {
     @Overwrite
     public static void AttackSlyEntity(World world, EntityLivingBase entityLivingBase, EntityPlayer entityPlayer) throws NoSuchFieldException, ClassNotFoundException {
         if (!world.isRemote) {
-            if (InventoryUtil.isMiku(entityLivingBase)) {
+            if (Judgement.isMiku(entityLivingBase)) {
                 Killer.Kill(entityPlayer, null);
                 if (entityLivingBase instanceof Hatsune_Miku) Killer.Kill(entityPlayer, null, true);
                 return;

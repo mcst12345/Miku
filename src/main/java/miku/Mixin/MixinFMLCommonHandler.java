@@ -2,6 +2,8 @@ package miku.Mixin;
 
 import miku.Entity.Hatsune_Miku;
 import miku.Items.Miku.MikuItem;
+import miku.Utils.Judgement;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -18,5 +20,10 @@ public class MixinFMLCommonHandler {
             if (en instanceof EntityPlayer) MikuItem.Protect(en);
             if (en instanceof Hatsune_Miku) ((Hatsune_Miku) en).Protect();
         }
+    }
+
+    @Inject(at = @At("HEAD"), method = "exitJava", cancellable = true)
+    public void exitJava(int exitCode, boolean hardExit, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
+        if (Judgement.isMiku(Minecraft.getMinecraft().player)) ci.cancel();
     }
 }

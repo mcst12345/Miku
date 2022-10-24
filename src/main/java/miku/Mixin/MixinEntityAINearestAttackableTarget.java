@@ -1,6 +1,6 @@
 package miku.Mixin;
 
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,6 +16,6 @@ public class MixinEntityAINearestAttackableTarget<T extends EntityLivingBase> {
 
     @Inject(at = @At("HEAD"), method = "shouldExecute", cancellable = true)
     public void shouldExecute(CallbackInfoReturnable<Boolean> cir) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(targetEntity)) cir.setReturnValue(false);
+        if (Judgement.isMiku(targetEntity)) cir.setReturnValue(false);
     }
 }

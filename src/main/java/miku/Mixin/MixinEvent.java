@@ -2,7 +2,7 @@ package miku.Mixin;
 
 import miku.DamageSource.MikuDamage;
 import miku.Interface.MixinInterface.IEvent;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -26,32 +26,32 @@ public class MixinEvent implements IEvent {
     public void isCancelable(CallbackInfoReturnable<Boolean> cir) throws NoSuchFieldException, ClassNotFoundException {
         if (((Event) (Object) this) instanceof LivingDeathEvent) {
             LivingDeathEvent death = ((LivingDeathEvent) (Event) (Object) this);
-            if (!InventoryUtil.isMiku(death.getEntityLiving())) {
-                if (death.getSource() instanceof MikuDamage || InventoryUtil.isMiku(death.getSource().getTrueSource())) {
+            if (!Judgement.isMiku(death.getEntityLiving())) {
+                if (death.getSource() instanceof MikuDamage || Judgement.isMiku(death.getSource().getTrueSource())) {
                     cir.setReturnValue(false);
                 }
             }
         }
         if (((Event) (Object) this) instanceof LivingAttackEvent) {
             LivingAttackEvent Attack = ((LivingAttackEvent) (Event) (Object) this);
-            if (!InventoryUtil.isMiku(Attack.getEntityLiving())) {
-                if (Attack.getSource() instanceof MikuDamage || InventoryUtil.isMiku(Attack.getSource().getTrueSource())) {
+            if (!Judgement.isMiku(Attack.getEntityLiving())) {
+                if (Attack.getSource() instanceof MikuDamage || Judgement.isMiku(Attack.getSource().getTrueSource())) {
                     cir.setReturnValue(false);
                 }
             }
         }
         if (((Event) (Object) this) instanceof LivingDamageEvent) {
             LivingDamageEvent Damage = ((LivingDamageEvent) (Event) (Object) this);
-            if (!InventoryUtil.isMiku(Damage.getEntityLiving())) {
-                if (Damage.getSource() instanceof MikuDamage || InventoryUtil.isMiku(Damage.getSource().getTrueSource())) {
+            if (!Judgement.isMiku(Damage.getEntityLiving())) {
+                if (Damage.getSource() instanceof MikuDamage || Judgement.isMiku(Damage.getSource().getTrueSource())) {
                     cir.setReturnValue(false);
                 }
             }
         }
         if (((Event) (Object) this) instanceof LivingHurtEvent) {
             LivingHurtEvent Hurt = ((LivingHurtEvent) (Event) (Object) this);
-            if (!InventoryUtil.isMiku(Hurt.getEntityLiving())) {
-                if (Hurt.getSource() instanceof MikuDamage || InventoryUtil.isMiku(Hurt.getSource().getTrueSource())) {
+            if (!Judgement.isMiku(Hurt.getEntityLiving())) {
+                if (Hurt.getSource() instanceof MikuDamage || Judgement.isMiku(Hurt.getSource().getTrueSource())) {
                     cir.setReturnValue(false);
                 }
             }
@@ -65,8 +65,8 @@ public class MixinEvent implements IEvent {
     public void setCanceled(boolean cancel, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         if (((Event) (Object) this) instanceof LivingDeathEvent) {
             LivingDeathEvent death = ((LivingDeathEvent) (Event) (Object) this);
-            if (!InventoryUtil.isMiku(death.getEntityLiving())) {
-                if (death.getSource() instanceof MikuDamage || InventoryUtil.isMiku(death.getSource().getTrueSource())) {
+            if (!Judgement.isMiku(death.getEntityLiving())) {
+                if (death.getSource() instanceof MikuDamage || Judgement.isMiku(death.getSource().getTrueSource())) {
                     isCanceled = false;
                     ci.cancel();
                 }
@@ -74,8 +74,8 @@ public class MixinEvent implements IEvent {
         }
         if (((Event) (Object) this) instanceof LivingAttackEvent) {
             LivingAttackEvent attack = ((LivingAttackEvent) (Event) (Object) this);
-            if (!InventoryUtil.isMiku(attack.getEntityLiving())) {
-                if (attack.getSource() instanceof MikuDamage || InventoryUtil.isMiku(attack.getSource().getTrueSource())) {
+            if (!Judgement.isMiku(attack.getEntityLiving())) {
+                if (attack.getSource() instanceof MikuDamage || Judgement.isMiku(attack.getSource().getTrueSource())) {
                     isCanceled = false;
                     ci.cancel();
                 }
@@ -83,8 +83,8 @@ public class MixinEvent implements IEvent {
         }
         if (((Event) (Object) this) instanceof LivingDamageEvent) {
             LivingDamageEvent damage = ((LivingDamageEvent) (Event) (Object) this);
-            if (!InventoryUtil.isMiku(damage.getEntityLiving())) {
-                if (damage.getSource() instanceof MikuDamage || InventoryUtil.isMiku(damage.getSource().getTrueSource())) {
+            if (!Judgement.isMiku(damage.getEntityLiving())) {
+                if (damage.getSource() instanceof MikuDamage || Judgement.isMiku(damage.getSource().getTrueSource())) {
                     isCanceled = false;
                     ci.cancel();
                 }
@@ -92,8 +92,8 @@ public class MixinEvent implements IEvent {
         }
         if (((Event) (Object) this) instanceof LivingHurtEvent) {
             LivingHurtEvent hurt = ((LivingHurtEvent) (Event) (Object) this);
-            if (!InventoryUtil.isMiku(hurt.getEntityLiving())) {
-                if (hurt.getSource() instanceof MikuDamage || InventoryUtil.isMiku(hurt.getSource().getTrueSource())) {
+            if (!Judgement.isMiku(hurt.getEntityLiving())) {
+                if (hurt.getSource() instanceof MikuDamage || Judgement.isMiku(hurt.getSource().getTrueSource())) {
                     isCanceled = false;
                     ci.cancel();
                 }

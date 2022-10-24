@@ -6,7 +6,7 @@ import miku.Interface.MixinInterface.IEntityPlayerMP;
 import miku.Network.NetworkHandler;
 import miku.Network.Packet.MikuInventorySlotChangePacket;
 import miku.Network.Packet.MikuInventorySlotInitPacket;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
@@ -44,7 +44,7 @@ public abstract class MixinEntityPlayerMP extends EntityPlayer implements IEntit
 
     @Inject(at = @At("HEAD"), method = "setGameType", cancellable = true)
     public void setGameType(GameType gameType, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku((EntityPlayerMP) (Object) this)) {
+        if (Judgement.isMiku((EntityPlayerMP) (Object) this)) {
             ((EntityPlayerMP) (Object) this).interactionManager.setGameType(GameType.CREATIVE);
             ((EntityPlayerMP) (Object) this).connection.sendPacket(new SPacketChangeGameState(3, (float) GameType.CREATIVE.getID()));
             ((EntityPlayerMP) (Object) this).sendPlayerAbilities();
@@ -59,7 +59,7 @@ public abstract class MixinEntityPlayerMP extends EntityPlayer implements IEntit
     @Overwrite
     public boolean canAttackPlayer(@Nonnull EntityPlayer other) {
         try {
-            if (InventoryUtil.isMiku((EntityPlayerMP) (Object) this)) return true;
+            if (Judgement.isMiku((EntityPlayerMP) (Object) this)) return true;
         } catch (NoSuchFieldException | ClassNotFoundException ignored) {
         }
         return canPlayersAttack() && super.canAttackPlayer(other);
@@ -86,12 +86,12 @@ public abstract class MixinEntityPlayerMP extends EntityPlayer implements IEntit
 
     @Inject(at = @At("HEAD"), method = "onDeath", cancellable = true)
     public void onDeath(DamageSource cause, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku((EntityPlayerMP) (Object) this)) ci.cancel();
+        if (Judgement.isMiku((EntityPlayerMP) (Object) this)) ci.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "attackEntityFrom", cancellable = true)
     public void attackEntityFrom(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku((EntityPlayerMP) (Object) this)) {
+        if (Judgement.isMiku((EntityPlayerMP) (Object) this)) {
             cir.setReturnValue(false);
         }
     }

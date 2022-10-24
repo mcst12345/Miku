@@ -27,6 +27,7 @@
     "MixinEntityPlayer",
     "MixinEntityPlayerMP",
     "MixinEvent",
+    "MixinEventBus",
     "MixinFMLCommonHandler",
     "MixinForgeHooks",
     "MixinInventoryBasic",
@@ -41,7 +42,8 @@
   ],
   "client": [
     "MixinEntityPlayerSP",
-    "MixinMinecraft"
+    "MixinMinecraft",
+    "MixinSimpleNetworWrapperClientSide"
   ],
   "server": [],
   "required": false,

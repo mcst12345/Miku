@@ -1,6 +1,6 @@
 package miku.Mixin;
 
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import miku.Utils.Killer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
@@ -18,6 +18,6 @@ public class MixinNetHandlerPlayServer {
 
     @Inject(at = @At("HEAD"), method = "disconnect", cancellable = true)
     public void disconnect(ITextComponent textComponent, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(player) && !Killer.isDead(player)) ci.cancel();
+        if (Judgement.isMiku(player) && !Killer.isDead(player)) ci.cancel();
     }
 }

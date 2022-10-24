@@ -30,7 +30,7 @@ public class MixinMinecraft implements IMinecraft {
         }
         if (guiScreenIn != null) {
             if (guiScreenIn.toString() != null) {
-                if (guiScreenIn.toString().toLowerCase().matches("(.*)dead(.*)")) {
+                if (guiScreenIn.toString().toLowerCase().matches("(.*)dead(.*)") || guiScreenIn.toString().toLowerCase().matches("(.*)gameover(.*)")) {
                     ci.cancel();
                 }
             }

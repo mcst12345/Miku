@@ -1,7 +1,7 @@
 package miku.Event;
 
 import miku.Items.Miku.MikuItem;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import miku.Utils.Killer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +29,7 @@ public class PlayerEvent {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void TimeStop(TickEvent.PlayerTickEvent event) throws NoSuchFieldException, ClassNotFoundException {
         EntityPlayer player = event.player;
-        if (!InventoryUtil.isMiku(player)) {
+        if (!Judgement.isMiku(player)) {
             if (Killer.isKilling() || MikuItem.isTimeStop()) event.setCanceled(true);
         }
     }

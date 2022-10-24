@@ -9,19 +9,24 @@ import miku.Interface.MixinInterface.IChunk;
 import miku.Interface.MixinInterface.IEntity;
 import miku.Interface.MixinInterface.IWorld;
 import miku.Items.Miku.MikuItem;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import miku.Utils.Killer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.profiler.Profiler;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorldEventListener;
 import net.minecraft.world.World;
+import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.Loader;
 import org.spongepowered.asm.mixin.Final;
@@ -36,6 +41,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import static net.minecraft.world.World.MAX_ENTITY_RADIUS;
@@ -61,65 +67,23 @@ public abstract class MixinWorld implements IWorld {
     @Shadow
     protected abstract boolean isChunkLoaded(int x, int z, boolean allowEmpty);
 
-    @Inject(at = @At("HEAD"), method = "setEntityState", cancellable = true)
-    public void setEntityState(Entity entityIn, byte state, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(entityIn)) {
-            if (state == (byte) 3 || state == (byte) 2) {
-                if (entityIn instanceof Hatsune_Miku) {
-                    ((Hatsune_Miku) entityIn).Protect();
-                }
-                if (entityIn instanceof EntityPlayer) {
-                    MikuItem.Protect(entityIn);
-                }
-                ci.cancel();
-            }
-        }
-    }
-
-    @Inject(at = @At("HEAD"), method = "removeEntityDangerously", cancellable = true)
-    public void removeEntityDangerously(Entity entityIn, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(entityIn)) {
-            if (entityIn instanceof Hatsune_Miku) {
-                ((Hatsune_Miku) entityIn).Protect();
-            }
-            if (entityIn instanceof EntityPlayer) {
-                MikuItem.Protect(entityIn);
-            }
-            ci.cancel();
-        }
-    }
-
-    @Inject(at = @At("HEAD"), method = "onEntityRemoved", cancellable = true)
-    public void OnEntityRemoved(Entity entityIn, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(entityIn)) {
-            if (entityIn instanceof Hatsune_Miku) {
-                ((Hatsune_Miku) entityIn).Protect();
-            }
-            if (entityIn instanceof EntityPlayer) {
-                MikuItem.Protect(entityIn);
-            }
-            ci.cancel();
-        }
-    }
-
-    /**
-     * @author mcst12345
-     * @reason Protect some entities
-     */
-    @Overwrite
-    public void unloadEntities(Collection<Entity> entityCollection) throws NoSuchFieldException, ClassNotFoundException {
-        ArrayList<Entity> fucked = new ArrayList<>();
-        for (Entity en : entityCollection) {
-            if (!InventoryUtil.isMiku(en)) fucked.add(en);
-            if (en instanceof Hatsune_Miku) {
-                ((Hatsune_Miku) en).Protect();
-            }
-            if (en instanceof EntityPlayer) {
-                MikuItem.Protect(en);
-            }
-        }
-        unloadedEntityList.addAll(fucked);
-    }
+    @Shadow
+    @Final
+    public List<TileEntity> tickableTileEntities;
+    @Shadow
+    @Final
+    public List<TileEntity> loadedTileEntityList;
+    @Shadow
+    private boolean processingLoadedTiles;
+    @Shadow
+    @Final
+    private List<TileEntity> tileEntitiesToBeRemoved;
+    @Shadow
+    @Final
+    private WorldBorder worldBorder;
+    @Shadow
+    @Final
+    private List<TileEntity> addedTileEntityList;
 
     @Override
     public void TrueOnEntityRemoved(Entity entityIn) {
@@ -167,9 +131,101 @@ public abstract class MixinWorld implements IWorld {
         }
     }
 
+    @Inject(at = @At("HEAD"), method = "updateEntityWithOptionalForce", cancellable = true)
+    public void updateEntityWithOptionalForce(Entity entityIn, boolean forceUpdate, CallbackInfo ci) {
+        if (((IEntity) entityIn).isMikuDead() || Killer.isDead(entityIn)) {
+            entityIn.isDead = true;
+            ci.cancel();
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "updateEntity", cancellable = true)
+    public void UpdateEntity(Entity ent, CallbackInfo ci) {
+        if (((IEntity) ent).isMikuDead() || Killer.isDead(ent)) {
+            ent.isDead = true;
+            ci.cancel();
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "setEntityState", cancellable = true)
+    public void setEntityState(Entity entityIn, byte state, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
+        if (Judgement.isMiku(entityIn)) {
+            if (state == (byte) 3 || state == (byte) 2) {
+                if (entityIn instanceof Hatsune_Miku) {
+                    ((Hatsune_Miku) entityIn).Protect();
+                }
+                if (entityIn instanceof EntityPlayer) {
+                    MikuItem.Protect(entityIn);
+                }
+                ci.cancel();
+            }
+        }
+    }
+
+
+    @Shadow
+    public abstract Chunk getChunk(int chunkX, int chunkZ);
+
+    @Shadow
+    public abstract void removeEntity(Entity entityIn);
+
+    @Shadow
+    protected abstract void tickPlayers();
+
+    @Shadow
+    public abstract void onEntityRemoved(Entity entityIn);
+
+    @Shadow
+    public abstract void updateEntity(Entity ent);
+
+    @Inject(at = @At("HEAD"), method = "removeEntityDangerously", cancellable = true)
+    public void removeEntityDangerously(Entity entityIn, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
+        if (Judgement.isMiku(entityIn)) {
+            if (entityIn instanceof Hatsune_Miku) {
+                ((Hatsune_Miku) entityIn).Protect();
+            }
+            if (entityIn instanceof EntityPlayer) {
+                MikuItem.Protect(entityIn);
+            }
+            ci.cancel();
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "onEntityRemoved", cancellable = true)
+    public void OnEntityRemoved(Entity entityIn, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
+        if (Judgement.isMiku(entityIn)) {
+            if (entityIn instanceof Hatsune_Miku) {
+                ((Hatsune_Miku) entityIn).Protect();
+            }
+            if (entityIn instanceof EntityPlayer) {
+                MikuItem.Protect(entityIn);
+            }
+            ci.cancel();
+        }
+    }
+
+    /**
+     * @author mcst12345
+     * @reason Protect some entities
+     */
+    @Overwrite
+    public void unloadEntities(Collection<Entity> entityCollection) throws NoSuchFieldException, ClassNotFoundException {
+        ArrayList<Entity> fucked = new ArrayList<>();
+        for (Entity en : entityCollection) {
+            if (!Judgement.isMiku(en)) fucked.add(en);
+            if (en instanceof Hatsune_Miku) {
+                ((Hatsune_Miku) en).Protect();
+            }
+            if (en instanceof EntityPlayer) {
+                MikuItem.Protect(en);
+            }
+        }
+        unloadedEntityList.addAll(fucked);
+    }
+
     @Inject(at = @At("HEAD"), method = "removeEntity", cancellable = true)
     public void RemoveEntity(Entity entityIn, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(entityIn)) {
+        if (Judgement.isMiku(entityIn)) {
             if (entityIn instanceof Hatsune_Miku) {
                 ((Hatsune_Miku) entityIn).Protect();
             }
@@ -190,50 +246,35 @@ public abstract class MixinWorld implements IWorld {
                 cir.setReturnValue(false);
             }
         }
-        if ((MikuItem.isTimeStop() && !InventoryUtil.isMiku(entityIn)) || Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || Killer.isAnti(entityIn.getClass())) {
+        if ((MikuItem.isTimeStop() && !Judgement.isMiku(entityIn)) || Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || Killer.isAnti(entityIn.getClass())) {
             cir.setReturnValue(false);
         }
     }
 
-    @Inject(at = @At("HEAD"), method = "updateEntityWithOptionalForce", cancellable = true)
-    public void updateEntityWithOptionalForce(Entity entityIn, boolean forceUpdate, CallbackInfo ci) {
-        if (((IEntity) entityIn).isMikuDead() || Killer.isDead(entityIn)) {
-            entityIn.isDead = true;
-            ci.cancel();
-        }
-    }
-
-    @Inject(at = @At("HEAD"), method = "updateEntity", cancellable = true)
-    public void UpdateEntity(Entity ent, CallbackInfo ci) {
-        if (((IEntity) ent).isMikuDead() || Killer.isDead(ent)) {
-            ent.isDead = true;
-            ci.cancel();
-        }
-    }
-
-
     @Inject(at = @At("HEAD"), method = "onEntityAdded", cancellable = true)
     public void onEntityAdded(Entity entityIn, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
-        if ((MikuItem.isTimeStop() && !InventoryUtil.isMiku(entityIn)) || Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || Killer.isAnti(entityIn.getClass())) {
+        if ((MikuItem.isTimeStop() && !Judgement.isMiku(entityIn)) || Killer.isDead(entityIn) || ((IEntity) entityIn).isMikuDead() || Killer.isAnti(entityIn.getClass())) {
             ci.cancel();
         }
     }
 
+    @Shadow
+    public abstract boolean isBlockLoaded(BlockPos pos, boolean allowEmpty);
 
     @Shadow
-    public abstract Chunk getChunk(int chunkX, int chunkZ);
+    public abstract void removeTileEntity(BlockPos pos);
 
     @Shadow
-    public abstract void removeEntity(Entity entityIn);
+    public abstract boolean isBlockLoaded(BlockPos pos);
 
     @Shadow
-    protected abstract void tickPlayers();
+    public abstract Chunk getChunk(BlockPos pos);
 
     @Shadow
-    public abstract void onEntityRemoved(Entity entityIn);
+    public abstract boolean addTileEntity(TileEntity tile);
 
     @Shadow
-    public abstract void updateEntity(Entity ent);
+    public abstract void notifyBlockUpdate(BlockPos pos, IBlockState oldState, IBlockState newState, int flags);
 
     /**
      * @author mcst12345
@@ -248,7 +289,7 @@ public abstract class MixinWorld implements IWorld {
         for (int i = 0; i < weatherEffects.size(); ++i) {
             Entity entity = weatherEffects.get(i);
 
-            if ((!MikuItem.isTimeStop() || InventoryUtil.isMiku(entity)) && !(entity.getClass() == Hatsune_Miku.class)) {
+            if ((!MikuItem.isTimeStop() || Judgement.isMiku(entity)) && !(entity.getClass() == Hatsune_Miku.class)) {
                 try {
                     if (entity.updateBlocked) continue;
                     ++entity.ticksExisted;
@@ -270,7 +311,7 @@ public abstract class MixinWorld implements IWorld {
                         throw new ReportedException(crashreport);
                 }
 
-                if (entity.isDead && !InventoryUtil.isMiku(entity)) {
+                if (entity.isDead && !Judgement.isMiku(entity)) {
                     this.weatherEffects.remove(i--);
                 }
             }
@@ -280,7 +321,7 @@ public abstract class MixinWorld implements IWorld {
         this.loadedEntityList.removeAll(this.unloadedEntityList);
 
         for (int k = 0; k < this.unloadedEntityList.size(); ++k) {
-            if (InventoryUtil.isMiku(unloadedEntityList.get(k))) continue;
+            if (Judgement.isMiku(unloadedEntityList.get(k))) continue;
             Entity entity1 = this.unloadedEntityList.get(k);
             int j = entity1.chunkCoordX;
             int k1 = entity1.chunkCoordZ;
@@ -291,7 +332,7 @@ public abstract class MixinWorld implements IWorld {
         }
 
         for (int l = 0; l < this.unloadedEntityList.size(); ++l) {
-            if (!InventoryUtil.isMiku(this.unloadedEntityList.get(l)))
+            if (!Judgement.isMiku(this.unloadedEntityList.get(l)))
                 this.onEntityRemoved(this.unloadedEntityList.get(l));
         }
 
@@ -303,7 +344,7 @@ public abstract class MixinWorld implements IWorld {
             Entity entity2 = this.loadedEntityList.get(i1);
             Entity entity3 = entity2.getRidingEntity();
 
-            if (!MikuItem.isTimeStop() || InventoryUtil.isMiku(entity2) || InventoryUtil.isMiku(entity3)) {
+            if (!MikuItem.isTimeStop() || Judgement.isMiku(entity2) || Judgement.isMiku(entity3)) {
                 if (entity3 != null) {
                     if (!entity3.isDead && entity3.isPassenger(entity2)) {
                         continue;
@@ -334,7 +375,7 @@ public abstract class MixinWorld implements IWorld {
                 this.profiler.endSection();
                 this.profiler.startSection("remove");
 
-                if (entity2.isDead && !InventoryUtil.isMiku(entity2)) {
+                if (entity2.isDead && !Judgement.isMiku(entity2)) {
                     int l1 = entity2.chunkCoordX;
                     int i2 = entity2.chunkCoordZ;
 
@@ -350,6 +391,93 @@ public abstract class MixinWorld implements IWorld {
                 this.profiler.endSection();
             }
         }
+        this.profiler.endStartSection("blockEntities");
+
+        this.processingLoadedTiles = true; //FML Move above remove to prevent CMEs
+
+        if (!this.tileEntitiesToBeRemoved.isEmpty()) {
+            for (TileEntity tile : tileEntitiesToBeRemoved) {
+                tile.onChunkUnload();
+            }
+
+            // forge: faster "contains" makes this removal much more efficient
+            java.util.Set<TileEntity> remove = java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
+            remove.addAll(tileEntitiesToBeRemoved);
+            this.tickableTileEntities.removeAll(remove);
+            this.loadedTileEntityList.removeAll(remove);
+            this.tileEntitiesToBeRemoved.clear();
+        }
+
+        Iterator<TileEntity> iterator = this.tickableTileEntities.iterator();
+
+        while (iterator.hasNext()) {
+            TileEntity tileentity = iterator.next();
+
+            if (!tileentity.isInvalid() && tileentity.hasWorld()) {
+                BlockPos blockpos = tileentity.getPos();
+
+                if (this.isBlockLoaded(blockpos, false) && this.worldBorder.contains(blockpos)) //Forge: Fix TE's getting an extra tick on the client side....
+                {
+                    try {
+                        this.profiler.func_194340_a(() ->
+                                String.valueOf(TileEntity.getKey(tileentity.getClass())));
+                        net.minecraftforge.server.timings.TimeTracker.TILE_ENTITY_UPDATE.trackStart(tileentity);
+                        ((ITickable) tileentity).update();
+                        net.minecraftforge.server.timings.TimeTracker.TILE_ENTITY_UPDATE.trackEnd(tileentity);
+                        this.profiler.endSection();
+                    } catch (Throwable throwable) {
+                        CrashReport crashreport2 = CrashReport.makeCrashReport(throwable, "Ticking block entity");
+                        CrashReportCategory crashreportcategory2 = crashreport2.makeCategory("Block entity being ticked");
+                        tileentity.addInfoToCrashReport(crashreportcategory2);
+                        if (net.minecraftforge.common.ForgeModContainer.removeErroringTileEntities) {
+                            net.minecraftforge.fml.common.FMLLog.log.fatal("{}", crashreport2.getCompleteReport());
+                            tileentity.invalidate();
+                            this.removeTileEntity(tileentity.getPos());
+                        } else
+                            throw new ReportedException(crashreport2);
+                    }
+                }
+            }
+
+            if (tileentity.isInvalid()) {
+                iterator.remove();
+                this.loadedTileEntityList.remove(tileentity);
+
+                if (this.isBlockLoaded(tileentity.getPos())) {
+                    //Forge: Bugfix: If we set the tile entity it immediately sets it in the chunk, so we could be desyned
+                    Chunk chunk = this.getChunk(tileentity.getPos());
+                    if (chunk.getTileEntity(tileentity.getPos(), net.minecraft.world.chunk.Chunk.EnumCreateEntityType.CHECK) == tileentity)
+                        chunk.removeTileEntity(tileentity.getPos());
+                }
+            }
+        }
+
+        this.processingLoadedTiles = false;
+        this.profiler.endStartSection("pendingBlockEntities");
+
+        if (!this.addedTileEntityList.isEmpty()) {
+            for (int j1 = 0; j1 < this.addedTileEntityList.size(); ++j1) {
+                TileEntity tileentity1 = this.addedTileEntityList.get(j1);
+
+                if (!tileentity1.isInvalid()) {
+                    if (!this.loadedTileEntityList.contains(tileentity1)) {
+                        this.addTileEntity(tileentity1);
+                    }
+
+                    if (this.isBlockLoaded(tileentity1.getPos())) {
+                        Chunk chunk = this.getChunk(tileentity1.getPos());
+                        IBlockState iblockstate = chunk.getBlockState(tileentity1.getPos());
+                        chunk.addTileEntity(tileentity1.getPos(), tileentity1);
+                        this.notifyBlockUpdate(tileentity1.getPos(), iblockstate, iblockstate, 3);
+                    }
+                }
+            }
+
+            this.addedTileEntityList.clear();
+        }
+
+        this.profiler.endSection();
+        this.profiler.endSection();
         for (Entity entity : loadedEntityList) {
             if (((IEntity) entity).isMikuDead() || Killer.isDead(entity)) {
                 entity.isDead = true;
@@ -391,7 +519,7 @@ public abstract class MixinWorld implements IWorld {
         list.removeIf(entity -> entity instanceof Hatsune_Miku);
         list.removeIf(entity -> {
             try {
-                return InventoryUtil.isMiku(entity);
+                return Judgement.isMiku(entity);
             } catch (NoSuchFieldException | ClassNotFoundException ignored) {
             }
             return false;

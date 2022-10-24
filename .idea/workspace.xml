@@ -7,11 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ee445276-b487-450a-82d5-af3ab733f797" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/reobfJar/output.jar" beforeDir="false" />
-    </list>
+    <list default="true" id="ee445276-b487-450a-82d5-af3ab733f797" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,8 +93,6 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$USER_HOME$/.gradle/caches/forge_gradle/maven_downloader/de/oceanlabs/mcp/mcp_stable/39-1.12/mcp_stable-39-1.12.zip!/methods.csv" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.12.2-14.23.5.2860_mapped_stable_39-1.12/forge-1.12.2-14.23.5.2860_mapped_stable_39-1.12-sources.jar!/net/minecraft/item/Item.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="jar://$USER_HOME$/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.12.2-14.23.5.2860_mapped_stable_39-1.12/forge-1.12.2-14.23.5.2860_mapped_stable_39-1.12-sources.jar!/net/minecraft/item/ItemPickaxe.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -119,16 +113,18 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;ToolWindow构建.ShowToolbar&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/mnt/FA10AC15CB1B98EF/code/java/miku_mod/src/main/resources/assets/miku/structures&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;http.proxy&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="JavaMethodFindUsagesOptions.isSearchForTextOccurrences" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../source/LoliPickaxe/src/main/java" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="http.proxy" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/assets/miku/structures" />
@@ -259,20 +255,20 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Application.runClient" />
+      <item itemvalue="Application.runServer" />
       <item itemvalue="Gradle.miku_mod [sync]" />
       <item itemvalue="Gradle.build offline" />
       <item itemvalue="Gradle.miku_mod [assemble]" />
       <item itemvalue="Gradle.miku_mod [build] (1)" />
       <item itemvalue="Gradle.miku_mod [clean]" />
-      <item itemvalue="应用程序.runClient" />
-      <item itemvalue="应用程序.runServer" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.miku_mod [build] (1)" />
+        <item itemvalue="Gradle.miku_mod [assemble]" />
         <item itemvalue="Gradle.build offline" />
         <item itemvalue="Gradle.miku_mod [sync]" />
-        <item itemvalue="Gradle.miku_mod [assemble]" />
         <item itemvalue="Gradle.miku_mod [clean]" />
       </list>
     </recent_temporary>
@@ -333,13 +329,10 @@
       <workItem from="1658428981595" duration="846000" />
       <workItem from="1658710568968" duration="135000" />
       <workItem from="1659680816494" duration="27000" />
-    </task>
-    <task id="LOCAL-00002" summary="Changes">
-      <created>1657540806490</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1657540806490</updated>
+      <workItem from="1666410982651" duration="890000" />
+      <workItem from="1666412639004" duration="2326000" />
+      <workItem from="1666429870336" duration="1421000" />
+      <workItem from="1666575347262" duration="11830000" />
     </task>
     <task id="LOCAL-00003" summary="Changes">
       <created>1657586257767</created>
@@ -677,7 +670,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661243590105</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Changes">
+      <created>1666590639118</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1666590639118</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -705,6 +705,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -779,6 +780,11 @@
           <url>jar://$USER_HOME$/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.12.2-14.23.5.2860_mapped_stable_39-1.12/forge-1.12.2-14.23.5.2860_mapped_stable_39-1.12-sources.jar!/net/minecraft/entity/EntityLiving.java</url>
           <line>1420</line>
           <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../../source/LoliPickaxe/src/main/java/com/anotherstar/core/transformer/LoliPickaxeTransformer.java</url>
+          <line>132</line>
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

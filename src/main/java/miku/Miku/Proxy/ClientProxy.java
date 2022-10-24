@@ -1,9 +1,9 @@
 package miku.Miku.Proxy;
 
+import miku.Config.MikuConfig;
 import miku.Entity.Hatsune_Miku;
 import miku.Event.InputEvent;
 import miku.Exception.MusicPackNotFound;
-import miku.Miku.Miku;
 import miku.Miku.MikuLoader;
 import miku.Render.MikuRenderItem;
 import net.minecraft.client.model.ModelBiped;
@@ -27,8 +27,8 @@ public class ClientProxy extends CommonProxy {
     public void preInit(FMLPreInitializationEvent event) throws IOException {
         super.preInit(event);
         File MusicFolder = new File("audio");
-        if (!MusicFolder.isDirectory()) {
-            Miku.INSTANCE.GetLogger().fatal("Cannot find music pack! Please download the music pack. You can find the link on the modrinth page.");
+        if (!MusicFolder.isDirectory() && !MikuConfig.IgnoreMusicCheck) {
+            System.out.println("Cannot find music pack! Please download the music pack. You can find the link on the modrinth page.");
             throw new MusicPackNotFound();
         }
         MikuLoader.RegisterKey();

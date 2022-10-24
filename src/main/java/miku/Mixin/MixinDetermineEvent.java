@@ -8,7 +8,7 @@ import com.chaoswither.event.DetermineEvent;
 import com.chaoswither.items.ItemChaosGodSword;
 import com.chaoswither.items.armor.ItemChaosArmor;
 import miku.Config.MikuConfig;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import miku.Utils.Killer;
 import miku.Utils.SafeKill;
 import net.minecraft.entity.Entity;
@@ -152,7 +152,7 @@ public class MixinDetermineEvent {
      */
     @Overwrite
     public static boolean isDead(EntityLivingBase entity) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(entity)) return false;
+        if (Judgement.isMiku(entity)) return false;
         if (SafeKill.GetIsKillingChaosWither()) return false;
         if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return false;
         Collection<PotionEffect> effects = entity.getActivePotionEffects();
@@ -174,7 +174,7 @@ public class MixinDetermineEvent {
      */
     @Overwrite
     public static boolean isOver(EntityLivingBase entity) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(entity)) return false;
+        if (Judgement.isMiku(entity)) return false;
         if (SafeKill.GetIsKillingChaosWither()) return false;
         if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return false;
         if (!entity.isDead) {
@@ -211,7 +211,7 @@ public class MixinDetermineEvent {
      */
     @Overwrite
     public static boolean isGod1(EntityPlayer player) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(player)) return true;
+        if (Judgement.isMiku(player)) return true;
         if (SafeKill.GetIsKillingChaosWither()) return true;
         if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return true;
         Iterator<ItemStack> var1 = player.inventory.armorInventory.iterator();
@@ -234,7 +234,7 @@ public class MixinDetermineEvent {
      */
     @Overwrite
     public static boolean isGod(EntityLivingBase entity) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(entity)) return true;
+        if (Judgement.isMiku(entity)) return true;
         if (SafeKill.GetIsKillingChaosWither()) return true;
         if ((Killer.NoMoreChaosWither() && MikuConfig.FuckChaosWither)) return true;
         if (entity instanceof EntityPlayer) {

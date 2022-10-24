@@ -1,6 +1,6 @@
 package miku.Mixin;
 
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import net.minecraft.command.CommandEffect;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -17,6 +17,6 @@ import static net.minecraft.command.CommandBase.getEntity;
 public class MixinCommandEffect {
     @Inject(at = @At("HEAD"), method = "execute", cancellable = true)
     public void execute(MinecraftServer server, ICommandSender sender, String[] args, CallbackInfo ci) throws CommandException, NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(getEntity(server, sender, args[0], EntityLivingBase.class))) ci.cancel();
+        if (Judgement.isMiku(getEntity(server, sender, args[0], EntityLivingBase.class))) ci.cancel();
     }
 }

@@ -7,7 +7,7 @@ import miku.Config.MikuConfig;
 import miku.Entity.Hatsune_Miku;
 import miku.Interface.IContainer;
 import miku.Interface.IMikuInfinityInventory;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import miku.Utils.Killer;
 import miku.Utils.SafeKill;
 import net.minecraft.block.state.IBlockState;
@@ -80,7 +80,7 @@ public class MikuItem extends Item implements IContainer {
     }
 
     public static void Protect(Entity entity) throws NoSuchFieldException, ClassNotFoundException {
-        if (!InventoryUtil.isMiku(entity)) return;
+        if (!Judgement.isMiku(entity)) return;
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
             if (!MikuPlayer.contains(player.getName() + EntityPlayer.getUUID(player.getGameProfile())))
@@ -174,7 +174,7 @@ public class MikuItem extends Item implements IContainer {
     }
 
     public static void AddToMikuList(Entity entity) throws NoSuchFieldException, ClassNotFoundException {
-        if (InventoryUtil.isMiku(entity)) Miku.add(entity);
+        if (Judgement.isMiku(entity)) Miku.add(entity);
     }
 
     public static boolean IsMikuPlayer(@Nullable EntityPlayer player) {

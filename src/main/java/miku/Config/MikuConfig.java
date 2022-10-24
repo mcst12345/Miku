@@ -35,6 +35,12 @@ public class MikuConfig {
     )
     public static boolean FuckChaosWither;
 
+    @ConfigField(
+            type = {ConfigField.ConfigType.CONFIG},
+            comment = "忽略音乐文件检查",
+            valueType = ConfigField.ValurType.BOOLEAN
+    )
+    public static boolean IgnoreMusicCheck;
 
     static {
         try {

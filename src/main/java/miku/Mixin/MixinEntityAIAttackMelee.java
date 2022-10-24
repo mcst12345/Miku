@@ -1,6 +1,6 @@
 package miku.Mixin;
 
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -18,6 +18,6 @@ public class MixinEntityAIAttackMelee {
     @Inject(at = @At("HEAD"), method = "shouldExecute", cancellable = true)
     public void shouldExecute(CallbackInfoReturnable<Boolean> cir) throws NoSuchFieldException, ClassNotFoundException {
         EntityLivingBase entitylivingbase = attacker.getAttackTarget();
-        if (InventoryUtil.isMiku(entitylivingbase)) cir.setReturnValue(false);
+        if (Judgement.isMiku(entitylivingbase)) cir.setReturnValue(false);
     }
 }

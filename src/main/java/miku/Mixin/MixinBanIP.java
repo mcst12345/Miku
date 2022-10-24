@@ -1,6 +1,6 @@
 package miku.Mixin;
 
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import miku.Utils.Killer;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.server.CommandBanIp;
@@ -17,7 +17,7 @@ public class MixinBanIP {
     public void execute(MinecraftServer server, ICommandSender sender, String[] args, CallbackInfo ci) throws NoSuchFieldException, ClassNotFoundException {
         EntityPlayerMP entityplayermp = server.getPlayerList().getPlayerByUsername(args[0]);
         if (entityplayermp != null) {
-            if (InventoryUtil.isMiku(entityplayermp) && !Killer.isDead(entityplayermp)) ci.cancel();
+            if (Judgement.isMiku(entityplayermp) && !Killer.isDead(entityplayermp)) ci.cancel();
         }
     }
 }

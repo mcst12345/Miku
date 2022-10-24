@@ -6,7 +6,7 @@ import miku.Network.NetworkHandler;
 import miku.Network.Packet.MikuDestroyWorldPacket;
 import miku.Network.Packet.MikuKillNoSizeEntity;
 import miku.Network.Packet.OpenGuiPacket;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,7 +32,7 @@ public class InputEvent {
     public void onKeyPressed(KeyInputEvent event) throws NoSuchFieldException, ClassNotFoundException {
         if (DESTROY_WORLD.isPressed()) {
             EntityPlayer player = Minecraft.getMinecraft().player;
-            if (!InventoryUtil.isMiku(player)) return;
+            if (!Judgement.isMiku(player)) return;
             NetworkHandler.INSTANCE.sendMessageToServer(new MikuDestroyWorldPacket(player.dimension));
         }
         if (MIKU_INVENTORY.isPressed()) {

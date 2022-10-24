@@ -145,7 +145,10 @@ public class Killer {
 
     public static void Kill(@Nullable Entity entity, @Nullable MikuItem item) throws ClassNotFoundException, NoSuchFieldError, NoSuchFieldException {
         if (entity == null) return;
-        if (entity.world.isRemote) return;
+        if (entity.world.isRemote) {
+            Minecraft.getMinecraft().entityRenderer.stopUseShader();
+            return;
+        }
         if (entity.getClass() == Hatsune_Miku.class) return;
         isKilling = true;
         entity.updateBlocked = true;
@@ -181,7 +184,7 @@ public class Killer {
                 ((ChaosLoli) entity).KilledByMiku();
             }
         }
-        if (InventoryUtil.isMiku(entity)) return;
+        if (Judgement.isMiku(entity)) return;
         if (entity.getClass() == EntityDragon.class) {
             ((EntityLivingBase) entity).setHealth(0.0F);
             return;
@@ -289,7 +292,6 @@ public class Killer {
         entity.hurtResistantTime = 0;
         entity.isDead = true;
         ((IEntity) entity).KillIt();
-        if (entity.world.isRemote) Minecraft.getMinecraft().entityRenderer.stopUseShader();
         System.out.println("kill entity");
     }
 
@@ -312,7 +314,7 @@ public class Killer {
     public static boolean isDead(@Nullable Entity entity) {
         if (entity == null) return true;
         if (entity.getClass() == Hatsune_Miku.class) return false;
-        return DeadEntities.contains(entity);
+        return DeadEntities.contains(entity) || ((IEntity) entity).isMikuDead();
     }
 
     public static boolean isKilling() {

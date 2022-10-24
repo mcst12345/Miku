@@ -2,7 +2,7 @@ package miku.Event;
 
 import miku.Entity.Hatsune_Miku;
 import miku.Items.Miku.MikuItem;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -24,7 +24,7 @@ public class MikuItemEvent {
     public static void LivingDeathEvent(LivingDeathEvent event) throws NoSuchFieldException, ClassNotFoundException {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
-        if (InventoryUtil.isMiku(entity)) {
+        if (Judgement.isMiku(entity)) {
             MikuItem.Protect(entity);
             if (entity instanceof Hatsune_Miku) ((Hatsune_Miku) entity).Protect();
             event.setCanceled(true);
@@ -35,7 +35,7 @@ public class MikuItemEvent {
     public void LivingHurtEvent(LivingHurtEvent event) throws NoSuchFieldException, ClassNotFoundException {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
-        boolean isMiku = InventoryUtil.isMiku(entity);
+        boolean isMiku = Judgement.isMiku(entity);
         if (isMiku) {
             MikuItem.Protect(entity);
             if (entity instanceof Hatsune_Miku) ((Hatsune_Miku) entity).Protect();
@@ -47,7 +47,7 @@ public class MikuItemEvent {
     public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) throws NoSuchFieldException, ClassNotFoundException {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
-        if (InventoryUtil.isMiku(entity)) {
+        if (Judgement.isMiku(entity)) {
             MikuItem.Protect(entity);
         }
     }

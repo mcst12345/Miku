@@ -1,10 +1,9 @@
 package miku.Event;
 
 import miku.Entity.Hatsune_Miku;
-import miku.Interface.MixinInterface.IEntity;
 import miku.Items.Miku.MikuItem;
 import miku.Miku.MikuLoader;
-import miku.Utils.InventoryUtil;
+import miku.Utils.Judgement;
 import miku.Utils.Killer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,8 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.minecart.MinecartUpdateEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -55,7 +52,7 @@ public class EntityEvent {
         }
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
-            if (InventoryUtil.isMiku(player)) {
+            if (Judgement.isMiku(player)) {
                 Protect(player);
                 if (source != null) {
                     EntityLivingBase attacker = null;
@@ -112,50 +109,13 @@ public class EntityEvent {
         }
         if (IsMikuPlayer(player)) {
             Protect(player);
-            if (!InventoryUtil.InvHaveMiku(player)) {
+            if (!Judgement.InvHaveMiku(player)) {
                 ItemStack Miku = new ItemStack(MikuLoader.MIKU);
                 Miku.setTagInfo("Owner", new NBTTagString(player.getName()));
                 Miku.setTagInfo("OwnerUUID", new NBTTagString(player.getUniqueID().toString()));
                 Miku.getItem().onCreated(Miku, player.world, player);
                 player.addItemStackToInventory(Miku);
             }
-        }
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void Kill(LivingEvent.LivingUpdateEvent event) throws ClassNotFoundException, NoSuchFieldException {
-        EntityLivingBase entity = event.getEntityLiving();
-        if (entity == null) return;
-        if (Killer.isDead(entity)) {
-            System.out.println("Found dead entity.\nKilling it.");
-            Killer.Kill(entity, null, true);
-        }
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void TimeStop(LivingEvent.LivingUpdateEvent event) throws NoSuchFieldException, ClassNotFoundException {
-        EntityLivingBase entity = event.getEntityLiving();
-        if (!InventoryUtil.isMiku(entity)) {
-            if (Killer.isKilling() || MikuItem.isTimeStop()) event.setCanceled(true);
-        }
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void EntityTimeStop(LivingEvent.LivingUpdateEvent event) {
-        EntityLivingBase entity = event.getEntityLiving();
-        if (((IEntity) entity).isTimeStop()) {
-            ((IEntity) entity).TimeStop();
-            entity.swingProgress = 0.0F;
-            entity.swingProgressInt = 0;
-            entity.isSwingInProgress = false;
-        }
-    }
-
-    @SubscribeEvent
-    public void TimeStopUpdate(MinecartUpdateEvent event) {
-        Entity entity = event.getEntity();
-        if (((IEntity) entity).isTimeStop()) {
-            ((IEntity) entity).TimeStop();
         }
     }
 }
