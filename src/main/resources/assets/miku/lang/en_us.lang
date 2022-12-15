@@ -52,6 +52,7 @@ tile.miku_grass.name=Miku Grass
 tile.miku_stone.name=Miku Stone
 tile.miku_generator.name=Miku Generator
 tile.miku_power_station.name=Miku Power Station
+tile.miku_furnace.name=Miku Furnace
 
 #advancement
 advancement.root=Miku

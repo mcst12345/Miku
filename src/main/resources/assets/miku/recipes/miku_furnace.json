@@ -1,23 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "XPX",
-    "POP",
-    "XPX"
+    "XXX",
+    "XOX",
+    "XXX"
   ],
   "key": {
     "X": {
-      "item": "minecraft:redstone"
+      "item": "miku:scallion"
     },
     "O": {
       "item": "minecraft:furnace"
-    },
-    "P": {
-      "item": "minecraft:diamond"
     }
   },
   "result": {
-    "item": "miku:miku_generator",
+    "item": "miku:miku_furnace",
     "data": 0
   }
 }

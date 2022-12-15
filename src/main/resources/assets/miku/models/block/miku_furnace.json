@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_top",
+  "textures": {
+    "top": "miku:blocks/machines/miku_furnace_top",
+    "side": "miku:blocks/machines/miku_furnace_side"
+  }
+}

@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 public class MikuFurnace extends MachineBase {
     public MikuFurnace() {
         this.setCreativeTab(Miku.MIKU_MACHINE);
+        this.setTranslationKey("miku_furnace");
     }
 
     @Nonnull
