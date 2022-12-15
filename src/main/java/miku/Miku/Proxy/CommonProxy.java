@@ -18,6 +18,7 @@ public class CommonProxy {
         MikuConfig.init(event);
         MikuLoader.RegisterWorldGen();
         MikuLoader.RegisterEvent();
+        MikuLoader.RegisterTile();
         MikuWorld.initialization();
     }
 

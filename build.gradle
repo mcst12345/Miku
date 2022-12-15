@@ -11,7 +11,7 @@ plugins {
 }
 
 group = 'miku'
-version = '1.0.2-pre1'
+version = '1.0.3'
 
 java {
     archivesBaseName = 'miku'
@@ -20,7 +20,6 @@ java {
 
 tasks.withType(JavaCompile) {
     options.fork = true
-    options.forkOptions.jvmArgs += ["-Duser.language=en"]
 }
 
 minecraft {
@@ -96,6 +95,7 @@ repositories {
     }
 
     maven { url = "https://repo.spongepowered.org/maven" }
+    mavenCentral()
     // Put repositories for dependencies here
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
 
@@ -123,7 +123,7 @@ dependencies {
     }
 
     implementation 'com.google.guava:guava:31.1-jre'
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10'
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     testAnnotationProcessor 'org.spongepowered:mixin:0.8.5-SNAPSHOT:processor'
@@ -151,7 +151,7 @@ jar {
         attributes([
                 "Specification-Title"     : "miku",
                 "Specification-Vendor"    : "mcst12345",
-                "Specification-Version"   : "1.0.1-pre6", // We are version 1 of ourselves
+                "Specification-Version"   : "1.0.3",
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Vendor"   : "mcst12345",

@@ -23,7 +23,7 @@ public class Miku {
 
     public static final String MODID = "miku";
     public static final String NAME = "Miku";
-    public static final String VERSION = "1.0.2-pre1";
+    public static final String VERSION = "1.0.3";
 
     public Miku() {
     }

@@ -1,5 +1,6 @@
 package miku.Miku;
 
+import miku.Blocks.Machines.MikuGenerator;
 import miku.Blocks.MikuJukebox;
 import miku.Blocks.Ore.MikuOre;
 import miku.Blocks.Portal.MikuPortal;
@@ -27,6 +28,7 @@ import miku.Items.scallion.Pickaxe;
 import miku.Items.scallion.Sword;
 import miku.Model.MikuModel;
 import miku.Render.RenderMiku;
+import miku.TileEntity.Machine.MikuGeneratorTile;
 import miku.World.MikuWorld.MikuWorld;
 import miku.World.OverWorldGenStructure;
 import miku.World.OverWorldOreGen;
@@ -126,6 +128,7 @@ public class MikuLoader {
     public static final Block MikuGrass = new MikuGrass();
     public static final Block MikuPortal = new MikuPortal();
     public static final Block MikuStone = new MikuStone();
+    public static final Block MikuGenerator = new MikuGenerator();
 
 
     public static final ItemBlock MIKU_ORE_ITEM = new ItemBlock(MIKU_ORE);
@@ -136,6 +139,7 @@ public class MikuLoader {
     public static final ItemBlock MikuDirtItem = new ItemBlock(MikuDirt);
     public static final ItemBlock MikuGrassItem = new ItemBlock(MikuGrass);
     public static final ItemBlock MikuStoneItem = new ItemBlock(MikuStone);
+    public static final ItemBlock MikuGeneratorItem = new ItemBlock(MikuGenerator);
 
     public static final Enchantment GodKiller = new GodKiller();
 
@@ -211,6 +215,7 @@ public class MikuLoader {
         Register.RegisterItem(event, Hibikase, "Hibikase");
         Register.RegisterItem(event, Hitorinbo_Envy, "Hitorinbo_Envy");
         Register.RegisterItem(event, Girl_Ray, "Girl_Ray");
+        Register.RegisterItem(event, MikuGeneratorItem, "miku_generator");
     }
 
     @SubscribeEvent
@@ -283,6 +288,7 @@ public class MikuLoader {
         Register.RegisterItemModel(Hibikase);
         Register.RegisterItemModel(Hitorinbo_Envy);
         Register.RegisterItemModel(Girl_Ray);
+        Register.RegisterItemModel(MikuGeneratorItem);
     }
 
     @SubscribeEvent
@@ -302,6 +308,7 @@ public class MikuLoader {
         Register.RegisterBlock(event, MikuDirt, "miku_dirt");
         Register.RegisterBlock(event, MikuGrass, "miku_grass");
         Register.RegisterBlock(event, MikuStone, "miku_stone");
+        Register.RegisterBlock(event, MikuGenerator, "miku_generator");
     }
 
     @SubscribeEvent
@@ -342,5 +349,9 @@ public class MikuLoader {
     @SideOnly(Side.CLIENT)
     public void registerModel(ModelRegistryEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(Hatsune_Miku.class, manager -> new RenderMiku(manager, new MikuModel(), 0.3f));
+    }
+
+    public static void RegisterTile() {
+        GameRegistry.registerTileEntity(MikuGeneratorTile.class, new ResourceLocation("miku", "miku_generator"));
     }
 }
