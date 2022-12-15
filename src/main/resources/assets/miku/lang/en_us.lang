@@ -35,6 +35,7 @@ item.miku.time_stop.name=Set entity time stop
 itemGroup.miku=miku
 itemGroup.miku_music=miku music
 itemGroup.debug=Debug Items
+itemGroup.miku_machine=Miku Machines
 
 #Enchantment
 enchantment.god_killer=God Killer

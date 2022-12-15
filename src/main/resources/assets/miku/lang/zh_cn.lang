@@ -49,7 +49,8 @@ tile.miku.miku_portal.name=Miku传送门
 tile.miku_dirt.name=Miku 泥土
 tile.miku_grass.name=Miku 草
 tile.miku_stone.name=Miku 石头
-tile.miku_generator.name=Miku 发电机
+tile.miku_generator.name=Miku能量生成器
+itemGroup.miku_machine=Miku机器
 
 #成就
 advancement.root=Miku

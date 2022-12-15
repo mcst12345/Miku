@@ -65,6 +65,14 @@ public class Miku {
         }
     };
 
+    public static final CreativeTabs MIKU_MACHINE = new CreativeTabs("miku_machine") {
+        @Override
+        @Nonnull
+        public ItemStack createIcon() {
+            return new ItemStack(MikuLoader.MikuGenerator);
+        }
+    };
+
 
     public Logger GetLogger() {
         return log;

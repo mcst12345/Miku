@@ -1,7 +1,7 @@
 {
   "parent": "block/cube_top",
   "textures": {
-    "top": "miku:blocks/miku_generator_top",
-    "side": "miku:blocks/miku_generator_side"
+    "top": "miku:blocks/machines/miku_generator_top",
+    "side": "miku:blocks/machines/miku_generator_side"
   }
 }
