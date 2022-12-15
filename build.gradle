@@ -176,6 +176,5 @@ apply plugin: 'org.spongepowered.mixin'
 
 mixin {
     disableOverwriteChecker = true
-    config "mixins.miku.json"
 }
 

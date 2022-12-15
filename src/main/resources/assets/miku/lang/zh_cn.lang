@@ -35,6 +35,7 @@ item.miku.time_stop.name=目标生物时间停止
 itemGroup.miku=miku
 itemGroup.miku_music=miku音乐
 itemGroup.debug=调试物品
+itemGroup.miku_machine=Miku机器
 
 #附魔
 enchantment.god_killer=弑神者
@@ -50,7 +51,7 @@ tile.miku_dirt.name=Miku 泥土
 tile.miku_grass.name=Miku 草
 tile.miku_stone.name=Miku 石头
 tile.miku_generator.name=Miku能量生成器
-itemGroup.miku_machine=Miku机器
+tile.miku_power_station.name=Miku能量站
 
 #成就
 advancement.root=Miku

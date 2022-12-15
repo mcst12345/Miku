@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XOX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "miku:scallion_block"
+    },
+    "O": {
+      "item": "minecraft:chest"
+    }
+  },
+  "result": {
+    "item": "miku:miku_power_station",
+    "data": 0
+  }
+}
