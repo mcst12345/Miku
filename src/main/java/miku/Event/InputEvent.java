@@ -6,7 +6,8 @@ import miku.Network.NetworkHandler;
 import miku.Network.Packet.MikuDestroyWorldPacket;
 import miku.Network.Packet.MikuKillNoSizeEntity;
 import miku.Network.Packet.OpenGuiPacket;
-import miku.Utils.Judgement;
+import miku.Network.Packet.RangeKillPacket;
+import miku.lib.util.EntityUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,16 +28,24 @@ public class InputEvent {
     @SideOnly(Side.CLIENT)
     public static final KeyBinding MIKU_INVENTORY = new KeyBinding("key.miku.inventory", KeyConflictContext.IN_GAME, KeyModifier.ALT, Keyboard.KEY_I, "key.category.miku");
 
+    @SideOnly(Side.CLIENT)
+    public static final KeyBinding RangeKill = new KeyBinding("key.miku.rk", KeyConflictContext.IN_GAME, KeyModifier.ALT, Keyboard.KEY_X, "key.category.miku");
+
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void onKeyPressed(KeyInputEvent event) throws NoSuchFieldException, ClassNotFoundException {
+    public void onKeyPressed(KeyInputEvent event) {
         if (DESTROY_WORLD.isPressed()) {
             EntityPlayer player = Minecraft.getMinecraft().player;
-            if (!Judgement.isMiku(player)) return;
+            if (!EntityUtil.isProtected(player)) return;
             NetworkHandler.INSTANCE.sendMessageToServer(new MikuDestroyWorldPacket(player.dimension));
         }
         if (MIKU_INVENTORY.isPressed()) {
             NetworkHandler.INSTANCE.sendMessageToServer(new OpenGuiPacket(MikuGuiHandler.MIKU_INVENTORY));
+        }
+        if (RangeKill.isPressed()) {
+            EntityPlayer player = Minecraft.getMinecraft().player;
+            if (!EntityUtil.isProtected(player)) return;
+            NetworkHandler.INSTANCE.sendMessageToServer(new RangeKillPacket(player.posX, player.posY, player.posZ, player.dimension));
         }
     }
 

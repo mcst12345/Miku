@@ -1,6 +1,6 @@
 package miku.Enchantment;
 
-import miku.Utils.Killer;
+import miku.lib.util.EntityUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
@@ -33,10 +33,7 @@ public class GodKiller extends Enchantment {
     public void onUserHurt(@Nonnull EntityLivingBase entity, @Nonnull Entity attacker, int level) {
         if (entity.world.isRemote) return;
         if (!(entity instanceof EntityPlayer)) return;
-        try {
-            Killer.Kill(attacker, null);
-        } catch (ClassNotFoundException | NoSuchFieldException ignored) {
-        }
+        EntityUtil.Kill(attacker);
         entity.setHealth(entity.getMaxHealth());
         ((EntityPlayer) entity).capabilities.allowFlying = true;
         ((EntityPlayer) entity).capabilities.isFlying = true;
@@ -81,10 +78,7 @@ public class GodKiller extends Enchantment {
     public void onEntityDamaged(@Nonnull EntityLivingBase user, @Nonnull Entity target, int level) {
         if (user.world.isRemote) return;
         if (!(user instanceof EntityPlayer)) return;
-        try {
-            Killer.RangeKill(((EntityPlayer) user), 10, null);
-        } catch (ClassNotFoundException | NoSuchFieldException ignored) {
-        }
+        EntityUtil.RangeKill(((EntityPlayer) user), 10);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package miku.Thread;
 
-import miku.Utils.Killer;
+import miku.lib.util.EntityUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -18,10 +18,7 @@ public class WorldDestroyThread extends Thread {
     public void run() {
         checkNotNull(world);
         for (Entity e : world.loadedEntityList) {
-            try {
-                Killer.Kill(e, null);
-            } catch (ClassNotFoundException | NoSuchFieldException ignored) {
-            }
+            EntityUtil.Kill(e);
         }
         for (int x = -30000000; x <= 30000000; x++) {
             for (int y = -64; y <= 256; y++) {

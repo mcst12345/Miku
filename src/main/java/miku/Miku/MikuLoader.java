@@ -11,8 +11,10 @@ import miku.Blocks.World.Sekai.empty.WhiteGreyBlock;
 import miku.Enchantment.Die;
 import miku.Enchantment.GodKiller;
 import miku.Entity.Hatsune_Miku;
-import miku.Event.*;
-import miku.Items.Debug.*;
+import miku.Event.BreakBlock;
+import miku.Event.EntityDropEvent;
+import miku.Event.ToolTipEvent;
+import miku.Event.WorldEvent;
 import miku.Items.Delicious_Scallion;
 import miku.Items.Miku.MikuItem;
 import miku.Items.Music.*;
@@ -25,11 +27,10 @@ import miku.Items.scallion.Pickaxe;
 import miku.Items.scallion.Sword;
 import miku.Model.MikuModel;
 import miku.Render.RenderMiku;
-import miku.Utils.Protected_Entity;
-import miku.Utils.RegisterUtil;
 import miku.World.MikuWorld.MikuWorld;
 import miku.World.OverWorldGenStructure;
 import miku.World.OverWorldOreGen;
+import miku.lib.util.Register;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -51,8 +52,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import static miku.Event.InputEvent.DESTROY_WORLD;
-import static miku.Event.InputEvent.MIKU_INVENTORY;
+import static miku.Event.InputEvent.*;
 
 @Mod.EventBusSubscriber
 public class MikuLoader {
@@ -63,11 +63,6 @@ public class MikuLoader {
     public static final Item Scallion_Axe = new Axe(Item.ToolMaterial.GOLD);
     public static final Item Scallion_Sword = new Sword(Item.ToolMaterial.GOLD);
     public static final Item Scallion_Hoe = new Hoe(Item.ToolMaterial.GOLD);
-    public static final Item DebugItem = new DebugItem();
-    public static final Item ZeroHealth = new ZeroHealth();
-    public static final Item NoAI = new NoAI();
-    public static final Item ClearInventory = new ClearInventory();
-    public static final Item EntityTimeStop = new SetEntityTimeStop();
 
     public static final Item DeliciousScallion = new Delicious_Scallion();
     public static final Item COMPRESSED_SCALLION_LAYER1 = new CompressedScallionLayer1();
@@ -149,181 +144,170 @@ public class MikuLoader {
 
     @SubscribeEvent
     public static void registerItem(RegistryEvent.Register<Item> event) {
-        RegisterUtil.RegisterItem(event, MIKU, "miku");
-        RegisterUtil.RegisterItem(event, SCALLION, "scallion");
-        RegisterUtil.RegisterItem(event, COMPRESSED_SCALLION_LAYER1, "compressed_scallion_layer1");
-        RegisterUtil.RegisterItem(event, COMPRESSED_SCALLION_LAYER2, "compressed_scallion_layer2");
-        RegisterUtil.RegisterItem(event, COMPRESSED_SCALLION_LAYER3, "compressed_scallion_layer3");
-        RegisterUtil.RegisterItem(event, COMPRESSED_SCALLION_LAYER4, "compressed_scallion_layer4");
-        RegisterUtil.RegisterItem(event, COMPRESSED_SCALLION_LAYER5, "compressed_scallion_layer5");
-        RegisterUtil.RegisterItem(event, COMPRESSED_SCALLION_LAYER6, "compressed_scallion_layer6");
-        RegisterUtil.RegisterItem(event, COMPRESSED_SCALLION_LAYER7, "compressed_scallion_layer7");
-        RegisterUtil.RegisterItem(event, COMPRESSED_SCALLION_LAYER8, "compressed_scallion_layer8");
-        RegisterUtil.RegisterItem(event, COMPRESSED_SCALLION_LAYER9, "compressed_scallion_layer9");
-        RegisterUtil.RegisterItem(event, Miku_Jukebox_Item, "miku_jukebox");
-        RegisterUtil.RegisterItem(event, MIKU_MUSIC_BOX, "miku_music_box");
-        RegisterUtil.RegisterItem(event, MIKU_ORE_ITEM, "miku_ore");
-        RegisterUtil.RegisterItem(event, EMPTY_SEKAI_BLOCK_ITEM, "empty_sekai_block");
-        RegisterUtil.RegisterItem(event, SUMMON_MIKU, "summon_miku");
-        RegisterUtil.RegisterItem(event, Rolling_Girl, "Rolling_Girl");
-        RegisterUtil.RegisterItem(event, Hated_By_Life, "Hated_By_Life");
-        RegisterUtil.RegisterItem(event, Dramaturgy, "Dramaturgy");
-        RegisterUtil.RegisterItem(event, Meaningless_Literature, "Meaningless_Literature");
-        RegisterUtil.RegisterItem(event, Unknown_Mother_Goose, "Unknown_Mother_Goose");
-        RegisterUtil.RegisterItem(event, Otone_Dissection, "Otone_Dissection");
-        RegisterUtil.RegisterItem(event, Bitter_Choco, "Bitter_Choco");
-        RegisterUtil.RegisterItem(event, Awake_Now, "Awake_Now");
-        RegisterUtil.RegisterItem(event, Ghost_City_Tokyo, "Ghost_City_Tokyo");
-        RegisterUtil.RegisterItem(event, Yoru_Ni_Kareru, "Yoru_Ni_Kareru");
-        RegisterUtil.RegisterItem(event, Two_Face_Lovers, "Two_Face_Lovers");
-        RegisterUtil.RegisterItem(event, Worlds_End_Dancehall, "Worlds_End_Dancehall");
-        RegisterUtil.RegisterItem(event, End_Of_Miku, "End_Of_Miku");
-        RegisterUtil.RegisterItem(event, End_Of_Miku_4, "End_Of_Miku_4");
-        RegisterUtil.RegisterItem(event, World_Is_Mine, "World_Is_Mine");
-        RegisterUtil.RegisterItem(event, ODDS_ENDS, "ODDS_ENDS");
-        RegisterUtil.RegisterItem(event, LOVE_ME, "Love_me_Love_me_Love_me");
-        RegisterUtil.RegisterItem(event, From_Y_to_Y, "From_Y_to_Y");
-        RegisterUtil.RegisterItem(event, Ghost_Rule, "Ghost_Rule");
-        RegisterUtil.RegisterItem(event, Buriki_No_Dance, "Buriki_No_Dance");
-        RegisterUtil.RegisterItem(event, Melt, "Melt");
-        RegisterUtil.RegisterItem(event, Deep_Sea_Girl, "Deep_Sea_Girl");
-        RegisterUtil.RegisterItem(event, Kagerou_Days, "Kagerou_Days");
-        RegisterUtil.RegisterItem(event, Hand_in_Hand, "Hand_in_Hand");
-        RegisterUtil.RegisterItem(event, Under_the_ground, "Under_the_ground");
-        RegisterUtil.RegisterItem(event, Hibana, "Hibana");
-        RegisterUtil.RegisterItem(event, Tokyo_Ghetto, "Tokyo_Ghetto");
-        RegisterUtil.RegisterItem(event, Deep_Sea_Lily, "Deep_Sea_Lily");
-        RegisterUtil.RegisterItem(event, Deep_Sea_Lily_Piano, "Deep_Sea_Lily_Piano");
-        RegisterUtil.RegisterItem(event, All_happy, "All_Happy");
-        RegisterUtil.RegisterItem(event, DeliciousScallion, "delicious_scallion");
-        RegisterUtil.RegisterItem(event, ScallionBlockItem, "scallion_block");
-        RegisterUtil.RegisterItem(event, MikuPortalItem, "miku_portal");
-        RegisterUtil.RegisterItem(event, DebugItem, "debug");
-        RegisterUtil.RegisterItem(event, ZeroHealth, "zero_health");
-        RegisterUtil.RegisterItem(event, NoAI, "no_ai");
-        RegisterUtil.RegisterItem(event, ClearInventory, "clear_entity_inventory");
-        RegisterUtil.RegisterItem(event, EntityTimeStop, "entity_time_stop");
-        RegisterUtil.RegisterItem(event, MikuDirtItem, "miku_dirt");
-        RegisterUtil.RegisterItem(event, MikuGrassItem, "miku_grass");
-        RegisterUtil.RegisterItem(event, MikuStoneItem, "miku_stone");
-        RegisterUtil.RegisterItem(event, Scallion_Sword, "scallion_sword");
-        RegisterUtil.RegisterItem(event, Scallion_Pickaxe, "scallion_pickaxe");
-        RegisterUtil.RegisterItem(event, Scallion_Axe, "scallion_axe");
-        RegisterUtil.RegisterItem(event, Scallion_Hoe, "scallion_hoe");
-        RegisterUtil.RegisterItem(event, Vampire, "Vampire");
-        RegisterUtil.RegisterItem(event, TellYourWorld, "Tell_Your_World");
-        RegisterUtil.RegisterItem(event, MeltyLandNightmare, "Melty_Land_Nightmare");
-        RegisterUtil.RegisterItem(event, Senbonzakura, "Senbonzakura");
-        RegisterUtil.RegisterItem(event, SandPlanet, "sand_planet");
-        RegisterUtil.RegisterItem(event, Music39, "39music");
-        RegisterUtil.RegisterItem(event, Teo, "Teo");
-        RegisterUtil.RegisterItem(event, Patchwork_Staccato, "Patchwork_Staccato");
-        RegisterUtil.RegisterItem(event, Hibikase, "Hibikase");
-        RegisterUtil.RegisterItem(event, Hitorinbo_Envy, "Hitorinbo_Envy");
-        RegisterUtil.RegisterItem(event, Girl_Ray, "Girl_Ray");
+        Register.RegisterItem(event, MIKU, "miku");
+        Register.RegisterItem(event, SCALLION, "scallion");
+        Register.RegisterItem(event, COMPRESSED_SCALLION_LAYER1, "compressed_scallion_layer1");
+        Register.RegisterItem(event, COMPRESSED_SCALLION_LAYER2, "compressed_scallion_layer2");
+        Register.RegisterItem(event, COMPRESSED_SCALLION_LAYER3, "compressed_scallion_layer3");
+        Register.RegisterItem(event, COMPRESSED_SCALLION_LAYER4, "compressed_scallion_layer4");
+        Register.RegisterItem(event, COMPRESSED_SCALLION_LAYER5, "compressed_scallion_layer5");
+        Register.RegisterItem(event, COMPRESSED_SCALLION_LAYER6, "compressed_scallion_layer6");
+        Register.RegisterItem(event, COMPRESSED_SCALLION_LAYER7, "compressed_scallion_layer7");
+        Register.RegisterItem(event, COMPRESSED_SCALLION_LAYER8, "compressed_scallion_layer8");
+        Register.RegisterItem(event, COMPRESSED_SCALLION_LAYER9, "compressed_scallion_layer9");
+        Register.RegisterItem(event, Miku_Jukebox_Item, "miku_jukebox");
+        Register.RegisterItem(event, MIKU_MUSIC_BOX, "miku_music_box");
+        Register.RegisterItem(event, MIKU_ORE_ITEM, "miku_ore");
+        Register.RegisterItem(event, EMPTY_SEKAI_BLOCK_ITEM, "empty_sekai_block");
+        Register.RegisterItem(event, SUMMON_MIKU, "summon_miku");
+        Register.RegisterItem(event, Rolling_Girl, "Rolling_Girl");
+        Register.RegisterItem(event, Hated_By_Life, "Hated_By_Life");
+        Register.RegisterItem(event, Dramaturgy, "Dramaturgy");
+        Register.RegisterItem(event, Meaningless_Literature, "Meaningless_Literature");
+        Register.RegisterItem(event, Unknown_Mother_Goose, "Unknown_Mother_Goose");
+        Register.RegisterItem(event, Otone_Dissection, "Otone_Dissection");
+        Register.RegisterItem(event, Bitter_Choco, "Bitter_Choco");
+        Register.RegisterItem(event, Awake_Now, "Awake_Now");
+        Register.RegisterItem(event, Ghost_City_Tokyo, "Ghost_City_Tokyo");
+        Register.RegisterItem(event, Yoru_Ni_Kareru, "Yoru_Ni_Kareru");
+        Register.RegisterItem(event, Two_Face_Lovers, "Two_Face_Lovers");
+        Register.RegisterItem(event, Worlds_End_Dancehall, "Worlds_End_Dancehall");
+        Register.RegisterItem(event, End_Of_Miku, "End_Of_Miku");
+        Register.RegisterItem(event, End_Of_Miku_4, "End_Of_Miku_4");
+        Register.RegisterItem(event, World_Is_Mine, "World_Is_Mine");
+        Register.RegisterItem(event, ODDS_ENDS, "ODDS_ENDS");
+        Register.RegisterItem(event, LOVE_ME, "Love_me_Love_me_Love_me");
+        Register.RegisterItem(event, From_Y_to_Y, "From_Y_to_Y");
+        Register.RegisterItem(event, Ghost_Rule, "Ghost_Rule");
+        Register.RegisterItem(event, Buriki_No_Dance, "Buriki_No_Dance");
+        Register.RegisterItem(event, Melt, "Melt");
+        Register.RegisterItem(event, Deep_Sea_Girl, "Deep_Sea_Girl");
+        Register.RegisterItem(event, Kagerou_Days, "Kagerou_Days");
+        Register.RegisterItem(event, Hand_in_Hand, "Hand_in_Hand");
+        Register.RegisterItem(event, Under_the_ground, "Under_the_ground");
+        Register.RegisterItem(event, Hibana, "Hibana");
+        Register.RegisterItem(event, Tokyo_Ghetto, "Tokyo_Ghetto");
+        Register.RegisterItem(event, Deep_Sea_Lily, "Deep_Sea_Lily");
+        Register.RegisterItem(event, Deep_Sea_Lily_Piano, "Deep_Sea_Lily_Piano");
+        Register.RegisterItem(event, All_happy, "All_Happy");
+        Register.RegisterItem(event, DeliciousScallion, "delicious_scallion");
+        Register.RegisterItem(event, ScallionBlockItem, "scallion_block");
+        Register.RegisterItem(event, MikuPortalItem, "miku_portal");
+        Register.RegisterItem(event, MikuDirtItem, "miku_dirt");
+        Register.RegisterItem(event, MikuGrassItem, "miku_grass");
+        Register.RegisterItem(event, MikuStoneItem, "miku_stone");
+        Register.RegisterItem(event, Scallion_Sword, "scallion_sword");
+        Register.RegisterItem(event, Scallion_Pickaxe, "scallion_pickaxe");
+        Register.RegisterItem(event, Scallion_Axe, "scallion_axe");
+        Register.RegisterItem(event, Scallion_Hoe, "scallion_hoe");
+        Register.RegisterItem(event, Vampire, "Vampire");
+        Register.RegisterItem(event, TellYourWorld, "Tell_Your_World");
+        Register.RegisterItem(event, MeltyLandNightmare, "Melty_Land_Nightmare");
+        Register.RegisterItem(event, Senbonzakura, "Senbonzakura");
+        Register.RegisterItem(event, SandPlanet, "sand_planet");
+        Register.RegisterItem(event, Music39, "39music");
+        Register.RegisterItem(event, Teo, "Teo");
+        Register.RegisterItem(event, Patchwork_Staccato, "Patchwork_Staccato");
+        Register.RegisterItem(event, Hibikase, "Hibikase");
+        Register.RegisterItem(event, Hitorinbo_Envy, "Hitorinbo_Envy");
+        Register.RegisterItem(event, Girl_Ray, "Girl_Ray");
     }
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public static void registerItemModel(ModelRegistryEvent event) {
-        RegisterUtil.RegisterItemModel(MIKU);
-        RegisterUtil.RegisterItemModel(SCALLION);
-        RegisterUtil.RegisterItemModel(COMPRESSED_SCALLION_LAYER1);
-        RegisterUtil.RegisterItemModel(COMPRESSED_SCALLION_LAYER2);
-        RegisterUtil.RegisterItemModel(COMPRESSED_SCALLION_LAYER3);
-        RegisterUtil.RegisterItemModel(COMPRESSED_SCALLION_LAYER4);
-        RegisterUtil.RegisterItemModel(COMPRESSED_SCALLION_LAYER5);
-        RegisterUtil.RegisterItemModel(COMPRESSED_SCALLION_LAYER6);
-        RegisterUtil.RegisterItemModel(COMPRESSED_SCALLION_LAYER7);
-        RegisterUtil.RegisterItemModel(COMPRESSED_SCALLION_LAYER8);
-        RegisterUtil.RegisterItemModel(COMPRESSED_SCALLION_LAYER9);
-        RegisterUtil.RegisterItemModel(MIKU_ORE_ITEM);
-        RegisterUtil.RegisterItemModel(EMPTY_SEKAI_BLOCK_ITEM);
-        RegisterUtil.RegisterItemModel(Rolling_Girl);
-        RegisterUtil.RegisterItemModel(Hated_By_Life);
-        RegisterUtil.RegisterItemModel(Dramaturgy);
-        RegisterUtil.RegisterItemModel(Meaningless_Literature);
-        RegisterUtil.RegisterItemModel(Unknown_Mother_Goose);
-        RegisterUtil.RegisterItemModel(Otone_Dissection);
-        RegisterUtil.RegisterItemModel(Bitter_Choco);
-        RegisterUtil.RegisterItemModel(Awake_Now);
-        RegisterUtil.RegisterItemModel(Ghost_City_Tokyo);
-        RegisterUtil.RegisterItemModel(Yoru_Ni_Kareru);
-        RegisterUtil.RegisterItemModel(End_Of_Miku);
-        RegisterUtil.RegisterItemModel(End_Of_Miku_4);
-        RegisterUtil.RegisterItemModel(ODDS_ENDS);
-        RegisterUtil.RegisterItemModel(LOVE_ME);
-        RegisterUtil.RegisterItemModel(Ghost_Rule);
-        RegisterUtil.RegisterItemModel(Buriki_No_Dance);
-        RegisterUtil.RegisterItemModel(Melt);
-        RegisterUtil.RegisterItemModel(Deep_Sea_Girl);
-        RegisterUtil.RegisterItemModel(Kagerou_Days);
-        RegisterUtil.RegisterItemModel(Hand_in_Hand);
-        RegisterUtil.RegisterItemModel(Under_the_ground);
-        RegisterUtil.RegisterItemModel(Hibana);
-        RegisterUtil.RegisterItemModel(Tokyo_Ghetto);
-        RegisterUtil.RegisterItemModel(Deep_Sea_Lily);
-        RegisterUtil.RegisterItemModel(Deep_Sea_Lily_Piano);
-        RegisterUtil.RegisterItemModel(All_happy);
-        RegisterUtil.RegisterItemModel(World_Is_Mine);
-        RegisterUtil.RegisterItemModel(From_Y_to_Y);
-        RegisterUtil.RegisterItemModel(Worlds_End_Dancehall);
-        RegisterUtil.RegisterItemModel(Two_Face_Lovers);
-        RegisterUtil.RegisterItemModel(Miku_Jukebox_Item);
-        RegisterUtil.RegisterItemModel(MIKU_MUSIC_BOX);
-        RegisterUtil.RegisterItemModel(SUMMON_MIKU);
-        RegisterUtil.RegisterItemModel(DeliciousScallion);
-        RegisterUtil.RegisterItemModel(ScallionBlockItem);
-        RegisterUtil.RegisterItemModel(MikuPortalItem);
-        RegisterUtil.RegisterItemModel(DebugItem);
-        RegisterUtil.RegisterItemModel(ZeroHealth);
-        RegisterUtil.RegisterItemModel(NoAI);
-        RegisterUtil.RegisterItemModel(EntityTimeStop);
-        RegisterUtil.RegisterItemModel(MikuDirtItem);
-        RegisterUtil.RegisterItemModel(MikuGrassItem);
-        RegisterUtil.RegisterItemModel(MikuStoneItem);
-        RegisterUtil.RegisterItemModel(Scallion_Hoe);
-        RegisterUtil.RegisterItemModel(Scallion_Axe);
-        RegisterUtil.RegisterItemModel(Scallion_Pickaxe);
-        RegisterUtil.RegisterItemModel(Scallion_Sword);
-        RegisterUtil.RegisterItemModel(Vampire);
-        RegisterUtil.RegisterItemModel(TellYourWorld);
-        RegisterUtil.RegisterItemModel(MeltyLandNightmare);
-        RegisterUtil.RegisterItemModel(Senbonzakura);
-        RegisterUtil.RegisterItemModel(SandPlanet);
-        RegisterUtil.RegisterItemModel(Music39);
-        RegisterUtil.RegisterItemModel(Teo);
-        RegisterUtil.RegisterItemModel(Patchwork_Staccato);
-        RegisterUtil.RegisterItemModel(Hibikase);
-        RegisterUtil.RegisterItemModel(Hitorinbo_Envy);
-        RegisterUtil.RegisterItemModel(Girl_Ray);
+        Register.RegisterItemModel(MIKU);
+        Register.RegisterItemModel(SCALLION);
+        Register.RegisterItemModel(COMPRESSED_SCALLION_LAYER1);
+        Register.RegisterItemModel(COMPRESSED_SCALLION_LAYER2);
+        Register.RegisterItemModel(COMPRESSED_SCALLION_LAYER3);
+        Register.RegisterItemModel(COMPRESSED_SCALLION_LAYER4);
+        Register.RegisterItemModel(COMPRESSED_SCALLION_LAYER5);
+        Register.RegisterItemModel(COMPRESSED_SCALLION_LAYER6);
+        Register.RegisterItemModel(COMPRESSED_SCALLION_LAYER7);
+        Register.RegisterItemModel(COMPRESSED_SCALLION_LAYER8);
+        Register.RegisterItemModel(COMPRESSED_SCALLION_LAYER9);
+        Register.RegisterItemModel(MIKU_ORE_ITEM);
+        Register.RegisterItemModel(EMPTY_SEKAI_BLOCK_ITEM);
+        Register.RegisterItemModel(Rolling_Girl);
+        Register.RegisterItemModel(Hated_By_Life);
+        Register.RegisterItemModel(Dramaturgy);
+        Register.RegisterItemModel(Meaningless_Literature);
+        Register.RegisterItemModel(Unknown_Mother_Goose);
+        Register.RegisterItemModel(Otone_Dissection);
+        Register.RegisterItemModel(Bitter_Choco);
+        Register.RegisterItemModel(Awake_Now);
+        Register.RegisterItemModel(Ghost_City_Tokyo);
+        Register.RegisterItemModel(Yoru_Ni_Kareru);
+        Register.RegisterItemModel(End_Of_Miku);
+        Register.RegisterItemModel(End_Of_Miku_4);
+        Register.RegisterItemModel(ODDS_ENDS);
+        Register.RegisterItemModel(LOVE_ME);
+        Register.RegisterItemModel(Ghost_Rule);
+        Register.RegisterItemModel(Buriki_No_Dance);
+        Register.RegisterItemModel(Melt);
+        Register.RegisterItemModel(Deep_Sea_Girl);
+        Register.RegisterItemModel(Kagerou_Days);
+        Register.RegisterItemModel(Hand_in_Hand);
+        Register.RegisterItemModel(Under_the_ground);
+        Register.RegisterItemModel(Hibana);
+        Register.RegisterItemModel(Tokyo_Ghetto);
+        Register.RegisterItemModel(Deep_Sea_Lily);
+        Register.RegisterItemModel(Deep_Sea_Lily_Piano);
+        Register.RegisterItemModel(All_happy);
+        Register.RegisterItemModel(World_Is_Mine);
+        Register.RegisterItemModel(From_Y_to_Y);
+        Register.RegisterItemModel(Worlds_End_Dancehall);
+        Register.RegisterItemModel(Two_Face_Lovers);
+        Register.RegisterItemModel(Miku_Jukebox_Item);
+        Register.RegisterItemModel(MIKU_MUSIC_BOX);
+        Register.RegisterItemModel(SUMMON_MIKU);
+        Register.RegisterItemModel(DeliciousScallion);
+        Register.RegisterItemModel(ScallionBlockItem);
+        Register.RegisterItemModel(MikuPortalItem);
+        Register.RegisterItemModel(MikuDirtItem);
+        Register.RegisterItemModel(MikuGrassItem);
+        Register.RegisterItemModel(MikuStoneItem);
+        Register.RegisterItemModel(Scallion_Hoe);
+        Register.RegisterItemModel(Scallion_Axe);
+        Register.RegisterItemModel(Scallion_Pickaxe);
+        Register.RegisterItemModel(Scallion_Sword);
+        Register.RegisterItemModel(Vampire);
+        Register.RegisterItemModel(TellYourWorld);
+        Register.RegisterItemModel(MeltyLandNightmare);
+        Register.RegisterItemModel(Senbonzakura);
+        Register.RegisterItemModel(SandPlanet);
+        Register.RegisterItemModel(Music39);
+        Register.RegisterItemModel(Teo);
+        Register.RegisterItemModel(Patchwork_Staccato);
+        Register.RegisterItemModel(Hibikase);
+        Register.RegisterItemModel(Hitorinbo_Envy);
+        Register.RegisterItemModel(Girl_Ray);
     }
 
     @SubscribeEvent
     public static void RegisterEnchantment(RegistryEvent.Register<Enchantment> event) {
-        RegisterUtil.RegisterEnchantment(event, GodKiller, "god_killer");
-        RegisterUtil.RegisterEnchantment(event, DIE, "death");
+        Register.RegisterEnchantment(event, GodKiller, "god_killer");
+        Register.RegisterEnchantment(event, DIE, "death");
     }
 
 
     @SubscribeEvent
     public static void RegisterBlock(RegistryEvent.Register<Block> event) {
-        RegisterUtil.RegisterBlock(event, MIKU_ORE, "miku_ore");
-        RegisterUtil.RegisterBlock(event, EMPTY_SEKAI_BLOCK, "empty_sekai_block");
-        RegisterUtil.RegisterBlock(event, MikuJukebox, "miku_jukebox");
-        RegisterUtil.RegisterBlock(event, ScallionBlock, "scallion_block");
-        RegisterUtil.RegisterBlock(event, MikuPortal, "miku_portal");
-        RegisterUtil.RegisterBlock(event, MikuDirt, "miku_dirt");
-        RegisterUtil.RegisterBlock(event, MikuGrass, "miku_grass");
-        RegisterUtil.RegisterBlock(event, MikuStone, "miku_stone");
+        Register.RegisterBlock(event, MIKU_ORE, "miku_ore");
+        Register.RegisterBlock(event, EMPTY_SEKAI_BLOCK, "empty_sekai_block");
+        Register.RegisterBlock(event, MikuJukebox, "miku_jukebox");
+        Register.RegisterBlock(event, ScallionBlock, "scallion_block");
+        Register.RegisterBlock(event, MikuPortal, "miku_portal");
+        Register.RegisterBlock(event, MikuDirt, "miku_dirt");
+        Register.RegisterBlock(event, MikuGrass, "miku_grass");
+        Register.RegisterBlock(event, MikuStone, "miku_stone");
     }
 
     @SubscribeEvent
     public static void RegisterEntity(RegistryEvent.Register<EntityEntry> event) {
-        RegisterUtil.RegisterEntity(event, "hatsune_miku", "初音ミク", 3939, Hatsune_Miku.class);
-        RegisterUtil.RegisterEntity(event, "test_entity", "test_entity", 0, Protected_Entity.class);
+        Register.RegisterEntity(event, "hatsune_miku", "初音ミク", 3939, Hatsune_Miku.class);
         EntityRegistry.registerEgg(new ResourceLocation("miku", "hatsune_miku"), 0x39C5BB, 0x39C5BB);
-        EntityRegistry.registerEgg(new ResourceLocation("miku,", "miku_generator"), 0x39C5BB, 0x39C5BB);
     }
 
     public static void LoadRecipes() {
@@ -339,6 +323,7 @@ public class MikuLoader {
     public static void RegisterKey() {
         ClientRegistry.registerKeyBinding(DESTROY_WORLD);
         ClientRegistry.registerKeyBinding(MIKU_INVENTORY);
+        ClientRegistry.registerKeyBinding(RangeKill);
     }
 
     @SubscribeEvent
@@ -349,9 +334,6 @@ public class MikuLoader {
     public static void RegisterEvent() {
         MinecraftForge.EVENT_BUS.register(new BreakBlock());
         MinecraftForge.EVENT_BUS.register(new EntityDropEvent());
-        MinecraftForge.EVENT_BUS.register(new MikuItemEvent());
-        MinecraftForge.EVENT_BUS.register(new PlayerEvent());
-        MinecraftForge.EVENT_BUS.register(new EntityEvent());
         MinecraftForge.EVENT_BUS.register(new WorldEvent());
         MinecraftForge.EVENT_BUS.register(new ToolTipEvent());
     }

@@ -65,6 +65,7 @@ advancement.get_miku.description=You created Miku!
 key.category.miku=Miku
 key.miku.fk_world=Destroy the world[not implemented]
 key.miku.inventory=Miku Inventory
+key.miku.rk=Range Kill
 
 #Entities
 entity.初音ミク.name=Hatsune Miku

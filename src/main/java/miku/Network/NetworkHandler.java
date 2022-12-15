@@ -22,6 +22,7 @@ public enum NetworkHandler {
         this.channel.registerMessage(MikuInventorySlotChangePacket.MessageHandler.class, MikuInventorySlotChangePacket.class, index++, Side.CLIENT);
         this.channel.registerMessage(MikuInventorySlotInitPacket.MessageHandler.class, MikuInventorySlotInitPacket.class, index++, Side.CLIENT);
         this.channel.registerMessage(ExitGamePacket.MessageHandler.class, ExitGamePacket.class, index++, Side.CLIENT);
+        this.channel.registerMessage(RangeKillPacket.MessageHandler.class, RangeKillPacket.class, index++, Side.SERVER);
     }
 
     public void sendMessageToServer(IMessage msg) {

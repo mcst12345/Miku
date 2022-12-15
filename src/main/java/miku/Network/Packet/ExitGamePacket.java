@@ -1,7 +1,7 @@
 package miku.Network.Packet;
 
 import io.netty.buffer.ByteBuf;
-import miku.Utils.SystemUtil;
+import miku.lib.util.SystemUtil;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;

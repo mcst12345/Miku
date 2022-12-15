@@ -1,6 +1,6 @@
 package miku.Enchantment;
 
-import miku.Utils.Killer;
+import miku.lib.util.EntityUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
@@ -28,19 +28,13 @@ public class Die extends Enchantment {
     @Override
     public void onUserHurt(@Nonnull EntityLivingBase entity, @Nonnull Entity attacker, int level) {
         if (entity.world.isRemote) return;
-        try {
-            Killer.Kill(entity, null);
-        } catch (ClassNotFoundException | NoSuchFieldException ignored) {
-        }
+        EntityUtil.Kill(entity);
     }
 
     @Override
     public void onEntityDamaged(@Nonnull EntityLivingBase user, @Nonnull Entity target, int level) {
         if (user.world.isRemote) return;
-        try {
-            Killer.Kill(user, null);
-        } catch (ClassNotFoundException | NoSuchFieldException ignored) {
-        }
+        EntityUtil.Kill(user);
     }
 
     @Override

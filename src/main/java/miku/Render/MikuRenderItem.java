@@ -1,6 +1,6 @@
 package miku.Render;
 
-import miku.Interface.MixinInterface.IMinecraft;
+import miku.lib.api.iMinecraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderItem;
@@ -22,7 +22,7 @@ public class MikuRenderItem extends RenderItem {
 
     public static void init() {
         Minecraft mc = Minecraft.getMinecraft();
-        instance = new MikuRenderItem(mc.renderEngine, ((IMinecraft) mc).GetModelManager(), mc.getItemColors());
+        instance = new MikuRenderItem(mc.renderEngine, ((iMinecraft) mc).GetModelManager(), mc.getItemColors());
         ((IReloadableResourceManager) mc.getResourceManager()).registerReloadListener(instance);
     }
 

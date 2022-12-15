@@ -4,13 +4,12 @@ import com.anotherstar.common.entity.IEntityLoli;
 import com.chaoswither.chaoswither;
 import com.github.alexthe666.iceandfire.IceAndFire;
 import com.github.alexthe666.iceandfire.entity.StoneEntityProperties;
-import miku.Interface.MixinInterface.IWorld;
-import miku.Items.Miku.MikuItem;
 import miku.Items.Scallion;
 import miku.Miku.MikuCombatTracker;
 import miku.Miku.MikuLoader;
 import miku.Thread.MikuTradeThread;
-import miku.Utils.Killer;
+import miku.lib.api.ProtectedEntity;
+import miku.lib.util.EntityUtil;
 import net.ilexiconn.llibrary.server.capability.IEntityData;
 import net.ilexiconn.llibrary.server.capability.IEntityDataCapability;
 import net.minecraft.block.state.IBlockState;
@@ -39,7 +38,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(modid = "lolipickaxe", iface = "com.anotherstar.common.entity.IEntityLoli")})
-public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
+public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli, ProtectedEntity {
     public boolean isTrading = false;
 
     protected final CombatTracker combatTracker = new MikuCombatTracker(this);
@@ -47,7 +46,6 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
 
     public Hatsune_Miku(World world) {
         super(world);
-        ((IWorld) world).MIKUS.add(this);
         super.setHealth(40.0F);
         this.setCanPickUpLoot(false);
     }
@@ -308,10 +306,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
 
     @Override
     public boolean hitByEntity(@Nullable Entity entityIn) {
-        try {
-            Killer.Kill(entityIn, null);
-        } catch (ClassNotFoundException | NoSuchFieldException ignored) {
-        }
+        EntityUtil.Kill(entityIn);
         return false;
     }
 
@@ -350,10 +345,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
 
     @Override
     public boolean attackEntityAsMob(@Nullable Entity entityIn) {
-        try {
-            Killer.Kill(entityIn, null);
-        } catch (ClassNotFoundException | NoSuchFieldException ignored) {
-        }
+        EntityUtil.Kill(entityIn);
         return false;
     }
 
@@ -395,7 +387,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
     public void setDispersal(boolean value) {
     }
 
-    public void Protect() throws NoSuchFieldException, ClassNotFoundException {
+    public void Protect() {
         super.setHealth(40.0F);
         if (this.posY < -64.0D) {
             setLocationAndAngles(posX, 256, posZ, rotationYaw, rotationPitch);
@@ -434,7 +426,6 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
         this.maxHurtResistantTime = Integer.MAX_VALUE;
         this.inWater = false;
         this.isInWeb = false;
-        if (!MikuItem.IsInMikuList(this)) MikuItem.AddToMikuList(this);
         super.setFlag(5, false);
         super.setCanPickUpLoot(false);
         super.setInvisible(false);
@@ -456,20 +447,14 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
     public void onKillEntity(@Nullable EntityLivingBase entityLivingIn) {
         if (entityLivingIn != null) {
             if (!(entityLivingIn.getClass() == Hatsune_Miku.class)) {
-                try {
-                    Killer.Kill(entityLivingIn, null, true);
-                } catch (ClassNotFoundException | NoSuchFieldException ignored) {
-                }
+                EntityUtil.Kill(entityLivingIn);
             }
         }
     }
 
     @Override
     public void onUpdate() {
-        try {
-            this.Protect();
-        } catch (NoSuchFieldException | ClassNotFoundException ignored) {
-        }
+        this.Protect();
         super.onUpdate();
         if (!isTrading) {
             List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.posX - 5, this.posY - 5, this.posZ - 5, this.posX + 5, this.posY + 5, this.posZ + 5));
@@ -498,10 +483,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli {
 
     @Override
     public void onLivingUpdate() {
-        try {
-            this.Protect();
-        } catch (NoSuchFieldException | ClassNotFoundException ignored) {
-        }
+        this.Protect();
         super.onLivingUpdate();
     }
 

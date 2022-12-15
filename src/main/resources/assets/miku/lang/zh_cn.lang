@@ -65,6 +65,7 @@ advancement.get_miku.description=你合成了Miku!
 key.category.miku=Miku
 key.miku.fk_world=毁灭世界[未实现]
 key.miku.inventory=Miku背包
+key.miku.rk=范围攻击
 
 #实体
 entity.初音ミク.name=初音未来

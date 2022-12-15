@@ -7,7 +7,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ee445276-b487-450a-82d5-af3ab733f797" name="Changes" comment="" />
+    <list default="true" id="ee445276-b487-450a-82d5-af3ab733f797" name="Changes" comment="Changes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reobfJar/output.jar" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,6 +85,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -93,6 +97,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$USER_HOME$/.gradle/caches/forge_gradle/maven_downloader/de/oceanlabs/mcp/mcp_stable/39-1.12/mcp_stable-39-1.12.zip!/methods.csv" root0="SKIP_INSPECTION" />
+    <setting file="jar://$PROJECT_DIR$/libs/lib-1.0.jar!/miku/lib/mixins/MixinEntityPlayerMP.class" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -102,7 +107,6 @@
   </component>
   <component name="ProblemsViewState">
     <option name="autoscrollToSource" value="true" />
-    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2Ap7URb8el1MOQ7Ho6uRmYtzkmb" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -114,15 +118,20 @@
     <option name="showVisibilityIcons" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="JavaClassFindUsagesOptions.isDerivedClasses" value="true" />
+    <property name="JavaClassFindUsagesOptions.isFieldsUsages" value="true" />
+    <property name="JavaClassFindUsagesOptions.isMethodsUsages" value="true" />
+    <property name="JavaMethodFindUsagesOptions.isIncludeOverloadUsages" value="true" />
     <property name="JavaMethodFindUsagesOptions.isSearchForTextOccurrences" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../source/LoliPickaxe/src/main/java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../MikuLib/src/main/java" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="http.proxy" />
   </component>
   <component name="RecentsManager">
@@ -332,28 +341,12 @@
       <workItem from="1666410982651" duration="890000" />
       <workItem from="1666412639004" duration="2326000" />
       <workItem from="1666429870336" duration="1421000" />
-      <workItem from="1666575347262" duration="11830000" />
-    </task>
-    <task id="LOCAL-00003" summary="Changes">
-      <created>1657586257767</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1657586257767</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Changes">
-      <created>1657586500883</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1657586500883</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Changes">
-      <created>1657586522334</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1657586522335</updated>
+      <workItem from="1666575347262" duration="17371000" />
+      <workItem from="1666596365601" duration="2265000" />
+      <workItem from="1671027335891" duration="3491000" />
+      <workItem from="1671061383092" duration="2299000" />
+      <workItem from="1671066312753" duration="147000" />
+      <workItem from="1671066586441" duration="465000" />
     </task>
     <task id="LOCAL-00006" summary="Changes">
       <created>1657611644841</created>
@@ -677,7 +670,28 @@
       <option name="project" value="LOCAL" />
       <updated>1666590639118</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Changes">
+      <created>1666590985217</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1666590985217</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Changes">
+      <created>1671066745934</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1671066745934</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Changes">
+      <created>1671066963051</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1671066963051</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -785,6 +799,11 @@
           <url>file://$PROJECT_DIR$/../../source/LoliPickaxe/src/main/java/com/anotherstar/core/transformer/LoliPickaxeTransformer.java</url>
           <line>132</line>
           <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.12.2-14.23.5.2860_mapped_stable_39-1.12/forge-1.12.2-14.23.5.2860_mapped_stable_39-1.12-sources.jar!/net/minecraftforge/fml/common/network/simpleimpl/SimpleChannelHandlerWrapper.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="37" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
