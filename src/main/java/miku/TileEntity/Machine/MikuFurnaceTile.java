@@ -24,20 +24,22 @@ public class MikuFurnaceTile extends MachineTileBase {
                             miku.power--;
                             power++;
                         }
-                    } else if (power >= 5) {
-                        IInventory inventory = TileEntityHopper.getInventoryAtPosition(world, pos.getX(), pos.getY() + 1, pos.getZ());
-                        if (inventory != null) {
-                            for (int index = 0; index < inventory.getSizeInventory(); ++index) {
-                                ItemStack itemstack = inventory.getStackInSlot(index);
-                                ItemStack result = FurnaceRecipes.instance().getSmeltingResult(itemstack);
-                                if (result != null && result.getItem() != null) {
-                                    inventory.setInventorySlotContents(index, new ItemStack(result.getItem(), itemstack.getCount()));
-                                    power -= 5;
-                                    if (power < 5) return;
-                                }
-                            }
-                        }
                     }
+                }
+            }
+        }
+        if (power < 5) return;
+        IInventory inventory = TileEntityHopper.getInventoryAtPosition(world, pos.getX(), pos.getY() - 1, pos.getZ());
+        if (inventory != null) {
+            System.out.println("found inventory");
+            for (int index = 0; index < inventory.getSizeInventory(); ++index) {
+                System.out.println("index:" + index);
+                ItemStack itemstack = inventory.getStackInSlot(index);
+                ItemStack result = FurnaceRecipes.instance().getSmeltingResult(itemstack);
+                if (result != ItemStack.EMPTY && result.getItem() != null && power >= 5 && itemstack.getCount() != 0) {
+                    inventory.setInventorySlotContents(index, new ItemStack(result.getItem(), itemstack.getCount()));
+                    System.out.println("Set" + index + "to" + result.getItem() + ":" + itemstack.getCount());
+                    power -= 5;
                 }
             }
         }
