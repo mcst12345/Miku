@@ -1,6 +1,9 @@
 {
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "miku:blocks/miku_rf_converter"
+  "variants": {
+    "normal": [
+      {
+        "model": "miku:miku_rf_converter"
+      }
+    ]
   }
 }
