@@ -3,7 +3,7 @@ package miku.TileEntity.Machine;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 
-public class MikuPowerStationTile extends MachineTileBase {
+public class MikuPowerStationTile extends MikuPowerTileBase {
     public MikuPowerStationTile() {
         super(50000);
     }

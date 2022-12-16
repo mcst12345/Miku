@@ -53,6 +53,7 @@ tile.miku_stone.name=Miku 石头
 tile.miku_generator.name=Miku能量生成器
 tile.miku_power_station.name=Miku能量站
 tile.miku_furnace.name=Miku熔炉
+tile.MikuEU.name=Miku能量到EU能量转换器
 
 #成就
 advancement.root=Miku

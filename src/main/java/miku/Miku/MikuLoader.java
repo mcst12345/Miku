@@ -1,5 +1,6 @@
 package miku.Miku;
 
+import miku.Blocks.Machines.MikuEUConverter;
 import miku.Blocks.Machines.MikuFurnace;
 import miku.Blocks.Machines.MikuGenerator;
 import miku.Blocks.Machines.MikuPowerStation;
@@ -30,6 +31,7 @@ import miku.Items.scallion.Pickaxe;
 import miku.Items.scallion.Sword;
 import miku.Model.MikuModel;
 import miku.Render.RenderMiku;
+import miku.TileEntity.Machine.MikuEUConverterTile;
 import miku.TileEntity.Machine.MikuFurnaceTile;
 import miku.TileEntity.Machine.MikuGeneratorTile;
 import miku.TileEntity.Machine.MikuPowerStationTile;
@@ -135,6 +137,7 @@ public class MikuLoader {
     public static final Block MikuGenerator = new MikuGenerator();
     public static final Block MikuPowerStation = new MikuPowerStation();
     public static final Block MikuFurnace = new MikuFurnace();
+    public static final Block MikuEUConverter = new MikuEUConverter();
 
 
     public static final ItemBlock MIKU_ORE_ITEM = new ItemBlock(MIKU_ORE);
@@ -148,6 +151,7 @@ public class MikuLoader {
     public static final ItemBlock MikuGeneratorItem = new ItemBlock(MikuGenerator);
     public static final ItemBlock MikuPowerStationItem = new ItemBlock(MikuPowerStation);
     public static final ItemBlock MikuFurnaceItem = new ItemBlock(MikuFurnace);
+    public static final ItemBlock MikuEUConverterItem = new ItemBlock(MikuEUConverter);
 
 
     public static final Enchantment GodKiller = new GodKiller();
@@ -227,6 +231,7 @@ public class MikuLoader {
         Register.RegisterItem(event, MikuGeneratorItem, "miku_generator");
         Register.RegisterItem(event, MikuPowerStationItem, "miku_power_station");
         Register.RegisterItem(event, MikuFurnaceItem, "miku_furnace");
+        Register.RegisterItem(event, MikuEUConverterItem, "miku_eu_converter");
     }
 
     @SubscribeEvent
@@ -302,6 +307,7 @@ public class MikuLoader {
         Register.RegisterItemModel(MikuGeneratorItem);
         Register.RegisterItemModel(MikuPowerStationItem);
         Register.RegisterItemModel(MikuFurnaceItem);
+        Register.RegisterItemModel(MikuEUConverterItem);
     }
 
     @SubscribeEvent
@@ -324,6 +330,7 @@ public class MikuLoader {
         Register.RegisterBlock(event, MikuGenerator, "miku_generator");
         Register.RegisterBlock(event, MikuPowerStation, "miku_power_station");
         Register.RegisterBlock(event, MikuFurnace, "miku_furnace");
+        Register.RegisterBlock(event, MikuEUConverter, "miku_eu_converter");
     }
 
     @SubscribeEvent
@@ -370,5 +377,6 @@ public class MikuLoader {
         GameRegistry.registerTileEntity(MikuGeneratorTile.class, new ResourceLocation("miku", "miku_generator"));
         GameRegistry.registerTileEntity(MikuPowerStationTile.class, new ResourceLocation("miku", "miku_power_station"));
         GameRegistry.registerTileEntity(MikuFurnaceTile.class, new ResourceLocation("miku", "miku_furnace"));
+        GameRegistry.registerTileEntity(MikuEUConverterTile.class, new ResourceLocation("miku", "miku_eu_converter"));
     }
 }
