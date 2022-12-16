@@ -13,7 +13,6 @@ public class MikuFurnace extends MachineBase {
         this.setTranslationKey("miku_furnace");
     }
 
-    @Nonnull
     @Override
     public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
         return new MikuFurnaceTile();

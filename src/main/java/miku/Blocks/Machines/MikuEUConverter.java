@@ -6,7 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class MikuEUConverter extends MachineBase {
     public MikuEUConverter() {
@@ -14,7 +13,6 @@ public class MikuEUConverter extends MachineBase {
         this.setTranslationKey("MikuEU");
     }
 
-    @Nullable
     @Override
     public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
         return new MikuEUConverterTile();

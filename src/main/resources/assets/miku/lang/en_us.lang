@@ -54,6 +54,7 @@ tile.miku_generator.name=Miku Generator
 tile.miku_power_station.name=Miku Power Station
 tile.miku_furnace.name=Miku Furnace
 tile.MikuEU.name=Miku Power to EU Converter
+tile.MikuRF.name=Miku Power to RF Converter
 
 #advancement
 advancement.root=Miku

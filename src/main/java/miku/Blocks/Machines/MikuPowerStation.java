@@ -6,7 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class MikuPowerStation extends MachineBase {
     public MikuPowerStation() {
@@ -14,7 +13,7 @@ public class MikuPowerStation extends MachineBase {
         this.setTranslationKey("miku_power_station");
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
         return new MikuPowerStationTile();

@@ -1,9 +1,6 @@
 package miku.Miku;
 
-import miku.Blocks.Machines.MikuEUConverter;
-import miku.Blocks.Machines.MikuFurnace;
-import miku.Blocks.Machines.MikuGenerator;
-import miku.Blocks.Machines.MikuPowerStation;
+import miku.Blocks.Machines.*;
 import miku.Blocks.MikuJukebox;
 import miku.Blocks.Ore.MikuOre;
 import miku.Blocks.Portal.MikuPortal;
@@ -31,10 +28,7 @@ import miku.Items.scallion.Pickaxe;
 import miku.Items.scallion.Sword;
 import miku.Model.MikuModel;
 import miku.Render.RenderMiku;
-import miku.TileEntity.Machine.MikuEUConverterTile;
-import miku.TileEntity.Machine.MikuFurnaceTile;
-import miku.TileEntity.Machine.MikuGeneratorTile;
-import miku.TileEntity.Machine.MikuPowerStationTile;
+import miku.TileEntity.Machine.*;
 import miku.World.MikuWorld.MikuWorld;
 import miku.World.OverWorldGenStructure;
 import miku.World.OverWorldOreGen;
@@ -45,6 +39,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -138,6 +133,7 @@ public class MikuLoader {
     public static final Block MikuPowerStation = new MikuPowerStation();
     public static final Block MikuFurnace = new MikuFurnace();
     public static final Block MikuEUConverter = new MikuEUConverter();
+    public static final Block MikuRFConverter = new MikuRFConverter();
 
 
     public static final ItemBlock MIKU_ORE_ITEM = new ItemBlock(MIKU_ORE);
@@ -152,6 +148,7 @@ public class MikuLoader {
     public static final ItemBlock MikuPowerStationItem = new ItemBlock(MikuPowerStation);
     public static final ItemBlock MikuFurnaceItem = new ItemBlock(MikuFurnace);
     public static final ItemBlock MikuEUConverterItem = new ItemBlock(MikuEUConverter);
+    public static final ItemBlock MikuRFConverterItem = new ItemBlock(MikuRFConverter);
 
 
     public static final Enchantment GodKiller = new GodKiller();
@@ -232,6 +229,7 @@ public class MikuLoader {
         Register.RegisterItem(event, MikuPowerStationItem, "miku_power_station");
         Register.RegisterItem(event, MikuFurnaceItem, "miku_furnace");
         Register.RegisterItem(event, MikuEUConverterItem, "miku_eu_converter");
+        Register.RegisterItem(event, MikuRFConverterItem, "miku_rf_converter");
     }
 
     @SubscribeEvent
@@ -308,6 +306,7 @@ public class MikuLoader {
         Register.RegisterItemModel(MikuPowerStationItem);
         Register.RegisterItemModel(MikuFurnaceItem);
         Register.RegisterItemModel(MikuEUConverterItem);
+        Register.RegisterItemModel(MikuRFConverterItem);
     }
 
     @SubscribeEvent
@@ -331,6 +330,7 @@ public class MikuLoader {
         Register.RegisterBlock(event, MikuPowerStation, "miku_power_station");
         Register.RegisterBlock(event, MikuFurnace, "miku_furnace");
         Register.RegisterBlock(event, MikuEUConverter, "miku_eu_converter");
+        Register.RegisterBlock(event, MikuRFConverter, "miku_rf_converter");
     }
 
     @SubscribeEvent
@@ -340,7 +340,7 @@ public class MikuLoader {
     }
 
     public static void LoadRecipes() {
-        new miku.Items.Recipes.Delicious_Scallion();
+        GameRegistry.addSmelting(MikuLoader.SCALLION, new ItemStack(MikuLoader.DeliciousScallion), 5);
     }
 
     public static void RegisterWorldGen() {
@@ -378,5 +378,6 @@ public class MikuLoader {
         GameRegistry.registerTileEntity(MikuPowerStationTile.class, new ResourceLocation("miku", "miku_power_station"));
         GameRegistry.registerTileEntity(MikuFurnaceTile.class, new ResourceLocation("miku", "miku_furnace"));
         GameRegistry.registerTileEntity(MikuEUConverterTile.class, new ResourceLocation("miku", "miku_eu_converter"));
+        GameRegistry.registerTileEntity(MikuRFConverterTile.class, new ResourceLocation("miku", "miku_rf_converter"));
     }
 }
