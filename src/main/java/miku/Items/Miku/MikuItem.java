@@ -2,10 +2,12 @@ package miku.Items.Miku;
 
 import miku.Interface.IContainer;
 import miku.Interface.IMikuInfinityInventory;
+import miku.lib.api.iEntityPlayer;
 import miku.lib.item.SpecialItem;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -13,29 +15,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
 import static miku.Miku.Miku.MIKU_TAB;
 
 public class MikuItem extends SpecialItem implements IContainer {
-    protected static boolean TimeStop = false;
-
-    public static boolean isTimeStop() {
-        return TimeStop;
-    }
-
-    protected static final List<Entity> Miku = new ArrayList<>();
 
     public MikuItem() {
         this
                 .setCreativeTab(MIKU_TAB)
                 .setTranslationKey("miku.miku_item")
                 .setMaxStackSize(1);
-    }
-
-    public static boolean IsInMikuList(Entity entity) {
-        return Miku.contains(entity);
     }
 
     @Override
@@ -80,5 +70,19 @@ public class MikuItem extends SpecialItem implements IContainer {
     @Override
     public IMikuInfinityInventory getInventory(ItemStack stack) {
         return new MikuInfinityInventory(stack);
+    }
+
+    @Override
+    public void onUpdate(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
+        if (entity instanceof EntityPlayer) {
+            ((iEntityPlayer) entity).setMiku();
+        }
+        super.onUpdate(stack, world, entity, itemSlot, isSelected);
+    }
+
+    @Override
+    public void onCreated(@Nonnull ItemStack stack, @Nullable World worldIn, @Nonnull EntityPlayer playerIn) {
+        ((iEntityPlayer) playerIn).setMiku();
+        super.onCreated(stack, worldIn, playerIn);
     }
 }
