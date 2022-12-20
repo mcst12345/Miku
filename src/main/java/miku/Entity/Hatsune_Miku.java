@@ -1,6 +1,5 @@
 package miku.Entity;
 
-import com.anotherstar.common.entity.IEntityLoli;
 import com.chaoswither.chaoswither;
 import com.github.alexthe666.iceandfire.IceAndFire;
 import com.github.alexthe666.iceandfire.entity.StoneEntityProperties;
@@ -37,9 +36,31 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-@Optional.InterfaceList({@Optional.Interface(modid = "lolipickaxe", iface = "com.anotherstar.common.entity.IEntityLoli")})
-public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli, ProtectedEntity {
+public class Hatsune_Miku extends EntityAnimal implements INpc, ProtectedEntity {
     public boolean isTrading = false;
+
+    @Override
+    public boolean CanBeKilled() {
+        return false;
+    }
+
+    @Override
+    public boolean DEAD() {
+        return false;
+    }
+
+    @Override
+    public void SetHealth(int health) {
+    }
+
+    @Override
+    public int GetHealth() {
+        return 20;
+    }
+
+    @Override
+    public void Hurt(int amount) {
+    }
 
     protected final CombatTracker combatTracker = new MikuCombatTracker(this);
     protected boolean tp_cooldown;
@@ -376,15 +397,6 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, IEntityLoli, Pro
             }
         }
         return result;
-    }
-
-    @Override
-    public boolean isDispersal() {
-        return false;
-    }
-
-    @Override
-    public void setDispersal(boolean value) {
     }
 
     public void Protect() {

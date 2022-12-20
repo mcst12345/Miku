@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    " X ",
+    " B "
+  ],
+  "key": {
+    "X": {
+      "item": "miku:miku_generator"
+    },
+    "A": {
+      "item": "draconicevolution:generator"
+    },
+    "B": {
+      "item": "draconicevolution:energy_infuser"
+    }
+  },
+  "result": {
+    "item": "miku:miku_rf_converter",
+    "data": 0
+  }
+}
