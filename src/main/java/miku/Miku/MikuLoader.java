@@ -14,7 +14,6 @@ import miku.Enchantment.GodKiller;
 import miku.Entity.Hatsune_Miku;
 import miku.Event.BreakBlock;
 import miku.Event.EntityDropEvent;
-import miku.Event.ToolTipEvent;
 import miku.Event.WorldEvent;
 import miku.Items.Delicious_Scallion;
 import miku.Items.Miku.MikuItem;
@@ -364,7 +363,6 @@ public class MikuLoader {
         MinecraftForge.EVENT_BUS.register(new BreakBlock());
         MinecraftForge.EVENT_BUS.register(new EntityDropEvent());
         MinecraftForge.EVENT_BUS.register(new WorldEvent());
-        MinecraftForge.EVENT_BUS.register(new ToolTipEvent());
     }
 
     @SubscribeEvent
