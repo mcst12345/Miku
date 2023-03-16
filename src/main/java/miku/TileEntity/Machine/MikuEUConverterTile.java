@@ -20,7 +20,7 @@ public class MikuEUConverterTile extends MachineTileBase {
                         TileEntityElectricBlock electric = (TileEntityElectricBlock) world.getTileEntity(new BlockPos(x, y, z));
                         if (electric != null) {
                             if (electric.energy.getFreeEnergy() > 0) {
-                                electric.energy.addEnergy(1);
+                                electric.energy.addEnergy(20);
                                 power--;
                             }
                         }

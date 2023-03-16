@@ -1,0 +1,43 @@
+{
+  "type": "avaritia:shaped",
+  "result": {
+    "item": "miku:miku_rf_converter",
+    "data": 0,
+    "count": 1
+  },
+  "pattern": [
+    "         ",
+    " Z     Z ",
+    "    Y    ",
+    "    X    ",
+    "  YIAIY  ",
+    "    X    ",
+    "    Y    ",
+    " Z     Z ",
+    "         "
+  ],
+  "key": {
+    "I": {
+      "type": "minecraft:item",
+      "item": "draconicevolution:energy_storage_core"
+    },
+    "A": {
+      "type": "minecraft:item",
+      "item": "miku:miku_generator"
+    },
+    "X": {
+      "type": "minecraft:item",
+      "item": "draconicevolution:energy_infuser"
+    },
+    "Y": {
+      "type": "minecraft:item",
+      "item": "avaritia:block_resource",
+      "data": "2"
+    },
+    "Z": {
+      "type": "minecraft:item",
+      "item": "avaritia:resource",
+      "data": "5"
+    }
+  }
+}

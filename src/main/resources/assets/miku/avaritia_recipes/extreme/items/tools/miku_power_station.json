@@ -1,0 +1,40 @@
+{
+  "type": "avaritia:shaped",
+  "result": {
+    "item": "miku:miku_power_station",
+    "data": 0,
+    "count": 1
+  },
+  "pattern": [
+    "I       I",
+    "         ",
+    "    X    ",
+    "   Y Y   ",
+    "  X A X  ",
+    "   Y Y   ",
+    "    X    ",
+    "         ",
+    "I       I"
+  ],
+  "key": {
+    "I": {
+      "type": "minecraft:item",
+      "item": "avaritia:block_resource",
+      "data": "2"
+    },
+    "A": {
+      "type": "minecraft:item",
+      "item": "miku:miku_generator"
+    },
+    "X": {
+      "type": "minecraft:item",
+      "item": "avaritia:block_resource",
+      "data": "0"
+    },
+    "Y": {
+      "type": "minecraft:item",
+      "item": "avaritia:resource",
+      "data": "5"
+    }
+  }
+}

@@ -20,7 +20,7 @@ public class MikuRFConverterTile extends MachineTileBase {
                         IEnergyReceiver energyReceiver = (IEnergyReceiver) world.getTileEntity(new BlockPos(x, y, z));
                         if (energyReceiver != null) {
                             power--;
-                            int received = energyReceiver.receiveEnergy(null, 1, false);
+                            int received = energyReceiver.receiveEnergy(null, 20, false);
                             if (received != 1) power++;
                         }
                     }

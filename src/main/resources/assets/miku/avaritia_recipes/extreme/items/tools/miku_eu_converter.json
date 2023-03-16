@@ -1,0 +1,40 @@
+{
+  "type": "avaritia:shaped",
+  "result": {
+    "item": "miku:miku_eu_converter",
+    "data": 0,
+    "count": 1
+  },
+  "pattern": [
+    "         ",
+    "    X    ",
+    "  Y   Y  ",
+    "    I    ",
+    " X IAI X ",
+    "    I    ",
+    "  Y   Y  ",
+    "    X    ",
+    "         "
+  ],
+  "key": {
+    "I": {
+      "type": "minecraft:item",
+      "item": "ic2:crafting",
+      "data": "2"
+    },
+    "A": {
+      "type": "minecraft:item",
+      "item": "miku:miku_generator"
+    },
+    "X": {
+      "type": "minecraft:item",
+      "item": "ic2:crafting",
+      "data": "13"
+    },
+    "Y": {
+      "type": "minecraft:item",
+      "item": "avaritia:block_resource",
+      "data": "0"
+    }
+  }
+}

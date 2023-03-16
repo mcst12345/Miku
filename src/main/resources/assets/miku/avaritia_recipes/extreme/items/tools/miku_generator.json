@@ -1,0 +1,40 @@
+{
+  "type": "avaritia:shaped",
+  "result": {
+    "item": "miku:miku_generator",
+    "data": 0,
+    "count": 1
+  },
+  "pattern": [
+    "   III   ",
+    "  X   X  ",
+    " X  Y  X ",
+    "I       I",
+    "I Y A Y I",
+    "I       I",
+    " X  Y  X ",
+    "  X   X  ",
+    "   III   "
+  ],
+  "key": {
+    "I": {
+      "type": "minecraft:item",
+      "item": "avaritia:resource",
+      "data": "4"
+    },
+    "A": {
+      "type": "minecraft:item",
+      "item": "miku:miku_furnace"
+    },
+    "X": {
+      "type": "minecraft:item",
+      "item": "avaritia:resource",
+      "data": "1"
+    },
+    "Y": {
+      "type": "minecraft:item",
+      "item": "avaritia:resource",
+      "data": "5"
+    }
+  }
+}
