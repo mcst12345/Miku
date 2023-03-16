@@ -19,6 +19,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -38,6 +39,12 @@ import java.util.List;
 
 public class Hatsune_Miku extends EntityAnimal implements INpc, ProtectedEntity {
     public boolean isTrading = false;
+
+    @Override
+    @Nonnull
+    public NBTTagCompound getEntityData() {
+        return new NBTTagCompound();
+    }
 
     @Override
     public boolean CanBeKilled() {
