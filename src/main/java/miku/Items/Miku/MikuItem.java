@@ -81,7 +81,7 @@ public class MikuItem extends SpecialItem implements IContainer {
     }
 
     @Override
-    public void onCreated(@Nonnull ItemStack stack, @Nullable World worldIn, @Nonnull EntityPlayer playerIn) {
+    public void onCreated(@Nonnull ItemStack stack, @Nonnull World worldIn, @Nonnull EntityPlayer playerIn) {
         ((iEntityPlayer) playerIn).setMiku();
         super.onCreated(stack, worldIn, playerIn);
     }
