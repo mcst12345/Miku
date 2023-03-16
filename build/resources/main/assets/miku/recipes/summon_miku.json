@@ -1,13 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "X X",
-    " X ",
-    "X X"
+    "XAX",
+    "AXA",
+    "XAX"
   ],
   "key": {
     "X": {
       "item": "miku:scallion"
+    },
+    "A": {
+      "item": "minecraft:diamond"
     }
   },
   "result": {

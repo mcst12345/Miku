@@ -20,7 +20,7 @@
     "I": {
       "type": "minecraft:item",
       "item": "ic2:crafting",
-      "data": "2"
+      "data": 2
     },
     "A": {
       "type": "minecraft:item",
@@ -29,12 +29,12 @@
     "X": {
       "type": "minecraft:item",
       "item": "ic2:crafting",
-      "data": "13"
+      "data": 13
     },
     "Y": {
       "type": "minecraft:item",
       "item": "avaritia:block_resource",
-      "data": "0"
+      "data": 0
     }
   }
 }

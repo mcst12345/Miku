@@ -20,7 +20,7 @@
     "I": {
       "type": "minecraft:item",
       "item": "avaritia:block_resource",
-      "data": "2"
+      "data": 2
     },
     "A": {
       "type": "minecraft:item",
@@ -29,12 +29,12 @@
     "X": {
       "type": "minecraft:item",
       "item": "avaritia:block_resource",
-      "data": "0"
+      "data": 0
     },
     "Y": {
       "type": "minecraft:item",
       "item": "avaritia:resource",
-      "data": "5"
+      "data": 5
     }
   }
 }

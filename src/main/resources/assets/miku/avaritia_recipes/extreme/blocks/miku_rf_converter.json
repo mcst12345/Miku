@@ -32,12 +32,12 @@
     "Y": {
       "type": "minecraft:item",
       "item": "avaritia:block_resource",
-      "data": "2"
+      "data": 2
     },
     "Z": {
       "type": "minecraft:item",
       "item": "avaritia:resource",
-      "data": "5"
+      "data": 5
     }
   }
 }

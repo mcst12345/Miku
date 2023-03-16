@@ -8,8 +8,101 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee445276-b487-450a-82d5-af3ab733f797" name="Changes" comment="Changes">
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/miku_mod.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/miku_mod.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/miku_mod.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/miku_mod.test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/reobfJar/output.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Core/ClassTransformer$1$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Core/ClassTransformer$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Core/ClassTransformer$2$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Core/ClassTransformer$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Core/ClassTransformer$3$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Core/ClassTransformer$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Core/ClassTransformer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Core/Covers/MC.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Core/MikuContainer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Core/MikuCore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/DamageSource/MikuDamage.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/DamageSource/MikuDamage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Enchantment/GodKiller.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/Enchantment/GodKiller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Mixin/MixinTitan.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Thread/MikuTradeThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/Thread/MikuTradeThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/Thread/PlayMusic.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/Thread/PlayMusic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/Biome/MikuBiomes.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/Biome/MikuBiomes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/Gen/Structures/GenStructure.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/Gen/Structures/IStructure.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/Gen/Structures/MikuTemple.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/Layer/GenMikuBiomesLayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/Layer/GenMikuLayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/MikuChunkGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/MikuChunkGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/MikuWorldProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/miku/World/MikuWorld/MikuWorldProvider.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/miku/World/OverWorldGen.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/extractSrg/output.srg" beforeDir="false" afterPath="$PROJECT_DIR$/build/extractSrg/output.srg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reobfJar/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/reobfJar/log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reobfJar/output.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/reobfJar/output.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/avaritia_recipes/extreme/items/tools/miku_loli.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/lang/en_us.lang" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/lang/en_us.lang" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/lang/zh_cn.lang" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/lang/zh_cn.lang" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/recipes/summon_miku.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/recipes/summon_miku.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/entities/kanada.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/#0822.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/#0822.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/39music.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/39music.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/all_happy.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/all_happy.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/awake_now.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/awake_now.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/bitter_choco.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/bitter_choco.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/buriki_no_dance.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/buriki_no_dance.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/deep_sea_lily.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/deep_sea_lily.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/dramaturgy.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/dramaturgy.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/end_of_miku.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/end_of_miku.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/end_of_miku_4.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/end_of_miku_4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/from_y_to_y.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/from_y_to_y.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/ghost_city_tokyo.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/ghost_city_tokyo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/ghost_rule.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/ghost_rule.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/hand_in_hand.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/hand_in_hand.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/hated_by_life.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/hated_by_life.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/hibana.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/hibana.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/kagerou_days.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/kagerou_days.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/love_me_love_me_love_me.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/love_me_love_me_love_me.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/meaningless_literature.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/meaningless_literature.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/melt.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/melt.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/mikumiku.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/mikumiku.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/odds_ends.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/odds_ends.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/otone_dissection.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/otone_dissection.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/rolling_girl.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/rolling_girl.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/sand_planet.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/sand_planet.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/senbonzakura.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/senbonzakura.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/tell_your_world.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/tell_your_world.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/teo.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/teo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/two_face_lovers.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/two_face_lovers.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/under_the_ground.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/under_the_ground.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/unknown_mother_goose.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/unknown_mother_goose.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/vampire.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/vampire.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/world_is_mine.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/world_is_mine.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/worlds_end_dancehall.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/worlds_end_dancehall.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/yoru_ni_kareru.png" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/assets/miku/textures/items/yoru_ni_kareru.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/mcmod.info" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/mcmod.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/mixins.miku.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileJava-mappings.tsrg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/mixin.refmap.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/disabled_class/MixinChaosUpdateEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/disabled_class/MixinChaosUpdateEvent1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/miku/avaritia_recipes/extreme/items/tools/miku_eu_converter.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/miku/avaritia_recipes/extreme/blocks/miku_eu_converter.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/miku/avaritia_recipes/extreme/items/tools/miku_generator.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/miku/avaritia_recipes/extreme/blocks/miku_generator.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/miku/avaritia_recipes/extreme/items/tools/miku_power_station.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/miku/avaritia_recipes/extreme/blocks/miku_power_station.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/miku/avaritia_recipes/extreme/items/tools/miku_rf_converter.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/miku/avaritia_recipes/extreme/blocks/miku_rf_converter.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +160,19 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="local/master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
         <option value="mcst12345 &lt;herobrinetlb@gmail.com&gt;" />
@@ -97,7 +203,6 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$USER_HOME$/.gradle/caches/forge_gradle/maven_downloader/de/oceanlabs/mcp/mcp_stable/39-1.12/mcp_stable-39-1.12.zip!/methods.csv" root0="SKIP_INSPECTION" />
-    <setting file="jar://$PROJECT_DIR$/libs/lib-1.0.jar!/miku/lib/mixins/MixinEntityPlayerMP.class" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -117,23 +222,13 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="JavaClassFindUsagesOptions.isDerivedClasses" value="true" />
-    <property name="JavaClassFindUsagesOptions.isFieldsUsages" value="true" />
-    <property name="JavaClassFindUsagesOptions.isMethodsUsages" value="true" />
-    <property name="JavaMethodFindUsagesOptions.isIncludeOverloadUsages" value="true" />
-    <property name="JavaMethodFindUsagesOptions.isSearchForTextOccurrences" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../MikuLib/src/main/java" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="http.proxy" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/root/IdeaProjects/MikuLib/src/main/java&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/assets/miku/structures" />
@@ -143,10 +238,11 @@
       <recent name="C:\code\java\miku_mod\src\main\resources\assets\miku\textures\items" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/assets/miku/avaritia_recipes/extreme/blocks" />
+      <recent name="$PROJECT_DIR$/src/main/resources/assets/miku/recipes" />
+      <recent name="$PROJECT_DIR$/src/main/resources/assets/miku/avaritia_recipes/extreme/items/tools" />
       <recent name="$PROJECT_DIR$/src/main/java/miku/Blocks/" />
       <recent name="$PROJECT_DIR$/src/main/resources/assets/miku/textures/blocks" />
-      <recent name="C:\code\java\miku_mod\disabled_class" />
-      <recent name="C:\code\java\miku_mod\src\main\resources\assets\miku\textures\blocks\ore" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="miku.Utils.RegisterUtil" />
@@ -264,13 +360,13 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.runClient" />
-      <item itemvalue="Application.runServer" />
       <item itemvalue="Gradle.miku_mod [sync]" />
       <item itemvalue="Gradle.build offline" />
       <item itemvalue="Gradle.miku_mod [assemble]" />
       <item itemvalue="Gradle.miku_mod [build] (1)" />
       <item itemvalue="Gradle.miku_mod [clean]" />
+      <item itemvalue="应用程序.runClient" />
+      <item itemvalue="应用程序.runServer" />
     </list>
     <recent_temporary>
       <list>
@@ -347,34 +443,6 @@
       <workItem from="1671061383092" duration="2299000" />
       <workItem from="1671066312753" duration="147000" />
       <workItem from="1671066586441" duration="465000" />
-    </task>
-    <task id="LOCAL-00006" summary="Changes">
-      <created>1657611644841</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1657611644841</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Changes">
-      <created>1657717389316</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1657717389317</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Changes">
-      <created>1657944454397</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1657944454397</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Changes">
-      <created>1657947034597</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1657947034597</updated>
     </task>
     <task id="LOCAL-00010" summary="Changes">
       <created>1657964661735</created>
@@ -691,7 +759,35 @@
       <option name="project" value="LOCAL" />
       <updated>1671066963051</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Changes">
+      <created>1678962443766</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1678962443766</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Changes">
+      <created>1678962652244</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1678962652245</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Changes">
+      <created>1678962694591</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1678962694591</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Changes">
+      <created>1678972585936</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1678972585936</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -708,7 +804,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="HEAD" />
+                        <option value="local/master" />
                       </list>
                     </value>
                   </entry>
@@ -719,7 +815,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -796,7 +891,7 @@
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/../../source/LoliPickaxe/src/main/java/com/anotherstar/core/transformer/LoliPickaxeTransformer.java</url>
+          <url>file://$USER_HOME$/source/LoliPickaxe/src/main/java/com/anotherstar/core/transformer/LoliPickaxeTransformer.java</url>
           <line>132</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
