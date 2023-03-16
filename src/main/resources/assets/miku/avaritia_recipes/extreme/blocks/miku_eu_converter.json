@@ -28,7 +28,7 @@
     },
     "X": {
       "type": "minecraft:item",
-      "item": "ic2:crafting",
+      "item": "ic2:resource",
       "data": 13
     },
     "Y": {
