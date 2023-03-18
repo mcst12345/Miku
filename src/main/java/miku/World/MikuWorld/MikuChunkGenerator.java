@@ -58,13 +58,13 @@ public class MikuChunkGenerator implements IChunkGenerator {
 
     @Override
     public void populate(int x, int z) {
-        int r = random.nextInt(5000);
+        int r = random.nextInt(2500);
         int i = x * 16;
         int j = z * 16;
         BlockPos pos = new BlockPos(i, new Random().nextInt(20) + 150, j);
         MinecraftServer mcServer = world.getMinecraftServer();
         TemplateManager manager = IStructure.worldServer.getStructureTemplateManager();
-        if (r == 2525) {
+        if (r == 1515) {
             ResourceLocation location = new ResourceLocation("miku", "miku_skyland_1");
             Template template = manager.get(mcServer, location);
             if (template != null) {
@@ -74,8 +74,8 @@ public class MikuChunkGenerator implements IChunkGenerator {
             } else {
                 System.out.println("Error:mod file damaged!");
             }
-        } else if (r == 4989) {
-            pos = new BlockPos(i, 61, j);
+        } else if (r == 2019) {
+            pos = new BlockPos(i, 17, j);
             ResourceLocation location = new ResourceLocation("miku", "scallion_house");
             Template template = manager.get(mcServer, location);
             if (template != null) {

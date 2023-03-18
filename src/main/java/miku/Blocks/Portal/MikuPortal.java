@@ -1,15 +1,10 @@
 package miku.Blocks.Portal;
 
-import com.google.common.cache.LoadingCache;
 import miku.Miku.MikuLoader;
 import miku.World.MikuWorld.MikuTeleporter;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -17,7 +12,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -55,55 +49,51 @@ public class MikuPortal extends BlockPortal {
         }
     }
 
-    @Override
-    @Nonnull
-    public BlockPattern.PatternHelper createPatternHelper(@Nonnull World worldIn, @Nonnull BlockPos p_181089_2_) {
-        EnumFacing.Axis enumfacing$axis = EnumFacing.Axis.Z;
-        MikuPortalSize blockportal$size = new MikuPortalSize(worldIn, p_181089_2_, EnumFacing.Axis.X);
-        LoadingCache<BlockPos, BlockWorldState> loadingcache = BlockPattern.createLoadingCache(worldIn, true);
-
-        if (!blockportal$size.isValid()) {
-            enumfacing$axis = EnumFacing.Axis.X;
-            blockportal$size = new MikuPortalSize(worldIn, p_181089_2_, EnumFacing.Axis.Z);
-        }
-
-        if (!blockportal$size.isValid()) {
-            return new BlockPattern.PatternHelper(p_181089_2_, EnumFacing.NORTH, EnumFacing.UP, loadingcache, 1, 1, 1);
-        } else {
-            int[] aint = new int[EnumFacing.AxisDirection.values().length];
-            EnumFacing enumfacing = blockportal$size.rightDir.rotateYCCW();
-            BlockPos blockpos = blockportal$size.bottomLeft.up(blockportal$size.getHeight() - 1);
-
-            for (EnumFacing.AxisDirection enumfacing$axisdirection : EnumFacing.AxisDirection.values()) {
-                BlockPattern.PatternHelper blockpattern$patternhelper = new BlockPattern.PatternHelper(enumfacing.getAxisDirection() == enumfacing$axisdirection ? blockpos : blockpos.offset(blockportal$size.rightDir, blockportal$size.getWidth() - 1), EnumFacing.getFacingFromAxis(enumfacing$axisdirection, enumfacing$axis), EnumFacing.UP, loadingcache, blockportal$size.getWidth(), blockportal$size.getHeight(), 1);
-
-                for (int i = 0; i < blockportal$size.getWidth(); ++i) {
-                    for (int j = 0; j < blockportal$size.getHeight(); ++j) {
-                        BlockWorldState blockworldstate = blockpattern$patternhelper.translateOffset(i, j, 1);
-
-                        blockworldstate.getBlockState();
-                        if (blockworldstate.getBlockState().getMaterial() != Material.AIR) {
-                            ++aint[enumfacing$axisdirection.ordinal()];
+    public static boolean CheckPortal(BlockPos pos, World world) {
+        IBlockState block = MikuLoader.ScallionBlock.getDefaultState();
+        IBlockState block1 = Blocks.DIAMOND_BLOCK.getDefaultState();
+        IBlockState block2 = Blocks.SEA_LANTERN.getDefaultState();
+        if (world.getBlockState(pos) == block) {
+            BlockPos pos1 = new BlockPos(pos.getX() + 2, pos.getY(), pos.getZ());
+            if (world.getBlockState(pos1) == block) {
+                pos1 = new BlockPos(pos.getX() - 2, pos.getY(), pos.getZ());
+                if (world.getBlockState(pos1) == block) {
+                    pos1 = new BlockPos(pos.getX(), pos.getY(), pos.getZ() + 2);
+                    if (world.getBlockState(pos1) == block) {
+                        pos1 = new BlockPos(pos.getX(), pos.getY(), pos.getZ() - 2);
+                        if (world.getBlockState(pos1) == block) {
+                            pos1 = new BlockPos(pos.getX() + 2, pos.getY() + 1, pos.getZ());
+                            if (world.getBlockState(pos1) == block1) {
+                                pos1 = new BlockPos(pos.getX() - 2, pos.getY() + 1, pos.getZ());
+                                if (world.getBlockState(pos1) == block1) {
+                                    pos1 = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ() + 2);
+                                    if (world.getBlockState(pos1) == block1) {
+                                        pos1 = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ() - 2);
+                                        if (world.getBlockState(pos1) == block1) {
+                                            pos1 = new BlockPos(pos.getX() + 2, pos.getY() + 2, pos.getZ());
+                                            if (world.getBlockState(pos1) == block2) {
+                                                pos1 = new BlockPos(pos.getX() - 2, pos.getY() + 2, pos.getZ());
+                                                if (world.getBlockState(pos1) == block2) {
+                                                    pos1 = new BlockPos(pos.getX(), pos.getY() + 2, pos.getZ() + 2);
+                                                    if (world.getBlockState(pos1) == block2) {
+                                                        pos1 = new BlockPos(pos.getX(), pos.getY() + 2, pos.getZ() - 2);
+                                                        if (world.getBlockState(pos1) == block2) {
+                                                            world.setBlockState(new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()), MikuLoader.MikuPortal.getDefaultState());
+                                                            causeLightning(world, pos);
+                                                            return true;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
-
-            EnumFacing.AxisDirection enum_facing$axisdirection1 = EnumFacing.AxisDirection.POSITIVE;
-
-            for (EnumFacing.AxisDirection enum_facing$axisdirection2 : EnumFacing.AxisDirection.values()) {
-                if (aint[enum_facing$axisdirection2.ordinal()] < aint[enum_facing$axisdirection1.ordinal()]) {
-                    enum_facing$axisdirection1 = enum_facing$axisdirection2;
-                }
-            }
-
-            return new BlockPattern.PatternHelper(enumfacing.getAxisDirection() == enum_facing$axisdirection1 ? blockpos : blockpos.offset(blockportal$size.rightDir, blockportal$size.getWidth() - 1), EnumFacing.getFacingFromAxis(enum_facing$axisdirection1, enumfacing$axis), EnumFacing.UP, loadingcache, blockportal$size.getWidth(), blockportal$size.getHeight(), 1);
         }
-    }
-
-    @Override
-    @Deprecated
-    public boolean isFullCube(@Nonnull IBlockState state) {
         return false;
     }
 
@@ -142,50 +132,18 @@ public class MikuPortal extends BlockPortal {
     }
 
     @Override
-    public boolean trySpawnPortal(@Nonnull World worldIn, @Nonnull BlockPos pos) {
-        if (worldIn.isRemote) return false;
-        MikuPortalSize miku_portal$size = new MikuPortalSize(worldIn, pos, EnumFacing.Axis.X);
-
-        if (miku_portal$size.isValid() && miku_portal$size.portalBlockCount == 0) {
-            miku_portal$size.placePortalBlocks();
-            causeLightning(worldIn, pos);
-
-            return true;
-        } else {
-            MikuPortalSize miku_portal$size1 = new MikuPortalSize(worldIn, pos, EnumFacing.Axis.Z);
-
-            if (miku_portal$size1.isValid() && miku_portal$size1.portalBlockCount == 0) {
-                miku_portal$size1.placePortalBlocks();
-                causeLightning(worldIn, pos);
-
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
-    @Override
-    public void neighborChanged(@Nonnull IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Block blockIn, @Nonnull BlockPos fromPos) {
-        if (worldIn.isRemote) return;
-        EnumFacing.Axis enumfacing$axis = state.getValue(AXIS);
-
-        if (enumfacing$axis == EnumFacing.Axis.X) {
-            MikuPortalSize blockportal$size = new MikuPortalSize(worldIn, pos, EnumFacing.Axis.X);
-
-            if (!blockportal$size.isValid() || blockportal$size.portalBlockCount < blockportal$size.width * blockportal$size.height) {
-                worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-            }
-        } else if (enumfacing$axis == EnumFacing.Axis.Z) {
-            MikuPortalSize blockportal$size1 = new MikuPortalSize(worldIn, pos, EnumFacing.Axis.Z);
-
-            if (!blockportal$size1.isValid() || blockportal$size1.portalBlockCount < blockportal$size1.width * blockportal$size1.height) {
-                worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-            }
-        }
+    @Deprecated
+    public boolean isFullCube(@Nonnull IBlockState state) {
+        return true;
     }
 
     public static int GetLastWorld() {
         return LastWorld;
+    }
+
+    @Override
+    public boolean trySpawnPortal(@Nonnull World world, @Nonnull BlockPos pos) {
+        if (world.isRemote) return false;
+        return CheckPortal(pos, world);
     }
 }
