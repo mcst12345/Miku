@@ -1,18 +1,13 @@
 package miku.World.MikuWorld;
 
-import miku.Blocks.Portal.MikuPortal;
 import miku.Miku.MikuLoader;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
@@ -34,11 +29,7 @@ public class MikuTeleporter extends Teleporter {
 
     @Override
     public void placeInPortal(@Nonnull Entity entityIn, float rotationYaw) {
-        if (!this.placeInExistingPortal(entityIn, rotationYaw)) {
-            this.moveToSafeCoords(entityIn);
-            this.makePortal(entityIn);
-            this.placeInExistingPortal(entityIn, rotationYaw);
-        }
+        this.moveToSafeCoords(entityIn);
     }
 
     private void moveToSafeCoords(Entity entity) {
@@ -54,7 +45,7 @@ public class MikuTeleporter extends Teleporter {
 
         BlockPos safeCoords = findSafeCoords(200, pos, entity, checkProgression);
         if (safeCoords != null) {
-            entity.setLocationAndAngles(safeCoords.getX(), entity.posY, safeCoords.getZ(), 90.0F, 0.0F);
+            entity.setLocationAndAngles(safeCoords.getX(), 17, safeCoords.getZ(), 90.0F, 0.0F);
             return;
         }
 
@@ -116,111 +107,6 @@ public class MikuTeleporter extends Teleporter {
         return true;
     }
 
-    @Override
-    public boolean placeInExistingPortal(Entity entityIn, float rotationYaw) {
-        double d0 = -1.0D;
-        int j = MathHelper.floor(entityIn.posX);
-        int k = MathHelper.floor(entityIn.posZ);
-        boolean flag = true;
-        BlockPos blockpos = entityIn.getPosition();
-        long l = ChunkPos.asLong(j, k);
-
-        if (this.destinationCoordinateCache.containsKey(l)) {
-            PortalPosition teleporter$portalposition = this.destinationCoordinateCache.get(l);
-            d0 = 0.0D;
-            blockpos = teleporter$portalposition;
-            teleporter$portalposition.lastUpdateTime = this.worldServerInstance.getTotalWorldTime();
-            flag = false;
-        } else {
-            BlockPos blockpos3 = new BlockPos(entityIn);
-
-            for (int i1 = -128; i1 <= 128; ++i1) {
-                BlockPos blockpos2;
-
-                for (int j1 = -128; j1 <= 128; ++j1) {
-                    for (BlockPos blockpos1 = blockpos3.add(i1, this.worldServerInstance.getActualHeight() - 1 - blockpos3.getY(), j1); blockpos1.getY() >= 0; blockpos1 = blockpos2) {
-                        blockpos2 = blockpos1.down();
-
-                        if (this.worldServerInstance.getBlockState(blockpos1).getBlock() == MikuLoader.MikuPortal) {
-                            for (blockpos2 = blockpos1.down(); this.worldServerInstance.getBlockState(blockpos2).getBlock() == MikuLoader.MikuPortal; blockpos2 = blockpos2.down()) {
-                                blockpos1 = blockpos2;
-                            }
-
-                            double d1 = blockpos1.distanceSq(blockpos3);
-
-                            if (d0 < 0.0D || d1 < d0) {
-                                d0 = d1;
-                                blockpos = blockpos1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if (d0 >= 0.0D) {
-            if (flag) {
-                this.destinationCoordinateCache.put(l, new PortalPosition(blockpos, this.worldServerInstance.getTotalWorldTime()));
-            }
-
-            double d5 = (double) blockpos.getX() + 0.5D;
-            double d7 = (double) blockpos.getZ() + 0.5D;
-            BlockPattern.PatternHelper blockpattern$patternhelper = ((MikuPortal) MikuLoader.MikuPortal).createPatternHelper(this.worldServerInstance, blockpos);
-            boolean flag1 = blockpattern$patternhelper.getForwards().rotateY().getAxisDirection() == EnumFacing.AxisDirection.NEGATIVE;
-            double d2 = blockpattern$patternhelper.getForwards().getAxis() == EnumFacing.Axis.X ? (double) blockpattern$patternhelper.getFrontTopLeft().getZ() : (double) blockpattern$patternhelper.getFrontTopLeft().getX();
-
-            double d1 = blockpattern$patternhelper.getForwards().getAxis() == EnumFacing.Axis.X ? d7 : d5;
-            d1 = Math.abs(MathHelper.pct(d1 - (double) (blockpattern$patternhelper.getForwards().rotateY().getAxisDirection() == EnumFacing.AxisDirection.NEGATIVE ? 1 : 0), d2, d2 - (double) blockpattern$patternhelper.getWidth()));
-            double d22 = MathHelper.pct(blockpos.getY() - 1.0D, blockpattern$patternhelper.getFrontTopLeft().getY(), blockpattern$patternhelper.getFrontTopLeft().getY() - blockpattern$patternhelper.getHeight());
-
-            double d6 = (blockpattern$patternhelper.getFrontTopLeft().getY() + 1D) - new Vec3d(d1, d22, 0.0D).y * (double) blockpattern$patternhelper.getHeight();
-
-            if (flag1) {
-                ++d2;
-            }
-
-            if (blockpattern$patternhelper.getForwards().getAxis() == EnumFacing.Axis.X) {
-                d7 = d2 + (1.0D - new Vec3d(d1, d22, 0.0D).x) * (double) blockpattern$patternhelper.getWidth() * (double) blockpattern$patternhelper.getForwards().rotateY().getAxisDirection().getOffset();
-            } else {
-                d5 = d2 + (1.0D - new Vec3d(d1, d22, 0.0D).x) * (double) blockpattern$patternhelper.getWidth() * (double) blockpattern$patternhelper.getForwards().rotateY().getAxisDirection().getOffset();
-            }
-
-            float f = 0.0F;
-            float f1 = 0.0F;
-            float f2 = 0.0F;
-            float f3 = 0.0F;
-
-            if (blockpattern$patternhelper.getForwards().getOpposite() == blockpattern$patternhelper.getForwards()) {
-                f = 1.0F;
-                f1 = 1.0F;
-            } else if (blockpattern$patternhelper.getForwards().getOpposite() == blockpattern$patternhelper.getForwards().getOpposite()) {
-                f = -1.0F;
-                f1 = -1.0F;
-            } else if (blockpattern$patternhelper.getForwards().getOpposite() == blockpattern$patternhelper.getForwards().rotateY()) {
-                f2 = 1.0F;
-                f3 = -1.0F;
-            } else {
-                f2 = -1.0F;
-                f3 = 1.0F;
-            }
-
-            double d3 = entityIn.motionX;
-            double d4 = entityIn.motionZ;
-            entityIn.motionX = d3 * (double) f + d4 * (double) f3;
-            entityIn.motionZ = d3 * (double) f2 + d4 * (double) f1;
-            entityIn.rotationYaw = rotationYaw - (float) (blockpattern$patternhelper.getForwards().getOpposite().getHorizontalIndex() * 90) + (float) (blockpattern$patternhelper.getForwards().getHorizontalIndex() * 90);
-
-            if (entityIn instanceof EntityPlayerMP) {
-                ((EntityPlayerMP) entityIn).connection.setPlayerLocation(d5, d6, d7, entityIn.rotationYaw, entityIn.rotationPitch);
-            } else {
-                entityIn.setLocationAndAngles(d5, d6, d7, entityIn.rotationYaw, entityIn.rotationPitch);
-            }
-
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     @Override
     public boolean makePortal(Entity entityIn) {

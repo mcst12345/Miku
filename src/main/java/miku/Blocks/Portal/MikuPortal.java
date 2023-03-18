@@ -3,8 +3,8 @@ package miku.Blocks.Portal;
 import miku.Miku.MikuLoader;
 import miku.World.MikuWorld.MikuTeleporter;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPortal;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,12 +22,12 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class MikuPortal extends BlockPortal {
+public class MikuPortal extends Block {
 
     protected static int LastWorld = 0;
 
     public MikuPortal() {
-        super();
+        super(Material.PORTAL);
         this.setHardness(-1);
         this.setResistance(900000F);
         this.setSoundType(SoundType.GLASS);
@@ -144,9 +144,4 @@ public class MikuPortal extends BlockPortal {
         return LastWorld;
     }
 
-    @Override
-    public boolean trySpawnPortal(@Nonnull World world, @Nonnull BlockPos pos) {
-        if (world.isRemote) return false;
-        return CheckPortal(pos, world);
-    }
 }

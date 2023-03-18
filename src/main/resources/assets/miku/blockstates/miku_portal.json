@@ -2,7 +2,7 @@
   "variants": {
     "normal": [
       {
-        "model": "miku:miku_ore"
+        "model": "miku:miku_portal"
       }
     ]
   }
