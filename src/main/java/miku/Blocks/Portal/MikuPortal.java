@@ -2,6 +2,7 @@ package miku.Blocks.Portal;
 
 import miku.Miku.MikuLoader;
 import miku.World.MikuWorld.MikuTeleporter;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -50,34 +51,34 @@ public class MikuPortal extends BlockPortal {
     }
 
     public static boolean CheckPortal(BlockPos pos, World world) {
-        IBlockState block = MikuLoader.ScallionBlock.getDefaultState();
-        IBlockState block1 = Blocks.DIAMOND_BLOCK.getDefaultState();
-        IBlockState block2 = Blocks.SEA_LANTERN.getDefaultState();
-        if (world.getBlockState(pos) == block) {
-            BlockPos pos1 = new BlockPos(pos.getX() + 2, pos.getY(), pos.getZ());
-            if (world.getBlockState(pos1) == block) {
-                pos1 = new BlockPos(pos.getX() - 2, pos.getY(), pos.getZ());
-                if (world.getBlockState(pos1) == block) {
-                    pos1 = new BlockPos(pos.getX(), pos.getY(), pos.getZ() + 2);
-                    if (world.getBlockState(pos1) == block) {
-                        pos1 = new BlockPos(pos.getX(), pos.getY(), pos.getZ() - 2);
-                        if (world.getBlockState(pos1) == block) {
-                            pos1 = new BlockPos(pos.getX() + 2, pos.getY() + 1, pos.getZ());
-                            if (world.getBlockState(pos1) == block1) {
-                                pos1 = new BlockPos(pos.getX() - 2, pos.getY() + 1, pos.getZ());
-                                if (world.getBlockState(pos1) == block1) {
-                                    pos1 = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ() + 2);
-                                    if (world.getBlockState(pos1) == block1) {
-                                        pos1 = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ() - 2);
-                                        if (world.getBlockState(pos1) == block1) {
-                                            pos1 = new BlockPos(pos.getX() + 2, pos.getY() + 2, pos.getZ());
-                                            if (world.getBlockState(pos1) == block2) {
-                                                pos1 = new BlockPos(pos.getX() - 2, pos.getY() + 2, pos.getZ());
-                                                if (world.getBlockState(pos1) == block2) {
+        Block block = MikuLoader.ScallionBlock;
+        Block block1 = Blocks.DIAMOND_BLOCK;
+        Block block2 = Blocks.SEA_LANTERN;
+        if (world.getBlockState(pos).getBlock() == block) {
+            BlockPos pos1 = new BlockPos(pos.getX() + 3, pos.getY(), pos.getZ());
+            if (world.getBlockState(pos1).getBlock() == block) {
+                pos1 = new BlockPos(pos.getX() - 3, pos.getY(), pos.getZ());
+                if (world.getBlockState(pos1).getBlock() == block) {
+                    pos1 = new BlockPos(pos.getX(), pos.getY(), pos.getZ() + 3);
+                    if (world.getBlockState(pos1).getBlock() == block) {
+                        pos1 = new BlockPos(pos.getX(), pos.getY(), pos.getZ() - 3);
+                        if (world.getBlockState(pos1).getBlock() == block) {
+                            pos1 = new BlockPos(pos.getX() + 3, pos.getY() + 1, pos.getZ());
+                            if (world.getBlockState(pos1).getBlock() == block1) {
+                                pos1 = new BlockPos(pos.getX() - 3, pos.getY() + 1, pos.getZ());
+                                if (world.getBlockState(pos1).getBlock() == block1) {
+                                    pos1 = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ() + 3);
+                                    if (world.getBlockState(pos1).getBlock() == block1) {
+                                        pos1 = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ() - 3);
+                                        if (world.getBlockState(pos1).getBlock() == block1) {
+                                            pos1 = new BlockPos(pos.getX() + 3, pos.getY() + 2, pos.getZ());
+                                            if (world.getBlockState(pos1).getBlock() == block2) {
+                                                pos1 = new BlockPos(pos.getX() - 3, pos.getY() + 2, pos.getZ());
+                                                if (world.getBlockState(pos1).getBlock() == block2) {
                                                     pos1 = new BlockPos(pos.getX(), pos.getY() + 2, pos.getZ() + 2);
-                                                    if (world.getBlockState(pos1) == block2) {
-                                                        pos1 = new BlockPos(pos.getX(), pos.getY() + 2, pos.getZ() - 2);
-                                                        if (world.getBlockState(pos1) == block2) {
+                                                    if (world.getBlockState(pos1).getBlock() == block2) {
+                                                        pos1 = new BlockPos(pos.getX(), pos.getY() + 3, pos.getZ() - 3);
+                                                        if (world.getBlockState(pos1).getBlock() == block2) {
                                                             world.setBlockState(new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()), MikuLoader.MikuPortal.getDefaultState());
                                                             causeLightning(world, pos);
                                                             return true;
