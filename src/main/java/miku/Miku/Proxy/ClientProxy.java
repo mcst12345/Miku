@@ -4,7 +4,6 @@ import miku.Config.MikuConfig;
 import miku.Entity.Hatsune_Miku;
 import miku.Event.InputEvent;
 import miku.Event.ToolTipEvent;
-import miku.Exception.MusicPackNotFound;
 import miku.Miku.MikuLoader;
 import miku.Render.MikuRenderItem;
 import net.minecraft.client.model.ModelBiped;
@@ -31,7 +30,7 @@ public class ClientProxy extends CommonProxy {
         File MusicFolder = new File("audio");
         if (!MusicFolder.isDirectory() && !MikuConfig.IgnoreMusicCheck) {
             System.out.println("Cannot find music pack! Please download the music pack. You can find the link on the modrinth page.");
-            throw new MusicPackNotFound();
+            throw new RuntimeException("Music Pack of Miku mod not found!");
         }
         MikuLoader.RegisterKey();
         MinecraftForge.EVENT_BUS.register(new InputEvent());

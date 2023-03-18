@@ -37,13 +37,13 @@ public class MikuChunkGenerator implements IChunkGenerator {
         ChunkPrimer primer = new ChunkPrimer();
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
-                for (int k = 0; k <= 60; k++) {
-                    if (k == 0) primer.setBlockState(i, j, k, Blocks.BEDROCK.getDefaultState());
+                for (int k = 0; k <= 16; k++) {
+                    if (k == 0) primer.setBlockState(i, k, j, Blocks.BEDROCK.getDefaultState());
                     else {
-                        if (k <= 40) primer.setBlockState(i, j, k, MikuLoader.MikuStone.getDefaultState());
+                        if (k <= 10) primer.setBlockState(i, k, j, MikuLoader.MikuStone.getDefaultState());
                         else {
-                            if (k < 60) primer.setBlockState(i, j, k, MikuLoader.MikuDirt.getDefaultState());
-                            else primer.setBlockState(i, j, k, MikuLoader.MikuGrass.getDefaultState());
+                            if (k < 16) primer.setBlockState(i, k, j, MikuLoader.MikuDirt.getDefaultState());
+                            else primer.setBlockState(i, k, j, MikuLoader.MikuGrass.getDefaultState());
                         }
                     }
                 }
@@ -65,7 +65,7 @@ public class MikuChunkGenerator implements IChunkGenerator {
         MinecraftServer mcServer = world.getMinecraftServer();
         TemplateManager manager = IStructure.worldServer.getStructureTemplateManager();
         if (r == 2525) {
-            ResourceLocation location = new ResourceLocation("miku", "miku_island_1");
+            ResourceLocation location = new ResourceLocation("miku", "miku_skyland_1");
             Template template = manager.get(mcServer, location);
             if (template != null) {
                 IBlockState state = world.getBlockState(pos);
