@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: miku_mod
-Implementation-Version: 1.1.2
-Specification-Vendor: mcst12345
-Specification-Title: miku
-Implementation-Timestamp: 2023-03-16T22:10:31+0800
-Specification-Version: 1.1.2
-Implementation-Vendor: mcst12345
-
