@@ -31,8 +31,8 @@ public class OverWorldGenStructure implements IWorldGenerator {
         int z = (chunkZ * 16) + random.nextInt(15);
         int y = 200;
         BlockPos pos = new BlockPos(x, y, z);
-        if (random.nextInt(1000) == 27) {
-            System.out.println("Generate Miku Temple");
+        if (random.nextInt(5000) == 27) {
+            System.out.println("Generate Miku Temple at:" + x + " " + y + " " + z);
             ((WorldGenerator) OverWorldGenStructure.temple).generate(world, random, pos);
         }
     }
