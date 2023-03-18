@@ -144,4 +144,8 @@ public class MikuPortal extends Block {
         return LastWorld;
     }
 
+    public void trySpawnPortal(@Nonnull World world, @Nonnull BlockPos pos) {
+        if (world.isRemote) return;
+        CheckPortal(pos, world);
+    }
 }
