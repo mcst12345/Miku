@@ -12,7 +12,9 @@
     ],
     "credits": "",
     "logoFile": "assets/miku/textures/blocks/ore/miku_ore.png",
-    "screenshots": [],
+    "screenshots": [
+      "assets/miku/textures/Sekai_card_585_trained.png"
+    ],
     "dependencies": []
   }
 ]

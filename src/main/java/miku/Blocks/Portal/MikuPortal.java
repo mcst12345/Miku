@@ -54,7 +54,9 @@ public class MikuPortal extends BlockPortal {
         Block block = MikuLoader.ScallionBlock;
         Block block1 = Blocks.DIAMOND_BLOCK;
         Block block2 = Blocks.SEA_LANTERN;
+        System.out.println(pos.getX() + " " + pos.getY() + " " + pos.getZ());
         if (world.getBlockState(pos).getBlock() == block) {
+            System.out.println("start checking");
             BlockPos pos1 = new BlockPos(pos.getX() + 3, pos.getY(), pos.getZ());
             if (world.getBlockState(pos1).getBlock() == block) {
                 pos1 = new BlockPos(pos.getX() - 3, pos.getY(), pos.getZ());
@@ -75,9 +77,9 @@ public class MikuPortal extends BlockPortal {
                                             if (world.getBlockState(pos1).getBlock() == block2) {
                                                 pos1 = new BlockPos(pos.getX() - 3, pos.getY() + 2, pos.getZ());
                                                 if (world.getBlockState(pos1).getBlock() == block2) {
-                                                    pos1 = new BlockPos(pos.getX(), pos.getY() + 2, pos.getZ() + 2);
+                                                    pos1 = new BlockPos(pos.getX(), pos.getY() + 2, pos.getZ() + 3);
                                                     if (world.getBlockState(pos1).getBlock() == block2) {
-                                                        pos1 = new BlockPos(pos.getX(), pos.getY() + 3, pos.getZ() - 3);
+                                                        pos1 = new BlockPos(pos.getX(), pos.getY() + 2, pos.getZ() - 3);
                                                         if (world.getBlockState(pos1).getBlock() == block2) {
                                                             world.setBlockState(new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()), MikuLoader.MikuPortal.getDefaultState());
                                                             causeLightning(world, pos);

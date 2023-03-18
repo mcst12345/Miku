@@ -26,7 +26,7 @@ public class Scallion extends ItemFood {
     @Override
     @Nonnull
     public EnumActionResult onItemUse(@Nonnull EntityPlayer player, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull EnumHand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
-        pos = pos.offset(facing);
+        System.out.println(pos.getX() + " " + pos.getY() + " " + pos.getZ());
         if (!player.world.isRemote) ((MikuPortal) MikuLoader.MikuPortal).trySpawnPortal(worldIn, pos);
         return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
     }
