@@ -134,7 +134,7 @@ public class MikuPortal {
             } else {
                 if (!(entity.dimension == 393939)) {
                     LastWorld = entity.dimension;
-                    entity.posY = 81;
+                    entity.posY = 256;
                     entity.changeDimension(transferDimension, new MikuTeleporter(server.getWorld(transferDimension)));
                     entity.addPotionEffect(new PotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100, 255, false, false)));
                     entity.timeUntilPortal = 10;
