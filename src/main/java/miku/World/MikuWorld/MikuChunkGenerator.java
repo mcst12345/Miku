@@ -35,14 +35,15 @@ public class MikuChunkGenerator implements IChunkGenerator {
     @Nonnull
     public Chunk generateChunk(int x, int z) {
         ChunkPrimer primer = new ChunkPrimer();
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 16; j++) {
-                for (int k = 0; k <= 16; k++) {
+
+        for (int i = 0; i < 80; i++) {
+            for (int j = 0; j < 80; j++) {
+                for (int k = 0; k <= 80; k++) {
                     if (k == 0) primer.setBlockState(i, k, j, Blocks.BEDROCK.getDefaultState());
                     else {
-                        if (k <= 10) primer.setBlockState(i, k, j, MikuLoader.MikuStone.getDefaultState());
+                        if (k <= 70) primer.setBlockState(i, k, j, MikuLoader.MikuStone.getDefaultState());
                         else {
-                            if (k < 16) primer.setBlockState(i, k, j, MikuLoader.MikuDirt.getDefaultState());
+                            if (k < 80) primer.setBlockState(i, k, j, MikuLoader.MikuDirt.getDefaultState());
                             else primer.setBlockState(i, k, j, MikuLoader.MikuGrass.getDefaultState());
                         }
                     }
@@ -52,19 +53,21 @@ public class MikuChunkGenerator implements IChunkGenerator {
 
 
         Chunk chunk = new Chunk(this.world, primer, x, z);
-        chunk.resetRelightChecks();
+        chunk.generateSkylightMap();
         return chunk;
     }
 
     @Override
     public void populate(int x, int z) {
-        int r = random.nextInt(2500);
+        int r = random.nextInt(1000);
         int i = x * 16;
         int j = z * 16;
+        Biome biome = this.world.getBiome(new BlockPos(i, 0, j));
+        biome.decorate(world, random, new BlockPos(i, 0, j));
         BlockPos pos = new BlockPos(i, new Random().nextInt(20) + 150, j);
         MinecraftServer mcServer = world.getMinecraftServer();
         TemplateManager manager = IStructure.worldServer.getStructureTemplateManager();
-        if (r == 1515) {
+        if (r == 999) {
             ResourceLocation location = new ResourceLocation("miku", "miku_skyland_1");
             Template template = manager.get(mcServer, location);
             if (template != null) {
@@ -74,8 +77,8 @@ public class MikuChunkGenerator implements IChunkGenerator {
             } else {
                 System.out.println("Error:mod file damaged!");
             }
-        } else if (r == 2019) {
-            pos = new BlockPos(i, 17, j);
+        } else if (r == 39) {
+            pos = new BlockPos(i, 81, j);
             ResourceLocation location = new ResourceLocation("miku", "scallion_house");
             Template template = manager.get(mcServer, location);
             if (template != null) {

@@ -1,6 +1,5 @@
 package miku.World.MikuWorld.Biome;
 
-import miku.Entity.Hatsune_Miku;
 import miku.World.MikuWorld.Biome.Derocation.MikuBiomeDecoration;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.world.biome.Biome;
@@ -18,7 +17,6 @@ public class MikuBiomes extends Biome {
         spawnableMonsterList.clear();
         spawnableWaterCreatureList.clear();
         spawnableCreatureList.clear();
-        spawnableCreatureList.add(new SpawnListEntry(Hatsune_Miku.class, 100, 1, 1));
         spawnableCaveCreatureList.clear();
         this.decorator = new MikuBiomeDecoration();
     }
@@ -26,7 +24,7 @@ public class MikuBiomes extends Biome {
     @Override
     public float getSpawningChance() {
         // okay, 20% more animals
-        return 0.12F;
+        return 0.0f;
     }
 
     @Override

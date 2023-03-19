@@ -2,8 +2,6 @@ package miku.World.MikuWorld;
 
 import miku.World.MikuWorld.Biome.MikuBiomeProvider;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.Biome;
@@ -14,7 +12,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public final class MikuWorldProvider extends WorldProvider {
     private final float[] colorsSunriseSunset = new float[4];
@@ -25,32 +22,14 @@ public final class MikuWorldProvider extends WorldProvider {
         this.biomeProvider = new MikuBiomeProvider();
     }
 
-    @Override
-    public float[] calcSunriseSunsetColors(float f, float f1) {
-        float f2 = 0.4F;
-        float f3 = MathHelper.cos(f * 3.141593F * 2.0F) - 0.0F;
-        float f4 = -0F;
 
-        if (f3 >= f4 - f2 && f3 <= f4 + f2) {
-            float f5 = (f3 - f4) / f2 * 0.5F + 0.5F;
-            float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * 3.141593F)) * 0.99F;
-            f6 *= f6;
-            this.colorsSunriseSunset[0] = f5 * 0.3F + 0.1F;
-            this.colorsSunriseSunset[1] = f5 * f5 * 0.7F + 0.2F;
-            this.colorsSunriseSunset[2] = f5 * f5 * 0.7F + 0.2F;
-            this.colorsSunriseSunset[3] = f6;
-            return this.colorsSunriseSunset;
-        } else {
-            return null;
-        }
+    public MikuWorldProvider() {
+
+        super();
     }
 
     public boolean canDoLightning(@Nullable Chunk chunk) {
-        return false;
-    }
-
-    public boolean canDoRainSnowIce(@Nullable Chunk chunk) {
-        return false;
+        return true;
     }
 
     @Override
@@ -58,9 +37,8 @@ public final class MikuWorldProvider extends WorldProvider {
         return "MikuWorld";
     }
 
-    @Override
-    public double getVoidFogYFactor() {
-        return -120;
+    public boolean canDoRainSnowIce(@Nullable Chunk chunk) {
+        return true;
     }
 
     @Override
@@ -70,9 +48,8 @@ public final class MikuWorldProvider extends WorldProvider {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean isSkyColored() {
-        return true;
+    public double getVoidFogYFactor() {
+        return 18;
     }
 
     @Override
@@ -82,8 +59,8 @@ public final class MikuWorldProvider extends WorldProvider {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public float getCloudHeight() {
-        return -200F;
+    public boolean isSkyColored() {
+        return false;
     }
 
     @Override
@@ -97,9 +74,10 @@ public final class MikuWorldProvider extends WorldProvider {
         return false;
     }
 
-    public MikuWorldProvider() {
-        //里面是我们维度的生物群系
-        super();
+    @Override
+    @SideOnly(Side.CLIENT)
+    public float getCloudHeight() {
+        return 120F;
     }
 
     @Override
@@ -115,26 +93,11 @@ public final class MikuWorldProvider extends WorldProvider {
     }
 
     public boolean canRespawnHere() {
-        return false;
+        return true;
     }
 
     public boolean isSurfaceWorld() {
         return false;
-    }
-
-    @Override
-    @Nonnull
-    public Vec3d getFogColor(float f, float f1) {
-        float f3 = new Random().nextFloat();
-        float f4 = new Random().nextFloat();
-        float f5 = new Random().nextFloat();
-
-        return new Vec3d(f3, f4, f5);
-    }
-
-    @Override
-    public float calculateCelestialAngle(long worldTime, float partialTicks) {
-        return 100;
     }
 
     @Override
