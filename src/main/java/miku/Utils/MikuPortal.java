@@ -1,14 +1,11 @@
-package miku.Blocks.Portal;
+package miku.Utils;
 
 import miku.Miku.MikuLoader;
 import miku.World.MikuWorld.MikuTeleporter;
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
@@ -19,22 +16,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
-public class MikuPortal extends Block {
+public class MikuPortal {
 
     protected static int LastWorld = 0;
 
-    public MikuPortal() {
-        super(Material.PORTAL);
-        this.setHardness(-1);
-        this.setResistance(900000F);
-        this.setSoundType(SoundType.GLASS);
-        this.setTranslationKey("miku.miku_portal");
-    }
-
-    private static void causeLightning(World world, BlockPos pos) {
+    public static void causeLightning(World world, BlockPos pos) {
         if (world.isRemote) return;
 
         EntityLightningBolt bolt = new EntityLightningBolt(world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, true);
@@ -50,7 +38,7 @@ public class MikuPortal extends Block {
         }
     }
 
-    public static boolean CheckPortal(BlockPos pos, World world) {
+    public static void CheckPortal(BlockPos pos, World world, EntityPlayer entity) {
         Block block = MikuLoader.ScallionBlock;
         Block block1 = Blocks.DIAMOND_BLOCK;
         Block block2 = Blocks.SEA_LANTERN;
@@ -81,9 +69,30 @@ public class MikuPortal extends Block {
                                                     if (world.getBlockState(pos1).getBlock() == block2) {
                                                         pos1 = new BlockPos(pos.getX(), pos.getY() + 2, pos.getZ() - 3);
                                                         if (world.getBlockState(pos1).getBlock() == block2) {
-                                                            world.setBlockState(new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()), MikuLoader.MikuPortal.getDefaultState());
                                                             causeLightning(world, pos);
-                                                            return true;
+                                                            MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+
+                                                            int transferDimension = 393939;
+
+                                                            if (!entity.isRiding() && !entity.isBeingRidden() && !entity.isDead) {
+                                                                if (entity.timeUntilPortal > 0) {
+                                                                    entity.timeUntilPortal = entity.getPortalCooldown();
+                                                                } else {
+                                                                    if (!(entity.dimension == 393939)) {
+                                                                        LastWorld = entity.dimension;
+                                                                        entity.changeDimension(transferDimension, new MikuTeleporter(server.getWorld(transferDimension)));
+                                                                        entity.posY = 17;
+                                                                        entity.addPotionEffect(new PotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100, 255, false, false)));
+                                                                        entity.timeUntilPortal = 10;
+                                                                    } else {
+                                                                        entity.posY = 256;
+                                                                        entity.addPotionEffect(new PotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100, 255, false, false)));
+                                                                        entity.timeUntilPortal = 10;
+                                                                        entity.changeDimension(LastWorld, new MikuTeleporter(server.getWorld(LastWorld)));
+                                                                    }
+                                                                }
+
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -97,55 +106,6 @@ public class MikuPortal extends Block {
                 }
             }
         }
-        return false;
     }
 
-    @Override
-    public void onEntityCollision(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Entity entity) {
-        if (world.isRemote) return;
-        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-
-        int transferDimension = 393939;
-
-        if (!entity.isRiding() && !entity.isBeingRidden() && !entity.isDead) {
-            if (entity.timeUntilPortal > 0) {
-                entity.timeUntilPortal = entity.getPortalCooldown();
-            } else {
-                if (!(entity.dimension == 393939)) {
-                    LastWorld = entity.dimension;
-                    entity.changeDimension(transferDimension, new MikuTeleporter(server.getWorld(transferDimension)));
-                    entity.posY = 256;
-                    BlockPos blockpos = new BlockPos(entity.posX, 0, entity.posZ);
-                    entity.getEntityWorld().setBlockState(blockpos, MikuLoader.MIKU_ORE.getDefaultState());
-                    if (entity instanceof EntityLivingBase) {
-                        ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(new PotionEffect(MobEffects.RESISTANCE, 50, 255, false, false)));
-                    }
-                    entity.timeUntilPortal = 10;
-                } else {
-                    entity.posY = 256;
-                    if (entity instanceof EntityLivingBase) {
-                        ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(new PotionEffect(MobEffects.RESISTANCE, 50, 255, false, false)));
-                    }
-                    entity.timeUntilPortal = 10;
-                    entity.changeDimension(0, new MikuTeleporter(server.getWorld(LastWorld)));
-                }
-            }
-
-        }
-    }
-
-    @Override
-    @Deprecated
-    public boolean isFullCube(@Nonnull IBlockState state) {
-        return true;
-    }
-
-    public static int GetLastWorld() {
-        return LastWorld;
-    }
-
-    public void trySpawnPortal(@Nonnull World world, @Nonnull BlockPos pos) {
-        if (world.isRemote) return;
-        CheckPortal(pos, world);
-    }
 }

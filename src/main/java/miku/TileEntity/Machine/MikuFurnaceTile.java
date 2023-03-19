@@ -18,12 +18,10 @@ public class MikuFurnaceTile extends MachineTileBase {
         if (inventory != null) {
             System.out.println("found inventory");
             for (int index = 0; index < inventory.getSizeInventory(); ++index) {
-                System.out.println("index:" + index);
                 ItemStack itemstack = inventory.getStackInSlot(index);
                 ItemStack result = FurnaceRecipes.instance().getSmeltingResult(itemstack);
                 if (result != ItemStack.EMPTY && result.getItem() != null && power >= 5 && itemstack.getCount() != 0) {
                     inventory.setInventorySlotContents(index, new ItemStack(result.getItem(), itemstack.getCount()));
-                    System.out.println("Set" + index + "to" + result.getItem() + ":" + itemstack.getCount());
                     power -= 5;
                 }
             }

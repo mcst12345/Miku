@@ -14,7 +14,6 @@ import javax.annotation.Nonnull;
 
 public class GodKiller extends Enchantment {
     public GodKiller() {
-        //设定穿戴的位置（头盔、胸甲、护腿、鞋子）
         super(Rarity.VERY_RARE, EnumEnchantmentType.ALL, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
         this.setName("God_Killer");
     }
@@ -60,10 +59,8 @@ public class GodKiller extends Enchantment {
         entity.removePotionEffect(MobEffects.UNLUCK);
         entity.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 100000, 255, false, false));
         entity.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 100000, 255, false, false));
-        //entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 100000,  255, false, false));
         entity.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 100000, 255, false, false));
         entity.addPotionEffect(new PotionEffect(MobEffects.HASTE, 100000, 255, false, false));
-        //entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 100000,  255, false, false));
         entity.addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, 10, 10, false, false));
         entity.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 100000, 10, false, false));
         entity.addPotionEffect(new PotionEffect(MobEffects.LUCK, 100000, 255, false, false));
@@ -78,7 +75,7 @@ public class GodKiller extends Enchantment {
     public void onEntityDamaged(@Nonnull EntityLivingBase user, @Nonnull Entity target, int level) {
         if (user.world.isRemote) return;
         if (!(user instanceof EntityPlayer)) return;
-        EntityUtil.RangeKill(((EntityPlayer) user), 10);
+        EntityUtil.RangeKill(user, 10);
     }
 
     @Override

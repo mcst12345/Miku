@@ -228,7 +228,7 @@ public class MikuInfinityInventory implements IMikuInfinityInventory {
         if (id == 0) {
             if (value < 0) {
                 value = 0;
-            } else if (value >= Integer.MAX_VALUE) {
+            } else if (value == Integer.MAX_VALUE) {
                 value = Integer.MAX_VALUE - 1;
             }
             if (value >= pages.size()) {

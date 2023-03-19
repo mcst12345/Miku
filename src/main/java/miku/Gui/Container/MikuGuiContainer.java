@@ -13,9 +13,6 @@ public class MikuGuiContainer extends GuiContainer {
 
     private final MikuInventoryContainer container;
 
-    private GuiButton pre;
-    private GuiButton next;
-
     public MikuGuiContainer(MikuInventoryContainer container) {
         super(container);
         this.container = container;
@@ -27,8 +24,8 @@ public class MikuGuiContainer extends GuiContainer {
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        pre = addButton(new GuiButton(0, (width - xSize) / 2 + 173, (height - ySize) / 2 + 22, 20, 20, "<"));
-        next = addButton(new GuiButton(1, (width - xSize) / 2 + 213, (height - ySize) / 2 + 22, 20, 20, ">"));
+        GuiButton pre = addButton(new GuiButton(0, (width - xSize) / 2 + 173, (height - ySize) / 2 + 22, 20, 20, "<"));
+        GuiButton next = addButton(new GuiButton(1, (width - xSize) / 2 + 213, (height - ySize) / 2 + 22, 20, 20, ">"));
         itemRender = MikuRenderItem.instance;
     }
 

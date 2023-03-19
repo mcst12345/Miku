@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Random;
 
 public class MikuChunkGenerator implements IChunkGenerator {
-    Random random;
-    World world;
+    final Random random;
+    final World world;
 
     public MikuChunkGenerator(World world, long seed) {
         this.world = world;

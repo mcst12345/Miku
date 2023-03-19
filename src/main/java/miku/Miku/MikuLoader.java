@@ -3,7 +3,6 @@ package miku.Miku;
 import miku.Blocks.Machines.*;
 import miku.Blocks.MikuJukebox;
 import miku.Blocks.Ore.MikuOre;
-import miku.Blocks.Portal.MikuPortal;
 import miku.Blocks.ScallionBlock;
 import miku.Blocks.World.MikuWorld.MikuDirt;
 import miku.Blocks.World.MikuWorld.MikuGrass;
@@ -14,7 +13,6 @@ import miku.Enchantment.GodKiller;
 import miku.Entity.Hatsune_Miku;
 import miku.Event.BreakBlock;
 import miku.Event.EntityDropEvent;
-import miku.Event.WorldEvent;
 import miku.Items.Delicious_Scallion;
 import miku.Items.Miku.MikuItem;
 import miku.Items.Music.*;
@@ -126,7 +124,6 @@ public class MikuLoader {
     public static final Block ScallionBlock = new ScallionBlock(Material.IRON, MapColor.GREEN);
     public static final Block MikuDirt = new MikuDirt();
     public static final Block MikuGrass = new MikuGrass();
-    public static final Block MikuPortal = new MikuPortal();
     public static final Block MikuStone = new MikuStone();
     public static final Block MikuGenerator = new MikuGenerator();
     public static final Block MikuPowerStation = new MikuPowerStation();
@@ -139,7 +136,6 @@ public class MikuLoader {
     public static final ItemBlock EMPTY_SEKAI_BLOCK_ITEM = new ItemBlock(EMPTY_SEKAI_BLOCK);
     public static final ItemBlock Miku_Jukebox_Item = new ItemBlock(MikuJukebox);
     public static final ItemBlock ScallionBlockItem = new ItemBlock(ScallionBlock);
-    public static final ItemBlock MikuPortalItem = new ItemBlock(MikuPortal);
     public static final ItemBlock MikuDirtItem = new ItemBlock(MikuDirt);
     public static final ItemBlock MikuGrassItem = new ItemBlock(MikuGrass);
     public static final ItemBlock MikuStoneItem = new ItemBlock(MikuStone);
@@ -205,7 +201,6 @@ public class MikuLoader {
         Register.RegisterItem(event, All_happy, "All_Happy");
         Register.RegisterItem(event, DeliciousScallion, "delicious_scallion");
         Register.RegisterItem(event, ScallionBlockItem, "scallion_block");
-        Register.RegisterItem(event, MikuPortalItem, "miku_portal");
         Register.RegisterItem(event, MikuDirtItem, "miku_dirt");
         Register.RegisterItem(event, MikuGrassItem, "miku_grass");
         Register.RegisterItem(event, MikuStoneItem, "miku_stone");
@@ -282,7 +277,6 @@ public class MikuLoader {
         Register.RegisterItemModel(SUMMON_MIKU);
         Register.RegisterItemModel(DeliciousScallion);
         Register.RegisterItemModel(ScallionBlockItem);
-        Register.RegisterItemModel(MikuPortalItem);
         Register.RegisterItemModel(MikuDirtItem);
         Register.RegisterItemModel(MikuGrassItem);
         Register.RegisterItemModel(MikuStoneItem);
@@ -321,7 +315,6 @@ public class MikuLoader {
         Register.RegisterBlock(event, EMPTY_SEKAI_BLOCK, "empty_sekai_block");
         Register.RegisterBlock(event, MikuJukebox, "miku_jukebox");
         Register.RegisterBlock(event, ScallionBlock, "scallion_block");
-        Register.RegisterBlock(event, MikuPortal, "miku_portal");
         Register.RegisterBlock(event, MikuDirt, "miku_dirt");
         Register.RegisterBlock(event, MikuGrass, "miku_grass");
         Register.RegisterBlock(event, MikuStone, "miku_stone");
@@ -362,7 +355,6 @@ public class MikuLoader {
     public static void RegisterEvent() {
         MinecraftForge.EVENT_BUS.register(new BreakBlock());
         MinecraftForge.EVENT_BUS.register(new EntityDropEvent());
-        MinecraftForge.EVENT_BUS.register(new WorldEvent());
     }
 
     @SubscribeEvent

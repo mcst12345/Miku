@@ -22,23 +22,19 @@ public enum MikuGuiHandler implements IGuiHandler {
 
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        switch (ID) {
-            case MIKU_INVENTORY:
-                return new MikuInventoryContainer(player, player.getHeldItem(y == 0 ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND), x);
-            default:
-                return null;
+        if (ID == MIKU_INVENTORY) {
+            return new MikuInventoryContainer(player, player.getHeldItem(y == 0 ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND), x);
         }
+        return null;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        switch (ID) {
-            case MIKU_INVENTORY:
-                return new MikuGuiContainer(new MikuInventoryContainer(player, player.getHeldItem(y == 0 ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND), x));
-            default:
-                return null;
+        if (ID == MIKU_INVENTORY) {
+            return new MikuGuiContainer(new MikuInventoryContainer(player, player.getHeldItem(y == 0 ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND), x));
         }
+        return null;
     }
 
 

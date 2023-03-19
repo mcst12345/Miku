@@ -8,5 +8,5 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public interface IStructure {
     WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(393939);
-    PlacementSettings settings = (new PlacementSettings()).setChunk(null).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE).setRotation(Rotation.NONE);
+    PlacementSettings settings = (new PlacementSettings()).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE).setRotation(Rotation.NONE);
 }

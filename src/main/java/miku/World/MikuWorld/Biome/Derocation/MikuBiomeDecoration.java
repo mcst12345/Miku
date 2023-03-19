@@ -42,10 +42,10 @@ public class MikuBiomeDecoration extends BiomeDecorator {
     @Override
     protected void genDecorations(@Nonnull Biome biomeGenBaseIn, @Nonnull World worldIn, @Nonnull Random random) {
         if (this.shouldSpawn(2)) {
-            this.spawnOre(Blocks.COAL_ORE.getDefaultState(), 32, 50, 150);
-            this.spawnOre(Blocks.IRON_ORE.getDefaultState(), 32, 40, 150);
-            this.spawnOre(Blocks.GOLD_ORE.getDefaultState(), 32, 30, 150);
-            this.spawnOre(Blocks.DIAMOND_BLOCK.getDefaultState(), 32, 20, 150);
+            this.spawnOre(Blocks.COAL_ORE.getDefaultState(), 32, 50, 12);
+            this.spawnOre(Blocks.IRON_ORE.getDefaultState(), 32, 40, 8);
+            this.spawnOre(Blocks.GOLD_ORE.getDefaultState(), 32, 30, 4);
+            this.spawnOre(Blocks.DIAMOND_BLOCK.getDefaultState(), 32, 20, 1);
         }
     }
 

@@ -7,6 +7,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class MikuGenOre extends WorldGenerator {
@@ -26,7 +27,7 @@ public class MikuGenOre extends WorldGenerator {
     }
 
     @Override
-    public boolean generate(World world, Random random, BlockPos pos) {
+    public boolean generate(@Nonnull World world, Random random, BlockPos pos) {
         float f = random.nextFloat() * (float) Math.PI;
         double d = (float) (pos.getX() + 8) + MathHelper.sin(f) * (float) this.numberOfBlocks / 8.0F;
         double d1 = (float) (pos.getX() + 8) - MathHelper.sin(f) * (float) this.numberOfBlocks / 8.0F;

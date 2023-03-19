@@ -7,6 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class MikuGenLiquids extends WorldGenerator {
@@ -14,7 +15,7 @@ public class MikuGenLiquids extends WorldGenerator {
         super();
     }
 
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
+    public boolean generate(World worldIn, @Nonnull Random rand, BlockPos position) {
         if (worldIn.getBlockState(position.up()).getBlock() != MikuLoader.MikuStone) {
             return false;
         } else if (worldIn.getBlockState(position.down()).getBlock() != MikuLoader.MikuStone) {

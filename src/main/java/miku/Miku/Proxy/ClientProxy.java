@@ -21,8 +21,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class ClientProxy extends CommonProxy {
-    public ClientProxy() {
-    }
 
     public void preInit(FMLPreInitializationEvent event) throws IOException {
         super.preInit(event);
@@ -34,7 +32,7 @@ public class ClientProxy extends CommonProxy {
         }
         MikuLoader.RegisterKey();
         MinecraftForge.EVENT_BUS.register(new InputEvent());
-        RenderingRegistry.registerEntityRenderingHandler((Class) Hatsune_Miku.class, renderManager -> {
+        RenderingRegistry.registerEntityRenderingHandler((Class<? extends Entity>) Hatsune_Miku.class, renderManager -> {
             final RenderBiped customRender = new RenderBiped(renderManager, new ModelBiped(), 0.5f) {
                 protected ResourceLocation getEntityTexture(@Nonnull final Entity entity) {
                     return new ResourceLocation("miku:textures/entities/miku.png");
