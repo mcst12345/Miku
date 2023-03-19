@@ -40,11 +40,7 @@ public class MikuPortal {
 
     public static void CheckPortal(BlockPos pos, World world, EntityPlayer entity) {
         Block block = MikuLoader.ScallionBlock;
-        Block block1 = Blocks.DIAMOND_BLOCK;
-        Block block2 = Blocks.SEA_LANTERN;
-        System.out.println(pos.getX() + " " + pos.getY() + " " + pos.getZ());
         if (world.getBlockState(pos).getBlock() == block) {
-            System.out.println("start checking");
             BlockPos pos1 = new BlockPos(pos.getX() + 3, pos.getY(), pos.getZ());
             if (world.getBlockState(pos1).getBlock() == block) {
                 pos1 = new BlockPos(pos.getX() - 3, pos.getY(), pos.getZ());
@@ -54,44 +50,62 @@ public class MikuPortal {
                         pos1 = new BlockPos(pos.getX(), pos.getY(), pos.getZ() - 3);
                         if (world.getBlockState(pos1).getBlock() == block) {
                             pos1 = new BlockPos(pos.getX() + 3, pos.getY() + 1, pos.getZ());
-                            if (world.getBlockState(pos1).getBlock() == block1) {
+                            block = Blocks.DIAMOND_BLOCK;
+                            if (world.getBlockState(pos1).getBlock() == block) {
                                 pos1 = new BlockPos(pos.getX() - 3, pos.getY() + 1, pos.getZ());
-                                if (world.getBlockState(pos1).getBlock() == block1) {
+                                if (world.getBlockState(pos1).getBlock() == block) {
                                     pos1 = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ() + 3);
-                                    if (world.getBlockState(pos1).getBlock() == block1) {
+                                    if (world.getBlockState(pos1).getBlock() == block) {
                                         pos1 = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ() - 3);
-                                        if (world.getBlockState(pos1).getBlock() == block1) {
+                                        if (world.getBlockState(pos1).getBlock() == block) {
                                             pos1 = new BlockPos(pos.getX() + 3, pos.getY() + 2, pos.getZ());
-                                            if (world.getBlockState(pos1).getBlock() == block2) {
+                                            block = Blocks.SEA_LANTERN;
+                                            if (world.getBlockState(pos1).getBlock() == block) {
                                                 pos1 = new BlockPos(pos.getX() - 3, pos.getY() + 2, pos.getZ());
-                                                if (world.getBlockState(pos1).getBlock() == block2) {
+                                                if (world.getBlockState(pos1).getBlock() == block) {
                                                     pos1 = new BlockPos(pos.getX(), pos.getY() + 2, pos.getZ() + 3);
-                                                    if (world.getBlockState(pos1).getBlock() == block2) {
+                                                    if (world.getBlockState(pos1).getBlock() == block) {
                                                         pos1 = new BlockPos(pos.getX(), pos.getY() + 2, pos.getZ() - 3);
-                                                        if (world.getBlockState(pos1).getBlock() == block2) {
-                                                            causeLightning(world, pos);
-                                                            MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-
-                                                            int transferDimension = 393939;
-
-                                                            if (!entity.isRiding() && !entity.isBeingRidden() && !entity.isDead) {
-                                                                if (entity.timeUntilPortal > 0) {
-                                                                    entity.timeUntilPortal = entity.getPortalCooldown();
-                                                                } else {
-                                                                    if (!(entity.dimension == 393939)) {
-                                                                        LastWorld = entity.dimension;
-                                                                        entity.changeDimension(transferDimension, new MikuTeleporter(server.getWorld(transferDimension)));
-                                                                        entity.posY = 17;
-                                                                        entity.addPotionEffect(new PotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100, 255, false, false)));
-                                                                        entity.timeUntilPortal = 10;
-                                                                    } else {
-                                                                        entity.posY = 256;
-                                                                        entity.addPotionEffect(new PotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100, 255, false, false)));
-                                                                        entity.timeUntilPortal = 10;
-                                                                        entity.changeDimension(LastWorld, new MikuTeleporter(server.getWorld(LastWorld)));
+                                                        if (world.getBlockState(pos1).getBlock() == block) {
+                                                            pos1 = new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ());
+                                                            block = Blocks.PURPUR_BLOCK;
+                                                            if (world.getBlockState(pos1).getBlock() == block) {
+                                                                pos1 = new BlockPos(pos.getX() - 1, pos.getY(), pos.getZ());
+                                                                if (world.getBlockState(pos1).getBlock() == block) {
+                                                                    pos1 = new BlockPos(pos.getX(), pos.getY(), pos.getZ() + 1);
+                                                                    if (world.getBlockState(pos1).getBlock() == block) {
+                                                                        pos1 = new BlockPos(pos.getX(), pos.getY(), pos.getZ() - 1);
+                                                                        if (world.getBlockState(pos1).getBlock() == block) {
+                                                                            pos1 = new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ() - 1);
+                                                                            block = Blocks.BEACON;
+                                                                            if (world.getBlockState(pos1).getBlock() == block) {
+                                                                                pos1 = new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ() + 1);
+                                                                                if (world.getBlockState(pos1).getBlock() == block) {
+                                                                                    pos1 = new BlockPos(pos.getX() - 1, pos.getY(), pos.getZ() - 1);
+                                                                                    if (world.getBlockState(pos1).getBlock() == block) {
+                                                                                        pos1 = new BlockPos(pos.getX() - 1, pos.getY(), pos.getZ() + 1);
+                                                                                        if (world.getBlockState(pos1).getBlock() == block) {
+                                                                                            pos1 = new BlockPos(pos.getX() + 2, pos.getY(), pos.getZ() - 2);
+                                                                                            block = Blocks.PURPUR_SLAB;
+                                                                                            if (world.getBlockState(pos1).getBlock() == block) {
+                                                                                                pos1 = new BlockPos(pos.getX() + 2, pos.getY(), pos.getZ() + 2);
+                                                                                                if (world.getBlockState(pos1).getBlock() == block) {
+                                                                                                    pos1 = new BlockPos(pos.getX() - 2, pos.getY(), pos.getZ() - 2);
+                                                                                                    if (world.getBlockState(pos1).getBlock() == block) {
+                                                                                                        pos1 = new BlockPos(pos.getX() - 2, pos.getY(), pos.getZ() + 2);
+                                                                                                        if (world.getBlockState(pos1).getBlock() == block) {
+                                                                                                            transfer(world, pos, entity);
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
                                                                     }
                                                                 }
-
                                                             }
                                                         }
                                                     }
@@ -105,6 +119,33 @@ public class MikuPortal {
                     }
                 }
             }
+        }
+    }
+
+    public static void transfer(World world, BlockPos pos, EntityPlayer entity) {
+        causeLightning(world, pos);
+        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+
+        int transferDimension = 393939;
+
+        if (!entity.isRiding() && !entity.isBeingRidden() && !entity.isDead) {
+            if (entity.timeUntilPortal > 0) {
+                entity.timeUntilPortal = entity.getPortalCooldown();
+            } else {
+                if (!(entity.dimension == 393939)) {
+                    LastWorld = entity.dimension;
+                    entity.changeDimension(transferDimension, new MikuTeleporter(server.getWorld(transferDimension)));
+                    entity.posY = 17;
+                    entity.addPotionEffect(new PotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100, 255, false, false)));
+                    entity.timeUntilPortal = 10;
+                } else {
+                    entity.posY = 256;
+                    entity.addPotionEffect(new PotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100, 255, false, false)));
+                    entity.timeUntilPortal = 10;
+                    entity.changeDimension(LastWorld, new MikuTeleporter(server.getWorld(LastWorld)));
+                }
+            }
+
         }
     }
 
