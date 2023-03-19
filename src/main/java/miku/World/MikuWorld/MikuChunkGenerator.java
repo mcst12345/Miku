@@ -36,8 +36,8 @@ public class MikuChunkGenerator implements IChunkGenerator {
     public Chunk generateChunk(int x, int z) {
         ChunkPrimer primer = new ChunkPrimer();
 
-        for (int i = 0; i < 80; i++) {
-            for (int j = 0; j < 80; j++) {
+        for (int i = 0; i < 16; i++) {
+            for (int j = 0; j < 16; j++) {
                 for (int k = 0; k <= 80; k++) {
                     if (k == 0) primer.setBlockState(i, k, j, Blocks.BEDROCK.getDefaultState());
                     else {
