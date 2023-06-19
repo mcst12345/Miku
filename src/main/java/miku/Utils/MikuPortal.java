@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
@@ -144,6 +145,8 @@ public class MikuPortal {
                     entity.timeUntilPortal = 10;
                     entity.changeDimension(LastWorld, new MikuTeleporter(server.getWorld(LastWorld)));
                 }
+                if (entity instanceof EntityPlayerMP)
+                    server.getPlayerList().syncPlayerInventory((EntityPlayerMP) entity);
             }
 
         }
