@@ -32,7 +32,7 @@ public class OverWorldOreGen implements IWorldGenerator {
     //生成的矿物   生成矿物的世界 生成数(随机的)  生成的x ,z坐标   Y最小,Y最大坐标在(minY,maxY)高度区间中生成矿石 矿脉大小 生成概率
     private void generateOre(IBlockState ore, World world, Random random, int x, int z, int size) {
         int deltaY = 40;
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 5; i++) {
             BlockPos pos = new BlockPos(x + random.nextInt(16), 5 + random.nextInt(deltaY), z + random.nextInt(16));
 
             WorldGenMinable generator = new WorldGenMinable(ore, size);

@@ -10,6 +10,7 @@ import miku.Items.ItemLoader;
 import miku.Model.MikuModel;
 import miku.Render.RenderMiku;
 import miku.Tile.Machine.*;
+import miku.World.MikuWorld.Gen.Feature.MikuGenOre;
 import miku.World.MikuWorld.MikuWorld;
 import miku.World.OverWorldGenStructure;
 import miku.World.OverWorldOreGen;
@@ -80,6 +81,7 @@ public class MikuLoader {
     public static void RegisterWorldGen() {
         GameRegistry.registerWorldGenerator(new OverWorldOreGen(), 3);
         GameRegistry.registerWorldGenerator(new OverWorldGenStructure(), 6);
+        GameRegistry.registerWorldGenerator(new MikuGenOre(), 6);
     }
 
     @SideOnly(Side.CLIENT)
