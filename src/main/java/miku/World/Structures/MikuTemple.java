@@ -1,4 +1,4 @@
-package miku.World.MikuWorld.Structures;
+package miku.World.Structures;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.server.MinecraftServer;

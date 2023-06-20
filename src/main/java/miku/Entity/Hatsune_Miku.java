@@ -3,9 +3,9 @@ package miku.Entity;
 import com.chaoswither.chaoswither;
 import com.github.alexthe666.iceandfire.IceAndFire;
 import com.github.alexthe666.iceandfire.entity.StoneEntityProperties;
+import miku.Items.ItemLoader;
 import miku.Items.Scallion;
 import miku.Miku.MikuCombatTracker;
-import miku.Miku.MikuLoader;
 import miku.Thread.MikuTradeThread;
 import miku.lib.api.ProtectedEntity;
 import miku.lib.util.EntityUtil;
@@ -149,7 +149,7 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, ProtectedEntity 
     protected void initEntityAI() {
         this.tasks.addTask(1, new EntityAIPanic(this, 1.4D));
         this.tasks.addTask(1, new EntityAIAvoidEntity<>(this, EntityMob.class, 8.0F, 0.6D, 0.6D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, MikuLoader.SCALLION, false));
+        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, ItemLoader.SCALLION, false));
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAILookIdle(this));
         this.tasks.addTask(2, new EntityAIMoveIndoors(this));

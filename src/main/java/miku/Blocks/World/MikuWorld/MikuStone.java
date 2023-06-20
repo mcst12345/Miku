@@ -1,6 +1,6 @@
 package miku.Blocks.World.MikuWorld;
 
-import miku.Miku.MikuLoader;
+import miku.Items.ItemLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -30,6 +30,6 @@ public class MikuStone extends Block {
     @Override
     @Nonnull
     public Item getItemDropped(@Nullable IBlockState state, @Nullable Random rand, int fortune) {
-        return MikuLoader.MikuStoneItem;
+        return ItemLoader.MikuStoneItem;
     }
 }

@@ -1,6 +1,6 @@
 package miku.World.MikuWorld.Biome.Derocation;
 
-import miku.Miku.MikuLoader;
+import miku.Blocks.BlockLoader;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -16,31 +16,31 @@ public class MikuGenLiquids extends WorldGenerator {
     }
 
     public boolean generate(World worldIn, @Nonnull Random rand, BlockPos position) {
-        if (worldIn.getBlockState(position.up()).getBlock() != MikuLoader.MikuStone) {
+        if (worldIn.getBlockState(position.up()).getBlock() != BlockLoader.MikuStone) {
             return false;
-        } else if (worldIn.getBlockState(position.down()).getBlock() != MikuLoader.MikuStone) {
+        } else if (worldIn.getBlockState(position.down()).getBlock() != BlockLoader.MikuStone) {
             return false;
         } else {
             IBlockState iblockstate = worldIn.getBlockState(position);
 
-            if (!iblockstate.getBlock().isAir(iblockstate, worldIn, position) && iblockstate.getBlock() != MikuLoader.MikuStone) {
+            if (!iblockstate.getBlock().isAir(iblockstate, worldIn, position) && iblockstate.getBlock() != BlockLoader.MikuStone) {
                 return false;
             } else {
                 int i = 0;
 
-                if (worldIn.getBlockState(position.west()).getBlock() == MikuLoader.MikuStone) {
+                if (worldIn.getBlockState(position.west()).getBlock() == BlockLoader.MikuStone) {
                     ++i;
                 }
 
-                if (worldIn.getBlockState(position.east()).getBlock() == MikuLoader.MikuStone) {
+                if (worldIn.getBlockState(position.east()).getBlock() == BlockLoader.MikuStone) {
                     ++i;
                 }
 
-                if (worldIn.getBlockState(position.north()).getBlock() == MikuLoader.MikuStone) {
+                if (worldIn.getBlockState(position.north()).getBlock() == BlockLoader.MikuStone) {
                     ++i;
                 }
 
-                if (worldIn.getBlockState(position.south()).getBlock() == MikuLoader.MikuStone) {
+                if (worldIn.getBlockState(position.south()).getBlock() == BlockLoader.MikuStone) {
                     ++i;
                 }
 

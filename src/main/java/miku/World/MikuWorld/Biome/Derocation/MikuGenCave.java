@@ -1,6 +1,6 @@
 package miku.World.MikuWorld.Biome.Derocation;
 
-import miku.Miku.MikuLoader;
+import miku.Blocks.BlockLoader;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -57,7 +57,7 @@ public class MikuGenCave extends WorldGenerator {
                                 BlockPos newPos = new BlockPos(k2, l2, i3);
                                 Block block = world.getBlockState(newPos).getBlock();
 
-                                if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && (block == MikuLoader.MikuStone || block == MikuLoader.MikuGrass || block == MikuLoader.MikuDirt)) {
+                                if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && (block == BlockLoader.MikuStone || block == BlockLoader.MikuGrass || block == BlockLoader.MikuDirt)) {
                                     this.setBlockAndNotifyAdequately(world, newPos, this.MikuBlock.getDefaultState());
                                 }
                             }

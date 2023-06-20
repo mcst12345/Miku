@@ -1,4 +1,4 @@
-package miku.TileEntity.Machine;
+package miku.Tile.Machine;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

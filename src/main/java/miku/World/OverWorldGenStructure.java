@@ -1,6 +1,6 @@
 package miku.World;
 
-import miku.World.MikuWorld.Structures.MikuTemple;
+import miku.World.Structures.MikuTemple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;

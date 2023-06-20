@@ -1,6 +1,7 @@
 package miku.Blocks.World.MikuWorld;
 
-import miku.Miku.MikuLoader;
+import miku.Blocks.BlockLoader;
+import miku.Items.ItemLoader;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
@@ -28,7 +29,7 @@ public class MikuGrass extends BlockGrass {
     @Override
     @Nonnull
     public Item getItemDropped(@Nullable IBlockState state, @Nullable Random rand, int fortune) {
-        return MikuLoader.MikuDirtItem;
+        return ItemLoader.MikuDirtItem;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class MikuGrass extends BlockGrass {
             if (!worldIn.isAreaLoaded(pos, 3))
                 return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
             if (worldIn.getLightFromNeighbors(pos.up()) < 4 && worldIn.getBlockState(pos.up()).getLightOpacity(worldIn, pos.up()) > 2) {
-                worldIn.setBlockState(pos, MikuLoader.MikuDirt.getDefaultState());
+                worldIn.setBlockState(pos, BlockLoader.MikuDirt.getDefaultState());
             } else {
                 if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
                     for (int i = 0; i < 4; ++i) {
@@ -50,8 +51,8 @@ public class MikuGrass extends BlockGrass {
                         IBlockState iblockstate = worldIn.getBlockState(blockpos.up());
                         IBlockState iblockstate1 = worldIn.getBlockState(blockpos);
 
-                        if (iblockstate1.getBlock() == MikuLoader.MikuDirt && worldIn.getLightFromNeighbors(blockpos.up()) >= 4 && iblockstate.getLightOpacity(worldIn, pos.up()) <= 2) {
-                            worldIn.setBlockState(blockpos, MikuLoader.MikuGrass.getDefaultState());
+                        if (iblockstate1.getBlock() == BlockLoader.MikuDirt && worldIn.getLightFromNeighbors(blockpos.up()) >= 4 && iblockstate.getLightOpacity(worldIn, pos.up()) <= 2) {
+                            worldIn.setBlockState(blockpos, BlockLoader.MikuGrass.getDefaultState());
                         }
                     }
                 }

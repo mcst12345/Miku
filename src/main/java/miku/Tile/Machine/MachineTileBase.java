@@ -1,4 +1,4 @@
-package miku.TileEntity.Machine;
+package miku.Tile.Machine;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;

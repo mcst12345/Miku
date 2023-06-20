@@ -1,4 +1,4 @@
-package miku.TileEntity.Machine;
+package miku.Tile.Machine;
 
 import miku.Items.Scallion;
 import net.minecraft.inventory.IInventory;

@@ -1,6 +1,6 @@
-package miku.World.EmptySekai;
+package miku.World.EmptySekai.Gen;
 
-import miku.Miku.MikuLoader;
+import miku.Blocks.BlockLoader;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -30,7 +30,7 @@ public class EmptySekaiChunkGenerator implements IChunkGenerator {
         ChunkPrimer primer = new ChunkPrimer();
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
-                primer.setBlockState(i, 0, j, MikuLoader.EMPTY_SEKAI_BLOCK.getDefaultState());
+                primer.setBlockState(i, 0, j, BlockLoader.EMPTY_SEKAI_BLOCK.getDefaultState());
             }
         }
         Chunk chunk = new Chunk(this.world, primer, x, z);

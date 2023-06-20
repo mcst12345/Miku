@@ -1,6 +1,7 @@
 package miku.World.MikuWorld;
 
 import miku.World.MikuWorld.Biome.MikuBiomeProvider;
+import miku.World.MikuWorld.Gen.MikuChunkGenerator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;

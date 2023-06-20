@@ -1,7 +1,7 @@
 package miku.Blocks.Machines;
 
 import miku.Miku.Miku;
-import miku.TileEntity.Machine.MikuRFConverterTile;
+import miku.Tile.Machine.MikuRFConverterTile;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 

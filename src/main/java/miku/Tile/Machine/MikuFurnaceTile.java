@@ -1,4 +1,4 @@
-package miku.TileEntity.Machine;
+package miku.Tile.Machine;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

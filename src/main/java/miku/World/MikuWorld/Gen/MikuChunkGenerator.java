@@ -1,20 +1,16 @@
-package miku.World.MikuWorld;
+package miku.World.MikuWorld.Gen;
 
-import miku.Miku.MikuLoader;
-import miku.World.MikuWorld.Structures.IStructure;
-import net.minecraft.block.state.IBlockState;
+import miku.Blocks.BlockLoader;
+import miku.Utils.WorldUtil;
+import miku.World.MikuWorld.Gen.Feature.MikuGenLake;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.gen.structure.template.Template;
-import net.minecraft.world.gen.structure.template.TemplateManager;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,9 +22,12 @@ public class MikuChunkGenerator implements IChunkGenerator {
     final Random random;
     final World world;
 
+    private final MikuGenLake lake;
+
     public MikuChunkGenerator(World world, long seed) {
         this.world = world;
         this.random = new Random(seed);
+        this.lake = new MikuGenLake(Blocks.WATER);
     }
 
     @Override
@@ -41,10 +40,10 @@ public class MikuChunkGenerator implements IChunkGenerator {
                 for (int k = 0; k <= 80; k++) {
                     if (k == 0) primer.setBlockState(i, k, j, Blocks.BEDROCK.getDefaultState());
                     else {
-                        if (k <= 70) primer.setBlockState(i, k, j, MikuLoader.MikuStone.getDefaultState());
+                        if (k <= 70) primer.setBlockState(i, k, j, BlockLoader.MikuStone.getDefaultState());
                         else {
-                            if (k < 80) primer.setBlockState(i, k, j, MikuLoader.MikuDirt.getDefaultState());
-                            else primer.setBlockState(i, k, j, MikuLoader.MikuGrass.getDefaultState());
+                            if (k < 80) primer.setBlockState(i, k, j, BlockLoader.MikuDirt.getDefaultState());
+                            else primer.setBlockState(i, k, j, BlockLoader.MikuGrass.getDefaultState());
                         }
                     }
                 }
@@ -65,29 +64,13 @@ public class MikuChunkGenerator implements IChunkGenerator {
         Biome biome = this.world.getBiome(new BlockPos(i, 0, j));
         biome.decorate(world, random, new BlockPos(i, 0, j));
         BlockPos pos = new BlockPos(i, new Random().nextInt(20) + 150, j);
-        MinecraftServer mcServer = world.getMinecraftServer();
-        TemplateManager manager = IStructure.worldServer.getStructureTemplateManager();
+        if (this.random.nextInt(4) == 0) {
+            this.lake.generate(this.world, this.random, pos.add(this.random.nextInt(16) + 8, this.random.nextInt(256), this.random.nextInt(16) + 8));
+        }
         if (r == 999) {
-            ResourceLocation location = new ResourceLocation("miku", "miku_skyland_1");
-            Template template = manager.get(mcServer, location);
-            if (template != null) {
-                IBlockState state = world.getBlockState(pos);
-                world.notifyBlockUpdate(pos, state, state, 3);
-                template.addBlocksToWorldChunk(world, pos, IStructure.settings);
-            } else {
-                System.out.println("Error:mod file damaged!");
-            }
+            WorldUtil.GenerateStructure(world, "miku_skyland_1", pos);
         } else if (r == 39) {
-            pos = new BlockPos(i, 81, j);
-            ResourceLocation location = new ResourceLocation("miku", "scallion_house");
-            Template template = manager.get(mcServer, location);
-            if (template != null) {
-                IBlockState state = world.getBlockState(pos);
-                world.notifyBlockUpdate(pos, state, state, 3);
-                template.addBlocksToWorldChunk(world, pos, IStructure.settings);
-            } else {
-                System.out.println("Error:mod file damaged!");
-            }
+            WorldUtil.GenerateStructure(world, "scallion_house", pos);
         }
     }
 

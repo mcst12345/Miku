@@ -1,6 +1,6 @@
 package miku.Utils;
 
-import miku.Miku.MikuLoader;
+import miku.Blocks.BlockLoader;
 import miku.World.MikuWorld.MikuTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -40,7 +40,7 @@ public class MikuPortal {
     }
 
     public static void CheckPortal(BlockPos pos, World world, EntityPlayer entity) {
-        Block block = MikuLoader.ScallionBlock;
+        Block block = BlockLoader.ScallionBlock;
         if (world.getBlockState(pos).getBlock() == block) {
             BlockPos pos1 = new BlockPos(pos.getX() + 3, pos.getY(), pos.getZ());
             if (world.getBlockState(pos1).getBlock() == block) {

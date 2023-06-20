@@ -1,6 +1,6 @@
 package miku.Event;
 
-import miku.Miku.MikuLoader;
+import miku.Items.ItemLoader;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -15,6 +15,6 @@ public class EntityDropEvent {
         EntityLivingBase entity = event.getEntityLiving();
         if (entity.world.isRemote) return;
         final int amount = new Random().nextInt(10);
-        event.getDrops().add(new EntityItem(entity.world, entity.posX, entity.posY, entity.posZ, new ItemStack(MikuLoader.SCALLION, amount)));
+        event.getDrops().add(new EntityItem(entity.world, entity.posX, entity.posY, entity.posZ, new ItemStack(ItemLoader.SCALLION, amount)));
     }
 }

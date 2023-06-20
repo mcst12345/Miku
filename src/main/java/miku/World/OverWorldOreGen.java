@@ -1,6 +1,6 @@
 package miku.World;
 
-import miku.Miku.MikuLoader;
+import miku.Blocks.BlockLoader;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,7 +25,7 @@ public class OverWorldOreGen implements IWorldGenerator {
     //在世界生成矿物的信息
     private void generateOverworld(Random random, int chunkX, int chunkZ, World world) {
 
-        generateOre(MikuLoader.MIKU_ORE.getDefaultState(), world, random, chunkX * 16, chunkZ * 16, random.nextInt(5) + 10);
+        generateOre(BlockLoader.MIKU_ORE.getDefaultState(), world, random, chunkX * 16, chunkZ * 16, random.nextInt(5) + 10);
 
     }
 

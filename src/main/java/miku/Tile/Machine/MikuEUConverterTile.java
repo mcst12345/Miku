@@ -1,4 +1,4 @@
-package miku.TileEntity.Machine;
+package miku.Tile.Machine;
 
 import ic2.core.block.wiring.TileEntityElectricBlock;
 import net.minecraft.util.math.BlockPos;
