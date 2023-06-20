@@ -1,6 +1,7 @@
 package miku.World.MikuWorld.Gen.Feature;
 
 import miku.Blocks.BlockLoader;
+import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -20,35 +21,35 @@ public class MikuGenOre implements IWorldGenerator {
             if (r == 1) {
                 for (int i = 0; i < 20; i++) {
                     BlockPos pos = new BlockPos(chunkX * 16 + random.nextInt(16), 5 + random.nextInt(deltaY), chunkZ * 16 + random.nextInt(16));
-                    WorldGenMinable generator = new WorldGenMinable(BlockLoader.MIKU_ORE.getDefaultState(), 4 + new Random(chunkX + chunkZ).nextInt(8));
+                    WorldGenMinable generator = new WorldGenMinable(BlockLoader.MIKU_ORE.getDefaultState(), 4 + new Random(chunkX + chunkZ).nextInt(8), BlockMatcher.forBlock(BlockLoader.MikuStone));
                     generator.generate(world, random, pos);
                 }
             }
             if (r == 2) {
                 for (int i = 0; i < 3; i++) {
                     BlockPos pos = new BlockPos(chunkX * 16 + random.nextInt(16), 5 + random.nextInt(deltaY), chunkZ * 16 + random.nextInt(16));
-                    WorldGenMinable generator = new WorldGenMinable(Blocks.DIAMOND_ORE.getDefaultState(), 10 + new Random(chunkX + chunkZ).nextInt(3));
+                    WorldGenMinable generator = new WorldGenMinable(Blocks.DIAMOND_ORE.getDefaultState(), 10 + new Random(chunkX + chunkZ).nextInt(3), BlockMatcher.forBlock(BlockLoader.MikuStone));
                     generator.generate(world, random, pos);
                 }
             }
             if (r == 3) {
                 for (int i = 0; i < 10; i++) {
                     BlockPos pos = new BlockPos(chunkX * 16 + random.nextInt(16), 5 + random.nextInt(deltaY), chunkZ * 16 + random.nextInt(16));
-                    WorldGenMinable generator = new WorldGenMinable(Blocks.IRON_ORE.getDefaultState(), 15 + new Random(chunkX + chunkZ).nextInt(3));
+                    WorldGenMinable generator = new WorldGenMinable(Blocks.IRON_ORE.getDefaultState(), 15 + new Random(chunkX + chunkZ).nextInt(3), BlockMatcher.forBlock(BlockLoader.MikuStone));
                     generator.generate(world, random, pos);
                 }
             }
             if (r == 4) {
                 for (int i = 0; i < 1; i++) {
                     BlockPos pos = new BlockPos(chunkX * 16 + random.nextInt(16), 5 + random.nextInt(deltaY), chunkZ * 16 + random.nextInt(16));
-                    WorldGenMinable generator = new WorldGenMinable(Blocks.EMERALD_ORE.getDefaultState(), 30 + new Random(chunkX + chunkZ).nextInt(3));
+                    WorldGenMinable generator = new WorldGenMinable(Blocks.EMERALD_ORE.getDefaultState(), 30 + new Random(chunkX + chunkZ).nextInt(3), BlockMatcher.forBlock(BlockLoader.MikuStone));
                     generator.generate(world, random, pos);
                 }
             }
             if (r == 0) {
                 for (int i = 0; i < 10; i++) {
                     BlockPos pos = new BlockPos(chunkX * 16 + random.nextInt(16), 5 + random.nextInt(deltaY), chunkZ * 16 + random.nextInt(16));
-                    WorldGenMinable generator = new WorldGenMinable(Blocks.GOLD_ORE.getDefaultState(), 10 + new Random(chunkX + chunkZ).nextInt(3));
+                    WorldGenMinable generator = new WorldGenMinable(Blocks.GOLD_ORE.getDefaultState(), 10 + new Random(chunkX + chunkZ).nextInt(3), BlockMatcher.forBlock(BlockLoader.MikuStone));
                     generator.generate(world, random, pos);
                 }
             }
