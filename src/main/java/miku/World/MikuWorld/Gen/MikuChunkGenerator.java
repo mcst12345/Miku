@@ -2,6 +2,7 @@ package miku.World.MikuWorld.Gen;
 
 import miku.Blocks.BlockLoader;
 import miku.Utils.WorldUtil;
+import miku.World.MikuWorld.Gen.Feature.MikuGenCaves;
 import miku.World.MikuWorld.Gen.Feature.MikuGenLake;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
@@ -24,10 +25,13 @@ public class MikuChunkGenerator implements IChunkGenerator {
 
     private final MikuGenLake lake;
 
+    private final MikuGenCaves caves;
+
     public MikuChunkGenerator(World world, long seed) {
         this.world = world;
         this.random = new Random(seed);
         this.lake = new MikuGenLake(Blocks.WATER);
+        caves = new MikuGenCaves();
     }
 
     @Override
@@ -49,6 +53,8 @@ public class MikuChunkGenerator implements IChunkGenerator {
                 }
             }
         }
+
+        caves.generate(this.world, x, z, primer);
 
 
         Chunk chunk = new Chunk(this.world, primer, x, z);
