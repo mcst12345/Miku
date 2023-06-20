@@ -66,11 +66,14 @@ public class MikuChunkGenerator implements IChunkGenerator {
         BlockPos pos = new BlockPos(i, new Random().nextInt(20) + 150, j);
         if (this.random.nextInt(4) == 0) {
             this.lake.generate(this.world, this.random, pos.add(this.random.nextInt(16) + 8, this.random.nextInt(256), this.random.nextInt(16) + 8));
-        }
-        if (r == 999) {
+        } else if (r == 999) {
             WorldUtil.GenerateStructure(world, "miku_skyland_1", pos);
         } else if (r == 39) {
+            pos = new BlockPos(i, 81, j);
             WorldUtil.GenerateStructure(world, "scallion_house", pos);
+        } else if (r == 25) {
+            pos = new BlockPos(i, 230 + new Random(x + z).nextInt(5), j);
+            WorldUtil.GenerateStructure(world, "roller", pos);
         }
     }
 
