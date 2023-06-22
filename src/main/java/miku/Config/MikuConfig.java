@@ -1,6 +1,7 @@
 package miku.Config;
 
 //Copied from LoliPickaxe
+//https://github.com/IslenautsGK/LoliPickaxe
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

@@ -106,10 +106,6 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, ProtectedEntity 
         super.entityInit();
     }
 
-    @Override
-    protected boolean canDespawn() {
-        return false;
-    }
 
     @Override
     protected void handleJumpLava() {
@@ -214,11 +210,6 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, ProtectedEntity 
     }
 
     @Override
-    public boolean canRiderInteract() {
-        return false;
-    }
-
-    @Override
     public boolean hasCapability(@Nullable net.minecraftforge.common.capabilities.Capability<?> capability, @Nullable net.minecraft.util.EnumFacing facing) {
         return true;
     }
@@ -310,13 +301,6 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, ProtectedEntity 
         return Integer.MAX_VALUE;
     }
 
-    @Override
-    protected void damageArmor(float damage) {
-    }
-
-    @Override
-    protected void damageShield(float damage) {
-    }
 
     @Override
     protected float applyArmorCalculations(@Nullable DamageSource source, float damage) {

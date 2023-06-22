@@ -11,7 +11,7 @@ plugins {
 }
 
 group = 'miku'
-version = '1.1.4'
+version = '1.1.5'
 
 java {
     archivesBaseName = 'miku'
@@ -151,7 +151,7 @@ jar {
         attributes([
                 "Specification-Title"     : "miku",
                 "Specification-Vendor"    : "mcst12345",
-                "Specification-Version"   : "1.1.4",
+                "Specification-Version"   : "1.1.5",
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Vendor"   : "mcst12345",

@@ -1,6 +1,7 @@
 package miku.Config;
 
 //Copied From Lolipickaxe
+//https://github.com/IslenautsGK/LoliPickaxe
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
