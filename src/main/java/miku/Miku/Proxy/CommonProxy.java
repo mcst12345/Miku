@@ -1,7 +1,5 @@
 package miku.Miku.Proxy;
 
-import miku.Config.MikuConfig;
-import miku.Gui.MikuGuiHandler;
 import miku.Miku.MikuLoader;
 import miku.Network.NetworkHandler;
 import miku.World.MikuWorld.MikuWorld;
@@ -15,7 +13,6 @@ public class CommonProxy {
     }
 
     public void preInit(FMLPreInitializationEvent event) throws IOException {
-        MikuConfig.init(event);
         MikuLoader.RegisterWorldGen();
         MikuLoader.RegisterEvent();
         MikuLoader.RegisterTile();
@@ -26,6 +23,5 @@ public class CommonProxy {
     public void init(FMLInitializationEvent event) {
         MikuLoader.LoadRecipes();
         NetworkHandler.INSTANCE.name();
-        MikuGuiHandler.INSTANCE.name();
     }
 }

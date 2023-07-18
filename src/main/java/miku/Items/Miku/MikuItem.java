@@ -1,7 +1,5 @@
 package miku.Items.Miku;
 
-import miku.Interface.IContainer;
-import miku.Interface.IMikuInfinityInventory;
 import miku.lib.api.iEntityPlayer;
 import miku.lib.item.SpecialItem;
 import net.minecraft.block.state.IBlockState;
@@ -19,7 +17,7 @@ import java.util.List;
 
 import static miku.Miku.Miku.MIKU_TAB;
 
-public class MikuItem extends SpecialItem implements IContainer {
+public class MikuItem extends SpecialItem {
 
     public MikuItem() {
         this
@@ -61,17 +59,6 @@ public class MikuItem extends SpecialItem implements IContainer {
     public int getEntityLifespan(@Nullable ItemStack itemStack, @Nonnull World world) {
         return Integer.MAX_VALUE;
     }
-
-    @Override
-    public boolean hasInventory(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public IMikuInfinityInventory getInventory(ItemStack stack) {
-        return new MikuInfinityInventory(stack);
-    }
-
     @Override
     public void onUpdate(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
         if (entity instanceof EntityPlayer) {

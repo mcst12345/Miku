@@ -1,6 +1,6 @@
 package miku.Network;
 
-import miku.Network.Packet.*;
+import miku.Network.Packet.PlayMusicPacket;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -14,19 +14,7 @@ public enum NetworkHandler {
 
     NetworkHandler() {
         int index = 0;
-        this.channel.registerMessage(MikuDestroyWorldPacket.MessageHandler.class, MikuDestroyWorldPacket.class, index++, Side.SERVER);
-        this.channel.registerMessage(MikuKillNoSizeEntity.MessageHandler.class, MikuKillNoSizeEntity.class, index++, Side.SERVER);
-        this.channel.registerMessage(OpenGuiPacket.MessageHandler.class, OpenGuiPacket.class, index++, Side.SERVER);
-        this.channel.registerMessage(MikuInventoryPackage.MessageHandler.class, MikuInventoryPackage.class, index++, Side.SERVER);
         this.channel.registerMessage(PlayMusicPacket.MessageHandler.class, PlayMusicPacket.class, index++, Side.CLIENT);
-        this.channel.registerMessage(MikuInventorySlotChangePacket.MessageHandler.class, MikuInventorySlotChangePacket.class, index++, Side.CLIENT);
-        this.channel.registerMessage(MikuInventorySlotInitPacket.MessageHandler.class, MikuInventorySlotInitPacket.class, index++, Side.CLIENT);
-        this.channel.registerMessage(ExitGamePacket.MessageHandler.class, ExitGamePacket.class, index++, Side.CLIENT);
-        this.channel.registerMessage(RangeKillPacket.MessageHandler.class, RangeKillPacket.class, index++, Side.SERVER);
-    }
-
-    public void sendMessageToServer(IMessage msg) {
-        channel.sendToServer(msg);
     }
 
     public void sendMessageToPlayer(IMessage msg, EntityPlayerMP player) {

@@ -4,7 +4,6 @@ import miku.Blocks.BlockLoader;
 import miku.Enchantment.Die;
 import miku.Enchantment.GodKiller;
 import miku.Entity.Hatsune_Miku;
-import miku.Event.BreakBlock;
 import miku.Event.EntityDropEvent;
 import miku.Items.ItemLoader;
 import miku.Model.MikuModel;
@@ -24,7 +23,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -33,8 +31,6 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import static miku.Event.InputEvent.*;
 
 @Mod.EventBusSubscriber
 public class MikuLoader {
@@ -84,20 +80,12 @@ public class MikuLoader {
         GameRegistry.registerWorldGenerator(new MikuGenOre(), 6);
     }
 
-    @SideOnly(Side.CLIENT)
-    public static void RegisterKey() {
-        ClientRegistry.registerKeyBinding(DESTROY_WORLD);
-        ClientRegistry.registerKeyBinding(MIKU_INVENTORY);
-        ClientRegistry.registerKeyBinding(RangeKill);
-    }
-
     @SubscribeEvent
     public void onRegisterBiomeEvent(RegistryEvent.Register<Biome> event) {
         Biome.registerBiome(3939, "miku:miku_land", MikuWorld.miku_biome);
     }
 
     public static void RegisterEvent() {
-        MinecraftForge.EVENT_BUS.register(new BreakBlock());
         MinecraftForge.EVENT_BUS.register(new EntityDropEvent());
     }
 

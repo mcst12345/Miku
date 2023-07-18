@@ -1,10 +1,7 @@
 package miku.Miku.Proxy;
 
-import miku.Config.MikuConfig;
 import miku.Entity.Hatsune_Miku;
-import miku.Event.InputEvent;
 import miku.Event.ToolTipEvent;
-import miku.Miku.MikuLoader;
 import miku.Render.MikuRenderItem;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
@@ -26,12 +23,9 @@ public class ClientProxy extends CommonProxy {
         super.preInit(event);
         MinecraftForge.EVENT_BUS.register(new ToolTipEvent());
         File MusicFolder = new File("audio");
-        if (!MusicFolder.isDirectory() && !MikuConfig.IgnoreMusicCheck) {
-            System.out.println("Cannot find music pack! Please download the music pack. You can find the link on the modrinth page.");
-            throw new RuntimeException("Music Pack of Miku mod not found!");
+        if (!MusicFolder.isDirectory()) {
+            System.out.println("WARNING:Cannot find music pack! Please download the music pack. You can find the link on the modrinth page.");
         }
-        MikuLoader.RegisterKey();
-        MinecraftForge.EVENT_BUS.register(new InputEvent());
         RenderingRegistry.registerEntityRenderingHandler((Class<? extends Entity>) Hatsune_Miku.class, renderManager -> {
             final RenderBiped customRender = new RenderBiped(renderManager, new ModelBiped(), 0.5f) {
                 protected ResourceLocation getEntityTexture(@Nonnull final Entity entity) {
