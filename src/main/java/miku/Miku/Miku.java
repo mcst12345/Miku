@@ -19,7 +19,6 @@ import java.io.IOException;
         modid = Miku.MODID,
         name = Miku.NAME,
         version = Miku.VERSION
-        //certificateFingerprint = "3759cb33a93a5a36c0df58e801166027486f160fa8cd62a49ee8c84d6c45be12"
 )
 public class Miku {
 

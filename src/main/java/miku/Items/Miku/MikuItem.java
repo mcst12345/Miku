@@ -2,7 +2,6 @@ package miku.Items.Miku;
 
 import miku.lib.api.iEntityPlayer;
 import miku.lib.item.SpecialItem;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,27 +24,6 @@ public class MikuItem extends SpecialItem {
                 .setTranslationKey("miku.miku_item")
                 .setMaxStackSize(1);
     }
-
-    @Override
-    public void setDamage(@Nonnull ItemStack stack, int damage) {
-        super.setDamage(stack, 0);
-    }
-
-    @Override
-    public float getDestroySpeed(@Nonnull ItemStack stack, @Nonnull IBlockState state) {
-        return 0.0F;
-    }
-
-    @Override
-    public boolean canHarvestBlock(@Nonnull IBlockState blockIn) {
-        return true;
-    }
-
-    @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return false;
-    }
-
 
     @SideOnly(Side.CLIENT)
     @Override
@@ -70,6 +48,5 @@ public class MikuItem extends SpecialItem {
     @Override
     public void onCreated(@Nonnull ItemStack stack, @Nonnull World worldIn, @Nonnull EntityPlayer playerIn) {
         ((iEntityPlayer) playerIn).setMiku();
-        super.onCreated(stack, worldIn, playerIn);
     }
 }
