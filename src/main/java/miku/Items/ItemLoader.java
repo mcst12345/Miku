@@ -8,7 +8,7 @@ import miku.Items.scallion.Axe;
 import miku.Items.scallion.Hoe;
 import miku.Items.scallion.Pickaxe;
 import miku.Items.scallion.Sword;
-import miku.lib.util.Register;
+import miku.lib.common.util.Register;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.event.ModelRegistryEvent;

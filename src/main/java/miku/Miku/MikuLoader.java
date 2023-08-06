@@ -13,7 +13,7 @@ import miku.World.MikuWorld.Gen.Feature.MikuGenOre;
 import miku.World.MikuWorld.MikuWorld;
 import miku.World.OverWorldGenStructure;
 import miku.World.OverWorldOreGen;
-import miku.lib.util.Register;
+import miku.lib.common.util.Register;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
