@@ -1,7 +1,7 @@
 package miku.Items.Miku;
 
-import miku.lib.api.iEntityPlayer;
-import miku.lib.item.SpecialItem;
+import miku.lib.common.api.iEntityPlayer;
+import miku.lib.common.item.SpecialItem;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

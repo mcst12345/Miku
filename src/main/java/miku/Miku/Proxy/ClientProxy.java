@@ -2,7 +2,6 @@ package miku.Miku.Proxy;
 
 import miku.Entity.Hatsune_Miku;
 import miku.Event.ToolTipEvent;
-import miku.Render.MikuRenderItem;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
@@ -45,6 +44,5 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void init(FMLInitializationEvent event) {
         super.init(event);
-        MikuRenderItem.init();
     }
 }

@@ -1,16 +1,11 @@
 package miku.Entity;
 
-import com.chaoswither.chaoswither;
-import com.github.alexthe666.iceandfire.IceAndFire;
-import com.github.alexthe666.iceandfire.entity.StoneEntityProperties;
 import miku.Items.ItemLoader;
 import miku.Items.Scallion;
 import miku.Miku.MikuCombatTracker;
 import miku.Thread.MikuTradeThread;
-import miku.lib.api.ProtectedEntity;
-import miku.lib.util.EntityUtil;
-import net.ilexiconn.llibrary.server.capability.IEntityData;
-import net.ilexiconn.llibrary.server.capability.IEntityDataCapability;
+import miku.lib.common.api.ProtectedEntity;
+import miku.lib.common.util.EntityUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
@@ -30,8 +25,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -376,19 +369,6 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, ProtectedEntity 
         super.setNoAI(false);
     }
 
-    @Override
-    @Nullable
-    @Optional.Method(modid = IceAndFire.MODID)
-    public <T> T getCapability(@Nonnull net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable net.minecraft.util.EnumFacing facing) {
-        T result = super.getCapability(capability, facing);
-        if (result instanceof IEntityDataCapability) {
-            IEntityData<EntityLiving> data = ((IEntityDataCapability) result).getData("Ice And Fire - Stone Property Tracker");
-            if (data instanceof StoneEntityProperties) {
-                ((StoneEntityProperties) data).isStone = false;
-            }
-        }
-        return result;
-    }
 
     public void Protect() {
         super.setHealth(40.0F);
@@ -409,11 +389,6 @@ public class Hatsune_Miku extends EntityAnimal implements INpc, ProtectedEntity 
         super.removePotionEffect(MobEffects.SLOWNESS);
         super.removePotionEffect(MobEffects.WEAKNESS);
         super.removePotionEffect(MobEffects.UNLUCK);
-        if (Loader.isModLoaded("chaoswither")) {
-            super.removePotionEffect(chaoswither.DEATH);
-            super.removePotionEffect(chaoswither.SILLY);
-            super.addPotionEffect(new PotionEffect(chaoswither.INVINCIBLE, 100000, 255, false, false));
-        }
         super.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100000, 255, false, false));
         if (super.isBurning()) {
             super.extinguish();

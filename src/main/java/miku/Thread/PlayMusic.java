@@ -1,6 +1,6 @@
 package miku.Thread;
 
-import miku.lib.util.AudioUtil;
+import miku.lib.common.util.AudioUtil;
 
 public class PlayMusic extends Thread {
     private final String FileName;

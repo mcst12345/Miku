@@ -1,6 +1,6 @@
 package miku.Enchantment;
 
-import miku.lib.util.EntityUtil;
+import miku.lib.common.util.EntityUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;

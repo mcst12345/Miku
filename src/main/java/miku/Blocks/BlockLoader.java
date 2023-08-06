@@ -6,7 +6,7 @@ import miku.Blocks.World.MikuWorld.MikuDirt;
 import miku.Blocks.World.MikuWorld.MikuGrass;
 import miku.Blocks.World.MikuWorld.MikuStone;
 import miku.Blocks.World.Sekai.empty.WhiteGreyBlock;
-import miku.lib.util.Register;
+import miku.lib.common.util.Register;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;

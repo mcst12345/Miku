@@ -18,7 +18,8 @@ import java.io.IOException;
 @Mod(
         modid = Miku.MODID,
         name = Miku.NAME,
-        version = Miku.VERSION
+        version = Miku.VERSION,
+        dependencies = "required:mikulib@[1.11"
 )
 public class Miku {
 
